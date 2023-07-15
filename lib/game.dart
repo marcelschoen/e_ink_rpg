@@ -39,6 +39,7 @@ class TitlePage extends StatelessWidget {
 
     return Center(
       child: Container(
+        constraints: BoxConstraints.expand(),
         color: Colors.white,
         //color: Theme.of(context).colorScheme.primaryContainer,
         //alignment: AlignmentDirectional.center,
