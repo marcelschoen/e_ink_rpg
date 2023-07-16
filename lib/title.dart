@@ -1,9 +1,26 @@
 import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/game.dart';
+import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MonsterSlayerTitle());
+}
+
+void startFight(BuildContext context) {
+  print("*** FIGHT ***");
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Fight()),
+  );
+}
+
+void startPlay(BuildContext context) {
+  print("*** PLAY ***");
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Game()),
+  );
 }
 
 class MonsterSlayerTitle extends StatelessWidget {
@@ -37,76 +54,15 @@ class _TitleScaffoldState extends State<TitleScaffold> {
         child: titleImage,
       ),
       bottomNavigationBar: BottomAppBar(
-//        shape: const CircularNotchedRectangle(),
         child: Container(
-//            height: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StartGameButton(),
-              FightGameButton(),
+              BaseButton('PLAY', 'assets/button-play.png', (context) => startFight(context)),
+              BaseButton('FIGHT', 'assets/button-fight.png', (context) => startFight(context)),
             ],
           ),
         ),
-      ),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}
-
-class StartGameButton extends StatelessWidget {
-  const StartGameButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Image playButtonImage = Image(image: AssetImage('assets/button-play.png'));
-
-    return TextButton(
-      onPressed: () {
-        print("*** PLAY ***");
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Game()),
-        );
-
-      },
-      child: Card(
-        borderOnForeground: true,
-        elevation: 5.0,
-        child:
-        Padding(padding: const EdgeInsets.all(20), child: playButtonImage),
-      ),
-    );
-  }
-}
-
-class FightGameButton extends StatelessWidget {
-  const FightGameButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Image fightButtonImage = Image(image: AssetImage('assets/button-fight.png'));
-
-    return TextButton(
-      onPressed: () {
-        print("*** FIGHT ***");
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Fight()),
-        );
-
-      },
-      child: Card(
-        borderOnForeground: true,
-        elevation: 5.0,
-        child:
-        Padding(padding: const EdgeInsets.all(20), child: fightButtonImage),
       ),
     );
   }

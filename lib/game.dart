@@ -1,4 +1,10 @@
+import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
+
+void backToTitle(BuildContext context) {
+  print("*** back to title ***");
+  Navigator.pop(context);
+}
 
 class Game extends StatelessWidget {
   const Game({super.key});
@@ -34,39 +40,12 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BackButton(),
+              BaseButton('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
             ],
           ),
         ),
       ),
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-}
-
-class BackButton extends StatelessWidget {
-  const BackButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Image backButtonImage = Image(image: AssetImage('assets/button-back.png'));
-
-    return TextButton(
-      style: ButtonStyle(
-//                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
-      onPressed: () {
-        print("*** BACK TO TITLE ***");
-        Navigator.pop(context);
-      },
-      child: Card(
-        borderOnForeground: true,
-        elevation: 5.0,
-        child:
-            Padding(padding: const EdgeInsets.all(20), child: backButtonImage),
-      ),
     );
   }
 }
