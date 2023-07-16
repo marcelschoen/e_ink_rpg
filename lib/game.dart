@@ -9,66 +9,72 @@ class Game extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Monster Slayer',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.light(),
-      ),
-      home: TitlePage(),
+    return const MaterialApp(
+      home: ScaffoldExample(),
     );
   }
 }
 
-class TitlePage extends StatelessWidget {
+class ScaffoldExample extends StatefulWidget {
+  const ScaffoldExample({super.key});
 
-  TitlePage();
+  @override
+  State<ScaffoldExample> createState() => _ScaffoldExampleState();
+}
 
-  Image titleImage = Image(image: AssetImage('assets/monster-slayer-logo.png'));
+class _ScaffoldExampleState extends State<ScaffoldExample> {
+  int _count = 0;
 
   @override
   Widget build(BuildContext context) {
+    Image titleImage =
+        Image(image: AssetImage('assets/monster-slayer-logo.png'));
 
-    final theme = Theme.of(context);
-    /*
-    final style = theme.textTheme.displayMedium!.copyWith(
-      //color: theme.colorScheme.onPrimary,
-    );
-
-     */
-
-    return Center(
-      child: Container(
-        constraints: BoxConstraints.expand(),
-        color: Colors.white,
-        //color: Theme.of(context).colorScheme.primaryContainer,
-        //alignment: AlignmentDirectional.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            titleImage,
-            TextButton(
-              style: ButtonStyle(
-//                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-              ),
-              onPressed: () { print("*** PRESSED ***"); },
-              child: Card(
-                color: theme.colorScheme.primary,    // ← And also this.
-                borderOnForeground: true,
-                elevation: 5.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    "START GAME",
-//                    style: style,
-                    semanticsLabel: "START GAME",
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Monster Slayer'),
+      ),
+      body: Center(
+        child: titleImage,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+//            height: 50.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              StartGameButton(),
+            ],
+          ),
         ),
+      ),
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    );
+  }
+}
+
+class StartGameButton extends StatelessWidget {
+  const StartGameButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Image playButtonImage = Image(image: AssetImage('assets/button-play.png'));
+
+    return TextButton(
+      style: ButtonStyle(
+//                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+      onPressed: () {
+        print("*** PRESSED ***");
+      },
+      child: Card(
+        borderOnForeground: true,
+        elevation: 5.0,
+        child:
+            Padding(padding: const EdgeInsets.all(20), child: playButtonImage),
       ),
     );
   }
