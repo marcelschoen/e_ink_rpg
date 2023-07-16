@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/game.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,7 @@ class _TitleScaffoldState extends State<TitleScaffold> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               StartGameButton(),
+              FightGameButton(),
             ],
           ),
         ),
@@ -62,11 +64,8 @@ class StartGameButton extends StatelessWidget {
     Image playButtonImage = Image(image: AssetImage('assets/button-play.png'));
 
     return TextButton(
-      style: ButtonStyle(
-//                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-      ),
       onPressed: () {
-        print("*** PRESSED ***");
+        print("*** PLAY ***");
 
         Navigator.push(
           context,
@@ -79,6 +78,35 @@ class StartGameButton extends StatelessWidget {
         elevation: 5.0,
         child:
         Padding(padding: const EdgeInsets.all(20), child: playButtonImage),
+      ),
+    );
+  }
+}
+
+class FightGameButton extends StatelessWidget {
+  const FightGameButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Image fightButtonImage = Image(image: AssetImage('assets/button-fight.png'));
+
+    return TextButton(
+      onPressed: () {
+        print("*** FIGHT ***");
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Fight()),
+        );
+
+      },
+      child: Card(
+        borderOnForeground: true,
+        elevation: 5.0,
+        child:
+        Padding(padding: const EdgeInsets.all(20), child: fightButtonImage),
       ),
     );
   }

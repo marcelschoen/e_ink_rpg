@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 
-class Game extends StatelessWidget {
-  const Game({super.key});
+class Fight extends StatelessWidget {
+  const Fight({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MainGameScaffold();
+    return FightScaffold();
   }
 }
 
-class MainGameScaffold extends StatefulWidget {
-  const MainGameScaffold({super.key});
+class FightScaffold extends StatefulWidget {
+  const FightScaffold({super.key});
 
   @override
-  State<MainGameScaffold> createState() => _MainGameScaffoldState();
+  State<FightScaffold> createState() => _FightScaffoldState();
 }
 
-class _MainGameScaffoldState extends State<MainGameScaffold> {
+class _FightScaffoldState extends State<FightScaffold> {
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Screen'),
+        title: const Text('Fight Screen'),
       ),
       body: Center(
         child: Placeholder(),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-//            height: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -55,10 +54,9 @@ class BackButton extends StatelessWidget {
 
     return TextButton(
       style: ButtonStyle(
-//                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
       onPressed: () {
-        print("*** BACK TO TITLE ***");
+        print("*** ABORT FIGHT ***");
         Navigator.pop(context);
       },
       child: Card(
