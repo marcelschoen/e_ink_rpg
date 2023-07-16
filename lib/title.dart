@@ -1,38 +1,42 @@
+import 'package:e_ink_rpg/game.dart';
 import 'package:flutter/material.dart';
 
-class Game extends StatelessWidget {
-  const Game({super.key});
+void main() {
+  runApp(MonsterSlayerTitle());
+}
+
+class MonsterSlayerTitle extends StatelessWidget {
+  const MonsterSlayerTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldExample();
+    return const MaterialApp(
+      home: TitleScaffold(),
+    );
   }
 }
 
-class ScaffoldExample extends StatefulWidget {
-  const ScaffoldExample({super.key});
+class TitleScaffold extends StatefulWidget {
+  const TitleScaffold({super.key});
 
   @override
-  State<ScaffoldExample> createState() => _ScaffoldExampleState();
+  State<TitleScaffold> createState() => _TitleScaffoldState();
 }
 
-class _ScaffoldExampleState extends State<ScaffoldExample> {
-  int _count = 0;
-
+class _TitleScaffoldState extends State<TitleScaffold> {
   @override
   Widget build(BuildContext context) {
-    Image titleImage =
-        Image(image: AssetImage('assets/monster-slayer-logo.png'));
+    Image titleImage = Image(image: AssetImage('assets/monster-slayer-logo.png'));
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Screen'),
+        title: const Text('Monster Slayer'),
       ),
       body: Center(
         child: titleImage,
       ),
       bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
+//        shape: const CircularNotchedRectangle(),
         child: Container(
 //            height: 50.0,
           child: Row(
@@ -55,21 +59,26 @@ class StartGameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Image backButtonImage = Image(image: AssetImage('assets/button-back.png'));
+    Image playButtonImage = Image(image: AssetImage('assets/button-play.png'));
 
     return TextButton(
       style: ButtonStyle(
 //                foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-          ),
+      ),
       onPressed: () {
-        print("*** BACK TO TITLE ***");
-        Navigator.pop(context);
+        print("*** PRESSED ***");
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Game()),
+        );
+
       },
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,
         child:
-            Padding(padding: const EdgeInsets.all(20), child: backButtonImage),
+        Padding(padding: const EdgeInsets.all(20), child: playButtonImage),
       ),
     );
   }
