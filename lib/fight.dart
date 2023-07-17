@@ -36,7 +36,7 @@ class _FightScaffoldState extends State<FightScaffold> {
 
       // ********** Actual combat screen part **********
       body: Center(
-        child: Placeholder(),
+        child: fightScreen(context),
       ),
 
       bottomNavigationBar: BottomAppBar(
@@ -51,4 +51,26 @@ class _FightScaffoldState extends State<FightScaffold> {
       ),
     );
   }
+}
+
+// Fight screen parts (enemy display, action buttons etc.)
+Column fightScreen(BuildContext context) {
+  return Column(
+    children: [
+      Expanded( // fill vertically
+          child: Placeholder()
+      ),
+      Expanded( // fill vertically
+          child: Row(
+            children: [
+              BaseButton('FIGHT', 'assets/button-fight.png', (context) => backToTitle(context)),
+
+            ],
+          )
+      ),
+      Expanded( // fill vertically
+          child: Placeholder()
+      ),
+    ],
+  );
 }

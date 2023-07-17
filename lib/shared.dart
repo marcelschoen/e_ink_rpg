@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class BaseButton extends StatelessWidget {
 
-  var _label;
-  var _image;
-  var _function;
+  final _label;
+  final _image;
+  final _function;
 
-  BaseButton(String label, String imageFilename, void Function(BuildContext) function) :
-        _label = label, _image = imageFilename, _function = function
-  {
-  }
+  const BaseButton(String label, String imageFilename, void Function(BuildContext) function) :
+        _label = label, _image = imageFilename, _function = function;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class BaseButton extends StatelessWidget {
         borderOnForeground: true,
         elevation: 5.0,
         child:
-        Padding(padding: const EdgeInsets.all(20), child: buttonImage),
+        Padding(padding: const EdgeInsets.all(10), child: buttonImage),
       ),
     );
   }

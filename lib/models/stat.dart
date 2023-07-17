@@ -1,11 +1,13 @@
-
-
 enum StatType {
   health,
   strength,
   defense,
 }
 
+/**
+ * Implements handling of character stats (attributes) used
+ * for things like combat / damage calculations etc.
+ */
 class Stat {
 
   StatType statType;
