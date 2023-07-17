@@ -31,6 +31,7 @@ class _FightScaffoldState extends State<FightScaffold> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Fight Screen'),
       ),
 
@@ -44,7 +45,7 @@ class _FightScaffoldState extends State<FightScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImage('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
             ],
           ),
         ),
@@ -63,7 +64,7 @@ Column fightScreen(BuildContext context) {
       Expanded( // fill vertically
           child: Row(
             children: [
-              BaseButton('FIGHT', 'assets/button-fight.png', (context) => backToTitle(context)),
+              BaseButton.textOnly('FIGHT', (context) => backToTitle(context)),
 
             ],
           )

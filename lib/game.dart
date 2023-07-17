@@ -31,6 +31,7 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Main Screen'),
       ),
       body: Center(
@@ -42,7 +43,7 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImage('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/game.dart';
 import 'package:e_ink_rpg/shared.dart';
@@ -42,12 +43,31 @@ class TitleScaffold extends StatefulWidget {
 }
 
 class _TitleScaffoldState extends State<TitleScaffold> {
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    print("BACK BUTTON!"); // Do some stuff.
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     Image titleImage = Image(image: AssetImage('assets/monster-slayer-logo.png'));
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Monster Slayer'),
       ),
       body: Center(
@@ -58,8 +78,8 @@ class _TitleScaffoldState extends State<TitleScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton('PLAY', 'assets/button-play.png', (context) => startFight(context)),
-              BaseButton('FIGHT', 'assets/button-fight.png', (context) => startFight(context)),
+              BaseButton.withImage('PLAY', 'assets/button-play.png', (context) => startPlay(context)),
+              BaseButton.withImage('FIGHT', 'assets/button-fight.png', (context) => startFight(context)),
             ],
           ),
         ),
