@@ -1,11 +1,13 @@
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
+// Switches back to title screen
 void backToTitle(BuildContext context) {
   print("*** abort fight ***");
   Navigator.pop(context);
 }
 
+// Main fight / combat screen
 class Fight extends StatelessWidget {
   const Fight({super.key});
 

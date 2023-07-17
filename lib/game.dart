@@ -1,11 +1,13 @@
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
+// Switches back to title screen
 void backToTitle(BuildContext context) {
   print("*** back to title ***");
   Navigator.pop(context);
 }
 
+// Main game screen
 class Game extends StatelessWidget {
   const Game({super.key});
 
