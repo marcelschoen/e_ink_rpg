@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MonsterSlayerTitle());
 }
-
+/*
 void startFight(BuildContext context) {
   print("*** FIGHT ***");
   Navigator.push(
@@ -15,6 +15,8 @@ void startFight(BuildContext context) {
     MaterialPageRoute(builder: (context) => Fight()),
   );
 }
+
+ */
 
 void startPlay(BuildContext context) {
   print("*** PLAY ***");

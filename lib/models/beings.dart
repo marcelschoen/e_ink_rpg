@@ -42,6 +42,26 @@ class Being {
   }
 }
 
+class Monster extends Being {
+  var species;
+
+  Monster(MonsterType monsterType) : species = monsterType {
+  }
+
+  String getSpecies() {
+    print("-----> return species...");
+    return species.toString();
+  }
+}
+
+enum MonsterType {
+  wolf,
+  warg,
+  ghost,
+  skeleton,
+  ;
+}
+
 /**
  * Base class for humanoid characters, the main difference
  * being that they can equip armor, use weapons, have an

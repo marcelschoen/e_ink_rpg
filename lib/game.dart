@@ -52,3 +52,10 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
     );
   }
 }
+
+class Session {
+
+  const Session();
+
+  static Map<String, Object> storage = {};
+}

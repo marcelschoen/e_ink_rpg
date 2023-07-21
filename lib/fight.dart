@@ -1,10 +1,30 @@
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
+import 'models/beings.dart';
+
 // Switches back to title screen
 void backToTitle(BuildContext context) {
   print("*** abort fight ***");
   Navigator.pop(context);
+}
+
+void startFight(BuildContext context) {
+  print("*** START FIGHT ***");
+
+  Monster monsterOne = Monster(MonsterType.ghost);
+  Monster monsterTwo = Monster(MonsterType.skeleton);
+  List<Monster> enemies = [];
+  enemies.add(monsterTwo);
+  enemies.add(monsterOne);
+
+  CurrentFight().setEnemies(enemies);
+  CurrentFight().begin();
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => Fight()),
+  );
 }
 
 // Main fight / combat screen
@@ -79,6 +99,12 @@ Column fightScreen(BuildContext context) {
 
 // Monster display
 Widget monsterDisplay(BuildContext context) {
+
+  List<Text> onScreen = [];
+  for (Monster enemy in CurrentFight().enemies()) {
+    onScreen.add(Text('*** Monster: ' + enemy.getSpecies() ));
+  }
+
   return
 
     Row(
@@ -88,16 +114,62 @@ Widget monsterDisplay(BuildContext context) {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: Column(
-                children: [
+                children: onScreen,
+                /*
+                [
                   Text("*** Monster ***"),
                   Text("*** Monster ***"),
                   Text("*** Monster ***"),
                   Text("*** Monster ***"),
                 ],
+                 */
               )
             ),
           ),
         ),
       ],
     );
+}
+
+class CurrentFight {
+
+  // singleton instance
+  static final CurrentFight _instance = CurrentFight._internal();
+
+  // instance variables
+  List<Monster> _enemies = [];
+  bool fightRunning = false;
+
+  CurrentFight._internal() {
+  }
+
+  factory CurrentFight() {
+    return _instance;
+  }
+
+  void setEnemies(List<Monster> enemies) {
+    this._enemies = enemies;
+  }
+
+  List<Monster> enemies() {
+    return this._enemies;
+  }
+
+  void begin() {
+    fightRunning = true;
+  }
+
+  void stop() {
+    fightRunning = false;
+  }
+
+  bool running() {
+    return fightRunning;
+  }
+
+  bool finished() {
+    return !fightRunning;
+  }
+
+
 }
