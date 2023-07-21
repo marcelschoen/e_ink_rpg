@@ -59,7 +59,8 @@ Column fightScreen(BuildContext context) {
   return Column(
     children: [
       Expanded( // fill vertically
-          child: Placeholder()
+//        child: Placeholder()
+          child: monsterDisplay(context),
       ),
       Expanded( // fill vertically
           child: Row(
@@ -74,4 +75,29 @@ Column fightScreen(BuildContext context) {
       ),
     ],
   );
+}
+
+// Monster display
+Widget monsterDisplay(BuildContext context) {
+  return
+
+    Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Column(
+                children: [
+                  Text("*** Monster ***"),
+                  Text("*** Monster ***"),
+                  Text("*** Monster ***"),
+                  Text("*** Monster ***"),
+                ],
+              )
+            ),
+          ),
+        ),
+      ],
+    );
 }
