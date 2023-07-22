@@ -1,5 +1,34 @@
 import 'package:flutter/material.dart';
 
+import 'models/beings.dart';
+
+class PlayerWidget extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    Widget widget;
+
+    widget = Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Image(image: AssetImage('assets/humanoid/Human1.png')),
+        Column(
+          children: [
+            Text(" PLAYER: " + Player().name),
+            Text(" HEALTH: " + Player().health().toString()),
+          ],
+        ),
+      ],
+    );
+
+    return widget;
+  }
+
+}
+
+/**
+ * Base class for button widgets; can have text and/or an image icon.
+ */
 class BaseButton extends StatelessWidget {
 
   final _label;

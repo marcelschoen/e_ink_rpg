@@ -21,6 +21,14 @@ class Stat {
     return _value;
   }
 
+  void setValueTo(int newValue) {
+    _value = newValue;
+  }
+
+  void setMaxValueTo(int newMaxValue) {
+    _maxValue = newMaxValue;
+  }
+
   void deplete() {
     _value = 0;
   }

@@ -1,6 +1,7 @@
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
+import 'models/attack.dart';
 import 'models/beings.dart';
 
 // Switches back to title screen
@@ -12,9 +13,9 @@ void backToTitle(BuildContext context) {
 void startFight(BuildContext context) {
   print("*** START FIGHT ***");
 
-  Monster monsterOne = Monster(MonsterType.ghost);
-  Monster monsterTwo = Monster(MonsterType.skeleton);
-  List<Monster> enemies = [];
+  Being monsterOne = Being(SpeciesType.ghost);
+  Being monsterTwo = Being(SpeciesType.skeleton);
+  List<Being> enemies = [];
   enemies.add(monsterTwo);
   enemies.add(monsterOne);
 
@@ -78,9 +79,12 @@ class _FightScaffoldState extends State<FightScaffold> {
 Column fightScreen(BuildContext context) {
   return Column(
     children: [
+      Expanded(
+          child: PlayerWidget(),
+      ),
       Expanded( // fill vertically
 //        child: Placeholder()
-          child: monsterDisplay(context),
+          child: enemyDisplay(context),
       ),
       Expanded( // fill vertically
           child: Row(
@@ -97,12 +101,12 @@ Column fightScreen(BuildContext context) {
   );
 }
 
-// Monster display
-Widget monsterDisplay(BuildContext context) {
+// Enemies display
+Widget enemyDisplay(BuildContext context) {
 
   List<Text> onScreen = [];
-  for (Monster enemy in CurrentFight().enemies()) {
-    onScreen.add(Text('*** Monster: ' + enemy.getSpecies() ));
+  for (Being enemy in CurrentFight().enemies()) {
+    onScreen.add(Text('*** Enemy: ' + enemy.getSpecies() ));
   }
 
   return
@@ -115,14 +119,6 @@ Widget monsterDisplay(BuildContext context) {
             child: Card(
               child: Column(
                 children: onScreen,
-                /*
-                [
-                  Text("*** Monster ***"),
-                  Text("*** Monster ***"),
-                  Text("*** Monster ***"),
-                  Text("*** Monster ***"),
-                ],
-                 */
               )
             ),
           ),
@@ -133,12 +129,12 @@ Widget monsterDisplay(BuildContext context) {
 
 class CurrentFight {
 
+  // instance variables
+  List<Being> _enemies = [];
+  bool fightRunning = false;
+
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
-
-  // instance variables
-  List<Monster> _enemies = [];
-  bool fightRunning = false;
 
   CurrentFight._internal() {
   }
@@ -147,11 +143,11 @@ class CurrentFight {
     return _instance;
   }
 
-  void setEnemies(List<Monster> enemies) {
+  void setEnemies(List<Being> enemies) {
     this._enemies = enemies;
   }
 
-  List<Monster> enemies() {
+  List<Being> enemies() {
     return this._enemies;
   }
 
@@ -171,5 +167,32 @@ class CurrentFight {
     return !fightRunning;
   }
 
+  /**
+   * Implements an actual physical attack on enemies
+   */
+  void attackEnemyPhysical(Being enemy, Attack attack) {
+    attackTarget(Player(), enemy, attack);
+  }
 
+  void attackEnemiesWithMagic() {
+    // TBD
+  }
+
+  /**
+   * Enemies turn / they attack the player.
+   */
+  void enemiesAttackPlayer() {
+    for (Being enemy in this._enemies) {
+      attackTarget(enemy, Player(), Hit());
+    }
+  }
+
+  /**
+   * Performs a physical attack from one attacker on one target being.
+   */
+  void attackTarget(Being attacker, Being target, Attack attack) {
+    int attackPower = attacker.strength();
+    var damage = (attack.damagePerTargetFactor * attackPower) - target.defense();
+    target.damageBy(damage as int);
+  }
 }
