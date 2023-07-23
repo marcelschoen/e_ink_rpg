@@ -1,5 +1,8 @@
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
+import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'models/attack.dart';
 import 'models/beings.dart';
@@ -19,6 +22,9 @@ void startFight(BuildContext context) {
   enemies.add(monsterTwo);
   enemies.add(monsterOne);
 
+  print(">> created monster has strength: " + monsterOne.hasStat(StatType.strength).toString());
+  print(">> created monster strength: " + monsterOne.stat(StatType.strength)!.value().toString());
+
   CurrentFight().setEnemies(enemies);
   CurrentFight().begin();
 
@@ -34,7 +40,10 @@ class Fight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FightScaffold();
+    return ChangeNotifierProvider(
+        create: (context) => GameState(),
+        child: FightScaffold()
+    );
   }
 }
 
@@ -77,6 +86,7 @@ class _FightScaffoldState extends State<FightScaffold> {
 
 // Fight screen parts (enemy display, action buttons etc.)
 Column fightScreen(BuildContext context) {
+
   return Column(
     children: [
       Expanded(
@@ -89,7 +99,7 @@ Column fightScreen(BuildContext context) {
       Expanded( // fill vertically
           child: Row(
             children: [
-              BaseButton.textOnly('FIGHT', (context) => backToTitle(context)),
+              BaseButton.textOnly('FIGHT', (context) => CurrentFight().enemiesAttackPlayer()),
 
             ],
           )
@@ -182,17 +192,23 @@ class CurrentFight {
    * Enemies turn / they attack the player.
    */
   void enemiesAttackPlayer() {
+    print("---> enemies attack player <---");
     for (Being enemy in this._enemies) {
-      attackTarget(enemy, Player(), Hit());
+      attackTarget(enemy, GameState().player, Hit());
     }
+    GameState().notifyListeners();
   }
 
   /**
    * Performs a physical attack from one attacker on one target being.
    */
   void attackTarget(Being attacker, Being target, Attack attack) {
+    print("------> attack target");
     int attackPower = attacker.strength();
+    print("------> attacker strength: " + attackPower.toString());
+    print("------> attack damage factor: " + attack.damagePerTargetFactor.toString());
     var damage = (attack.damagePerTargetFactor * attackPower) - target.defense();
-    target.damageBy(damage as int);
+    print("------> dish out damage: " + damage.round().toString());
+    target.damageBy(damage.round());
   }
 }

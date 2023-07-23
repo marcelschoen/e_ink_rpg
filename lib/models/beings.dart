@@ -9,9 +9,9 @@ class Being {
   SpeciesType species;
 
   Being(SpeciesType monsterType) : species = monsterType {
-    addStat(Stat(StatType.health, 100));
-    addStat(Stat(StatType.strength, 10));
-    addStat(Stat(StatType.defense, 5));
+    addStat(Stat.withValue(StatType.health, 100, 100));
+    addStat(Stat.withValue(StatType.strength, 10, 10));
+    addStat(Stat.withValue(StatType.defense, 5, 5));
   }
 
   int health() {
@@ -36,6 +36,14 @@ class Being {
 
   void addStat(Stat stat) {
     _stats.putIfAbsent(stat.statType, () => stat);
+  }
+
+  void setStatValue(StatType statType, int newValue) {
+    _stats[statType]!.setValueTo(newValue);
+  }
+
+  void setStatMaxValue(StatType statType, int newMaxValue) {
+    _stats[statType]!.setMaxValueTo(newMaxValue);
   }
 
   bool isAlive() {
@@ -88,30 +96,27 @@ enum SpeciesType {
  * being that they can equip armor, use weapons, have an
  * inventory etc.
  */
-class Humanoid extends Being {
+mixin Humanoid {
   var money = 0;
   var name = '<UNKNOWN>';
-
-  Humanoid() : super(SpeciesType.npc) {}
-
-  Humanoid.withSpecies(SpeciesType speciesType) : super(speciesType) {}
 }
 
 /**
  * Player subclass for humanoid, with all the attributes etc.
  * that are only relevant to the player character.
  */
-class Player extends Humanoid {
+class Player extends Being with Humanoid {
 //  var experience = 0;
 
-  // singleton instance
-  static final Player _instance = Player._internal();
-
-  Player._internal() : super.withSpecies(SpeciesType.player) {
-    stat(StatType.strength);
+  Player() : super(SpeciesType.player) {
+    setStatValue(StatType.strength, 10);
+    setStatValue(StatType.health, 100);
+    money = 0;
+    name = 'Harribo';
   }
 
-  factory Player() {
-    return _instance;
+  @override
+  damageBy(int value) {
+    super.damageBy(value);
   }
 }

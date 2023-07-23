@@ -17,7 +17,11 @@ class Stat {
   Stat(StatType statType, int maxValue) : statType = statType, _maxValue = maxValue {
   }
 
+  Stat.withValue(StatType statType, int value, int maxValue) : statType = statType, _value = value, _maxValue = maxValue {
+  }
+
   int value() {
+    print("...../ stat: " + statType.name + " / value: " + _value.toString());
     return _value;
   }
 
