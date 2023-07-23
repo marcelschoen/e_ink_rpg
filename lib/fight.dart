@@ -90,7 +90,7 @@ Column fightScreen(BuildContext context) {
   return Column(
     children: [
       Expanded(
-          child: PlayerWidget(),
+          child: PlayerWidget(gameStateNotifier: GameState()),
       ),
       Expanded( // fill vertically
 //        child: Placeholder()
@@ -196,7 +196,7 @@ class CurrentFight {
     for (Being enemy in this._enemies) {
       attackTarget(enemy, GameState().player, Hit());
     }
-    GameState().notifyListeners();
+    GameState().update();
   }
 
   /**

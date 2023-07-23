@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import 'models/beings.dart';
 
-class GameState extends ChangeNotifier {
+class GameState with ChangeNotifier {
 
   // singleton instance
   static final GameState _instance = GameState._internal();
@@ -14,6 +14,10 @@ class GameState extends ChangeNotifier {
 
   factory GameState() {
     return _instance;
+  }
+
+  update() {
+    notifyListeners();
   }
 
   @override

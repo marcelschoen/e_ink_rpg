@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 
 class PlayerWidget extends StatelessWidget {
 
+  const PlayerWidget({super.key, required this.gameStateNotifier});
+
+  final GameState gameStateNotifier;
+
   @override
   Widget build(BuildContext context) {
 
@@ -13,7 +17,12 @@ class PlayerWidget extends StatelessWidget {
         Column(
           children: [
             Text(" PLAYER: " + GameState().player.name),
-            Text(" HEALTH: " + GameState().player.health().toString()),
+            ListenableBuilder(
+              listenable: gameStateNotifier,
+              builder: (BuildContext context, Widget? child) {
+                return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
+              },
+            ),
           ],
         ),
       ],
