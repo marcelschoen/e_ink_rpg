@@ -1,17 +1,28 @@
+import 'dart:math';
+
 import 'package:e_ink_rpg/models/stat.dart';
+import 'package:e_ink_rpg/state.dart';
 
 /**
  * Base class for any living being.
  */
 class Being {
 
+  MonsterState? _state;
   Map<StatType, Stat> _stats = {};
   SpeciesType species;
+  final _random = new Random();
 
   Being(SpeciesType monsterType) : species = monsterType {
-    addStat(Stat.withValue(StatType.health, 100, 100));
+    addStat(Stat.withValue(StatType.health, _random.nextInt(10) * 10, 100));
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
+    _state = MonsterState(this);
+    print(">>> monster state: " + _state.toString());
+  }
+
+  MonsterState state() {
+    return this._state!;
   }
 
   int health() {
@@ -40,6 +51,7 @@ class Being {
 
   void setStatValue(StatType statType, int newValue) {
     _stats[statType]!.setValueTo(newValue);
+    _state!.update();
   }
 
   void setStatMaxValue(StatType statType, int newMaxValue) {
@@ -52,22 +64,25 @@ class Being {
 
   heal() {
     _stats[StatType.health]!.restore();
+    _state!.update();
   }
 
   healBy(int value) {
     _stats[StatType.health]!.restoreBy(value);
+    _state!.update();
   }
 
   damageBy(int value) {
     _stats[StatType.health]!.decreaseBy(value);
+    _state!.update();
   }
 
   die() {
     _stats[StatType.health]!.deplete();
+    _state!.update();
   }
 
   String getSpecies() {
-    print("-----> return species...");
     return species.name();
   }
 }

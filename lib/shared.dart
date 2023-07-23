@@ -30,6 +30,19 @@ class PlayerWidget extends StatelessWidget {
   }
 }
 
+class MonsterWidget extends StatelessWidget {
+
+  const MonsterWidget({super.key, required this.gameStateNotifier});
+
+  final GameState gameStateNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return Placeholder();
+  }
+
+}
+
 /**
  * Base class for button widgets; can have text and/or an image icon.
  */

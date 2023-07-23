@@ -99,7 +99,7 @@ Column fightScreen(BuildContext context) {
       Expanded( // fill vertically
           child: Row(
             children: [
-              BaseButton.textOnly('FIGHT', (context) => CurrentFight().enemiesAttackPlayer()),
+              BaseButton.textOnly('FIGHT', (context) => executeCombatTurn()),
 
             ],
           )
@@ -111,12 +111,24 @@ Column fightScreen(BuildContext context) {
   );
 }
 
+executeCombatTurn() {
+  CurrentFight().enemiesAttackPlayer();
+  for (Being enemy in CurrentFight().enemies()) {
+    CurrentFight().attackTarget(GameState().player, enemy, Hit());
+  }
+}
+
 // Enemies display
 Widget enemyDisplay(BuildContext context) {
 
   List<Text> onScreen = [];
   for (Being enemy in CurrentFight().enemies()) {
     onScreen.add(Text('*** Enemy: ' + enemy.getSpecies() ));
+  }
+
+  List<Widget> enemies = [];
+  for (Being enemy in CurrentFight().enemies()) {
+    enemies.add(EnemyWidget(monsterStateNotifier: enemy.state()));
   }
 
   return
@@ -128,7 +140,8 @@ Widget enemyDisplay(BuildContext context) {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: Column(
-                children: onScreen,
+                children: enemies,
+//                children: onScreen,
               )
             ),
           ),
@@ -136,6 +149,37 @@ Widget enemyDisplay(BuildContext context) {
       ],
     );
 }
+
+class EnemyWidget extends StatelessWidget {
+
+
+  const EnemyWidget({super.key, required this.monsterStateNotifier});
+
+  final MonsterState monsterStateNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: monsterStateNotifier,
+      builder: (BuildContext context, Widget? child) {
+        return
+          Container(
+            height: 64,
+            foregroundDecoration: BoxDecoration(
+                border: Border.all(color: Colors.blueAccent)
+            ),
+            child: Row(
+              children: [
+                Image(image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
+                Text(' HEALTH: ' + monsterStateNotifier.monster().health().toString() ),
+              ],
+            )
+          );
+      },
+    );
+  }
+}
+
 
 class CurrentFight {
 

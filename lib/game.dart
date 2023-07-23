@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Switches back to title screen
 void backToTitle(BuildContext context) {
-  print("*** back to title ***");
   Navigator.pop(context);
 }
 
