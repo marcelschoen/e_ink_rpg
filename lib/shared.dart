@@ -10,22 +10,30 @@ class PlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Image(image: AssetImage('assets/humanoid/Human1.png')),
-        Column(
-          children: [
-            Text(" PLAYER: " + GameState().player.name),
-            ListenableBuilder(
-              listenable: gameStateNotifier,
-              builder: (BuildContext context, Widget? child) {
-                return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
-              },
-            ),
-          ],
-        ),
-      ],
+    return Container(
+      foregroundDecoration: BoxDecoration(
+          border: Border.all(color: Colors.red)
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Image(
+            image: AssetImage('assets/humanoid/Human1.png')
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(" PLAYER: " + GameState().player.name),
+              ListenableBuilder(
+                listenable: gameStateNotifier,
+                builder: (BuildContext context, Widget? child) {
+                  return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

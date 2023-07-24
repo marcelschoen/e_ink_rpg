@@ -55,14 +55,8 @@ class Fight extends StatelessWidget {
   }
 }
 
-class FightScaffold extends StatefulWidget {
+class FightScaffold extends StatelessWidget {
   const FightScaffold({super.key});
-
-  @override
-  State<FightScaffold> createState() => _FightScaffoldState();
-}
-
-class _FightScaffoldState extends State<FightScaffold> {
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +74,7 @@ class _FightScaffoldState extends State<FightScaffold> {
 
       bottomNavigationBar: BottomAppBar(
         child: Container(
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -96,10 +91,9 @@ class _FightScaffoldState extends State<FightScaffold> {
 Column fightScreen(BuildContext context) {
 
   return Column(
+
     children: [
-      Expanded(
-          child: PlayerWidget(gameStateNotifier: GameState()),
-      ),
+      PlayerWidget(gameStateNotifier: GameState()),
       Expanded( // fill vertically
 //        child: Placeholder()
           child: enemyDisplay(context),
