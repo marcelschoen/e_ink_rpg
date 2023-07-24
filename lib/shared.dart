@@ -14,25 +14,33 @@ class PlayerWidget extends StatelessWidget {
       foregroundDecoration: BoxDecoration(
           border: Border.all(color: Colors.red)
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Image(
-            image: AssetImage('assets/humanoid/Human1.png')
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Text(" PLAYER: " + GameState().player.name),
-              ListenableBuilder(
-                listenable: gameStateNotifier,
-                builder: (BuildContext context, Widget? child) {
-                  return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
-                },
+              Container(
+                margin: const EdgeInsets.all(8.0),
+                child: Image(
+                  image: AssetImage('assets/humanoid/Human1.png')
+                ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(" PLAYER: " + GameState().player.name),
+                  ListenableBuilder(
+                    listenable: gameStateNotifier,
+                    builder: (BuildContext context, Widget? child) {
+                      return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
