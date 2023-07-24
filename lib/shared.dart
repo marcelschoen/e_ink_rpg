@@ -26,17 +26,18 @@ class PlayerWidget extends StatelessWidget {
                   image: AssetImage('assets/humanoid/Human1.png')
                 ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(" PLAYER: " + GameState().player.name),
-                  ListenableBuilder(
-                    listenable: gameStateNotifier,
-                    builder: (BuildContext context, Widget? child) {
-                      return Text(' HEALTH: ' + gameStateNotifier.player.health().toString() );
-                    },
-                  ),
-                ],
+              ListenableBuilder(
+                listenable: gameStateNotifier,
+                builder: (BuildContext context, Widget? child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('PLAYER: ' + GameState().player.name),
+                      Text('HEALTH: ' + gameStateNotifier.player.health().toString() ),
+                    ],
+                  );
+                },
               ),
             ],
           ),

@@ -26,8 +26,10 @@ void startFight(BuildContext context) {
   enemies.add(monsterTwo);
   enemies.add(monsterOne);
 
-  print(">> created monster has strength: " + monsterOne.hasStat(StatType.strength).toString());
-  print(">> created monster strength: " + monsterOne.stat(StatType.strength)!.value().toString());
+  print(">> created monster has strength: " +
+      monsterOne.hasStat(StatType.strength).toString());
+  print(">> created monster strength: " +
+      monsterOne.stat(StatType.strength)!.value().toString());
 
   CurrentFight().setEnemies(enemies);
   CurrentFight().begin();
@@ -49,9 +51,7 @@ class Fight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => GameState(),
-        child: FightScaffold()
-    );
+        create: (context) => GameState(), child: FightScaffold());
   }
 }
 
@@ -60,7 +60,6 @@ class FightScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -74,11 +73,11 @@ class FightScaffold extends StatelessWidget {
 
       bottomNavigationBar: BottomAppBar(
         child: Container(
-
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImage('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImage('BACK', 'assets/button-back.png',
+                  (context) => backToTitle(context)),
             ],
           ),
         ),
@@ -89,26 +88,19 @@ class FightScaffold extends StatelessWidget {
 
 // Fight screen parts (enemy display, action buttons etc.)
 Column fightScreen(BuildContext context) {
-
   return Column(
-
     children: [
       PlayerWidget(gameStateNotifier: GameState()),
-      Expanded( // fill vertically
-//        child: Placeholder()
-          child: enemyDisplay(context),
+      enemyDisplay(context),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BaseButton.textOnly('FIGHT', (context) => executeCombatTurn()),
+        ],
       ),
-      Expanded( // fill vertically
-          child: Row(
-            children: [
-              BaseButton.textOnly('FIGHT', (context) => executeCombatTurn()),
-
-            ],
-          )
-      ),
-      Expanded( // fill vertically
-          child: Placeholder()
-      ),
+      Expanded(
+          // fill vertically
+          child: Placeholder()),
     ],
   );
 }
@@ -120,41 +112,28 @@ executeCombatTurn() {
   }
 }
 
+// ----------------------------------------------------
 // Enemies display
+// ----------------------------------------------------
 Widget enemyDisplay(BuildContext context) {
-
-  List<Text> onScreen = [];
-  for (Being enemy in CurrentFight().enemies()) {
-    onScreen.add(Text('*** Enemy: ' + enemy.getSpecies() ));
-  }
-
   List<Widget> enemies = [];
   for (Being enemy in CurrentFight().enemies()) {
     enemies.add(EnemyWidget(monsterStateNotifier: enemy.state()));
   }
 
-  return
-
-    Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Column(
-                children: enemies,
-//                children: onScreen,
-              )
-            ),
-          ),
-        ),
-      ],
-    );
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Card(
+        child: Row(
+      children: enemies,
+    )),
+  );
 }
 
+// -------------------------------------
+// Widget for a single enemy
+// -------------------------------------
 class EnemyWidget extends StatelessWidget {
-
-
   const EnemyWidget({super.key, required this.monsterStateNotifier});
 
   final MonsterState monsterStateNotifier;
@@ -164,27 +143,33 @@ class EnemyWidget extends StatelessWidget {
     return ListenableBuilder(
       listenable: monsterStateNotifier,
       builder: (BuildContext context, Widget? child) {
-        return
-          Container(
-            height: 64,
-            foregroundDecoration: BoxDecoration(
-                border: Border.all(color: Colors.blueAccent)
-            ),
-            child: Row(
-              children: [
-                Image(image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
-                Text(' HEALTH: ' + monsterStateNotifier.monster().health().toString() ),
-              ],
-            )
-          );
+        return Container(
+          foregroundDecoration:
+              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+          child: Column(children: [
+            Text(monsterStateNotifier.monster().getSpecies()),
+            Image(
+                height: 92,
+                image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
+            SizedBox(
+                width: 100,
+                child: LinearProgressIndicator(
+                    value: (monsterStateNotifier.monster().health().toDouble() /
+                        100),
+                    minHeight: 10,
+                    color: Colors.black45,
+                    backgroundColor: Colors.black12,
+                    valueColor: AlwaysStoppedAnimation(Colors.black54))),
+            Text(' HEALTH: ' +
+                monsterStateNotifier.monster().health().toString()),
+          ]),
+        );
       },
     );
   }
 }
 
-
 class CurrentFight {
-
   // instance variables
   List<Being> _enemies = [];
   bool fightRunning = false;
@@ -192,8 +177,7 @@ class CurrentFight {
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
 
-  CurrentFight._internal() {
-  }
+  CurrentFight._internal() {}
 
   factory CurrentFight() {
     return _instance;
@@ -252,8 +236,10 @@ class CurrentFight {
     print("------> attack target");
     int attackPower = attacker.strength();
     print("------> attacker strength: " + attackPower.toString());
-    print("------> attack damage factor: " + attack.damagePerTargetFactor.toString());
-    var damage = (attack.damagePerTargetFactor * attackPower) - target.defense();
+    print("------> attack damage factor: " +
+        attack.damagePerTargetFactor.toString());
+    var damage =
+        (attack.damagePerTargetFactor * attackPower) - target.defense();
     print("------> dish out damage: " + damage.round().toString());
     target.damageBy(damage.round());
   }
