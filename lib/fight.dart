@@ -143,26 +143,42 @@ class EnemyWidget extends StatelessWidget {
     return ListenableBuilder(
       listenable: monsterStateNotifier,
       builder: (BuildContext context, Widget? child) {
-        return Container(
-          foregroundDecoration:
-              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-          child: Column(children: [
-            Text(monsterStateNotifier.monster().getSpecies()),
-            Image(
-                height: 92,
-                image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
-            SizedBox(
-                width: 100,
-                child: LinearProgressIndicator(
-                    value: (monsterStateNotifier.monster().health().toDouble() /
-                        100),
-                    minHeight: 10,
-                    color: Colors.black45,
-                    backgroundColor: Colors.black12,
-                    valueColor: AlwaysStoppedAnimation(Colors.black54))),
-            Text(' HEALTH: ' +
-                monsterStateNotifier.monster().health().toString()),
-          ]),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            foregroundDecoration:
+                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            child: Column(children: [
+              Text(monsterStateNotifier.monster().getSpecies()),
+              Image(
+                  height: 92,
+                  image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 4),
+                    child: Icon(
+                      Icons.favorite,
+                      color: Colors.pink,
+                      size: 16.0,
+                      semanticLabel: 'Text to announce in accessibility modes',
+                    ),
+                  ),
+                  SizedBox(
+                      width: 60,
+                      child: LinearProgressIndicator(
+                          value: (monsterStateNotifier.monster().health().toDouble() /
+                              100),
+                          minHeight: 10,
+                          color: Colors.black45,
+                          backgroundColor: Colors.black12,
+                          valueColor: AlwaysStoppedAnimation(Colors.black54))),
+                ],
+              ),
+ //           Text(' HEALTH: ' +
+ //               monsterStateNotifier.monster().health().toString()),
+            ]),
+          ),
         );
       },
     );
