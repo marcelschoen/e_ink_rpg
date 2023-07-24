@@ -7,6 +7,10 @@ import 'package:provider/provider.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
 
+// *****************************************************************************
+// Functions
+// *****************************************************************************
+
 // Switches back to title screen
 void backToTitle(BuildContext context) {
   print("*** abort fight ***");
@@ -33,6 +37,10 @@ void startFight(BuildContext context) {
     MaterialPageRoute(builder: (context) => Fight()),
   );
 }
+
+// *****************************************************************************
+// Classes
+// *****************************************************************************
 
 // Main fight / combat screen
 class Fight extends StatelessWidget {
