@@ -90,19 +90,47 @@ class FightScaffold extends StatelessWidget {
 Column fightScreen(BuildContext context) {
   return Column(
     children: [
+      // ------------- player status widget ----------
       PlayerWidget(gameStateNotifier: GameState()),
+      // ------------- enemies display panel -------------
       enemyDisplay(context),
+      // ------------------- execute / flee buttons ----------
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          BaseButton.textOnly('RUN', (context) => executeCombatTurn()),
           BaseButton.textOnly('FIGHT', (context) => executeCombatTurn()),
         ],
       ),
+      // ---------------- attack / magic selection panel ----------
       Expanded(
           // fill vertically
-          child: Placeholder()),
+          child: Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    BaseButton.textOnly('Attack', (context) => doNothing()),
+                    BaseButton.textOnly('Magic', (context) => doNothing()),
+                    BaseButton.textOnly('Skill', (context) => doNothing()),
+                    BaseButton.textOnly('Spy', (context) => doNothing()),
+                  ],
+                ),
+                Column(
+                  children: [
+
+                  ],
+                ),
+              ],
+            ),
+          )),
     ],
   );
+}
+
+doNothing() {
+  print("****** DO NOTHING ******");
 }
 
 executeCombatTurn() {

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="e_ink_rpg"
+        android:label="E-Ink RPG"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
