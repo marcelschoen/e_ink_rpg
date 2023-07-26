@@ -95,6 +95,7 @@ class BaseButton extends StatelessWidget {
       content = Row(
         children: [
           Image(image: AssetImage(_image)),
+          SizedBox(width: 16),
           Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
         ],
       );
@@ -105,7 +106,7 @@ class BaseButton extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 100,
+      width: 160,
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,

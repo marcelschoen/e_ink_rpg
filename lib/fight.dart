@@ -98,8 +98,8 @@ Column fightScreen(BuildContext context) {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BaseButton.textOnly('RUN', (context) => executeCombatTurn()),
-          BaseButton.textOnly('FIGHT', (context) => executeCombatTurn()),
+          BaseButton.withImageAndText('RUN', 'assets/icons/run.png', (context) => executeCombatTurn()),
+          BaseButton.withImageAndText('FIGHT', 'assets/icons/fight.png', (context) => executeCombatTurn()),
         ],
       ),
       // ---------------- attack / magic selection panel ----------
@@ -111,9 +111,9 @@ Column fightScreen(BuildContext context) {
               children: [
                 Column(
                   children: [
-                    BaseButton.textOnly('Attack', (context) => doNothing()),
-                    BaseButton.textOnly('Magic', (context) => doNothing()),
-                    BaseButton.textOnly('Skill', (context) => doNothing()),
+                    BaseButton.withImageAndText('Attack', 'assets/icons/attack.png', (context) => doNothing()),
+                    BaseButton.withImageAndText('Magic', 'assets/icons/magic.png', (context) => doNothing()),
+                    BaseButton.withImageAndText('Skill', 'assets/icons/skill.png', (context) => doNothing()),
                     BaseButton.textOnly('Spy', (context) => doNothing()),
                   ],
                 ),
