@@ -42,7 +42,7 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImage('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImageAndText('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
             ],
           ),
         ),

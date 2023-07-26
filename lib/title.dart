@@ -80,8 +80,8 @@ class _TitleScaffoldState extends State<TitleScaffold> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImage('PLAY', 'assets/button-play.png', (context) => startPlay(context)),
-              BaseButton.withImage('FIGHT', 'assets/button-fight.png', (context) => startFight(context)),
+              BaseButton.withImageOnly('assets/button-play.png', (context) => startPlay(context)),
+              BaseButton.withImageOnly('assets/button-fight.png', (context) => startFight(context)),
             ],
           ),
         ),

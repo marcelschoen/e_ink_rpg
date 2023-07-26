@@ -76,7 +76,7 @@ class FightScaffold extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImage('BACK', 'assets/button-back.png',
+              BaseButton.withImageOnly('assets/button-back.png',
                   (context) => backToTitle(context)),
             ],
           ),

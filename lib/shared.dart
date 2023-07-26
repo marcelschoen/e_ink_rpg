@@ -67,9 +67,15 @@ class BaseButton extends StatelessWidget {
         _image = null,
         _function = function;
 
-  const BaseButton.withImage(
+  const BaseButton.withImageAndText(
       String label, String imageFilename, void Function(BuildContext) function)
       : _label = label,
+        _image = imageFilename,
+        _function = function;
+
+  const BaseButton.withImageOnly(
+      String imageFilename, void Function(BuildContext) function)
+      : _label = null,
         _image = imageFilename,
         _function = function;
 
@@ -84,9 +90,19 @@ class BaseButton extends StatelessWidget {
   }
 
   Widget getButtonContent() {
-    Widget content = _image == null
-        ? Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
-        : Image(image: AssetImage(_image));
+    Widget content;
+    if (_image != null && _label != null) {
+      content = Row(
+        children: [
+          Image(image: AssetImage(_image)),
+          Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+        ],
+      );
+    } else {
+      content = _image == null
+          ? Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+          : Image(image: AssetImage(_image));
+    }
 
     return SizedBox(
       width: 100,
