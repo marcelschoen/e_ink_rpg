@@ -18,7 +18,6 @@ class Being {
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
     _state = MonsterState(this);
-    print(">>> monster state: " + _state.toString());
   }
 
   MonsterState state() {

@@ -32,7 +32,6 @@ void startFight(BuildContext context) {
       monsterOne.stat(StatType.strength)!.value().toString());
 
   CurrentFight().setEnemies(enemies);
-  CurrentFight().begin();
 
   Navigator.push(
     context,
@@ -134,9 +133,18 @@ doNothing() {
 }
 
 executeCombatTurn() {
-  CurrentFight().enemiesAttackPlayer();
+//  CurrentFight().enemiesAttackPlayer();
   for (Being enemy in CurrentFight().enemies()) {
     CurrentFight().attackTarget(GameState().player, enemy, Hit());
+  }
+  if(CurrentFight().finished()) {
+    print("*** FIGHT OVER ***");
+    if(Player().isAlive()) {
+      print("*** PLAYER WON! ***");
+    } else {
+      print("*** PLAYER LOST! ***");
+    }
+
   }
 }
 
@@ -178,19 +186,19 @@ class EnemyWidget extends StatelessWidget {
                 BoxDecoration(border: Border.all(color: Colors.blueAccent)),
             child: Column(children: [
               Text(monsterStateNotifier.monster().getSpecies()),
-              Image(
-                  height: 92,
-                  image: AssetImage('assets/monster/RPG_Monster_123-3.png')),
+              getMonsterImage(monsterStateNotifier.monster()),
               Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(right: 4),
-                    child: Icon(
+                    child: getMonsterLifebarIcon(monsterStateNotifier.monster())
+                    /*
+                    Icon(
                       Icons.favorite,
                       color: Colors.pink,
                       size: 16.0,
                       semanticLabel: 'Text to announce in accessibility modes',
-                    ),
+                    ),*/
                   ),
                   SizedBox(
                       width: 60,
@@ -213,78 +221,22 @@ class EnemyWidget extends StatelessWidget {
   }
 }
 
-class CurrentFight {
-  // instance variables
-  List<Being> _enemies = [];
-  bool fightRunning = false;
-
-  // singleton instance
-  static final CurrentFight _instance = CurrentFight._internal();
-
-  CurrentFight._internal() {}
-
-  factory CurrentFight() {
-    return _instance;
+Widget getMonsterLifebarIcon(Being enemy) {
+  if(enemy.isAlive()) {
+    return Image(
+        height: 12,
+        image: AssetImage('assets/icons/heart.png'));
   }
+  return Image(
+      height: 12,
+      image: AssetImage('assets/icons/skull.png'));
+}
 
-  void setEnemies(List<Being> enemies) {
-    this._enemies = enemies;
+Widget getMonsterImage(Being enemy) {
+  if(enemy.isAlive()) {
+    return Image(
+        height: 92,
+        image: AssetImage('assets/monster/RPG_Monster_123-3.png'));
   }
-
-  List<Being> enemies() {
-    return this._enemies;
-  }
-
-  void begin() {
-    fightRunning = true;
-  }
-
-  void stop() {
-    fightRunning = false;
-  }
-
-  bool running() {
-    return fightRunning;
-  }
-
-  bool finished() {
-    return !fightRunning;
-  }
-
-  /**
-   * Implements an actual physical attack on enemies
-   */
-  void attackEnemyPhysical(Being enemy, Attack attack) {
-    attackTarget(Player(), enemy, attack);
-  }
-
-  void attackEnemiesWithMagic() {
-    // TBD
-  }
-
-  /**
-   * Enemies turn / they attack the player.
-   */
-  void enemiesAttackPlayer() {
-    print("---> enemies attack player <---");
-    for (Being enemy in this._enemies) {
-      attackTarget(enemy, GameState().player, Hit());
-    }
-    GameState().update();
-  }
-
-  /**
-   * Performs a physical attack from one attacker on one target being.
-   */
-  void attackTarget(Being attacker, Being target, Attack attack) {
-    print("------> attack target");
-    int attackPower = attacker.strength();
-    print("------> attacker strength: " + attackPower.toString());
-    print("------> attack damage factor: " +
-        attack.damagePerTargetFactor.toString());
-    var damage =
-        (attack.damagePerTargetFactor * attackPower) - target.defense();
-    print("------> dish out damage: " + damage.round().toString());
-    target.damageBy(damage.round());
-  }
+  return SizedBox(width: 90, height: 100,);
 }

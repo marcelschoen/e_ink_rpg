@@ -21,7 +21,7 @@ class Stat {
   }
 
   int value() {
-    print("...../ stat: " + statType.name + " / value: " + _value.toString());
+//    print("...../ stat: " + statType.name + " / value: " + _value.toString());
     return _value;
   }
 
