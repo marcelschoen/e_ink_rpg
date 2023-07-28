@@ -1,6 +1,7 @@
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
+import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,10 @@ import 'models/beings.dart';
 // Switches back to title screen
 void backToTitle(BuildContext context) {
   print("*** abort fight ***");
-  Navigator.pop(context);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
+  );
 }
 
 void startFight(BuildContext context) {
@@ -33,14 +37,38 @@ void startFight(BuildContext context) {
 
   CurrentFight().setEnemies(enemies);
 
-  Navigator.push(
+  Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => Fight()),
   );
 }
 
+doNothing() {
+  print("****** DO NOTHING ******");
+}
+
+// -------------------------------------------
+// Performs attacks by player and enemies
+// -------------------------------------------
+executeCombatTurn(BuildContext context) {
+//  CurrentFight().enemiesAttackPlayer();
+  for (Being enemy in CurrentFight().enemies()) {
+    CurrentFight().attackTarget(GameState().player, enemy, Hit());
+  }
+  if(CurrentFight().finished()) {
+    print("*** FIGHT OVER ***");
+    if(Player().isAlive()) {
+      print("*** PLAYER WON! ***");
+      switchToScreen(FightOverScaffold(), context);
+    } else {
+      print("*** PLAYER LOST! ***");
+      switchToScreen(FightOverScaffold(), context);
+    }
+  }
+}
+
 // *****************************************************************************
-// Classes
+// Fight screen
 // *****************************************************************************
 
 // Main fight / combat screen
@@ -62,7 +90,7 @@ class FightScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Fight Screen'),
+        title: const Text('!! Combat !!'),
       ),
 
       // ********** Actual combat screen part **********
@@ -97,8 +125,8 @@ Column fightScreen(BuildContext context) {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BaseButton.withImageAndText('RUN', 'assets/icons/run.png', (context) => executeCombatTurn()),
-          BaseButton.withImageAndText('FIGHT', 'assets/icons/fight.png', (context) => executeCombatTurn()),
+          BaseButton.withImageAndText('RUN', 'assets/icons/run.png', (context) => executeCombatTurn(context)),
+          BaseButton.withImageAndText('FIGHT', 'assets/icons/fight.png', (context) => executeCombatTurn(context)),
         ],
       ),
       // ---------------- attack / magic selection panel ----------
@@ -128,26 +156,6 @@ Column fightScreen(BuildContext context) {
   );
 }
 
-doNothing() {
-  print("****** DO NOTHING ******");
-}
-
-executeCombatTurn() {
-//  CurrentFight().enemiesAttackPlayer();
-  for (Being enemy in CurrentFight().enemies()) {
-    CurrentFight().attackTarget(GameState().player, enemy, Hit());
-  }
-  if(CurrentFight().finished()) {
-    print("*** FIGHT OVER ***");
-    if(Player().isAlive()) {
-      print("*** PLAYER WON! ***");
-    } else {
-      print("*** PLAYER LOST! ***");
-    }
-
-  }
-}
-
 // ----------------------------------------------------
 // Enemies display
 // ----------------------------------------------------
@@ -161,8 +169,8 @@ Widget enemyDisplay(BuildContext context) {
     padding: const EdgeInsets.all(8.0),
     child: Card(
         child: Row(
-      children: enemies,
-    )),
+          children: enemies,
+        )),
   );
 }
 
@@ -183,15 +191,15 @@ class EnemyWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             foregroundDecoration:
-                BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+            BoxDecoration(border: Border.all(color: Colors.blueAccent)),
             child: Column(children: [
               Text(monsterStateNotifier.monster().getSpecies()),
               getMonsterImage(monsterStateNotifier.monster()),
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 4),
-                    child: getMonsterLifebarIcon(monsterStateNotifier.monster())
+                      padding: EdgeInsets.only(right: 4),
+                      child: getMonsterLifebarIcon(monsterStateNotifier.monster())
                     /*
                     Icon(
                       Icons.favorite,
@@ -211,8 +219,8 @@ class EnemyWidget extends StatelessWidget {
                           valueColor: AlwaysStoppedAnimation(Colors.black54))),
                 ],
               ),
- //           Text(' HEALTH: ' +
- //               monsterStateNotifier.monster().health().toString()),
+              //           Text(' HEALTH: ' +
+              //               monsterStateNotifier.monster().health().toString()),
             ]),
           ),
         );
@@ -239,4 +247,41 @@ Widget getMonsterImage(Being enemy) {
         image: AssetImage('assets/monster/RPG_Monster_123-3.png'));
   }
   return SizedBox(width: 90, height: 100,);
+}
+
+
+// *****************************************************************************
+// Fight over screen (won / lost)
+// *****************************************************************************
+
+
+class FightOverScaffold extends StatelessWidget {
+  const FightOverScaffold({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Player().isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
+      ),
+
+      // ********** Actual combat screen part **********
+      body: Center(
+        child: Placeholder(),
+      ),
+
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BaseButton.withImageOnly('assets/button-back.png',
+                      (context) => backToTitle(context)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

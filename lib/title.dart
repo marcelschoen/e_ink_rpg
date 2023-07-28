@@ -20,7 +20,7 @@ void startFight(BuildContext context) {
 
 void startPlay(BuildContext context) {
   print("*** PLAY ***");
-  Navigator.push(
+  Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => Game()),
   );

@@ -1,9 +1,13 @@
 import 'package:e_ink_rpg/shared.dart';
+import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
 // Switches back to title screen
 void backToTitle(BuildContext context) {
-  Navigator.pop(context);
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
+  );
 }
 
 // Main game screen

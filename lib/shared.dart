@@ -118,3 +118,10 @@ class BaseButton extends StatelessWidget {
     );
   }
 }
+
+switchToScreen(Widget widget, BuildContext context) {
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => widget),
+  );
+}
