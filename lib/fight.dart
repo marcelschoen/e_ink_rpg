@@ -85,27 +85,35 @@ class Fight extends StatelessWidget {
 class FightScaffold extends StatelessWidget {
   const FightScaffold({super.key});
 
+  Future<bool> _onWillPop() async {
+    print("** fight back **");
+    return false; //<-- SEE HERE
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('!! Combat !!'),
-      ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('!! Combat !!'),
+        ),
 
-      // ********** Actual combat screen part **********
-      body: Center(
-        child: fightScreen(context),
-      ),
+        // ********** Actual combat screen part **********
+        body: Center(
+          child: fightScreen(context),
+        ),
 
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BaseButton.withImageOnly('assets/button-back.png',
-                  (context) => backToTitle(context)),
-            ],
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BaseButton.withImageOnly('assets/button-back.png',
+                    (context) => backToTitle(context)),
+              ],
+            ),
           ),
         ),
       ),
@@ -258,27 +266,35 @@ Widget getMonsterImage(Being enemy) {
 class FightOverScaffold extends StatelessWidget {
   const FightOverScaffold({super.key});
 
+  Future<bool> _onWillPop() async {
+    print("** fight back **");
+    return false; //<-- SEE HERE
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Player().isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
-      ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Player().isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
+        ),
 
-      // ********** Actual combat screen part **********
-      body: Center(
-        child: Placeholder(),
-      ),
+        // ********** Actual combat screen part **********
+        body: Center(
+          child: Placeholder(),
+        ),
 
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BaseButton.withImageOnly('assets/button-back.png',
-                      (context) => backToTitle(context)),
-            ],
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BaseButton.withImageOnly('assets/button-back.png',
+                        (context) => backToTitle(context)),
+              ],
+            ),
           ),
         ),
       ),
