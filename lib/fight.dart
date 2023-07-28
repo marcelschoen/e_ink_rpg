@@ -12,15 +12,22 @@ import 'models/beings.dart';
 // Functions
 // *****************************************************************************
 
+// -----------------------------------------------
 // Switches back to title screen
+// -----------------------------------------------
 void backToTitle(BuildContext context) {
   print("*** abort fight ***");
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
-  );
+  switchToScreen(MonsterSlayerTitle(), context);
 }
 
+// placeholder for not yet implemented buttons
+void doNothing() {
+  print("*** NO OPERATION / NOT IMPLEMENTED ***");
+}
+
+// -----------------------------------------------
+// Switches to the fight screen and starts combat
+// -----------------------------------------------
 void startFight(BuildContext context) {
   print("*** START FIGHT ***");
 
@@ -37,14 +44,7 @@ void startFight(BuildContext context) {
 
   CurrentFight().setEnemies(enemies);
 
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => Fight()),
-  );
-}
-
-doNothing() {
-  print("****** DO NOTHING ******");
+  switchToScreen(Fight(), context);
 }
 
 // -------------------------------------------
@@ -78,7 +78,9 @@ class Fight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => GameState(), child: FightScaffold());
+        create: (context) => GameState(),
+        child: FightScaffold()
+    );
   }
 }
 
@@ -86,8 +88,8 @@ class FightScaffold extends StatelessWidget {
   const FightScaffold({super.key});
 
   Future<bool> _onWillPop() async {
-    print("** fight back **");
-    return false; //<-- SEE HERE
+    // disable "back" button
+    return false;
   }
 
   @override

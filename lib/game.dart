@@ -16,22 +16,6 @@ class Game extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainGameScaffold();
-  }
-}
-
-class MainGameScaffold extends StatefulWidget {
-  const MainGameScaffold({super.key});
-
-  @override
-  State<MainGameScaffold> createState() => _MainGameScaffoldState();
-}
-
-class _MainGameScaffoldState extends State<MainGameScaffold> {
-
-  @override
-  Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,11 +38,4 @@ class _MainGameScaffoldState extends State<MainGameScaffold> {
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
-
-class Session {
-
-  const Session();
-
-  static Map<String, Object> storage = {};
 }
