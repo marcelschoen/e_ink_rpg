@@ -20,6 +20,17 @@ void backToTitle(BuildContext context) {
   switchToScreen(MonsterSlayerTitle(), context);
 }
 
+void continueAfterFight(BuildContext context) {
+  print("*** continue ***");
+  if(Player().isAlive()) {
+    print("*** start next fight ***");
+    startFight(context);
+  } else {
+    print("*** back to title ***");
+    switchToScreen(MonsterSlayerTitle(), context);
+  }
+}
+
 // placeholder for not yet implemented buttons
 void doNothing() {
   print("*** NO OPERATION / NOT IMPLEMENTED ***");
@@ -269,8 +280,8 @@ class FightOverScaffold extends StatelessWidget {
   const FightOverScaffold({super.key});
 
   Future<bool> _onWillPop() async {
-    print("** fight back **");
-    return false; //<-- SEE HERE
+    // disable "back" button
+    return false;
   }
 
   @override
@@ -293,8 +304,8 @@ class FightOverScaffold extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BaseButton.withImageOnly('assets/button-back.png',
-                        (context) => backToTitle(context)),
+                BaseButton.withImageOnly(Player().isAlive() ? 'assets/button-fight.png' : 'assets/button-back.png',
+                        (context) => continueAfterFight(context)),
               ],
             ),
           ),
