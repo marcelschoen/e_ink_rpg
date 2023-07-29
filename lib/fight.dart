@@ -205,7 +205,7 @@ List<Widget> getActionOptions() {
     for (Spell spell in GameState().player.availableSpells) {
       options.add(BaseButton.textOnly(spell.name(), (p0) { }));
     }
-  } else {
+  } else if(CurrentFight().selectedAction == SelectedAction.attack) {
     for (Attack attack in GameState().player.availableAttacks) {
       options.add(BaseButton.textOnly(attack.name(), (p0) { }));
     }
