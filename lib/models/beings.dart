@@ -3,24 +3,29 @@ import 'dart:math';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
+import 'attack.dart';
+import 'magic.dart';
+
 /**
  * Base class for any living being.
  */
 class Being {
 
-  MonsterState? _state;
+  BeingState? _state;
   Map<StatType, Stat> _stats = {};
   SpeciesType species;
   final _random = new Random();
+
+  Being.player() : this(SpeciesType.player);
 
   Being(SpeciesType monsterType) : species = monsterType {
     addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
-    _state = MonsterState(this);
+    _state = BeingState(this);
   }
 
-  MonsterState state() {
+  BeingState state() {
     return this._state!;
   }
 
@@ -121,12 +126,26 @@ mixin Humanoid {
  */
 class Player extends Being with Humanoid {
 //  var experience = 0;
+  Set<Attack> availableAttacks = { Hit(), Swing() };
 
-  Player() : super(SpeciesType.player) {
+  Set<Spell> availableSpells = { Fireball() };
+
+  // singleton instance
+  static final Player _instance = Player._internal();
+
+  Player._internal() : super.player() {
     setStatValue(StatType.strength, 10);
     setStatValue(StatType.health, 100);
     money = 0;
     name = 'Harribo';
+  }
+
+  factory Player() {
+    return _instance;
+  }
+
+  unlockAttack(Attack attack) {
+    availableAttacks.add(attack);
   }
 
   @override

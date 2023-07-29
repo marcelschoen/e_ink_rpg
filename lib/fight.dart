@@ -5,8 +5,10 @@ import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'assets.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
+import 'models/magic.dart';
 
 // *****************************************************************************
 // Functions
@@ -94,13 +96,15 @@ class Fight extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => GameState(),
-        child: FightScaffold()
+        child: FightScaffold(gameStateNotifier: GameState())
     );
   }
 }
 
 class FightScaffold extends StatelessWidget {
-  const FightScaffold({super.key});
+  const FightScaffold({super.key, required this.gameStateNotifier});
+
+  final GameState gameStateNotifier;
 
   Future<bool> _onWillPop() async {
     // disable "back" button
@@ -119,7 +123,7 @@ class FightScaffold extends StatelessWidget {
 
         // ********** Actual combat screen part **********
         body: Center(
-          child: fightScreen(context),
+          child: fightScreen(context, gameStateNotifier),
         ),
 
         bottomNavigationBar: BottomAppBar(
@@ -138,8 +142,15 @@ class FightScaffold extends StatelessWidget {
   }
 }
 
+selectAction(SelectedAction action) {
+  print(">> select action: " + action.toString());
+  CurrentFight().selectedAction = action;
+  GameState().update();
+}
+
 // Fight screen parts (enemy display, action buttons etc.)
-Column fightScreen(BuildContext context) {
+Column fightScreen(BuildContext context, GameState gameStateNotifier) {
+
   return Column(
     children: [
       // ------------- player status widget ----------
@@ -150,8 +161,8 @@ Column fightScreen(BuildContext context) {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BaseButton.withImageAndText('RUN', 'assets/icons/run.png', (context) => executeCombatTurn(context)),
-          BaseButton.withImageAndText('FIGHT', 'assets/icons/fight.png', (context) => executeCombatTurn(context)),
+          BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)),
+          BaseButton.withImageAndText('FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context)),
         ],
       ),
       // ---------------- attack / magic selection panel ----------
@@ -163,22 +174,44 @@ Column fightScreen(BuildContext context) {
               children: [
                 Column(
                   children: [
-                    BaseButton.withImageAndText('Attack', 'assets/icons/attack.png', (context) => doNothing()),
-                    BaseButton.withImageAndText('Magic', 'assets/icons/magic.png', (context) => doNothing()),
-                    BaseButton.withImageAndText('Skill', 'assets/icons/skill.png', (context) => doNothing()),
-                    BaseButton.textOnly('Spy', (context) => doNothing()),
+                    BaseButton.withImageAndText('Attack', GameIcon.attack.filename(), (context) => selectAction(SelectedAction.attack)),
+                    BaseButton.withImageAndText('Magic', GameIcon.magic.filename(), (context) => selectAction(SelectedAction.magic)),
+                    BaseButton.withImageAndText('Skill', GameIcon.skill.filename(), (context) => selectAction(SelectedAction.skill)),
+                    BaseButton.withImageAndText('Spy', GameIcon.spy.filename(), (context) => selectAction(SelectedAction.spy)),
                   ],
                 ),
-                Column(
-                  children: [
+                ListenableBuilder (
+                  listenable: gameStateNotifier,
 
-                  ],
+                  builder: (BuildContext context, Widget? child) {
+                    return Expanded(
+                      child: Column(
+                        children:
+                        getActionOptions(),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
           )),
     ],
   );
+}
+
+List<Widget> getActionOptions() {
+  List<Widget> options = [ ];
+  if(CurrentFight().selectedAction == SelectedAction.magic) {
+    for (Spell spell in GameState().player.availableSpells) {
+      options.add(BaseButton.textOnly(spell.name(), (p0) { }));
+    }
+  } else {
+    for (Attack attack in GameState().player.availableAttacks) {
+      options.add(BaseButton.textOnly(attack.name(), (p0) { }));
+    }
+  }
+
+  return options;
 }
 
 // ----------------------------------------------------
@@ -205,7 +238,7 @@ Widget enemyDisplay(BuildContext context) {
 class EnemyWidget extends StatelessWidget {
   const EnemyWidget({super.key, required this.monsterStateNotifier});
 
-  final MonsterState monsterStateNotifier;
+  final BeingState monsterStateNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -218,13 +251,13 @@ class EnemyWidget extends StatelessWidget {
             foregroundDecoration:
             BoxDecoration(border: Border.all(color: Colors.blueAccent)),
             child: Column(children: [
-              Text(monsterStateNotifier.monster().getSpecies()),
-              getMonsterImage(monsterStateNotifier.monster()),
+              Text(monsterStateNotifier.being().getSpecies()),
+              getMonsterImage(monsterStateNotifier.being()),
               Row(
                 children: [
                   Padding(
                       padding: EdgeInsets.only(right: 4),
-                      child: getMonsterLifebarIcon(monsterStateNotifier.monster())
+                      child: getMonsterLifebarIcon(monsterStateNotifier.being())
                     /*
                     Icon(
                       Icons.favorite,
@@ -236,7 +269,7 @@ class EnemyWidget extends StatelessWidget {
                   SizedBox(
                       width: 60,
                       child: LinearProgressIndicator(
-                          value: (monsterStateNotifier.monster().health().toDouble() /
+                          value: (monsterStateNotifier.being().health().toDouble() /
                               100),
                           minHeight: 10,
                           color: Colors.black45,
@@ -258,11 +291,11 @@ Widget getMonsterLifebarIcon(Being enemy) {
   if(enemy.isAlive()) {
     return Image(
         height: 12,
-        image: AssetImage('assets/icons/heart.png'));
+        image: AssetImage(GameIcon.heart.filename()));
   }
   return Image(
       height: 12,
-      image: AssetImage('assets/icons/skull.png'));
+      image: AssetImage(GameIcon.death.filename()));
 }
 
 Widget getMonsterImage(Being enemy) {

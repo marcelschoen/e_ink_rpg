@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
 
-/**
- * Singleton game state holder.
- */
+// ---------------------------------------------
+// Singleton game state holder.
+// ---------------------------------------------
 class GameState with ChangeNotifier {
 
   // singleton instance
@@ -26,26 +26,23 @@ class GameState with ChangeNotifier {
 
   @override
   void dispose() {
-    print("******************** DISPOSE GAME STATE ********************");
     // NOTE: For some reason, someone is invoking this "dispose", which destroys
-    // our singleton player state holder.
+    // our singleton player state holder (which this method prevents).
     //super.dispose();
   }
 }
 
+// ---------------------------------------------
+// Being state holder (per being instance)
+// ---------------------------------------------
+class BeingState with ChangeNotifier {
 
+  final Being _being;
 
-/**
- * Singleton game state holder.
- */
-class MonsterState with ChangeNotifier {
+  BeingState(Being being) : _being = being {}
 
-  final Being _monster;
-
-  MonsterState(Being monster) : _monster = monster {}
-
-  Being monster() {
-    return _monster;
+  Being being() {
+    return _being;
   }
 
   update() {
@@ -53,12 +50,21 @@ class MonsterState with ChangeNotifier {
   }
 }
 
+enum SelectedAction {
+  attack,
+  magic,
+  skill,
+  spy
+}
 
-
+// ---------------------------------------------
+// Singleton holder for state of current fight
+// ---------------------------------------------
 class CurrentFight {
   // instance variables
   List<Being> _enemies = [];
   bool fightRunning = false;
+  SelectedAction selectedAction = SelectedAction.attack;
 
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
