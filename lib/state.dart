@@ -78,7 +78,7 @@ class CurrentFight {
   }
 
   bool finished() {
-    if(!Player().isAlive()) {
+    if(!GameState().player.isAlive()) {
       return true;
     }
 
@@ -94,7 +94,7 @@ class CurrentFight {
    * Implements an actual physical attack on enemies
    */
   void attackEnemyPhysical(Being enemy, Attack attack) {
-    attackTarget(Player(), enemy, attack);
+    attackTarget(GameState().player, enemy, attack);
   }
 
   void attackEnemiesWithMagic() {

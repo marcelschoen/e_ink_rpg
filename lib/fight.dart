@@ -22,7 +22,7 @@ void backToTitle(BuildContext context) {
 
 void continueAfterFight(BuildContext context) {
   print("*** continue ***");
-  if(Player().isAlive()) {
+  if(GameState().player.isAlive()) {
     print("*** start next fight ***");
     startFight(context);
   } else {
@@ -41,6 +41,9 @@ void doNothing() {
 // -----------------------------------------------
 void startFight(BuildContext context) {
   print("*** START FIGHT ***");
+
+  GameState().player.heal();
+  print(">> player health: " + GameState().player.health().toString());
 
   Being monsterOne = Being(SpeciesType.ghost);
   Being monsterTwo = Being(SpeciesType.skeleton);
@@ -62,13 +65,14 @@ void startFight(BuildContext context) {
 // Performs attacks by player and enemies
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
-//  CurrentFight().enemiesAttackPlayer();
+  CurrentFight().enemiesAttackPlayer();
   for (Being enemy in CurrentFight().enemies()) {
     CurrentFight().attackTarget(GameState().player, enemy, Hit());
   }
+  print(">> player health: " + GameState().player.health().toString());
   if(CurrentFight().finished()) {
     print("*** FIGHT OVER ***");
-    if(Player().isAlive()) {
+    if(GameState().player.isAlive()) {
       print("*** PLAYER WON! ***");
       switchToScreen(FightOverScaffold(), context);
     } else {
@@ -291,7 +295,7 @@ class FightOverScaffold extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Player().isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
+          title: GameState().player.isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
         ),
 
         // ********** Actual combat screen part **********
@@ -304,7 +308,7 @@ class FightOverScaffold extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BaseButton.withImageOnly(Player().isAlive() ? 'assets/button-fight.png' : 'assets/button-back.png',
+                BaseButton.withImageOnly(GameState().player.isAlive() ? 'assets/button-fight.png' : 'assets/button-back.png',
                         (context) => continueAfterFight(context)),
               ],
             ),

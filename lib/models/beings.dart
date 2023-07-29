@@ -14,7 +14,7 @@ class Being {
   final _random = new Random();
 
   Being(SpeciesType monsterType) : species = monsterType {
-    addStat(Stat.withValue(StatType.health, _random.nextInt(10) * 10, 100));
+    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
     _state = MonsterState(this);
