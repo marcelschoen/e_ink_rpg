@@ -1,14 +1,8 @@
 // Abstract base class for magic spells
-abstract class Spell {
+import 'attack.dart';
 
-  var damagePerTargetFactor = 0.0;
-
-  Spell(this.damagePerTargetFactor) {
-  }
-
-  String name() {
-    return runtimeType.toString();
-  }
+abstract class Spell extends Attack {
+  Spell(super.damagePerTargetFactor);
 }
 
 // Single-hit fireball attack

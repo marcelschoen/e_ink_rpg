@@ -65,6 +65,7 @@ class CurrentFight {
   List<Being> _enemies = [];
   bool fightRunning = false;
   SelectedAction selectedAction = SelectedAction.attack;
+  Attack selectedAttack = None();
 
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
@@ -116,20 +117,5 @@ class CurrentFight {
       attackTarget(enemy, GameState().player, Hit());
     }
     GameState().update();
-  }
-
-  /**
-   * Performs a physical attack from one attacker on one target being.
-   */
-  void attackTarget(Being attacker, Being target, Attack attack) {
-    print("------> attack target");
-    int attackPower = attacker.strength();
-    print("------> attacker strength: " + attackPower.toString());
-    print("------> attack damage factor: " +
-        attack.damagePerTargetFactor.toString());
-    var damage =
-        (attack.damagePerTargetFactor * attackPower) - target.defense();
-    print("------> dish out damage: " + damage.round().toString());
-    target.damageBy(damage.round());
   }
 }

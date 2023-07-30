@@ -69,7 +69,7 @@ void startFight(BuildContext context) {
 executeCombatTurn(BuildContext context) {
   CurrentFight().enemiesAttackPlayer();
   for (Being enemy in CurrentFight().enemies()) {
-    CurrentFight().attackTarget(GameState().player, enemy, Hit());
+    attackTarget(GameState().player, enemy, CurrentFight().selectedAttack);
   }
   print(">> player health: " + GameState().player.health().toString());
   if(CurrentFight().finished()) {
@@ -142,8 +142,10 @@ class FightScaffold extends StatelessWidget {
   }
 }
 
+// -------------------------------------------
+// Selects the group of attacks to be used
+// -------------------------------------------
 selectAction(SelectedAction action) {
-  print(">> select action: " + action.toString());
   CurrentFight().selectedAction = action;
   GameState().update();
 }
@@ -207,7 +209,7 @@ List<Widget> getActionOptions() {
     }
   } else if(CurrentFight().selectedAction == SelectedAction.attack) {
     for (Attack attack in GameState().player.availableAttacks) {
-      options.add(BaseButton.textOnly(attack.name(), (p0) { }));
+      options.add(BaseButton.textOnly(attack.name(), (p0) { CurrentFight().selectedAttack = attack; }));
     }
   }
 
@@ -258,13 +260,6 @@ class EnemyWidget extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.only(right: 4),
                       child: getMonsterLifebarIcon(monsterStateNotifier.being())
-                    /*
-                    Icon(
-                      Icons.favorite,
-                      color: Colors.pink,
-                      size: 16.0,
-                      semanticLabel: 'Text to announce in accessibility modes',
-                    ),*/
                   ),
                   SizedBox(
                       width: 60,
@@ -277,8 +272,6 @@ class EnemyWidget extends StatelessWidget {
                           valueColor: AlwaysStoppedAnimation(Colors.black54))),
                 ],
               ),
-              //           Text(' HEALTH: ' +
-              //               monsterStateNotifier.monster().health().toString()),
             ]),
           ),
         );
