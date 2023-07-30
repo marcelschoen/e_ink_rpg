@@ -59,6 +59,8 @@ void startFight(BuildContext context) {
       monsterOne.stat(StatType.strength)!.value().toString());
 
   CurrentFight().setEnemies(enemies);
+  CurrentFight().selectedAction = SelectedAction.attack;
+  CurrentFight().selectedAttack = Hit();
 
   switchToScreen(Fight(), context);
 }
