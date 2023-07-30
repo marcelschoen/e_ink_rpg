@@ -164,12 +164,17 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
       // ------------- enemies display panel -------------
       enemyDisplay(context),
       // ------------------- execute / flee buttons ----------
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)),
-          BaseButton.withImageAndText('FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context)),
-        ],
+      ListenableBuilder(
+        listenable: gameStateNotifier,
+        builder: (BuildContext context, Widget? child) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)),
+              BaseButton.withImageAndText(CurrentFight().selectedAction == SelectedAction.spy ? 'LOOK' : 'FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context)),
+            ],
+          );
+        },
       ),
       // ---------------- attack / magic selection panel ----------
       Expanded(
