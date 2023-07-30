@@ -36,7 +36,7 @@ class Being {
   }
 
   int maxHealth() {
-    return this.species.maxHealth();
+    return _stats[StatType.health]!.maxValue();
   }
 
   int health() {

@@ -49,6 +49,10 @@ void startFight(BuildContext context) {
 
   Being monsterOne = Being(SpeciesType.ghost);
   Being monsterTwo = Being(SpeciesType.skeleton);
+
+  monsterOne.stat(StatType.health)!.setMaxValueTo(30);
+  monsterOne.heal();
+
   List<Being> enemies = [];
   enemies.add(monsterTwo);
   enemies.add(monsterOne);
