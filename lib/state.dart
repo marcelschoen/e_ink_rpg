@@ -38,6 +38,9 @@ class GameState with ChangeNotifier {
 class BeingState with ChangeNotifier {
 
   final Being _being;
+  int position = 0;
+  bool selected = false;
+  bool affected = false;
 
   BeingState(Being being) : _being = being {}
 
@@ -77,8 +80,26 @@ class CurrentFight {
     return _instance;
   }
 
+  void selectAttackTarget(Being being) {
+    // deselect all enemies first
+    for (Being being in _enemies) {
+      being.state().selected = false;
+    }
+    // then select new target
+    selectedTarget = being;
+    selectedTarget!.state().selected = true;
+    for (Being being in _enemies) {
+      being.state().update();
+    }
+  }
+
   void setEnemies(List<Being> enemies) {
     this._enemies = enemies;
+    // assign position to each enemy; this is necessary to be able
+    // to determine who's affected by AoE attacks.
+    for (int i = 0; i < this._enemies.length; i++) {
+      this._enemies[i].state().position = i;
+    }
   }
 
   List<Being> enemies() {
@@ -113,7 +134,6 @@ class CurrentFight {
    * Enemies turn / they attack the player.
    */
   void enemiesAttackPlayer() {
-    print("---> enemies attack player <---");
     for (Being enemy in this._enemies) {
       attackTarget(enemy, GameState().player, Hit());
     }

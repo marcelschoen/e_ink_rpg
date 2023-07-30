@@ -280,39 +280,55 @@ class EnemyWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: InkWell (
             onTap: (){
-              CurrentFight().selectedTarget = monsterStateNotifier.being();
+              CurrentFight().selectAttackTarget(monsterStateNotifier.being());
               GameState().update();
             },
             child: Container(
               foregroundDecoration:
-              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-              child: Column(children: [
-                Text(monsterStateNotifier.being().getSpecies()),
-                getMonsterImage(monsterStateNotifier.being()),
-                Row(
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.only(right: 4),
-                        child: getMonsterLifebarIcon(monsterStateNotifier.being())
-                    ),
-                    SizedBox(
-                        width: 60,
-                        child: LinearProgressIndicator(
-                            value: (monsterStateNotifier.being().health().toDouble() /
-                                monsterStateNotifier.being().maxHealth().toDouble()),
-                            minHeight: 10,
-                            color: Colors.black45,
-                            backgroundColor: Colors.black12,
-                            valueColor: AlwaysStoppedAnimation(Colors.black54))),
-                  ],
-                ),
-              ]),
+              BoxDecoration(border: getEnemyBorder(monsterStateNotifier.being())),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(children: [
+                  Text(monsterStateNotifier.being().getSpecies()),
+                  getMonsterImage(monsterStateNotifier.being()),
+                  Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(right: 4),
+                          child: getMonsterLifebarIcon(monsterStateNotifier.being())
+                      ),
+                      SizedBox(
+                          width: 60,
+                          child: LinearProgressIndicator(
+                              value: (monsterStateNotifier.being().health().toDouble() /
+                                  monsterStateNotifier.being().maxHealth().toDouble()),
+                              minHeight: 10,
+                              color: Colors.black45,
+                              backgroundColor: Colors.black12,
+                              valueColor: AlwaysStoppedAnimation(Colors.black54))),
+                    ],
+                  ),
+                ]),
+              ),
             ),
           ),
         );
       },
     );
   }
+}
+
+BoxBorder getEnemyBorder(Being enemy) {
+  Color borderColor = Colors.white;
+  double borderWidth = 0;
+  if(enemy.state().selected) {
+    borderColor = Colors.blueAccent;
+    borderWidth = 5;
+  } else if(enemy.state().affected) {
+    borderColor = Colors.blueAccent;
+    borderWidth = 2;
+  }
+  return Border.all(color: borderColor, width: borderWidth);
 }
 
 Widget getMonsterLifebarIcon(Being enemy) {

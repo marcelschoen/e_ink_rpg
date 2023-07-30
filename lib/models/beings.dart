@@ -15,6 +15,8 @@ class Being {
   Map<StatType, Stat> _stats = {};
   SpeciesType species;
   final _random = new Random();
+  bool selected = false;
+  bool affected = false;
 
   Being.player() : this(SpeciesType.player);
 
