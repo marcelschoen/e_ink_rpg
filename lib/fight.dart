@@ -42,7 +42,7 @@ void doNothing() {
 // Switches to the fight screen and starts combat
 // -----------------------------------------------
 void startFight(BuildContext context) {
-  print("*** START FIGHT ***");
+  print("*************************************** START FIGHT **********************************************");
 
   GameState().player.heal();
   print(">> player health: " + GameState().player.health().toString());
@@ -207,7 +207,7 @@ List<Widget> getActionOptions() {
   List<Widget> options = [ ];
   if(CurrentFight().selectedAction == SelectedAction.magic) {
     for (Spell spell in GameState().player.availableSpells) {
-      options.add(BaseButton.textOnly(spell.name(), (p0) { }));
+      options.add(BaseButton.textOnly(spell.name(), (p0) { CurrentFight().selectedAttack = spell; }));
     }
   } else if(CurrentFight().selectedAction == SelectedAction.attack) {
     for (Attack attack in GameState().player.availableAttacks) {

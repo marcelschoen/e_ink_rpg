@@ -7,5 +7,5 @@ abstract class Spell extends Attack {
 
 // Single-hit fireball attack
 class Fireball extends Spell {
-  Fireball() : super(1.0) ;
+  Fireball() : super(5.0) ;
 }

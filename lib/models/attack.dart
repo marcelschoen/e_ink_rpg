@@ -3,7 +3,7 @@ import 'beings.dart';
 
 abstract class Attack {
 
-  double damagePerTargetFactor = 0.0;
+  double damagePerTargetFactor;
 
   Attack(this.damagePerTargetFactor) {
   }
@@ -40,7 +40,10 @@ class Swing extends Attack {
 void attackTarget(Being attacker, Being target, Attack attack) {
   print("****> attacker " + attacker.getSpecies() + " attacks target: " + target.species.name() + " / attack: " + attack.name());
   double attackPower = attacker.strength().toDouble();
+  print("> attack power: " + attackPower.toString());
+  print("> attack damage per target factor: " + attack.damagePerTargetFactor.toString());
   double damage = attack.damagePerTargetFactor * attackPower;
+  print("> damage: " + damage.toString());
   if (damage > 0) {
     damage -= target.defense();
   }
