@@ -40,12 +40,11 @@ class Swing extends Attack {
 void attackTarget(Being attacker, Being target, Attack attack) {
   print("****> attacker " + attacker.getSpecies() + " attacks target: " + target.species.name() + " / attack: " + attack.name());
   double attackPower = attacker.strength().toDouble();
-  print("------> attacker strength: " + attackPower.toString());
-  print("------> attack damage factor: " + attack.damagePerTargetFactor.toString());
   double damage = attack.damagePerTargetFactor * attackPower;
   if (damage > 0) {
     damage -= target.defense();
   }
-  print("------> dish out damage: " + damage.round().toString());
+  print("> target health: " + target.health().toString());
+  print("> final damage: " + damage.round().toString());
   target.damageBy(damage.round());
 }

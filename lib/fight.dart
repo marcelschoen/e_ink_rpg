@@ -67,7 +67,9 @@ void startFight(BuildContext context) {
 // Performs attacks by player and enemies
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
-  CurrentFight().enemiesAttackPlayer();
+
+//  CurrentFight().enemiesAttackPlayer();
+
   for (Being enemy in CurrentFight().enemies()) {
     attackTarget(GameState().player, enemy, CurrentFight().selectedAttack);
   }
@@ -265,7 +267,7 @@ class EnemyWidget extends StatelessWidget {
                       width: 60,
                       child: LinearProgressIndicator(
                           value: (monsterStateNotifier.being().health().toDouble() /
-                              100),
+                              monsterStateNotifier.being().maxHealth().toDouble()),
                           minHeight: 10,
                           color: Colors.black45,
                           backgroundColor: Colors.black12,

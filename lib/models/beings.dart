@@ -19,7 +19,11 @@ class Being {
   Being.player() : this(SpeciesType.player);
 
   Being(SpeciesType monsterType) : species = monsterType {
-    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
+    int maxHealth = monsterType.maxHealth();
+    Stat statHealth = Stat(StatType.health, maxHealth);
+    statHealth.setValueTo(maxHealth);
+    addStat(statHealth);
+//    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
     _state = BeingState(this);
@@ -27,6 +31,10 @@ class Being {
 
   BeingState state() {
     return this._state!;
+  }
+
+  int maxHealth() {
+    return this.species.maxHealth();
   }
 
   int health() {
@@ -92,21 +100,26 @@ class Being {
 }
 
 enum SpeciesType {
-  wolf('Wolf'),
-  warg('Warg'),
-  ghost('Ghost'),
-  skeleton('Skeleton'),
+  wolf('Wolf', 80),
+  warg('Warg', 150),
+  ghost('Ghost', 180),
+  skeleton('Skeleton', 130),
 
-  npc('NPC'),
-  player('Player')
+  npc('NPC', 100),
+  player('Player', 100)
   ;
 
-  const SpeciesType(this._name);
+  const SpeciesType(this._name, this._maxHealth);
 
   final String _name;
+  final int _maxHealth;
 
   String name() {
     return _name;
+  }
+
+  int maxHealth() {
+    return this._maxHealth;
   }
 }
 
