@@ -151,6 +151,7 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------
 selectAction(SelectedAction action) {
   CurrentFight().selectedAction = action;
+  CurrentFight().selectedTarget = null;
   GameState().update();
 }
 
@@ -171,7 +172,7 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)),
-              BaseButton.withImageAndText(CurrentFight().selectedAction == SelectedAction.spy ? 'LOOK' : 'FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context)),
+              getExecutionButton(context),
             ],
           );
         },
@@ -208,6 +209,21 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
           )),
     ],
   );
+}
+
+Widget getExecutionButton(BuildContext context) {
+  BaseButton button = BaseButton.withImageAndText('FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+  if (CurrentFight().selectedAction == SelectedAction.spy) {
+    button = BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+//  } else if (CurrentFight().selectedAction == SelectedAction.skill) {
+//    return BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+  }
+
+  if (CurrentFight().selectedTarget == null) {
+    button.enabled = false;
+  }
+
+  return button;
 }
 
 List<Widget> getActionOptions() {
@@ -258,30 +274,36 @@ class EnemyWidget extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
-            foregroundDecoration:
-            BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-            child: Column(children: [
-              Text(monsterStateNotifier.being().getSpecies()),
-              getMonsterImage(monsterStateNotifier.being()),
-              Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(right: 4),
-                      child: getMonsterLifebarIcon(monsterStateNotifier.being())
-                  ),
-                  SizedBox(
-                      width: 60,
-                      child: LinearProgressIndicator(
-                          value: (monsterStateNotifier.being().health().toDouble() /
-                              monsterStateNotifier.being().maxHealth().toDouble()),
-                          minHeight: 10,
-                          color: Colors.black45,
-                          backgroundColor: Colors.black12,
-                          valueColor: AlwaysStoppedAnimation(Colors.black54))),
-                ],
-              ),
-            ]),
+          child: InkWell (
+            onTap: (){
+              CurrentFight().selectedTarget = monsterStateNotifier.being();
+              GameState().update();
+            },
+            child: Container(
+              foregroundDecoration:
+              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+              child: Column(children: [
+                Text(monsterStateNotifier.being().getSpecies()),
+                getMonsterImage(monsterStateNotifier.being()),
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(right: 4),
+                        child: getMonsterLifebarIcon(monsterStateNotifier.being())
+                    ),
+                    SizedBox(
+                        width: 60,
+                        child: LinearProgressIndicator(
+                            value: (monsterStateNotifier.being().health().toDouble() /
+                                monsterStateNotifier.being().maxHealth().toDouble()),
+                            minHeight: 10,
+                            color: Colors.black45,
+                            backgroundColor: Colors.black12,
+                            valueColor: AlwaysStoppedAnimation(Colors.black54))),
+                  ],
+                ),
+              ]),
+            ),
           ),
         );
       },

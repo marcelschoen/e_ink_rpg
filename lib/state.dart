@@ -66,6 +66,7 @@ class CurrentFight {
   bool fightRunning = false;
   SelectedAction selectedAction = SelectedAction.attack;
   Attack selectedAttack = None();
+  Being? selectedTarget = null;
 
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();

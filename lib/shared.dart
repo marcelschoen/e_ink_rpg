@@ -61,19 +61,20 @@ class BaseButton extends StatelessWidget {
   final _label;
   final _image;
   final _function;
+  bool enabled = true;
 
-  const BaseButton.textOnly(String label, void Function(BuildContext) function)
+  BaseButton.textOnly(String label, void Function(BuildContext) function)
       : _label = label,
         _image = null,
         _function = function;
 
-  const BaseButton.withImageAndText(
+  BaseButton.withImageAndText(
       String label, String imageFilename, void Function(BuildContext) function)
       : _label = label,
         _image = imageFilename,
         _function = function;
 
-  const BaseButton.withImageOnly(
+  BaseButton.withImageOnly(
       String imageFilename, void Function(BuildContext) function)
       : _label = null,
         _image = imageFilename,
@@ -86,23 +87,32 @@ class BaseButton extends StatelessWidget {
           print("*** PRESSED: $_label ***");
           _function(context);
         },
-        child: getButtonContent());
+        child: getButtonContent(enabled));
   }
 
-  Widget getButtonContent() {
+  // ---------------------------------------------
+  // creates icon and text content box
+  // ---------------------------------------------
+  Widget getButtonContent(bool enabled) {
     Widget content;
-    if (_image != null && _label != null) {
-      content = Row(
-        children: [
-          Image(image: AssetImage(_image)),
-          SizedBox(width: 16),
-          Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
-        ],
-      );
+
+    if (!enabled) {
+      content = Text('...', style: TextStyle(fontSize: 24), textAlign: TextAlign.center,);
     } else {
-      content = _image == null
-          ? Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
-          : Image(image: AssetImage(_image));
+
+      if (_image != null && _label != null) {
+        content = Row(
+          children: [
+            Image(image: AssetImage(_image)),
+            SizedBox(width: 16),
+            Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+          ],
+        );
+      } else {
+        content = _image == null
+            ? Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+            : Image(image: AssetImage(_image));
+      }
     }
 
     return SizedBox(
