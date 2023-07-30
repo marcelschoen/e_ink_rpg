@@ -72,8 +72,12 @@ executeCombatTurn(BuildContext context) {
 
 //  CurrentFight().enemiesAttackPlayer();
 
+  if (CurrentFight().selectedAttack == null || CurrentFight().selectedTarget == null) {
+    return;
+  }
+
   for (Being enemy in CurrentFight().enemies()) {
-    attackTarget(GameState().player, enemy, CurrentFight().selectedAttack);
+    attackTarget(GameState().player, enemy, CurrentFight().selectedAttack!);
   }
   print(">> player health: " + GameState().player.health().toString());
   if(CurrentFight().finished()) {
@@ -219,7 +223,7 @@ Widget getExecutionButton(BuildContext context) {
 //    return BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
   }
 
-  if (CurrentFight().selectedTarget == null) {
+  if (CurrentFight().selectedTarget == null || CurrentFight().selectedAttack == null) {
     button.enabled = false;
   }
 

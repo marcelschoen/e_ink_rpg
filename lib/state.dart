@@ -65,7 +65,7 @@ class CurrentFight {
   List<Being> _enemies = [];
   bool fightRunning = false;
   SelectedAction selectedAction = SelectedAction.attack;
-  Attack selectedAttack = None();
+  Attack? selectedAttack = null;
   Being? selectedTarget = null;
 
   // singleton instance

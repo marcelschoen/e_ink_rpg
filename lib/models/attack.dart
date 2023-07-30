@@ -13,10 +13,6 @@ abstract class Attack {
   }
 }
 
-class None extends Attack {
-  None() : super(0.0) ;
-}
-
 // Simple single-hit attack
 class Hit extends Attack {
   Hit() : super(1.0) ;
