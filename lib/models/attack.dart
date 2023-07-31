@@ -42,13 +42,21 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   print("> attack power: " + attackPower.toString());
   print("> attack damage per target factor: " + attack.damagePerTargetFactor.toString());
   double damage = attack.damagePerTargetFactor * attackPower;
+  double affectedDamage = damage;
   print("> damage: " + damage.toString());
   if (damage > 0) {
     damage -= target.defense();
+    affectedDamage = damage * 3 / 5; // 60% damage for affected targets
   }
   print("> target health: " + target.health().toString());
   print("> final damage: " + damage.round().toString());
   target.damageBy(damage.round());
+  for (Being enemy in CurrentFight().enemies()) {
+    if (enemy != target && enemy.state().affected) {
+      enemy.damageBy(affectedDamage.round());
+    }
+  }
+
   if (!target.isAlive()) {
     CurrentFight().selectedTarget = null;
     CurrentFight().deselectTargets();
