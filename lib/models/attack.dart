@@ -53,6 +53,7 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   target.damageBy(damage.round());
   for (Being enemy in CurrentFight().enemies()) {
     if (enemy != target && enemy.state().affected) {
+      print(">> damage affected enemy: " + enemy.getSpecies());
       enemy.damageBy(affectedDamage.round());
     }
   }
