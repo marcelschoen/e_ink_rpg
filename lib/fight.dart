@@ -81,8 +81,12 @@ executeCombatTurn(BuildContext context) {
     return;
   }
 
+
+
   for (Being enemy in CurrentFight().enemies()) {
-    attackTarget(GameState().player, enemy, CurrentFight().selectedAttack!);
+    if (enemy.isAlive()) {
+      attackTarget(GameState().player, enemy, CurrentFight().selectedAttack!);
+    }
   }
   print(">> player health: " + GameState().player.health().toString());
   if(CurrentFight().finished()) {
