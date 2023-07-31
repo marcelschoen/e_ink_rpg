@@ -110,6 +110,15 @@ class CurrentFight {
   }
 
   // ---------------------------------------
+  // De-affects all enemy targets
+  // ---------------------------------------
+  void deaffectTargets() {
+    for (Being being in _enemies) {
+      being.state().affected = false;
+    }
+  }
+
+  // ---------------------------------------
   // Selects an attack target
   // ---------------------------------------
   void selectAttackTarget(Being being) {
@@ -117,6 +126,7 @@ class CurrentFight {
     // deselect all enemies first
     // then select new target
     deselectTargets();
+    deaffectTargets();
 
     selectedTarget = being;
     selectedTarget!.state().selected = true;

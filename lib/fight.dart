@@ -167,6 +167,8 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------
 selectAction(SelectedAction action) {
   CurrentFight().selectedAction = action;
+  CurrentFight().deaffectTargets();
+  CurrentFight().updateTargets();
   GameState().update();
 }
 
@@ -236,7 +238,6 @@ Widget getExecutionButton(BuildContext context) {
 
   print("> execution button / selected target: " + CurrentFight().selectedTarget.toString());
   if (CurrentFight().selectedTarget == null || CurrentFight().selectedAttack == null) {
-    print("--------------> NO SELECTED TARGET");
     button.enabled = false;
   }
 
@@ -247,15 +248,21 @@ List<Widget> getActionOptions() {
   List<Widget> options = [ ];
   if(CurrentFight().selectedAction == SelectedAction.magic) {
     for (Spell spell in GameState().player.availableSpells) {
-      options.add(BaseButton.textOnly(spell.name(), (p0) { CurrentFight().selectedAttack = spell; }));
+      options.add(BaseButton.textOnly(spell.name(), (p0) { selectAttack(spell); }));
     }
   } else if(CurrentFight().selectedAction == SelectedAction.attack) {
     for (Attack attack in GameState().player.availableAttacks) {
-      options.add(BaseButton.textOnly(attack.name(), (p0) { CurrentFight().selectedAttack = attack; }));
+      options.add(BaseButton.textOnly(attack.name(), (p0) { selectAttack(attack); }));
     }
   }
 
   return options;
+}
+
+void selectAttack(Attack attack) {
+  CurrentFight().selectedAttack = attack;
+  CurrentFight().deaffectTargets();
+  CurrentFight().updateTargets();
 }
 
 
