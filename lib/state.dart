@@ -80,6 +80,17 @@ class CurrentFight {
     return _instance;
   }
 
+  // ---------------------------------------------------------
+  // Sets conditions to start fight against wave of enemies
+  // ---------------------------------------------------------
+  void begin(List<Being> enemies) {
+    GameState().player.heal();
+    CurrentFight().setEnemies(enemies);
+    CurrentFight().selectedTarget = null;
+    CurrentFight().selectedAction = SelectedAction.attack;
+    CurrentFight().selectedAttack = Hit();
+  }
+
   // ---------------------------------------
   // Updates all enemy targets
   // ---------------------------------------
