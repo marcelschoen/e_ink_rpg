@@ -94,6 +94,9 @@ executeCombatTurn(BuildContext context) {
       switchToScreen(FightOverScaffold(), context);
     }
   }
+
+  CurrentFight().deselectTargets();
+  CurrentFight().updateTargets();
 }
 
 // *****************************************************************************
@@ -159,7 +162,6 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------
 selectAction(SelectedAction action) {
   CurrentFight().selectedAction = action;
-  CurrentFight().selectedTarget = null;
   GameState().update();
 }
 
@@ -228,6 +230,7 @@ Widget getExecutionButton(BuildContext context) {
   }
 
   if (CurrentFight().selectedTarget == null || CurrentFight().selectedAttack == null) {
+    print("--------------> NO SELECTED TARGET");
     button.enabled = false;
   }
 

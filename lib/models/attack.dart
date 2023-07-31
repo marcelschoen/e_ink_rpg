@@ -46,4 +46,5 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   print("> target health: " + target.health().toString());
   print("> final damage: " + damage.round().toString());
   target.damageBy(damage.round());
+
 }

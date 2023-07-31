@@ -80,17 +80,35 @@ class CurrentFight {
     return _instance;
   }
 
-  void selectAttackTarget(Being being) {
-    // deselect all enemies first
-    for (Being being in _enemies) {
-      being.state().selected = false;
-    }
-    // then select new target
-    selectedTarget = being;
-    selectedTarget!.state().selected = true;
+  // ---------------------------------------
+  // Updates all enemy targets
+  // ---------------------------------------
+  void updateTargets() {
     for (Being being in _enemies) {
       being.state().update();
     }
+  }
+
+  // ---------------------------------------
+  // Deselects all enemy targets
+  // ---------------------------------------
+  void deselectTargets() {
+    for (Being being in _enemies) {
+      being.state().selected = false;
+    }
+  }
+
+  // ---------------------------------------
+  // Selects an attack target
+  // ---------------------------------------
+  void selectAttackTarget(Being being) {
+    // deselect all enemies first
+    // then select new target
+    deselectTargets();
+
+    selectedTarget = being;
+    selectedTarget!.state().selected = true;
+    updateTargets();
   }
 
   void setEnemies(List<Being> enemies) {
