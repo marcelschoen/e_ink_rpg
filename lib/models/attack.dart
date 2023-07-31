@@ -1,4 +1,6 @@
 // Abstract base class for physical attacks
+import 'package:e_ink_rpg/state.dart';
+
 import 'beings.dart';
 
 abstract class Attack {
@@ -46,5 +48,8 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   print("> target health: " + target.health().toString());
   print("> final damage: " + damage.round().toString());
   target.damageBy(damage.round());
-
+  if (!target.isAlive()) {
+    CurrentFight().selectedTarget = null;
+    GameState().update();
+  }
 }

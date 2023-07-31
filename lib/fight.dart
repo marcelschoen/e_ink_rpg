@@ -63,6 +63,7 @@ void startFight(BuildContext context) {
       monsterOne.stat(StatType.strength)!.value().toString());
 
   CurrentFight().setEnemies(enemies);
+  CurrentFight().selectedTarget = null;
   CurrentFight().selectedAction = SelectedAction.attack;
   CurrentFight().selectedAttack = Hit();
 
@@ -229,6 +230,7 @@ Widget getExecutionButton(BuildContext context) {
 //    return BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
   }
 
+  print("> execution button / selected target: " + CurrentFight().selectedTarget.toString());
   if (CurrentFight().selectedTarget == null || CurrentFight().selectedAttack == null) {
     print("--------------> NO SELECTED TARGET");
     button.enabled = false;
