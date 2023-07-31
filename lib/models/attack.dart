@@ -51,6 +51,9 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   target.damageBy(damage.round());
   if (!target.isAlive()) {
     CurrentFight().selectedTarget = null;
+    CurrentFight().deselectTargets();
+    CurrentFight().deaffectTargets();
+    CurrentFight().updateTargets();
     GameState().update();
   }
 }

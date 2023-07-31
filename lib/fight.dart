@@ -79,13 +79,7 @@ executeCombatTurn(BuildContext context) {
   if (CurrentFight().selectedTarget != null) {
     attackTarget(GameState().player, CurrentFight().selectedTarget!, CurrentFight().selectedAttack!);
   }
-/*
-  for (Being enemy in CurrentFight().enemies()) {
-    if (enemy.isAlive()) {
-      attackTarget(GameState().player, enemy, CurrentFight().selectedAttack!);
-    }
-  }
-*/
+
   print(">> player health: " + GameState().player.health().toString());
   if(CurrentFight().finished()) {
     print("*** FIGHT OVER ***");
@@ -98,9 +92,14 @@ executeCombatTurn(BuildContext context) {
     }
   }
 
-  CurrentFight().selectedTarget = null;
-  CurrentFight().deselectTargets();
-  CurrentFight().updateTargets();
+  if(CurrentFight().selectedTarget != null && CurrentFight().selectedTarget!.isAlive()) {
+    // Re-select target to enforce update of affected targets
+    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+  }
+
+//  CurrentFight().selectedTarget = null;
+//  CurrentFight().deselectTargets();
+//  CurrentFight().updateTargets();
   GameState().update();
 }
 
@@ -167,6 +166,9 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------
 selectAction(SelectedAction action) {
   CurrentFight().selectedAction = action;
+  CurrentFight().selectedAttack = null;
+  CurrentFight().selectedTarget = null;
+  CurrentFight().deselectTargets();
   CurrentFight().deaffectTargets();
   CurrentFight().updateTargets();
   GameState().update();
@@ -262,7 +264,12 @@ List<Widget> getActionOptions() {
 void selectAttack(Attack attack) {
   CurrentFight().selectedAttack = attack;
   CurrentFight().deaffectTargets();
+  if (CurrentFight().selectedTarget != null) {
+    // Re-select target to enforce update of affected targets
+    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+  }
   CurrentFight().updateTargets();
+  GameState().update();
 }
 
 
