@@ -6,8 +6,9 @@ import 'beings.dart';
 abstract class Attack {
 
   double damagePerTargetFactor;
+  final int affectedTargets;
 
-  Attack(this.damagePerTargetFactor) {
+  Attack(this.damagePerTargetFactor, this.affectedTargets) {
   }
 
   String name() {
@@ -17,17 +18,17 @@ abstract class Attack {
 
 // Simple single-hit attack
 class Hit extends Attack {
-  Hit() : super(1.0) ;
+  Hit() : super(1.0, 1) ;
 }
 
 // jump-hit attack
 class Jump extends Attack {
-  Jump() : super(1.5) ;
+  Jump() : super(1.5, 1) ;
 }
 
 // multi-target attack
 class Swing extends Attack {
-  Swing() : super(0.9) ;
+  Swing() : super(0.9, 2) ;
 }
 
 

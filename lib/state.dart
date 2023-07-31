@@ -113,13 +113,40 @@ class CurrentFight {
   // Selects an attack target
   // ---------------------------------------
   void selectAttackTarget(Being being) {
+    print ("---------------- SELECT ATTACK TARGET --------------");
     // deselect all enemies first
     // then select new target
     deselectTargets();
 
     selectedTarget = being;
     selectedTarget!.state().selected = true;
+
+    markAffectedTargets();
+
     updateTargets();
+  }
+
+  // ------------------------------------------------------------
+  // marks all targets affected by the currently selected attack
+  // ------------------------------------------------------------
+  void markAffectedTargets() {
+    if (selectedTarget != null && selectedAttack != null && selectedAttack!.affectedTargets > 1) {
+      print("mark affected targets: " + selectedAttack!.affectedTargets.toString());
+      int halfAffected = selectedAttack!.affectedTargets ~/ 2;
+      print("half affected: " + halfAffected.toString());
+      int startPosition = selectedTarget!.state().position - halfAffected;
+      print("start position: " + startPosition.toString());
+      if (startPosition < 0) {
+        startPosition = 0;
+      }
+      int endPosition = selectedAttack!.affectedTargets - 1;
+      print("end position: " + endPosition.toString());
+
+      for (int pos = startPosition; pos < endPosition + 1; pos ++) {
+        print("> set to affected: " + pos.toString());
+        enemies().elementAt(pos).state().affected = true;
+      }
+    }
   }
 
   void setEnemies(List<Being> enemies) {

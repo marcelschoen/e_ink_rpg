@@ -16,7 +16,6 @@ class Being {
   SpeciesType species;
   final _random = new Random();
   bool selected = false;
-  bool affected = false;
 
   Being.player() : this(SpeciesType.player);
 
