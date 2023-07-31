@@ -174,7 +174,9 @@ selectAction(SelectedAction action) {
   GameState().update();
 }
 
+// --------------------------------------------------------------------
 // Fight screen parts (enemy display, action buttons etc.)
+// --------------------------------------------------------------------
 Column fightScreen(BuildContext context, GameState gameStateNotifier) {
 
   return Column(
@@ -230,6 +232,9 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
   );
 }
 
+// ---------------------------------------------------
+// Button which executes the selected action
+// ---------------------------------------------------
 Widget getExecutionButton(BuildContext context) {
   BaseButton button = BaseButton.withImageAndText('FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
   if (CurrentFight().selectedAction == SelectedAction.spy) {
@@ -246,6 +251,9 @@ Widget getExecutionButton(BuildContext context) {
   return button;
 }
 
+// ---------------------------------------------------
+// Create list of available attack options
+// ---------------------------------------------------
 List<Widget> getActionOptions() {
   List<Widget> options = [ ];
   if(CurrentFight().selectedAction == SelectedAction.magic) {
@@ -261,6 +269,9 @@ List<Widget> getActionOptions() {
   return options;
 }
 
+// ---------------------------------------------------
+// Select the actual attack (Hit, Swing, Fireball...)
+// ---------------------------------------------------
 void selectAttack(Attack attack) {
   CurrentFight().selectedAttack = attack;
   CurrentFight().deaffectTargets();

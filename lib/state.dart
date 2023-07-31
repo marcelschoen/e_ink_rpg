@@ -122,7 +122,12 @@ class CurrentFight {
   // Selects an attack target
   // ---------------------------------------
   void selectAttackTarget(Being being) {
-    print ("---------------- SELECT ATTACK TARGET --------------");
+
+    if (!being.isAlive()) {
+      print (">> target is already dead!");
+      return;
+    }
+
     // deselect all enemies first
     // then select new target
     deselectTargets();
@@ -141,20 +146,18 @@ class CurrentFight {
   // ------------------------------------------------------------
   void markAffectedTargets() {
     if (selectedTarget != null && selectedAttack != null && selectedAttack!.affectedTargets > 1) {
-      print("mark affected targets: " + selectedAttack!.affectedTargets.toString());
       int halfAffected = selectedAttack!.affectedTargets ~/ 2;
-      print("half affected: " + halfAffected.toString());
       int startPosition = selectedTarget!.state().position - halfAffected;
-      print("start position: " + startPosition.toString());
       if (startPosition < 0) {
         startPosition = 0;
       }
       int endPosition = selectedAttack!.affectedTargets - 1;
-      print("end position: " + endPosition.toString());
 
       for (int pos = startPosition; pos < endPosition + 1; pos ++) {
-        print("> set to affected: " + pos.toString());
-        enemies().elementAt(pos).state().affected = true;
+        Being enemy = enemies().elementAt(pos);
+        if (enemy.isAlive()) {
+          enemy.state().affected = true;
+        }
       }
     }
   }
