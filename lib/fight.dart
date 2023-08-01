@@ -178,7 +178,7 @@ selectAction(SelectedAction action) {
 
 List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNotifier) {
   List<Widget> widgets = [];
-  if(!CurrentFight().enemyTurn) {
+  if(CurrentFight().enemyTurn) {
     widgets.add(
         wrapButtonsOrInfoLabel(
             Center(child: Text('ENEMY TURN', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))
