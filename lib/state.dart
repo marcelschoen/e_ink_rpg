@@ -70,6 +70,7 @@ class CurrentFight {
   SelectedAction selectedAction = SelectedAction.attack;
   Attack? selectedAttack = null;
   Being? selectedTarget = null;
+  bool enemyTurn = false;
 
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
@@ -146,20 +147,35 @@ class CurrentFight {
   // ------------------------------------------------------------
   void markAffectedTargets() {
     if (selectedTarget != null && selectedAttack != null && selectedAttack!.affectedTargets > 1) {
-      int halfAffected = selectedAttack!.affectedTargets ~/ 2;
-      int startPosition = selectedTarget!.state().position - halfAffected;
+
+      int startPosition = selectedTarget!.state().position - (selectedAttack!.affectedTargets ~/ 2);
+      int endPosition = startPosition + selectedAttack!.affectedTargets - 1;
       if (startPosition < 0) {
         startPosition = 0;
       }
-      int endPosition = selectedAttack!.affectedTargets - 1;
+      if (endPosition >= enemies().length) {
+        endPosition = enemies().length - 1;
+      }
+
+      print("> affected targets: " + selectedAttack!.affectedTargets.toString());
+      print("> startPosition: " + startPosition.toString());
+      print("> endPosition: " + endPosition.toString());
 
       for (int pos = startPosition; pos < endPosition + 1; pos ++) {
         Being enemy = enemies().elementAt(pos);
-        if (enemy.isAlive()) {
+        print ("> enemy at pos " + pos.toString() + ": " + enemy.getSpecies());
+        if (enemy.isAlive() && enemy != selectedTarget) {
           enemy.state().affected = true;
         }
       }
     }
+  }
+
+  void markTargetAsAffected(int position) {
+    if (position < 0 || position >= enemies().length || position == selectedTarget!.state().position) {
+      return;
+    }
+    enemies().elementAt(position).state().affected = true;
   }
 
   void setEnemies(List<Being> enemies) {

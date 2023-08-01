@@ -28,7 +28,7 @@ class Jump extends Attack {
 
 // multi-target attack
 class Swing extends Attack {
-  Swing() : super(0.9, 2) ;
+  Swing() : super(0.9, 3) ;
 }
 
 

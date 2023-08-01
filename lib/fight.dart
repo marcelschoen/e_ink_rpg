@@ -1,4 +1,3 @@
-import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -44,6 +43,11 @@ void doNothing() {
 // -----------------------------------------------
 void startFight(BuildContext context) {
   // ----------- TEMPORARY - INITIALIZE WAVE OF ENEMIES -----------------
+  List<Being> enemies = [];
+  for (int i = 0; i < 5; i++) {
+    enemies.add(Being(SpeciesType.ghost));
+  }
+/*
   Being monsterOne = Being(SpeciesType.ghost);
   Being monsterTwo = Being(SpeciesType.skeleton);
 
@@ -51,6 +55,7 @@ void startFight(BuildContext context) {
   monsterOne.heal();
 
   List<Being> enemies = [];
+
   enemies.add(monsterTwo);
   enemies.add(monsterOne);
 
@@ -58,7 +63,7 @@ void startFight(BuildContext context) {
       monsterOne.hasStat(StatType.strength).toString());
   print(">> created monster strength: " +
       monsterOne.stat(StatType.strength)!.value().toString());
-
+*/
   // --------------------------------------------------------------------------
 
   CurrentFight().begin(enemies);
@@ -97,9 +102,6 @@ executeCombatTurn(BuildContext context) {
     CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
   }
 
-//  CurrentFight().selectedTarget = null;
-//  CurrentFight().deselectTargets();
-//  CurrentFight().updateTargets();
   GameState().update();
 }
 
@@ -174,6 +176,35 @@ selectAction(SelectedAction action) {
   GameState().update();
 }
 
+List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNotifier) {
+  List<Widget> widgets = [];
+  if(!CurrentFight().enemyTurn) {
+    widgets.add(
+        wrapButtonsOrInfoLabel(
+            Center(child: Text('ENEMY TURN', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))
+        )
+    );
+  } else {
+    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)));
+    widgets.add(getExecutionButton(context));
+  }
+  return widgets;
+}
+
+Widget wrapButtonsOrInfoLabel(Widget content) {
+  return SizedBox(
+    width: 240,
+    child: Card(
+      borderOnForeground: true,
+      elevation: 5.0,
+      child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: content
+      ),
+    ),
+  );
+}
+
 // --------------------------------------------------------------------
 // Fight screen parts (enemy display, action buttons etc.)
 // --------------------------------------------------------------------
@@ -191,10 +222,7 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
         builder: (BuildContext context, Widget? child) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)),
-              getExecutionButton(context),
-            ],
+            children: getButtonsOrInfoLabel(context, gameStateNotifier),
           );
         },
       ),
