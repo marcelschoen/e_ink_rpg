@@ -261,23 +261,41 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
 Widget getTurnOrderList() {
   List<Widget> entries = [];
 
+  entries.add(
+    Container(
+      margin: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text('TURN'),
+          Text('ORDER')
+        ],
+      )
+    )
+  );
 
+  BoxDecoration? border = BoxDecoration(
+    border: Border.all(
+        color: Colors.black54,
+        width: 3,
+    ),
+  );
   for (Being entry in CurrentFight().turnOrder) {
-    entries.add(getTurnEntry(entry));
+    entries.add(getTurnEntry(entry, border));
+    border = null;
   }
   return Row(
     children: entries,
   );
 }
 
-Widget getTurnEntry(Being being) {
+Widget getTurnEntry(Being being, BoxDecoration? border) {
+  Widget imageWidget = being.species == SpeciesType.player ?
+      GameNpcImages.player.getNpcImage() :
+      GameMonsterImages.monster.getMonsterImage();
   return Container(
+    decoration: border,
     margin: const EdgeInsets.all(8.0),
-    child: Image(image: AssetImage(
-        being.species == SpeciesType.player ?
-        GameNpcImages.player.filename() :
-        GameMonsterImages.monster.filename()
-    )),
+    child: imageWidget,
   );
 }
 

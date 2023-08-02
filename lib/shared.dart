@@ -20,7 +20,7 @@ class PlayerWidget extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.all(8.0),
-                child: Image(image: AssetImage(GameNpcImages.player.filename())),
+                child: GameNpcImages.player.getNpcImage(),
               ),
               ListenableBuilder(
                 listenable: gameStateNotifier,

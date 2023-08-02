@@ -1,6 +1,8 @@
 // ****************************************
 // constants for icon assets
 // ****************************************
+import 'package:flutter/material.dart';
+
 enum GameIcon {
 
   attack('icon163.png'),
@@ -34,9 +36,10 @@ enum GameMonsterImages {
 
   final String _filename;
 
-  String filename() {
-    return 'assets/monster/' + this._filename;
+  Widget getMonsterImage() {
+    return getImage('assets/monster/' + this._filename);
   }
+
 }
 
 // ****************************************
@@ -51,7 +54,15 @@ enum GameNpcImages {
 
   final String _filename;
 
-  String filename() {
-    return 'assets/humanoid/' + this._filename;
+  Widget getNpcImage() {
+    return getImage('assets/humanoid/' + this._filename);
   }
+}
+
+SizedBox getImage(String filename) {
+  return SizedBox(
+    width: 64,
+    height: 64,
+    child: Image(image: AssetImage(filename)),
+  );
 }
