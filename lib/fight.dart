@@ -103,10 +103,39 @@ executeCombatTurn(BuildContext context) {
   }
 
   GameState().update();
+
+
+}
+
+// -------------------------------------------
+// Selects the group of attacks to be used
+// -------------------------------------------
+selectAction(SelectedAction action) {
+  CurrentFight().selectedAction = action;
+  CurrentFight().selectedAttack = null;
+  CurrentFight().selectedTarget = null;
+  CurrentFight().deselectTargets();
+  CurrentFight().deaffectTargets();
+  CurrentFight().updateTargets();
+  GameState().update();
+}
+
+// ---------------------------------------------------
+// Select the actual attack (Hit, Swing, Fireball...)
+// ---------------------------------------------------
+void selectAttack(Attack attack) {
+  CurrentFight().selectedAttack = attack;
+  CurrentFight().deaffectTargets();
+  if (CurrentFight().selectedTarget != null) {
+    // Re-select target to enforce update of affected targets
+    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+  }
+  CurrentFight().updateTargets();
+  GameState().update();
 }
 
 // *****************************************************************************
-// Fight screen
+// Fight screen classes and widgets
 // *****************************************************************************
 
 // Main fight / combat screen
@@ -147,35 +176,34 @@ class FightScaffold extends StatelessWidget {
           child: fightScreen(context, gameStateNotifier),
         ),
 
+        // ------------------- execute / flee buttons ----------
         bottomNavigationBar: BottomAppBar(
           child: Container(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BaseButton.withImageOnly('assets/button-back.png',
-                    (context) => backToTitle(context)),
+                ListenableBuilder(
+                  listenable: gameStateNotifier,
+                  builder: (BuildContext context, Widget? child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: getButtonsOrInfoLabel(context, gameStateNotifier),
+                    );
+                  },
+                )
               ],
             ),
           ),
         ),
+
       ),
     );
   }
 }
 
-// -------------------------------------------
-// Selects the group of attacks to be used
-// -------------------------------------------
-selectAction(SelectedAction action) {
-  CurrentFight().selectedAction = action;
-  CurrentFight().selectedAttack = null;
-  CurrentFight().selectedTarget = null;
-  CurrentFight().deselectTargets();
-  CurrentFight().deaffectTargets();
-  CurrentFight().updateTargets();
-  GameState().update();
-}
-
+// -------------------------------------------------------------------------------------
+// Creates RUN / FIGHT buttons
+// -------------------------------------------------------------------------------------
 List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNotifier) {
   List<Widget> widgets = [];
   if(CurrentFight().enemyTurn) {
@@ -185,12 +213,15 @@ List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNoti
         )
     );
   } else {
-    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => executeCombatTurn(context)));
+    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => backToTitle(context)));
     widgets.add(getExecutionButton(context));
   }
   return widgets;
 }
 
+// --------------------------------------------------
+// sized box wrapper for RUN / FIGHT buttons
+// --------------------------------------------------
 Widget wrapButtonsOrInfoLabel(Widget content) {
   return SizedBox(
     width: 240,
@@ -212,52 +243,78 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
 
   return Column(
     children: [
-      // ------------- player status widget ----------
-      PlayerWidget(gameStateNotifier: GameState()),
       // ------------- enemies display panel -------------
       enemyDisplay(context),
-      // ------------------- execute / flee buttons ----------
-      ListenableBuilder(
-        listenable: gameStateNotifier,
-        builder: (BuildContext context, Widget? child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: getButtonsOrInfoLabel(context, gameStateNotifier),
-          );
-        },
-      ),
+      // ------------- turn order list widget ----------
+      getTurnOrderList(),
+      // ------------- player status widget ----------
+      PlayerWidget(gameStateNotifier: GameState()),
       // ---------------- attack / magic selection panel ----------
-      Expanded(
-          // fill vertically
-          child: Card(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    BaseButton.withImageAndText('Attack', GameIcon.attack.filename(), (context) => selectAction(SelectedAction.attack)),
-                    BaseButton.withImageAndText('Magic', GameIcon.magic.filename(), (context) => selectAction(SelectedAction.magic)),
-                    BaseButton.withImageAndText('Skill', GameIcon.skill.filename(), (context) => selectAction(SelectedAction.skill)),
-                    BaseButton.withImageAndText('Spy', GameIcon.spy.filename(), (context) => selectAction(SelectedAction.spy)),
-                  ],
-                ),
-                ListenableBuilder (
-                  listenable: gameStateNotifier,
-
-                  builder: (BuildContext context, Widget? child) {
-                    return Expanded(
-                      child: Column(
-                        children:
-                        getActionOptions(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          )),
+      getActionButtonsOrEnemyActions(context, gameStateNotifier),
     ],
   );
+}
+
+// --------------------------------------------------------------------
+// Renders the turn order list
+// --------------------------------------------------------------------
+Widget getTurnOrderList() {
+  List<Widget> entries = [];
+
+
+  for (Being entry in CurrentFight().turnOrder) {
+    entries.add(getTurnEntry(entry));
+  }
+  return Row(
+    children: entries,
+  );
+}
+
+Widget getTurnEntry(Being being) {
+  return Container(
+    margin: const EdgeInsets.all(8.0),
+    child: Image(image: AssetImage(
+        being.species == SpeciesType.player ?
+        GameNpcImages.player.filename() :
+        GameMonsterImages.monster.filename()
+    )),
+  );
+}
+
+// --------------------------------------------------------------------
+// Renders either action buttons for attacks, magic etc. OR
+// the actions of the enemies during their turn.
+// --------------------------------------------------------------------
+Widget getActionButtonsOrEnemyActions(BuildContext context, GameState gameStateNotifier) {
+  return Expanded(
+    // fill vertically
+      child: Card(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                BaseButton.withImageAndText('Attack', GameIcon.attack.filename(), (context) => selectAction(SelectedAction.attack)),
+                BaseButton.withImageAndText('Magic', GameIcon.magic.filename(), (context) => selectAction(SelectedAction.magic)),
+                BaseButton.withImageAndText('Skill', GameIcon.skill.filename(), (context) => selectAction(SelectedAction.skill)),
+                BaseButton.withImageAndText('Spy', GameIcon.spy.filename(), (context) => selectAction(SelectedAction.spy)),
+              ],
+            ),
+            ListenableBuilder (
+              listenable: gameStateNotifier,
+
+              builder: (BuildContext context, Widget? child) {
+                return Expanded(
+                  child: Column(
+                    children:
+                    getActionOptions(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ));
 }
 
 // ---------------------------------------------------
@@ -295,20 +352,6 @@ List<Widget> getActionOptions() {
   }
 
   return options;
-}
-
-// ---------------------------------------------------
-// Select the actual attack (Hit, Swing, Fireball...)
-// ---------------------------------------------------
-void selectAttack(Attack attack) {
-  CurrentFight().selectedAttack = attack;
-  CurrentFight().deaffectTargets();
-  if (CurrentFight().selectedTarget != null) {
-    // Re-select target to enforce update of affected targets
-    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
-  }
-  CurrentFight().updateTargets();
-  GameState().update();
 }
 
 

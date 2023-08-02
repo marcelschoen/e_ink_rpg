@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class PlayerWidget extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.all(8.0),
-                child: Image(image: AssetImage('assets/humanoid/Human1.png')),
+                child: Image(image: AssetImage(GameNpcImages.player.filename())),
               ),
               ListenableBuilder(
                 listenable: gameStateNotifier,
@@ -40,17 +41,6 @@ class PlayerWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class MonsterWidget extends StatelessWidget {
-  const MonsterWidget({super.key, required this.gameStateNotifier});
-
-  final GameState gameStateNotifier;
-
-  @override
-  Widget build(BuildContext context) {
-    return Placeholder();
   }
 }
 

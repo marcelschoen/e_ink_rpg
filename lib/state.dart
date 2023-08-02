@@ -70,7 +70,11 @@ class CurrentFight {
   SelectedAction selectedAction = SelectedAction.attack;
   Attack? selectedAttack = null;
   Being? selectedTarget = null;
+
+  List<Being> turnOrder = [];
+
   bool enemyTurn = false;
+
 
   // singleton instance
   static final CurrentFight _instance = CurrentFight._internal();
@@ -82,14 +86,28 @@ class CurrentFight {
   }
 
   // ---------------------------------------------------------
+  // Decides whos' turn it is next, based on regular turn
+  // order, character speed attributes and other factors.
+  // ---------------------------------------------------------
+  void updateTurnList() {
+    // FOR NOW JUST FIXED SWITCH
+    ///CurrentFight().enemyTurn = true;
+    turnOrder = List<Being>.from(_enemies);
+    turnOrder.add(Player());
+    print("---------------> TURN ORDER LIST LENGTH: " + turnOrder.length.toString());
+  }
+
+  // ---------------------------------------------------------
   // Sets conditions to start fight against wave of enemies
   // ---------------------------------------------------------
   void begin(List<Being> enemies) {
     GameState().player.heal();
-    CurrentFight().setEnemies(enemies);
-    CurrentFight().selectedTarget = null;
-    CurrentFight().selectedAction = SelectedAction.attack;
-    CurrentFight().selectedAttack = Hit();
+    setEnemies(enemies);
+    selectedTarget = null;
+    selectedAction = SelectedAction.attack;
+    selectedAttack = Hit();
+
+    updateTurnList();
   }
 
   // ---------------------------------------
