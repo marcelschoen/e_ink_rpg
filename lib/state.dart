@@ -92,9 +92,9 @@ class CurrentFight {
   void updateTurnList() {
     // FOR NOW JUST FIXED SWITCH
     ///CurrentFight().enemyTurn = true;
-    turnOrder = List<Being>.from(_enemies);
+    turnOrder = [];
     turnOrder.add(Player());
-    print("---------------> TURN ORDER LIST LENGTH: " + turnOrder.length.toString());
+    turnOrder.addAll(_enemies);
   }
 
   // ---------------------------------------------------------
