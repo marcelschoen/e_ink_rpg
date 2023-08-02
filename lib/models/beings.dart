@@ -17,6 +17,10 @@ class Being {
   final _random = new Random();
   bool selected = false;
 
+  // speed and speed counter used for turn order
+  double speedCounter = 0.0;
+  double speed = 1.0;
+
   Being.player() : this(SpeciesType.player);
 
   Being(SpeciesType monsterType) : species = monsterType {
@@ -28,6 +32,11 @@ class Being {
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
     _state = BeingState(this);
+
+    if (species == SpeciesType.player) {
+      speed = 2;
+      print("************* SET PLAYER SPEED TO 2");
+    }
   }
 
   BeingState state() {

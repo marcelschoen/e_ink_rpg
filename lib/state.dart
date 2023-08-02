@@ -90,11 +90,33 @@ class CurrentFight {
   // order, character speed attributes and other factors.
   // ---------------------------------------------------------
   void updateTurnList() {
-    // FOR NOW JUST FIXED SWITCH
-    ///CurrentFight().enemyTurn = true;
+    List<Being> beingsInTurn = [];
+    beingsInTurn.add(Player());
+    beingsInTurn.addAll(_enemies);
+print("> beings in turn order: " + beingsInTurn.length.toString());
     turnOrder = [];
-    turnOrder.add(Player());
-    turnOrder.addAll(_enemies);
+
+    const turnEntries = 7;
+    const speedLimit = 5;
+
+    // Always calculate 7 turns
+    while (turnOrder.length < turnEntries) {
+      print ("-------------> turn order result length: " + turnOrder.length.toString());
+      for (Being being in beingsInTurn) {
+        print ("> process being: " + being.getSpecies());
+        bool found = false;
+        while (!found && turnOrder.length < turnEntries) {
+          being.speedCounter += being.speed;
+          if (being.speedCounter > speedLimit) {
+            print("========> Adding entry to turn order...");
+            found = true;
+            being.speedCounter -= speedLimit;
+            turnOrder.add(being);
+          }
+        }
+      }
+    }
+    print(">>>> TURN ORDER LENGTH: " + turnOrder.length.toString());
   }
 
   // ---------------------------------------------------------
