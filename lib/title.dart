@@ -1,16 +1,11 @@
-import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
+
+import 'game.dart';
 
 void main() {
   runApp(MonsterSlayerTitle());
 }
-/*
-void startPlay(BuildContext context) {
-  print("*** PLAY ***");
-  switchToScreen(Game(), context);
-}
- */
 
 class MonsterSlayerTitle extends StatelessWidget {
 
@@ -40,8 +35,7 @@ class MonsterSlayerTitle extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-//                BaseButton.withImageOnly('assets/button-play.png', (context) => startPlay(context)),
-                  BaseButton.withImageOnly('assets/button-fight.png', (context) => startFight(context)),
+                  BaseButton.withImageOnly('assets/button-play.png', (context) => switchToScreen(Game(), context)),
                 ],
               ),
             ),

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'assets.dart';
 import 'enemydisplay.dart';
+import 'game.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
 import 'models/magic.dart';
@@ -26,7 +27,7 @@ void continueAfterFight(BuildContext context) {
   print("*** continue ***");
   if(GameState().player.isAlive()) {
     print("*** start next fight ***");
-    startFight(context);
+    switchToScreen(Game(), context);
   } else {
     print("*** back to title ***");
     switchToScreen(MonsterSlayerTitle(), context);
@@ -85,17 +86,7 @@ executeCombatTurn(BuildContext context) {
     attackTarget(GameState().player, CurrentFight().selectedTarget!, CurrentFight().selectedAttack!);
   }
 
-  print(">> player health: " + GameState().player.health().toString());
-  if(CurrentFight().finished()) {
-    print("*** FIGHT OVER ***");
-    if(GameState().player.isAlive()) {
-      print("*** PLAYER WON! ***");
-      switchToScreen(FightOverScaffold(), context);
-    } else {
-      print("*** PLAYER LOST! ***");
-      switchToScreen(FightOverScaffold(), context);
-    }
-  }
+  jumpToNewScreenAfterFight(context);
 
   if(CurrentFight().selectedTarget != null && CurrentFight().selectedTarget!.isAlive()) {
     // Re-select target to enforce update of affected targets
@@ -104,7 +95,25 @@ executeCombatTurn(BuildContext context) {
 
   GameState().update();
 
+  if (!GameState().player.isAlive()) {
+    CurrentFight().aborted;
+  }
 
+}
+
+void flee(BuildContext context) {
+  CurrentFight().aborted = true;
+  jumpToNewScreenAfterFight(context);
+}
+
+void jumpToNewScreenAfterFight(BuildContext context) {
+  if(CurrentFight().finished()) {
+    if(GameState().player.isAlive()) {
+      switchToScreen(FightOverScaffold(), context);
+    } else {
+      switchToScreen(FightOverScaffold(), context);
+    }
+  }
 }
 
 // -------------------------------------------
@@ -213,7 +222,7 @@ List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNoti
         )
     );
   } else {
-    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => backToTitle(context)));
+    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => flee(context)));
     widgets.add(getExecutionButton(context));
   }
   return widgets;
@@ -393,7 +402,9 @@ class FightOverScaffold extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: GameState().player.isAlive() ? Text('!! VICTORY !!') : Text('!! YOU LOST !!'),
+          title: GameState().player.isAlive() ?
+          (CurrentFight().aborted ? Text('!! YOU ARE FLEEING !!') : Text('!! VICTORY !!')) :
+          Text('!! YOU LOST !!'),
         ),
 
         // ********** Actual combat screen part **********
@@ -406,7 +417,7 @@ class FightOverScaffold extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                BaseButton.withImageOnly(GameState().player.isAlive() ? 'assets/button-fight.png' : 'assets/button-back.png',
+                BaseButton.withImageOnly('assets/button-back.png',
                         (context) => continueAfterFight(context)),
               ],
             ),

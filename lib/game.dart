@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class Game extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImageAndText('BACK', 'assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImageOnly('assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImageOnly('assets/button-fight.png', (context) => startFight(context)),
             ],
           ),
         ),

@@ -66,10 +66,10 @@ enum SelectedAction {
 class CurrentFight {
   // instance variables
   List<Being> _enemies = [];
-  bool fightRunning = false;
   SelectedAction selectedAction = SelectedAction.attack;
   Attack? selectedAttack = null;
   Being? selectedTarget = null;
+  bool aborted = false;
 
   List<Being> turnOrder = [];
 
@@ -125,6 +125,7 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
   void begin(List<Being> enemies) {
     GameState().player.heal();
     setEnemies(enemies);
+    aborted = false;
     selectedTarget = null;
     selectedAction = SelectedAction.attack;
     selectedAttack = Hit();
@@ -232,7 +233,7 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
   }
 
   bool finished() {
-    if(!GameState().player.isAlive()) {
+    if(!GameState().player.isAlive() || aborted) {
       return true;
     }
 
