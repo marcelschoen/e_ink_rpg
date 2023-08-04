@@ -1,7 +1,9 @@
 // Abstract base class for physical attacks
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
 import 'beings.dart';
+import 'magic.dart';
 
 abstract class Attack {
 
@@ -56,6 +58,16 @@ void attackTarget(Being attacker, Being target, Attack attack) {
       print(">> damage affected enemy: " + enemy.getSpecies());
       enemy.damageBy(affectedDamage.round());
     }
+
+  }
+
+  if (attack is Spell && attacker == Player()) {
+    int manaUsage = (attack as Spell).manaUsage.toInt();
+    GameState().player.stat(StatType.mana)!.decreaseBy( manaUsage );
+    print("> player max mana: " + GameState().player.stat(StatType.mana)!.maxValue().toString());
+    print("> player mana: " + GameState().player.stat(StatType.mana)!.value().toString());
+    print("> player mana %: " + GameState().player.stat(StatType.mana)!.progressBarValue().toString());
+    GameState().update();
   }
 
   if (!target.isAlive()) {

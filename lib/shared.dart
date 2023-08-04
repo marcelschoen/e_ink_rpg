@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,14 @@ class PlayerWidget extends StatelessWidget {
                 margin: const EdgeInsets.all(8.0),
                 child: GameNpcImages.player.getNpcImage(),
               ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('HEALTH: ', style: TextStyle(fontSize: 16)),
+                  Text('MANA: ', style: TextStyle(fontSize: 16)),
+                  Text('SKILL: ', style: TextStyle(fontSize: 16)),
+                ],
+              ),
               ListenableBuilder(
                 listenable: gameStateNotifier,
                 builder: (BuildContext context, Widget? child) {
@@ -29,9 +38,19 @@ class PlayerWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('PLAYER: ' + GameState().player.name),
-                      Text('HEALTH: ' +
-                          gameStateNotifier.player.health().toString()),
+                      getProgressBar(60,
+                          gameStateNotifier.player.stat(StatType.health)!.progressBarValue(),
+                          14, Colors.black45, Colors.black12),
+                      SizedBox(height: 6,),
+                      // TODO - MANA
+                      getProgressBar(60,
+                          gameStateNotifier.player.stat(StatType.mana)!.progressBarValue(),
+                          14, Colors.black45, Colors.black12),
+                      SizedBox(height: 6,),
+                      // TODO - SKILL
+                      getProgressBar(60,
+                          gameStateNotifier.player.stat(StatType.skillpoints)!.progressBarValue(),
+                          14, Colors.black45, Colors.black12),
                     ],
                   );
                 },
@@ -117,6 +136,19 @@ class BaseButton extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget getProgressBar(double width, double value, double minHeight, Color color, Color backgroundColor) {
+  return SizedBox(
+      width: width,
+      child: LinearProgressIndicator(
+          value: value,
+          minHeight: minHeight,
+          color: color,
+          backgroundColor: backgroundColor,
+//          valueColor: AlwaysStoppedAnimation(Colors.black54))
+      )
+    );
 }
 
 switchToScreen(Widget widget, BuildContext context) {

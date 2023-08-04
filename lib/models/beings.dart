@@ -31,6 +31,8 @@ class Being {
 //    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
     addStat(Stat.withValue(StatType.strength, 10, 10));
     addStat(Stat.withValue(StatType.defense, 5, 5));
+    addStat(Stat.withValue(StatType.mana, 20, 20));
+    addStat(Stat.withValue(StatType.skillpoints, 0, 5));
     _state = BeingState(this);
 
     if (species == SpeciesType.player) {
@@ -49,6 +51,14 @@ class Being {
 
   int health() {
     return _stats[StatType.health]!.value();
+  }
+
+  int maxMana() {
+    return _stats[StatType.mana]!.maxValue();
+  }
+
+  int mana() {
+    return _stats[StatType.mana]!.value();
   }
 
   int strength() {

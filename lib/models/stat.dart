@@ -2,6 +2,8 @@ enum StatType {
   health,
   strength,
   defense,
+  mana,
+  skillpoints,
 }
 
 /**
@@ -11,8 +13,8 @@ enum StatType {
 class Stat {
 
   StatType statType;
-  var _value = 0;
-  var _maxValue;
+  int _value = 0;
+  int _maxValue;
 
   Stat(StatType statType, int maxValue) : statType = statType, _maxValue = maxValue {
   }
@@ -27,6 +29,13 @@ class Stat {
   int value() {
 //    print("...../ stat: " + statType.name + " / value: " + _value.toString());
     return _value;
+  }
+
+  double progressBarValue() {
+    if (_value <= 0) {
+      return 0;
+    }
+    return 1.0 / (_maxValue.toDouble() / _value.toDouble());
   }
 
   void setValueTo(int newValue) {

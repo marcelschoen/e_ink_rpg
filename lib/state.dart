@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:flutter/foundation.dart';
 
 import 'models/action.dart';
@@ -126,6 +127,7 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
   // ---------------------------------------------------------
   void begin(List<Being> enemies) {
     GameState().player.heal();
+    GameState().player.stat(StatType.mana)!.restore();
     setEnemies(enemies);
     aborted = false;
     selectedTarget = null;
