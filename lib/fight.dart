@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'assets.dart';
 import 'enemydisplay.dart';
 import 'game.dart';
+import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
 import 'models/magic.dart';
@@ -25,7 +26,7 @@ void backToTitle(BuildContext context) {
 
 void continueAfterFight(BuildContext context) {
   print("*** continue ***");
-  if(GameState().player.isAlive()) {
+  if (GameState().player.isAlive()) {
     print("*** start next fight ***");
     switchToScreen(Game(), context);
   } else {
@@ -75,20 +76,22 @@ void startFight(BuildContext context) {
 // Performs attacks by player and enemies
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
-
 //  CurrentFight().enemiesAttackPlayer();
 
-  if (CurrentFight().selectedAttack == null || CurrentFight().selectedTarget == null) {
+  if (CurrentFight().selectedAttack == null ||
+      CurrentFight().selectedTarget == null) {
     return;
   }
 
   if (CurrentFight().selectedTarget != null) {
-    attackTarget(GameState().player, CurrentFight().selectedTarget!, CurrentFight().selectedAttack!);
+    attackTarget(GameState().player, CurrentFight().selectedTarget!,
+        CurrentFight().selectedAttack!);
   }
 
   jumpToNewScreenAfterFight(context);
 
-  if(CurrentFight().selectedTarget != null && CurrentFight().selectedTarget!.isAlive()) {
+  if (CurrentFight().selectedTarget != null &&
+      CurrentFight().selectedTarget!.isAlive()) {
     // Re-select target to enforce update of affected targets
     CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
   }
@@ -98,7 +101,6 @@ executeCombatTurn(BuildContext context) {
   if (!GameState().player.isAlive()) {
     CurrentFight().aborted;
   }
-
 }
 
 void flee(BuildContext context) {
@@ -107,8 +109,8 @@ void flee(BuildContext context) {
 }
 
 void jumpToNewScreenAfterFight(BuildContext context) {
-  if(CurrentFight().finished()) {
-    if(GameState().player.isAlive()) {
+  if (CurrentFight().finished()) {
+    if (GameState().player.isAlive()) {
       switchToScreen(FightOverScaffold(), context);
     } else {
       switchToScreen(FightOverScaffold(), context);
@@ -119,9 +121,10 @@ void jumpToNewScreenAfterFight(BuildContext context) {
 // -------------------------------------------
 // Selects the group of attacks to be used
 // -------------------------------------------
-selectAction(SelectedAction action) {
-  CurrentFight().selectedAction = action;
+selectOptionGroup(SelectedOptionGroup optionGroup) {
+  CurrentFight().selectedOptionGroup = optionGroup;
   CurrentFight().selectedAttack = null;
+  CurrentFight().selectedAction = null;
   CurrentFight().selectedTarget = null;
   CurrentFight().deselectTargets();
   CurrentFight().deaffectTargets();
@@ -130,9 +133,19 @@ selectAction(SelectedAction action) {
 }
 
 // ---------------------------------------------------
+// Select the special action (Spy etc.)
+// ---------------------------------------------------
+void selectAction(GameAction action) {
+  CurrentFight().selectedAction = action;
+  CurrentFight().selectedAttack = null;
+  GameState().update();
+}
+
+// ---------------------------------------------------
 // Select the actual attack (Hit, Swing, Fireball...)
 // ---------------------------------------------------
 void selectAttack(Attack attack) {
+  CurrentFight().selectedAction = null;
   CurrentFight().selectedAttack = attack;
   CurrentFight().deaffectTargets();
   if (CurrentFight().selectedTarget != null) {
@@ -155,8 +168,7 @@ class Fight extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
         create: (context) => GameState(),
-        child: FightScaffold(gameStateNotifier: GameState())
-    );
+        child: FightScaffold(gameStateNotifier: GameState()));
   }
 }
 
@@ -196,7 +208,8 @@ class FightScaffold extends StatelessWidget {
                   builder: (BuildContext context, Widget? child) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: getButtonsOrInfoLabel(context, gameStateNotifier),
+                      children:
+                          getButtonsOrInfoLabel(context, gameStateNotifier),
                     );
                   },
                 )
@@ -204,7 +217,6 @@ class FightScaffold extends StatelessWidget {
             ),
           ),
         ),
-
       ),
     );
   }
@@ -213,16 +225,16 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------------------------------------------------
 // Creates RUN / FIGHT buttons
 // -------------------------------------------------------------------------------------
-List<Widget> getButtonsOrInfoLabel(BuildContext context, GameState gameStateNotifier) {
+List<Widget> getButtonsOrInfoLabel(
+    BuildContext context, GameState gameStateNotifier) {
   List<Widget> widgets = [];
-  if(CurrentFight().enemyTurn) {
-    widgets.add(
-        wrapButtonsOrInfoLabel(
-            Center(child: Text('ENEMY TURN', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))
-        )
-    );
+  if (CurrentFight().enemyTurn) {
+    widgets.add(wrapButtonsOrInfoLabel(Center(
+        child: Text('ENEMY TURN',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))));
   } else {
-    widgets.add(BaseButton.withImageAndText('RUN', GameIcon.flee.filename(), (context) => flee(context)));
+    widgets.add(BaseButton.withImageAndText(
+        'RUN', GameIcon.flee.filename(), (context) => flee(context)));
     widgets.add(getExecutionButton(context));
   }
   return widgets;
@@ -237,10 +249,7 @@ Widget wrapButtonsOrInfoLabel(Widget content) {
     child: Card(
       borderOnForeground: true,
       elevation: 5.0,
-      child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: content
-      ),
+      child: Padding(padding: const EdgeInsets.all(16), child: content),
     ),
   );
 }
@@ -249,7 +258,6 @@ Widget wrapButtonsOrInfoLabel(Widget content) {
 // Fight screen parts (enemy display, action buttons etc.)
 // --------------------------------------------------------------------
 Column fightScreen(BuildContext context, GameState gameStateNotifier) {
-
   return Column(
     children: [
       // ------------- enemies display panel -------------
@@ -270,22 +278,16 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
 Widget getTurnOrderList() {
   List<Widget> entries = [];
 
-  entries.add(
-    Container(
+  entries.add(Container(
       margin: const EdgeInsets.all(8.0),
       child: Column(
-        children: [
-          Text('TURN'),
-          Text('ORDER')
-        ],
-      )
-    )
-  );
+        children: [Text('TURN'), Text('ORDER')],
+      )));
 
   BoxDecoration? border = BoxDecoration(
     border: Border.all(
-        color: Colors.black54,
-        width: 3,
+      color: Colors.black54,
+      width: 3,
     ),
   );
   for (Being entry in CurrentFight().turnOrder) {
@@ -298,9 +300,9 @@ Widget getTurnOrderList() {
 }
 
 Widget getTurnEntry(Being being, BoxDecoration? border) {
-  Widget imageWidget = being.species == SpeciesType.player ?
-      GameNpcImages.player.getNpcImage() :
-      GameMonsterImages.monster.getMonsterImage();
+  Widget imageWidget = being.species == SpeciesType.player
+      ? GameNpcImages.player.getNpcImage()
+      : GameMonsterImages.monster.getMonsterImage();
   return Container(
     decoration: border,
     margin: const EdgeInsets.all(8.0),
@@ -312,54 +314,69 @@ Widget getTurnEntry(Being being, BoxDecoration? border) {
 // Renders either action buttons for attacks, magic etc. OR
 // the actions of the enemies during their turn.
 // --------------------------------------------------------------------
-Widget getActionButtonsOrEnemyActions(BuildContext context, GameState gameStateNotifier) {
+Widget getActionButtonsOrEnemyActions(
+    BuildContext context, GameState gameStateNotifier) {
   return Expanded(
-    // fill vertically
+      // fill vertically
       child: Card(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Column(
           children: [
-            Column(
-              children: [
-                BaseButton.withImageAndText('Attack', GameIcon.attack.filename(), (context) => selectAction(SelectedAction.attack)),
-                BaseButton.withImageAndText('Magic', GameIcon.magic.filename(), (context) => selectAction(SelectedAction.magic)),
-                BaseButton.withImageAndText('Skill', GameIcon.skill.filename(), (context) => selectAction(SelectedAction.skill)),
-                BaseButton.withImageAndText('Spy', GameIcon.spy.filename(), (context) => selectAction(SelectedAction.spy)),
-              ],
-            ),
-            ListenableBuilder (
-              listenable: gameStateNotifier,
-
-              builder: (BuildContext context, Widget? child) {
-                return Expanded(
-                  child: Column(
-                    children:
-                    getActionOptions(),
-                  ),
-                );
-              },
-            ),
+            BaseButton.withImageAndText('Attack', GameIcon.attack.filename(),
+                (context) => selectOptionGroup(SelectedOptionGroup.attack)),
+            BaseButton.withImageAndText('Magic', GameIcon.magic.filename(),
+                (context) => selectOptionGroup(SelectedOptionGroup.magic)),
+            BaseButton.withImageAndText('Skill', GameIcon.skill.filename(),
+                (context) => selectOptionGroup(SelectedOptionGroup.skill)),
+            BaseButton.withImageAndText('Special', GameIcon.special.filename(),
+                (context) => selectOptionGroup(SelectedOptionGroup.special)),
           ],
         ),
-      ));
+        ListenableBuilder(
+          listenable: gameStateNotifier,
+          builder: (BuildContext context, Widget? child) {
+            return Expanded(
+              child: Column(
+                children: getActionOptions(),
+              ),
+            );
+          },
+        ),
+      ],
+    ),
+  ));
 }
 
 // ---------------------------------------------------
 // Button which executes the selected action
 // ---------------------------------------------------
 Widget getExecutionButton(BuildContext context) {
-  BaseButton button = BaseButton.withImageAndText('FIGHT', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
-  if (CurrentFight().selectedAction == SelectedAction.spy) {
-    button = BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
-//  } else if (CurrentFight().selectedAction == SelectedAction.skill) {
-//    return BaseButton.withImageAndText('LOOK', GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+
+  if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.skill) {
+
+  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
+      print(">>>>>>> SPECIAL action selektiert");
+      if (CurrentFight().selectedAction != null && CurrentFight().selectedAction!.runtimeType == Spy ) {
+        BaseButton button = BaseButton.withImageAndText('LOOK', GameIcon.spy.filename(),
+                (context) => CurrentFight().selectedAction!.perform() );
+        if (CurrentFight().selectedTarget == null) {
+          button.enabled = false;
+        }
+        return button;
+      }
   }
 
-  print("> execution button / selected target: " + CurrentFight().selectedTarget.toString());
-  if (CurrentFight().selectedTarget == null || CurrentFight().selectedAttack == null) {
+  // attack and magic
+  BaseButton button = BaseButton.withImageAndText('FIGHT',
+      GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+  print("> execution button / selected target: " +
+      CurrentFight().selectedTarget.toString());
+  if (CurrentFight().selectedTarget == null ||
+      CurrentFight().selectedAttack == null) {
     button.enabled = false;
   }
-
   return button;
 }
 
@@ -367,25 +384,26 @@ Widget getExecutionButton(BuildContext context) {
 // Create list of available attack options
 // ---------------------------------------------------
 List<Widget> getActionOptions() {
-  List<Widget> options = [ ];
-  if(CurrentFight().selectedAction == SelectedAction.magic) {
+  List<Widget> options = [];
+  if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.magic) {
     for (Spell spell in GameState().player.availableSpells) {
       options.add(BaseButton.textOnly(spell.name(), (p0) { selectAttack(spell); }));
     }
-  } else if(CurrentFight().selectedAction == SelectedAction.attack) {
+  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.attack) {
     for (Attack attack in GameState().player.availableAttacks) {
       options.add(BaseButton.textOnly(attack.name(), (p0) { selectAttack(attack); }));
     }
+  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
+    options.add(BaseButton.textOnly('Spy', (p0) { selectAction(Spy()); }));
+    options.add(BaseButton.textOnly('Steal', (p0) { print('> steal <'); }));
   }
 
   return options;
 }
 
-
 // *****************************************************************************
 // Fight over screen (won / lost)
 // *****************************************************************************
-
 
 class FightOverScaffold extends StatelessWidget {
   const FightOverScaffold({super.key});
@@ -402,9 +420,11 @@ class FightOverScaffold extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: GameState().player.isAlive() ?
-          (CurrentFight().aborted ? Text('!! YOU ARE FLEEING !!') : Text('!! VICTORY !!')) :
-          Text('!! YOU LOST !!'),
+          title: GameState().player.isAlive()
+              ? (CurrentFight().aborted
+                  ? Text('!! YOU ARE FLEEING !!')
+                  : Text('!! VICTORY !!'))
+              : Text('!! YOU LOST !!'),
         ),
 
         // ********** Actual combat screen part **********
@@ -418,7 +438,7 @@ class FightOverScaffold extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 BaseButton.withImageOnly('assets/button-back.png',
-                        (context) => continueAfterFight(context)),
+                    (context) => continueAfterFight(context)),
               ],
             ),
           ),

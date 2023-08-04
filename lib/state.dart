@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
 
@@ -53,11 +54,11 @@ class BeingState with ChangeNotifier {
   }
 }
 
-enum SelectedAction {
+enum SelectedOptionGroup {
   attack,
   magic,
   skill,
-  spy
+  special
 }
 
 // ---------------------------------------------
@@ -66,7 +67,8 @@ enum SelectedAction {
 class CurrentFight {
   // instance variables
   List<Being> _enemies = [];
-  SelectedAction selectedAction = SelectedAction.attack;
+  SelectedOptionGroup selectedOptionGroup = SelectedOptionGroup.attack;
+  GameAction? selectedAction = null;
   Attack? selectedAttack = null;
   Being? selectedTarget = null;
   bool aborted = false;
@@ -127,7 +129,8 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
     setEnemies(enemies);
     aborted = false;
     selectedTarget = null;
-    selectedAction = SelectedAction.attack;
+    selectedOptionGroup = SelectedOptionGroup.attack;
+
     selectedAttack = Hit();
 
     updateTurnList();

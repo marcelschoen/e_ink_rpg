@@ -13,6 +13,7 @@ enum GameIcon {
   magic('icon37.png'),
   skill('icon9.png'),
   spy('icon35.png'),
+  special('icon19.png'),
   ;
 
   const GameIcon(this._filename);

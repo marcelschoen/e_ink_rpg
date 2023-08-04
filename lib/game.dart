@@ -27,7 +27,6 @@ class Game extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
-//            height: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -37,7 +36,6 @@ class Game extends StatelessWidget {
           ),
         ),
       ),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
