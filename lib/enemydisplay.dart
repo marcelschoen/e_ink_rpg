@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -113,8 +114,7 @@ Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
           Padding(
               padding: EdgeInsets.only(right: 4),
               child: getMonsterLifebarIcon(monsterStateNotifier.being())),
-          getProgressBar(60, (monsterStateNotifier.being().health().toDouble() /
-              monsterStateNotifier.being().maxHealth().toDouble()), 10,
+          getProgressBar(60, monsterStateNotifier.being().stat(StatType.health)!.progressBarValue(), 10,
               Colors.black45, Colors.black12),
         ],
       ),
