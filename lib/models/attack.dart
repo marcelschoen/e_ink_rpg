@@ -64,10 +64,7 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   if (attack is Spell && attacker == Player()) {
     int manaUsage = (attack as Spell).manaUsage.toInt();
     GameState().player.stat(StatType.mana)!.decreaseBy( manaUsage );
-    print("> player max mana: " + GameState().player.stat(StatType.mana)!.maxValue().toString());
-    print("> player mana: " + GameState().player.stat(StatType.mana)!.value().toString());
-    print("> player mana %: " + GameState().player.stat(StatType.mana)!.progressBarValue().toString());
-    GameState().update();
+    GameState().playerState.update();
   }
 
   if (!target.isAlive()) {

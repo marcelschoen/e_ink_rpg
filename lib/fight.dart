@@ -96,7 +96,7 @@ executeCombatTurn(BuildContext context) {
     CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
   }
 
-  GameState().update();
+////////////////  GameState().update();
 
   if (!GameState().player.isAlive()) {
     CurrentFight().aborted;
@@ -129,7 +129,9 @@ selectOptionGroup(SelectedOptionGroup optionGroup) {
   CurrentFight().deselectTargets();
   CurrentFight().deaffectTargets();
   CurrentFight().updateTargets();
-  GameState().update();
+  GameState().optionButtonState.update();
+  GameState().hintState.update();
+  GameState().lowerButtonsState.update();
 }
 
 // ---------------------------------------------------
@@ -138,7 +140,8 @@ selectOptionGroup(SelectedOptionGroup optionGroup) {
 void selectAction(GameAction action) {
   CurrentFight().selectedAction = action;
   CurrentFight().selectedAttack = null;
-  GameState().update();
+  GameState().lowerButtonsState.update();
+  GameState().hintState.update();
 }
 
 // ---------------------------------------------------
@@ -153,7 +156,7 @@ void selectAttack(Attack attack) {
     CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
   }
   CurrentFight().updateTargets();
-  GameState().update();
+  GameState().hintState.update();
 }
 
 // *****************************************************************************
@@ -204,7 +207,7 @@ class FightScaffold extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ListenableBuilder(
-                  listenable: gameStateNotifier,
+                  listenable: gameStateNotifier.lowerButtonsState,
                   builder: (BuildContext context, Widget? child) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -335,7 +338,7 @@ Widget getActionButtonsOrEnemyActions(
           ],
         ),
         ListenableBuilder(
-          listenable: gameStateNotifier,
+          listenable: gameStateNotifier.optionButtonState,
           builder: (BuildContext context, Widget? child) {
             return Expanded(
               child: Column(

@@ -32,7 +32,7 @@ class PlayerWidget extends StatelessWidget {
                 ],
               ),
               ListenableBuilder(
-                listenable: gameStateNotifier,
+                listenable: gameStateNotifier.playerState,
                 builder: (BuildContext context, Widget? child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class BaseButton extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 160,
+      width: 140,
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,
@@ -156,4 +156,6 @@ switchToScreen(Widget widget, BuildContext context) {
     context,
     MaterialPageRoute(builder: (context) => widget),
   );
+  GameState().update();
+  GameState().update();
 }

@@ -6,16 +6,29 @@ import 'models/attack.dart';
 import 'models/beings.dart';
 
 // ---------------------------------------------
-// Singleton game state holder.
+// General state change notifier
 // ---------------------------------------------
+class GeneralState with ChangeNotifier {
+  update() {
+    notifyListeners();
+  }
+}
+
+// --------------------------------------------------
+// Singleton game state holder and change notifier.
+// --------------------------------------------------
 class GameState with ChangeNotifier {
 
   // singleton instance
   static final GameState _instance = GameState._internal();
 
   final Player player = Player();
+  final BeingState playerState;
+  final GeneralState hintState = GeneralState();
+  final GeneralState lowerButtonsState = GeneralState();
+  final GeneralState optionButtonState = GeneralState();
 
-  GameState._internal() {
+  GameState._internal() : playerState = BeingState(Player()) {
   }
 
   factory GameState() {
@@ -186,6 +199,7 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
     markAffectedTargets();
 
     updateTargets();
+    GameState().hintState.update();
   }
 
   // ------------------------------------------------------------

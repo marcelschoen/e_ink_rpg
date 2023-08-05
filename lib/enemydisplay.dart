@@ -18,7 +18,7 @@ Widget enemyDisplay(BuildContext context) {
   }
 
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(4.0),
     child: Card(
         child: Column(
       children: [
@@ -30,7 +30,7 @@ Widget enemyDisplay(BuildContext context) {
           height: 10,
         ),
         ListenableBuilder(
-          listenable: GameState(),
+          listenable: GameState().hintState,
           builder: (BuildContext context, Widget? child) {
             return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(getHint(context)),
@@ -68,10 +68,12 @@ class EnemyWidget extends StatelessWidget {
       listenable: monsterStateNotifier,
       builder: (BuildContext context, Widget? child) {
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(4.0),
           child: InkWell(
               onTap: () {
                 CurrentFight().selectAttackTarget(monsterStateNotifier.being());
+
+                // UPDATE LOWER BUTTONS
                 GameState().update();
               },
               child: getEnemyBorder(monsterStateNotifier)),
@@ -105,7 +107,7 @@ DottedBorder getEnemyBorder(BeingState monsterStateNotifier) {
 
 Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(4.0),
     child: Column(children: [
       Text(monsterStateNotifier.being().getSpecies()),
       getMonsterImage(monsterStateNotifier.being()),
