@@ -120,19 +120,21 @@ class Being {
 }
 
 enum SpeciesType {
-  wolf('Wolf', 80),
-  warg('Warg', 150),
-  ghost('Ghost', 180),
-  skeleton('Skeleton', 130),
+  angrywasp('Angry Wasp', 80, 'angrywasp.png'),
+  darkwizard('Dark Wizard', 180, 'darkwizard.png'),
+  tentacleeye('Evil Eye', 130, 'tentacleeye.png'),
+  bloodbat('Blood Bat', 50, 'bloodbat.png'),
+  acidblob('Acid Blob', 100, 'blob.png'),
 
-  npc('NPC', 100),
-  player('Player', 100)
+  npc('NPC', 100, ''),
+  player('Player', 100, '')
   ;
 
-  const SpeciesType(this._name, this._maxHealth);
+  const SpeciesType(this._name, this._maxHealth, this.filename);
 
   final String _name;
   final int _maxHealth;
+  final String filename;
 
   String name() {
     return _name;

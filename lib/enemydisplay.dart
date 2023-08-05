@@ -5,6 +5,7 @@ import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
+import 'models/action.dart';
 import 'models/beings.dart';
 
 // ----------------------------------------------------
@@ -42,13 +43,13 @@ Widget enemyDisplay(BuildContext context) {
   );
 }
 
+// --------------------------------------------------------------
+// Create text hint shown under enemies, such as "select target"
+// --------------------------------------------------------------
 String getHint(BuildContext context) {
-  print("> selected attack: " +
-      (CurrentFight().selectedAttack == null
-          ? 'null'
-          : CurrentFight().selectedAttack!.name()));
   if (CurrentFight().selectedTarget == null &&
-      CurrentFight().selectedAttack != null) {
+      (CurrentFight().selectedAttack != null ||
+      CurrentFight().selectedAction.runtimeType == Spy)) {
     return 'TAP ENEMY TO SELECT TARGET';
   }
   return '';
@@ -74,7 +75,7 @@ class EnemyWidget extends StatelessWidget {
                 CurrentFight().selectAttackTarget(monsterStateNotifier.being());
 
                 // UPDATE LOWER BUTTONS
-                GameState().update();
+                GameState().lowerButtonsState.update();
               },
               child: getEnemyBorder(monsterStateNotifier)),
         );
@@ -134,7 +135,8 @@ Widget getMonsterLifebarIcon(Being enemy) {
 Widget getMonsterImage(Being enemy) {
   if (enemy.isAlive()) {
     return Image(
-        height: 92, image: AssetImage('assets/monster/RPG_Monster_123-3.png'));
+//        height: 92, image: AssetImage('assets/monster/RPG_Monster_123-3.png'));
+        height: 92, image: AssetImage('assets/monster/' + enemy.species.filename));
   }
   return SizedBox(
     width: 90,

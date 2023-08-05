@@ -46,26 +46,13 @@ void doNothing() {
 void startFight(BuildContext context) {
   // ----------- TEMPORARY - INITIALIZE WAVE OF ENEMIES -----------------
   List<Being> enemies = [];
-  for (int i = 0; i < 5; i++) {
-    enemies.add(Being(SpeciesType.ghost));
-  }
-/*
-  Being monsterOne = Being(SpeciesType.ghost);
-  Being monsterTwo = Being(SpeciesType.skeleton);
 
-  monsterOne.stat(StatType.health)!.setMaxValueTo(30);
-  monsterOne.heal();
+  enemies.add(Being(SpeciesType.darkwizard));
+  enemies.add(Being(SpeciesType.acidblob));
+  enemies.add(Being(SpeciesType.angrywasp));
+  enemies.add(Being(SpeciesType.tentacleeye));
+  enemies.add(Being(SpeciesType.bloodbat));
 
-  List<Being> enemies = [];
-
-  enemies.add(monsterTwo);
-  enemies.add(monsterOne);
-
-  print(">> created monster has strength: " +
-      monsterOne.hasStat(StatType.strength).toString());
-  print(">> created monster strength: " +
-      monsterOne.stat(StatType.strength)!.value().toString());
-*/
   // --------------------------------------------------------------------------
 
   CurrentFight().begin(enemies);

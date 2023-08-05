@@ -125,7 +125,7 @@ class BaseButton extends StatelessWidget {
     }
 
     return SizedBox(
-      width: 140,
+      width: 160,
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,
