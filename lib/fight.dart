@@ -175,7 +175,7 @@ class FightScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: _onWillPop, // disable 'back' button
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -284,8 +284,13 @@ Widget getTurnOrderList() {
     entries.add(getTurnEntry(entry, border));
     border = null;
   }
-  return Row(
-    children: entries,
+  return ListenableBuilder(
+    listenable: GameState().turnOrderState,
+    builder: (BuildContext context, Widget? child) {
+      return Row(
+        children: entries,
+      );
+    },
   );
 }
 

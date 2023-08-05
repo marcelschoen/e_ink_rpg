@@ -25,6 +25,7 @@ class GameState with ChangeNotifier {
   final Player player = Player();
   final BeingState playerState;
   final GeneralState hintState = GeneralState();
+  final GeneralState turnOrderState = GeneralState();
   final GeneralState lowerButtonsState = GeneralState();
   final GeneralState optionButtonState = GeneralState();
 
@@ -132,6 +133,8 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
         }
       }
     }
+
+    GameState().turnOrderState.update();
     print(">>>> TURN ORDER LENGTH: " + turnOrder.length.toString());
   }
 
