@@ -96,8 +96,8 @@ Widget getInventory(BuildContext context) {
           thickness: 20,
           isAlwaysShown: true,
           child: GridView.count(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
             // Create a grid with 2 columns. If you change the scrollDirection to
             // horizontal, this produces 2 rows.
             crossAxisCount: 6,
@@ -106,35 +106,6 @@ Widget getInventory(BuildContext context) {
           ),
         ),
       ),
-
-      /*
-      CustomScrollView(
-        primary: false,
-        slivers: <Widget>[
-          SliverPadding(
-            padding: const EdgeInsets.all(10),
-            sliver: SliverGrid.count(
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 8,
-              children: GameState().player.inventory.getItemWidgets(context)
-            ),
-          ),
-        ],
-      ),
-      */
-
-      // item action buttons and info section
-      /*
-      Card(
-        child: Row(
-          children: [
-            BaseButton.textOnly('DISCARD', (p0) { }),
-          ],
-        )
-      ),
-
-       */
     ],
   );
 }

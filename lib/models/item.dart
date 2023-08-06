@@ -11,20 +11,38 @@ import 'attack.dart';
 // ----------------
 Widget getItemWidget(BuildContext context, GameItem item) {
   Size size = Size(56, 56);
-  return Column(
-    children: [
-      Expanded(
-        child: Container(
-          color: Colors.lightGreen,
-          constraints: BoxConstraints.tight(size),
-          padding: const EdgeInsets.all(4),
-          child: FittedBox(child: item.itemAsset.getItemImage()),
+  return Container(
+    color: Colors.black12,
+    child: Column(
+      children: [
+        Expanded(
+          child: Container(
+            constraints: BoxConstraints.tight(size),
+            padding: const EdgeInsets.all(4),
+            child: FittedBox(child: item.itemAsset.getItemImage()),
+          ),
         ),
-      ),
-      Text(item.name,
-      style: TextStyle(fontWeight: FontWeight.bold, ),
-      textAlign: TextAlign.center),
-    ],
+
+        Row(
+          children: [
+            Container(
+//              decoration: BoxDecoration(border: Border.all()),
+              color: Colors.black,
+              width: 24,
+              height: 36,
+              alignment: Alignment.center,
+              child: Text('99', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
+                  textAlign: TextAlign.center)
+            ),
+            Expanded(
+              child: Text(item.name,
+              style: TextStyle(fontWeight: FontWeight.bold, ),
+              textAlign: TextAlign.center),
+            ),
+          ],
+        ),
+      ],
+    ),
   );
 }
 
