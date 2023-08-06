@@ -10,15 +10,21 @@ import 'attack.dart';
 // Item widget
 // ----------------
 Widget getItemWidget(BuildContext context, GameItem item) {
-  return FittedBox(
-    child: Container(
-      padding: const EdgeInsets.all(8),
-      color: Colors.black12,
-      child: Column(children: [
-        item.itemAsset.getItemImage(),
-//      Text(item.name),
-      ],),
-    ),
+  Size size = Size(56, 56);
+  return Column(
+    children: [
+      Expanded(
+        child: Container(
+          color: Colors.lightGreen,
+          constraints: BoxConstraints.tight(size),
+          padding: const EdgeInsets.all(4),
+          child: FittedBox(child: item.itemAsset.getItemImage()),
+        ),
+      ),
+      Text(item.name,
+      style: TextStyle(fontWeight: FontWeight.bold, ),
+      textAlign: TextAlign.center),
+    ],
   );
 }
 

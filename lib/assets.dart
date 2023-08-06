@@ -28,7 +28,8 @@ enum GameItemAsset {
   }
 
   Widget getItemImage() {
-    return getImageSmall(filename());
+    return getImageFit(filename());
+//    return getImageSmall(filename());
   }
 }
 
@@ -105,5 +106,12 @@ SizedBox getImageSmall(String filename) {
     width: 32,
     height: 32,
     child: Image(image: AssetImage(filename)),
+  );
+}
+
+Widget getImageFit(String filename) {
+  return Image.asset(
+      filename,
+      fit: BoxFit.cover
   );
 }
