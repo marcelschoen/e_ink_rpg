@@ -15,7 +15,7 @@ class TinyHealingPotion extends GameItem with Consumable {
 
 class SmallHealingPotion extends GameItem with Consumable {
   SmallHealingPotion() {
-    this.name = 'Small Healing Potion';
+    this.name = '(S) Health Potion';
     this.description = 'Restores 10 HP';
     this.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, 10, 10));
     this.itemAsset = GameItemAsset.potion;
@@ -24,7 +24,7 @@ class SmallHealingPotion extends GameItem with Consumable {
 
 class HealingPotion extends GameItem with Consumable {
   HealingPotion() {
-    this.name = 'Healing Potion';
+    this.name = 'Health Potion';
     this.description = 'Restores 20 HP';
     this.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, 30, 30));
     this.itemAsset = GameItemAsset.potion;
@@ -33,7 +33,7 @@ class HealingPotion extends GameItem with Consumable {
 
 class LargeHealingPotion extends GameItem with Consumable {
   LargeHealingPotion() {
-    this.name = 'Large Healing Potion';
+    this.name = '(L) Health Potion';
     this.description = 'Restores 35 HP';
     this.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, 60, 60));
     this.itemAsset = GameItemAsset.potion;
@@ -42,7 +42,7 @@ class LargeHealingPotion extends GameItem with Consumable {
 
 class HugeHealingPotion extends GameItem with Consumable {
   LargeHealingPotion() {
-    this.name = 'Large Healing Potion';
+    this.name = 'XL Health Potion';
     this.description = 'Restores 35 HP';
     this.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, 150, 150));
     this.itemAsset = GameItemAsset.potion;
@@ -51,7 +51,7 @@ class HugeHealingPotion extends GameItem with Consumable {
 
 class MaximumHealingPotion extends GameItem with Consumable {
   LargeHealingPotion() {
-    this.name = 'Maximum Healing Potion';
+    this.name = 'Restore Potion';
     this.description = 'Restores all HP';
     this.statRestoreOnConsume.add(Stat.withValue(StatType.health, 0, 0));
     this.itemAsset = GameItemAsset.potion;
