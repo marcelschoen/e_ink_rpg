@@ -72,9 +72,45 @@ class Being {
   bool hasStat(StatType statType) {
     return _stats.containsKey(statType);
   }
-
+/*
   Stat? stat(StatType statType) {
     return _stats[statType];
+  }
+*/
+  void restoreStat(StatType statType) {
+    if (_stats.containsKey(statType)) {
+      _stats[statType]!.restore();
+    }
+  }
+
+  void restoreStatBy(StatType statType, int restoreValue) {
+    if (_stats.containsKey(statType)) {
+      _stats[statType]!.restoreBy(restoreValue);
+    }
+  }
+
+  void decreaseStatBy(StatType statType, int decreaseValue) {
+    if (_stats.containsKey(statType)) {
+      _stats[statType]!.decreaseBy(decreaseValue);
+    }
+  }
+
+  void depleteStat(StatType statType) {
+    if (_stats.containsKey(statType)) {
+      _stats[statType]!.deplete();
+    }
+  }
+
+  double progressBarValue(StatType statType) {
+    return _stats.containsKey(statType) ? _stats[statType]!.progressBarValue() : 0;
+  }
+
+  int statValue(StatType statType) {
+    return _stats.containsKey(statType) ? _stats[statType]!.value() : 0;
+  }
+
+  int statMaxValue(StatType statType) {
+    return _stats.containsKey(statType) ? _stats[statType]!.maxValue() : 0;
   }
 
   void addStat(Stat stat) {

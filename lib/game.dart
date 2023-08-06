@@ -22,8 +22,35 @@ class Game extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: const Text('Main Screen'),
       ),
-      body: Center(
-        child: Placeholder(),
+      body: DefaultTabController(
+        length: 4,
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: TabBarView(
+                children: [
+                  Text('*** JOBS ***'),
+                  Text('*** SHOPPING ***'),
+                  Text('*** EQUIPMENT ***'),
+                  Text('*** SKILLS ***'),
+                ],
+              ),
+            ),
+            Container(
+              color: Colors.black54,
+              height: 8,
+            ),
+            TabBar(
+              tabs: [
+                Tab(child: Image(image: AssetImage('assets/button-jobs.png'))),
+                Tab(child: Image(image: AssetImage('assets/button-shop.png'))),
+                Tab(child: Image(image: AssetImage('assets/button-equip.png'))),
+                Tab(child: Image(image: AssetImage('assets/button-skills.png'))),
+              ],
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
@@ -39,3 +66,4 @@ class Game extends StatelessWidget {
     );
   }
 }
+

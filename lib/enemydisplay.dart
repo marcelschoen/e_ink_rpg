@@ -117,7 +117,7 @@ Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
           Padding(
               padding: EdgeInsets.only(right: 4),
               child: getMonsterLifebarIcon(monsterStateNotifier.being())),
-          getProgressBar(60, monsterStateNotifier.being().stat(StatType.health)!.progressBarValue(), 10,
+          getProgressBar(60, monsterStateNotifier.being().progressBarValue(StatType.health), 10,
               Colors.black45, Colors.black12),
         ],
       ),

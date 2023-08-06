@@ -143,7 +143,7 @@ print("> beings in turn order: " + beingsInTurn.length.toString());
   // ---------------------------------------------------------
   void begin(List<Being> enemies) {
     GameState().player.heal();
-    GameState().player.stat(StatType.mana)!.restore();
+    GameState().player.restoreStat(StatType.mana);
     setEnemies(enemies);
     aborted = false;
     selectedTarget = null;

@@ -39,17 +39,17 @@ class PlayerWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       getProgressBar(60,
-                          gameStateNotifier.player.stat(StatType.health)!.progressBarValue(),
+                          gameStateNotifier.player.progressBarValue(StatType.health),
                           14, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - MANA
                       getProgressBar(60,
-                          gameStateNotifier.player.stat(StatType.mana)!.progressBarValue(),
+                          gameStateNotifier.player.progressBarValue(StatType.mana),
                           14, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - SKILL
                       getProgressBar(60,
-                          gameStateNotifier.player.stat(StatType.skillpoints)!.progressBarValue(),
+                          gameStateNotifier.player.progressBarValue(StatType.skillpoints),
                           14, Colors.black45, Colors.black12),
                     ],
                   );

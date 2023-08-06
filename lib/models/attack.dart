@@ -58,12 +58,11 @@ void attackTarget(Being attacker, Being target, Attack attack) {
       print(">> damage affected enemy: " + enemy.getSpecies());
       enemy.damageBy(affectedDamage.round());
     }
-
   }
 
   if (attack is Spell && attacker == Player()) {
     int manaUsage = (attack as Spell).manaUsage.toInt();
-    GameState().player.stat(StatType.mana)!.decreaseBy( manaUsage );
+    GameState().player.decreaseStatBy(StatType.mana, manaUsage);
     GameState().playerState.update();
   }
 
