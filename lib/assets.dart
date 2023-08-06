@@ -3,7 +3,39 @@
 // ****************************************
 import 'package:flutter/material.dart';
 
-enum GameIcon {
+// ****************************************
+// constants for item assets
+// ****************************************
+enum GameItemAsset {
+  // food
+  apple('food/apple.png'),
+  // potions
+  potion('potion/brilliant_blue_new.png'),
+  // armor
+  ironHelmet('armor/headgear/helmet_1.png'),
+  ironBreastPlate('armor/torso/chain_mail_1.png'),
+  ironGloves('armor/hands/gauntlet_1.png'),
+  // weapons
+  rustyShortSword('weapon/short_sword_1_new.png'),
+  ;
+
+  const GameItemAsset(this._filename);
+
+  final String _filename;
+
+  String filename() {
+    return 'assets/item/' + this._filename;
+  }
+
+  Widget getItemImage() {
+    return getImageSmall(filename());
+  }
+}
+
+// ****************************************
+// constants for icon assets
+// ****************************************
+enum GameIconAsset {
 
   attack('icon163.png'),
   fight('icon2.png'),
@@ -16,7 +48,7 @@ enum GameIcon {
   special('icon19.png'),
   ;
 
-  const GameIcon(this._filename);
+  const GameIconAsset(this._filename);
 
   final String _filename;
 
@@ -28,12 +60,12 @@ enum GameIcon {
 // ****************************************
 // constants for image assets
 // ****************************************
-enum GameMonsterImages {
+enum GameMonsterImageAsset {
 
   monster('bloodbat.png'),
   ;
 
-  const GameMonsterImages(this._filename);
+  const GameMonsterImageAsset(this._filename);
 
   final String _filename;
 
@@ -46,12 +78,12 @@ enum GameMonsterImages {
 // ****************************************
 // constants for image assets
 // ****************************************
-enum GameNpcImages {
+enum GameNpcImageAsset {
 
   player('Human1.png'),
   ;
 
-  const GameNpcImages(this._filename);
+  const GameNpcImageAsset(this._filename);
 
   final String _filename;
 
@@ -64,6 +96,14 @@ SizedBox getImage(String filename) {
   return SizedBox(
     width: 64,
     height: 64,
+    child: Image(image: AssetImage(filename)),
+  );
+}
+
+SizedBox getImageSmall(String filename) {
+  return SizedBox(
+    width: 32,
+    height: 32,
     child: Image(image: AssetImage(filename)),
   );
 }

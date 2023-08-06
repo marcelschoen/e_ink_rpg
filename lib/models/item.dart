@@ -1,7 +1,24 @@
 import 'package:e_ink_rpg/models/stat.dart';
+import 'package:flutter/material.dart';
 
+import '../assets.dart';
 import '../state.dart';
 import 'attack.dart';
+
+
+// ----------------
+// Item widget
+// ----------------
+Widget getItemWidget(BuildContext context, GameItem item) {
+  return Container(
+    padding: const EdgeInsets.all(8),
+    color: Colors.black12,
+    child: Column(children: [
+      item.itemAsset.getItemImage(),
+//      Text(item.name),
+    ],),
+  );
+}
 
 // ----------------------------------------------
 // Base class for all items
@@ -11,6 +28,7 @@ abstract class GameItem {
   String name = 'item';
   String description = '';
   ItemCategory itemCategory = ItemCategory.item;
+  GameItemAsset itemAsset = GameItemAsset.apple;
 
   int price = -1;
 }
@@ -20,6 +38,7 @@ enum ItemCategory {
   consumable,
   wearable,
   weapon,
+  rune,
 }
 
 // ----------------------------------------------

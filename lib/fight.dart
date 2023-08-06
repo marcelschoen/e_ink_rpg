@@ -224,7 +224,7 @@ List<Widget> getButtonsOrInfoLabel(
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))));
   } else {
     widgets.add(BaseButton.withImageAndText(
-        'RUN', GameIcon.flee.filename(), (context) => flee(context)));
+        'RUN', GameIconAsset.flee.filename(), (context) => flee(context)));
     widgets.add(getExecutionButton(context));
   }
   return widgets;
@@ -296,8 +296,8 @@ Widget getTurnOrderList() {
 
 Widget getTurnEntry(Being being, BoxDecoration? border) {
   Widget imageWidget = being.species == SpeciesType.player
-      ? GameNpcImages.player.getNpcImage()
-      : GameMonsterImages.monster.getMonsterImage();
+      ? GameNpcImageAsset.player.getNpcImage()
+      : GameMonsterImageAsset.monster.getMonsterImage();
   return Container(
     decoration: border,
     margin: const EdgeInsets.all(8.0),
@@ -319,13 +319,13 @@ Widget getActionButtonsOrEnemyActions(
       children: [
         Column(
           children: [
-            BaseButton.withImageAndText('Attack', GameIcon.attack.filename(),
+            BaseButton.withImageAndText('Attack', GameIconAsset.attack.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.attack)),
-            BaseButton.withImageAndText('Magic', GameIcon.magic.filename(),
+            BaseButton.withImageAndText('Magic', GameIconAsset.magic.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.magic)),
-            BaseButton.withImageAndText('Skill', GameIcon.skill.filename(),
+            BaseButton.withImageAndText('Skill', GameIconAsset.skill.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.skill)),
-            BaseButton.withImageAndText('Special', GameIcon.special.filename(),
+            BaseButton.withImageAndText('Special', GameIconAsset.special.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.special)),
           ],
         ),
@@ -354,7 +354,7 @@ Widget getExecutionButton(BuildContext context) {
   } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
       print(">>>>>>> SPECIAL action selektiert");
       if (CurrentFight().selectedAction != null && CurrentFight().selectedAction!.runtimeType == Spy ) {
-        BaseButton button = BaseButton.withImageAndText('LOOK', GameIcon.spy.filename(),
+        BaseButton button = BaseButton.withImageAndText('LOOK', GameIconAsset.spy.filename(),
                 (context) => CurrentFight().selectedAction!.perform() );
         if (CurrentFight().selectedTarget == null) {
           button.enabled = false;
@@ -365,7 +365,7 @@ Widget getExecutionButton(BuildContext context) {
 
   // attack and magic
   BaseButton button = BaseButton.withImageAndText('FIGHT',
-      GameIcon.fight.filename(), (context) => executeCombatTurn(context));
+      GameIconAsset.fight.filename(), (context) => executeCombatTurn(context));
   print("> execution button / selected target: " +
       CurrentFight().selectedTarget.toString());
   if (CurrentFight().selectedTarget == null ||

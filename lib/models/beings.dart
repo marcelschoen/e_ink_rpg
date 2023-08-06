@@ -4,6 +4,7 @@ import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
 import 'attack.dart';
+import 'inventory.dart';
 import 'magic.dart';
 
 /**
@@ -11,11 +12,15 @@ import 'magic.dart';
  */
 class Being {
 
+  int experience = 0;
+  int level = 1;
   BeingState? _state;
   Map<StatType, Stat> _stats = {};
   SpeciesType species;
-  final _random = new Random();
   bool selected = false;
+  Inventory inventory = Inventory();
+
+  final _random = new Random();
 
   // speed and speed counter used for turn order
   double speedCounter = 0.0;
@@ -196,23 +201,30 @@ mixin Humanoid {
  * that are only relevant to the player character.
  */
 class Player extends Being with Humanoid {
-//  var experience = 0;
-  Set<Attack> availableAttacks = { Hit(), Swing() };
 
-  Set<Spell> availableSpells = { Fireball() };
+  //  var experience = 0;
+
+  Set<Attack> availableAttacks = {};
+  Set<Spell> availableSpells = {};
 
   // singleton instance
   static final Player _instance = Player._internal();
 
   Player._internal() : super.player() {
-    setStatValue(StatType.strength, 10);
-    setStatValue(StatType.health, 100);
-    money = 0;
-    name = 'Harribo';
+    reset();
   }
 
   factory Player() {
     return _instance;
+  }
+
+  reset() {
+    setStatValue(StatType.strength, 10);
+    setStatValue(StatType.health, 100);
+    money = 0;
+    name = 'Harribo';
+    availableAttacks = { Hit(), Swing() };
+    availableSpells = { Fireball() };
   }
 
   unlockAttack(Attack attack) {

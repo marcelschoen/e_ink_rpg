@@ -21,7 +21,7 @@ class PlayerWidget extends StatelessWidget {
             children: [
               Container(
                 margin: const EdgeInsets.all(8.0),
-                child: GameNpcImages.player.getNpcImage(),
+                child: GameNpcImageAsset.player.getNpcImage(),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

@@ -19,7 +19,7 @@ abstract class GameAction {
 // ---------------------------------------------------------------
 class Spy extends GameAction {
 
-  Spy() : super(GameIcon.spy.filename()) ;
+  Spy() : super(GameIconAsset.spy.filename()) ;
 
   perform() {
     print(">>> SPY <<<");

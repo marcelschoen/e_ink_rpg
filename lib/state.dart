@@ -1,9 +1,13 @@
+import 'package:e_ink_rpg/items/armor/ironArmor.dart';
+import 'package:e_ink_rpg/items/consumables/healingPotions.dart';
+import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:flutter/foundation.dart';
 
 import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
+import 'models/jobs.dart';
 
 // ---------------------------------------------
 // General state change notifier
@@ -12,6 +16,15 @@ class GeneralState with ChangeNotifier {
   update() {
     notifyListeners();
   }
+}
+
+// --------------------------------------------------
+// Game difficulty levels
+// --------------------------------------------------
+enum Difficulty {
+  easy,
+  normal,
+  hard
 }
 
 // --------------------------------------------------
@@ -29,6 +42,9 @@ class GameState with ChangeNotifier {
   final GeneralState lowerButtonsState = GeneralState();
   final GeneralState optionButtonState = GeneralState();
 
+  List<Job> availableJobs = [];
+  Difficulty difficulty = Difficulty.normal;
+
   GameState._internal() : playerState = BeingState(Player()) {
   }
 
@@ -38,6 +54,15 @@ class GameState with ChangeNotifier {
 
   update() {
     notifyListeners();
+  }
+
+  void beginGame() {
+    Player().inventory.reset();
+    Player().inventory.addItem(IronHelmet());
+    Player().inventory.addItem(IronGloves());
+    Player().inventory.addItem(IronBreastPlate());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(RustyShortSword());
   }
 
   @override
@@ -69,6 +94,9 @@ class BeingState with ChangeNotifier {
   }
 }
 
+// ---------------------------------------------------
+// Group of action options selected on the left side
+// ---------------------------------------------------
 enum SelectedOptionGroup {
   attack,
   magic,

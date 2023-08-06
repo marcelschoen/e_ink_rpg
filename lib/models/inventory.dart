@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'item.dart';
 
 class Inventory {
@@ -5,6 +7,10 @@ class Inventory {
 
   void throwAwayItem(GameItem item) {
     items.remove(item);
+  }
+
+  void reset() {
+    items.clear();
   }
 
   void addItem(GameItem item) {
@@ -18,4 +24,13 @@ class Inventory {
   Iterable<GameItem> getItemsByCategory(ItemCategory category) {
     return items.where((element) => element.itemCategory == category);
   }
+
+  List<Widget> getItemWidgets(BuildContext context) {
+    List<Widget> itemWidgets = [];
+    for (GameItem item in items) {
+      itemWidgets.add(getItemWidget(context, item));
+    }
+    return itemWidgets;
+  }
+
 }

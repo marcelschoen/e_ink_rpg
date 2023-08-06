@@ -1,5 +1,6 @@
 import 'package:e_ink_rpg/fight.dart';
 import 'package:e_ink_rpg/shared.dart';
+import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class Game extends StatelessWidget {
         title: const Text('Main Screen'),
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -32,6 +33,7 @@ class Game extends StatelessWidget {
                 children: [
                   Text('*** JOBS ***'),
                   Text('*** SHOPPING ***'),
+                  getInventory(context),
                   Text('*** EQUIPMENT ***'),
                   Text('*** SKILLS ***'),
                 ],
@@ -42,9 +44,11 @@ class Game extends StatelessWidget {
               height: 8,
             ),
             TabBar(
+              dividerColor: Colors.black54,
               tabs: [
                 Tab(child: Image(image: AssetImage('assets/button-jobs.png'))),
                 Tab(child: Image(image: AssetImage('assets/button-shop.png'))),
+                Tab(child: Image(image: AssetImage('assets/button-inventory.png'))),
                 Tab(child: Image(image: AssetImage('assets/button-equip.png'))),
                 Tab(child: Image(image: AssetImage('assets/button-skills.png'))),
               ],
@@ -67,3 +71,42 @@ class Game extends StatelessWidget {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Jobs screen
+// -----------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------------
+// Shop screen
+// -----------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------------
+// Inventory screen
+// -----------------------------------------------------------------------------
+Widget getInventory(BuildContext context) {
+  return CustomScrollView(
+    primary: false,
+    slivers: <Widget>[
+      SliverPadding(
+        padding: const EdgeInsets.all(10),
+        sliver: SliverGrid.count(
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          crossAxisCount: 8,
+          children: GameState().player.inventory.getItemWidgets(context)
+        ),
+      ),
+    ],
+  );
+}
+
+
+// -----------------------------------------------------------------------------
+// Equip screen
+// -----------------------------------------------------------------------------
+
+
+// -----------------------------------------------------------------------------
+// Skills screen
+// -----------------------------------------------------------------------------

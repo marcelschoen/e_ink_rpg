@@ -127,9 +127,9 @@ Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
 
 Widget getMonsterLifebarIcon(Being enemy) {
   if (enemy.isAlive()) {
-    return Image(height: 12, image: AssetImage(GameIcon.heart.filename()));
+    return Image(height: 12, image: AssetImage(GameIconAsset.heart.filename()));
   }
-  return Image(height: 12, image: AssetImage(GameIcon.death.filename()));
+  return Image(height: 12, image: AssetImage(GameIconAsset.death.filename()));
 }
 
 Widget getMonsterImage(Being enemy) {

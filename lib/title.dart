@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/shared.dart';
+import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -35,7 +36,7 @@ class MonsterSlayerTitle extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseButton.withImageOnly('assets/button-play.png', (context) => switchToScreen(Game(), context)),
+                  BaseButton.withImageOnly('assets/button-play.png', (context) => beingGame(context)),
                 ],
               ),
             ),
@@ -44,4 +45,12 @@ class MonsterSlayerTitle extends StatelessWidget {
       ),
     );
   }
+}
+
+beingGame(BuildContext context) {
+
+  // TEMPORARY
+  GameState().beginGame();
+
+  switchToScreen(Game(), context);
 }
