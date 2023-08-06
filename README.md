@@ -29,9 +29,9 @@ should run on any tablet running Android 6 or newer, and with a resolution of ar
 ## License / Free ??
 
 This game is 100% free, with no in-game purchases or ads. It is also Open Source - available on
-Github under the very permissiv Apache 2.0 license. Meaning you can take the source and do with
-it what you want, including build your own game from it, and then sell that game for money - 
-with just one BIG, IMPORTAN caveat:
+Github under the very permissive Apache 2.0 license. Meaning you can take the source and do with
+it whatever you want, including building your own game from it, and then selling that game for 
+money; there is just one BIG, IMPORTAN caveat to consider in that case:
 
 ### IMPORTANT: Non-free assets 
 
