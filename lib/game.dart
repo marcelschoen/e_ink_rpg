@@ -4,7 +4,9 @@ import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
+// -----------------------------------------------
 // Switches back to title screen
+// -----------------------------------------------
 void backToTitle(BuildContext context) {
   Navigator.pushReplacement(
     context,
@@ -12,7 +14,9 @@ void backToTitle(BuildContext context) {
   );
 }
 
+// -----------------------------------------------
 // Main game screen
+// -----------------------------------------------
 class Game extends StatelessWidget {
   const Game({super.key});
 
@@ -85,18 +89,52 @@ class Game extends StatelessWidget {
 // Inventory screen
 // -----------------------------------------------------------------------------
 Widget getInventory(BuildContext context) {
-  return CustomScrollView(
-    primary: false,
-    slivers: <Widget>[
-      SliverPadding(
-        padding: const EdgeInsets.all(10),
-        sliver: SliverGrid.count(
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 8,
-          children: GameState().player.inventory.getItemWidgets(context)
+  return Column(
+    children: [
+      Expanded(
+        child: Scrollbar(
+          thickness: 20,
+          isAlwaysShown: true,
+          child: GridView.count(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            // Create a grid with 2 columns. If you change the scrollDirection to
+            // horizontal, this produces 2 rows.
+            crossAxisCount: 6,
+            // Generate 100 widgets that display their index in the List.
+            children: GameState().player.inventory.getItemWidgets(context)
+          ),
         ),
       ),
+
+      /*
+      CustomScrollView(
+        primary: false,
+        slivers: <Widget>[
+          SliverPadding(
+            padding: const EdgeInsets.all(10),
+            sliver: SliverGrid.count(
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisCount: 8,
+              children: GameState().player.inventory.getItemWidgets(context)
+            ),
+          ),
+        ],
+      ),
+      */
+
+      // item action buttons and info section
+      /*
+      Card(
+        child: Row(
+          children: [
+            BaseButton.textOnly('DISCARD', (p0) { }),
+          ],
+        )
+      ),
+
+       */
     ],
   );
 }
