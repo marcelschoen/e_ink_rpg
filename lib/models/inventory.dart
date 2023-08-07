@@ -16,6 +16,12 @@ class Inventory {
     itemStacks.clear();
   }
 
+  void addItems(GameItem item, int number) {
+    for (int i = 0; i < number; i++) {
+      addItem(item);
+    }
+  }
+
   void addItem(GameItem item) {
     for (InventoryGameItemStack itemStack in itemStacks) {
       if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
@@ -26,7 +32,7 @@ class Inventory {
     itemStacks.add(InventoryGameItemStack(item));
   }
 
-  void addItems(Iterable<GameItem> newItems) {
+  void addVariousItems(Iterable<GameItem> newItems) {
     for (GameItem item in newItems) {
       addItem(item);
     }
