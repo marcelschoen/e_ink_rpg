@@ -50,7 +50,7 @@ class HugeHealingPotion extends GameItem with Consumable {
 }
 
 class MaximumHealingPotion extends GameItem with Consumable {
-  LargeHealingPotion() {
+  MaximumHealingPotion() {
     this.name = 'Restore Potion';
     this.description = 'Restores all HP';
     this.statRestoreOnConsume.add(Stat.withValue(StatType.health, 0, 0));
