@@ -3,34 +3,67 @@ import 'package:flutter/material.dart';
 import 'item.dart';
 
 class Inventory {
-  List<GameItem> items = [];
+  List<InventoryGameItemStack> itemStacks = [];
 
-  void throwAwayItem(GameItem item) {
-    items.remove(item);
+  void throwAwayItem(InventoryGameItemStack itemStack) {
+    itemStack.remove(1);
+    if (itemStack.item == null) {
+      itemStacks.remove(itemStack);
+    }
   }
 
   void reset() {
-    items.clear();
+    itemStacks.clear();
   }
 
   void addItem(GameItem item) {
-    items.add(item);
+    for (InventoryGameItemStack itemStack in itemStacks) {
+      if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
+        itemStack.stackSize ++;
+        return;
+      }
+    }
+    itemStacks.add(InventoryGameItemStack(item));
   }
 
   void addItems(Iterable<GameItem> newItems) {
-    items.addAll(newItems);
+    for (GameItem item in newItems) {
+      addItem(item);
+    }
+  }
+  /*
+  Iterable<GameItem> getItemsByCategory(ItemCategory category) {
+
+    return itemStacks.where((element) => element.itemCategory == category);
   }
 
-  Iterable<GameItem> getItemsByCategory(ItemCategory category) {
-    return items.where((element) => element.itemCategory == category);
-  }
+   */
 
   List<Widget> getItemWidgets(BuildContext context) {
     List<Widget> itemWidgets = [];
-    for (GameItem item in items) {
-      itemWidgets.add(getItemWidget(context, item));
+    for (InventoryGameItemStack itemStack in itemStacks) {
+      itemWidgets.add(getItemWidget(context, itemStack));
     }
     return itemWidgets;
   }
 
+}
+
+class InventoryGameItemStack {
+  int stackSize = 0;
+  GameItem? item = null;
+
+  InventoryGameItemStack(this.item) {
+    this.stackSize = 1;
+  }
+
+  InventoryGameItemStack.multiple(this.item, this.stackSize);
+
+  remove(int number) {
+    stackSize -= number;
+    if (stackSize <= 0) {
+      stackSize = 0;
+      item = null;
+    }
+  }
 }

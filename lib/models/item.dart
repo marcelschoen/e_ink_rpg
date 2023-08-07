@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/models/inventory.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ import 'attack.dart';
 // ----------------
 // Item widget
 // ----------------
-Widget getItemWidget(BuildContext context, GameItem item) {
+Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
   Size size = Size(56, 56);
   return Container(
     color: Colors.black12,
@@ -19,7 +20,7 @@ Widget getItemWidget(BuildContext context, GameItem item) {
           child: Container(
             constraints: BoxConstraints.tight(size),
             padding: const EdgeInsets.all(4),
-            child: FittedBox(child: item.itemAsset.getItemImage()),
+            child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
           ),
         ),
 
@@ -31,11 +32,11 @@ Widget getItemWidget(BuildContext context, GameItem item) {
               width: 24,
               height: 36,
               alignment: Alignment.center,
-              child: Text('99', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
+              child: Text(itemStack.stackSize.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
                   textAlign: TextAlign.center)
             ),
             Expanded(
-              child: Text(item.name,
+              child: Text(itemStack.item!.name,
               style: TextStyle(fontWeight: FontWeight.bold, ),
               textAlign: TextAlign.center),
             ),

@@ -59,10 +59,21 @@ class GameState with ChangeNotifier {
   void beginGame() {
     Player().inventory.reset();
     Player().inventory.addItem(IronHelmet());
-    Player().inventory.addItem(IronGloves());
     Player().inventory.addItem(IronBreastPlate());
     Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
+    Player().inventory.addItem(SmallHealingPotion());
     Player().inventory.addItem(RustyShortSword());
+    Player().inventory.addItem(IronGloves());
+    Player().inventory.addItem(IronGloves());
+    Player().inventory.addItem(IronGloves());
+    Player().inventory.addItem(IronGloves());
     Player().inventory.addItem(IronGloves());
     Player().inventory.addItem(MaximumHealingPotion());
   }

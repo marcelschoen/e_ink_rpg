@@ -25,7 +25,7 @@ class Game extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Main Screen'),
+        title: const Text('Monster Slayer'),
         titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         centerTitle: true,
         flexibleSpace: Image(
