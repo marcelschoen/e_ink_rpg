@@ -26,6 +26,12 @@ class Game extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Main Screen'),
+        titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        centerTitle: true,
+        flexibleSpace: Image(
+          image: AssetImage('assets/background-title.png'),
+          fit: BoxFit.fitWidth,
+        ),
       ),
       body: DefaultTabController(
         length: 5,

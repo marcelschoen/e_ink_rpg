@@ -26,7 +26,13 @@ class MonsterSlayerTitle extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: const Text('Monster Slayer'),
+            title: const Text('Play4Ever Games Presents'),
+            titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            centerTitle: true,
+            flexibleSpace: Image(
+              image: AssetImage('assets/background-title.png'),
+              fit: BoxFit.fitWidth,
+            ),
           ),
           body: Center(
             child: titleImage,

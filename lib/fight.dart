@@ -180,6 +180,12 @@ class FightScaffold extends StatelessWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title: const Text('!! Combat !!'),
+          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          centerTitle: true,
+          flexibleSpace: Image(
+            image: AssetImage('assets/background-title.png'),
+            fit: BoxFit.fitWidth,
+          ),
         ),
 
         // ********** Actual combat screen part **********
@@ -420,6 +426,12 @@ class FightOverScaffold extends StatelessWidget {
                   ? Text('!! YOU ARE FLEEING !!')
                   : Text('!! VICTORY !!'))
               : Text('!! YOU LOST !!'),
+          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          centerTitle: true,
+          flexibleSpace: Image(
+            image: AssetImage('assets/background-title.png'),
+            fit: BoxFit.fitWidth,
+          ),
         ),
 
         // ********** Actual combat screen part **********
