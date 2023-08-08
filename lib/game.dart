@@ -23,16 +23,7 @@ class Game extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Monster Slayer'),
-        titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        centerTitle: true,
-        flexibleSpace: Image(
-          image: AssetImage('assets/background-title.png'),
-          fit: BoxFit.fitWidth,
-        ),
-      ),
+      appBar: getAppBar('Monster Slayer'),
       body: DefaultTabController(
         length: 5,
         child: Column(
@@ -71,7 +62,7 @@ class Game extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BaseButton.withImageOnly('assets/button-back.png', (context) => backToTitle(context)),
+              BaseButton.withImageOnly('assets/button-back.png', (context) => switchToScreen(MonsterSlayerTitle(), context)),
               BaseButton.withImageOnly('assets/button-fight.png', (context) => startFight(context)),
             ],
           ),

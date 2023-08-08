@@ -151,11 +151,28 @@ Widget getProgressBar(double width, double value, double minHeight, Color color,
     );
 }
 
+getAppBar(String title) {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    title: Text(title),
+    titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+    centerTitle: true,
+    flexibleSpace: getAppBarImage(),
+  );
+}
+
+Widget getAppBarImage() {
+  return Image(
+    image: AssetImage('assets/background-title.png'),
+    fit: BoxFit.fitWidth,
+  );
+}
+
 switchToScreen(Widget widget, BuildContext context) {
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => widget),
   );
   GameState().update();
-  GameState().update();
 }
+

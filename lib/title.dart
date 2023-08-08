@@ -24,16 +24,7 @@ class MonsterSlayerTitle extends StatelessWidget {
       home: WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text('Play4Ever Games Presents'),
-            titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-            centerTitle: true,
-            flexibleSpace: Image(
-              image: AssetImage('assets/background-title.png'),
-              fit: BoxFit.fitWidth,
-            ),
-          ),
+          appBar: getAppBar('Play4Ever Games Presents'),
           body: Center(
             child: titleImage,
           ),

@@ -177,16 +177,7 @@ class FightScaffold extends StatelessWidget {
     return WillPopScope(
       onWillPop: _onWillPop, // disable 'back' button
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text('!! Combat !!'),
-          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          centerTitle: true,
-          flexibleSpace: Image(
-            image: AssetImage('assets/background-title.png'),
-            fit: BoxFit.fitWidth,
-          ),
-        ),
+        appBar: getAppBar('!! Combat !!'),
 
         // ********** Actual combat screen part **********
         body: Center(
@@ -419,20 +410,11 @@ class FightOverScaffold extends StatelessWidget {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: GameState().player.isAlive()
-              ? (CurrentFight().aborted
-                  ? Text('!! YOU ARE FLEEING !!')
-                  : Text('!! VICTORY !!'))
-              : Text('!! YOU LOST !!'),
-          titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          centerTitle: true,
-          flexibleSpace: Image(
-            image: AssetImage('assets/background-title.png'),
-            fit: BoxFit.fitWidth,
-          ),
-        ),
+        appBar: getAppBar(GameState().player.isAlive()
+            ? (CurrentFight().aborted
+            ? '!! YOU ARE FLEEING !!'
+            : '!! VICTORY !!')
+            : '!! YOU LOST !!'),
 
         // ********** Actual combat screen part **********
         body: Center(
