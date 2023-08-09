@@ -41,6 +41,7 @@ class GameState with ChangeNotifier {
   final GeneralState turnOrderState = GeneralState();
   final GeneralState lowerButtonsState = GeneralState();
   final GeneralState optionButtonState = GeneralState();
+  final GeneralState appBarTitleState = GeneralState();
 
   List<Job> availableJobs = [];
   Difficulty difficulty = Difficulty.normal;
