@@ -4,9 +4,6 @@ import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
 class PlayerWidget extends StatelessWidget {
-  const PlayerWidget({super.key, required this.gameStateNotifier});
-
-  final GameState gameStateNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +29,24 @@ class PlayerWidget extends StatelessWidget {
                 ],
               ),
               ListenableBuilder(
-                listenable: gameStateNotifier.playerState,
+                listenable: GameState().playerState,
                 builder: (BuildContext context, Widget? child) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       getProgressBar(60,
-                          gameStateNotifier.player.progressBarValue(StatType.health),
+                          GameState().player.progressBarValue(StatType.health),
                           14, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - MANA
                       getProgressBar(60,
-                          gameStateNotifier.player.progressBarValue(StatType.mana),
+                          GameState().player.progressBarValue(StatType.mana),
                           14, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - SKILL
                       getProgressBar(60,
-                          gameStateNotifier.player.progressBarValue(StatType.skillpoints),
+                          GameState().player.progressBarValue(StatType.skillpoints),
                           14, Colors.black45, Colors.black12),
                     ],
                   );

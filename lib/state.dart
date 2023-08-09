@@ -60,7 +60,7 @@ class GameState with ChangeNotifier {
     Player().inventory.reset();
     Player().inventory.addItem(IronHelmet());
     Player().inventory.addItem(IronBreastPlate());
-    Player().inventory.addItems(SmallHealingPotion(), 35);
+    Player().inventory.addItems(SmallHealingPotion(), 150);
     Player().inventory.addItem(RustyShortSword());
     Player().inventory.addItems(IronGloves(), 8);
     Player().inventory.addItem(MaximumHealingPotion());

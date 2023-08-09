@@ -181,7 +181,7 @@ class FightScaffold extends StatelessWidget {
 
         // ********** Actual combat screen part **********
         body: Center(
-          child: fightScreen(context, gameStateNotifier),
+          child: fightScreen(context),
         ),
 
         // ------------------- execute / flee buttons ----------
@@ -191,12 +191,12 @@ class FightScaffold extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ListenableBuilder(
-                  listenable: gameStateNotifier.lowerButtonsState,
+                  listenable: GameState().lowerButtonsState,
                   builder: (BuildContext context, Widget? child) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children:
-                          getButtonsOrInfoLabel(context, gameStateNotifier),
+                          getButtonsOrInfoLabel(context),
                     );
                   },
                 )
@@ -212,8 +212,7 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------------------------------------------------
 // Creates RUN / FIGHT buttons
 // -------------------------------------------------------------------------------------
-List<Widget> getButtonsOrInfoLabel(
-    BuildContext context, GameState gameStateNotifier) {
+List<Widget> getButtonsOrInfoLabel(BuildContext context) {
   List<Widget> widgets = [];
   if (CurrentFight().enemyTurn) {
     widgets.add(wrapButtonsOrInfoLabel(Center(
@@ -244,7 +243,7 @@ Widget wrapButtonsOrInfoLabel(Widget content) {
 // --------------------------------------------------------------------
 // Fight screen parts (enemy display, action buttons etc.)
 // --------------------------------------------------------------------
-Column fightScreen(BuildContext context, GameState gameStateNotifier) {
+Column fightScreen(BuildContext context) {
   return Column(
     children: [
       // ------------- enemies display panel -------------
@@ -252,9 +251,9 @@ Column fightScreen(BuildContext context, GameState gameStateNotifier) {
       // ------------- turn order list widget ----------
       getTurnOrderList(),
       // ------------- player status widget ----------
-      PlayerWidget(gameStateNotifier: GameState()),
+      PlayerWidget(),
       // ---------------- attack / magic selection panel ----------
-      getActionButtonsOrEnemyActions(context, gameStateNotifier),
+      getActionButtonsOrEnemyActions(context),
     ],
   );
 }
@@ -306,8 +305,7 @@ Widget getTurnEntry(Being being, BoxDecoration? border) {
 // Renders either action buttons for attacks, magic etc. OR
 // the actions of the enemies during their turn.
 // --------------------------------------------------------------------
-Widget getActionButtonsOrEnemyActions(
-    BuildContext context, GameState gameStateNotifier) {
+Widget getActionButtonsOrEnemyActions(BuildContext context) {
   return Expanded(
       // fill vertically
       child: Card(
@@ -327,7 +325,7 @@ Widget getActionButtonsOrEnemyActions(
           ],
         ),
         ListenableBuilder(
-          listenable: gameStateNotifier.optionButtonState,
+          listenable: GameState().optionButtonState,
           builder: (BuildContext context, Widget? child) {
             return Expanded(
               child: Column(
