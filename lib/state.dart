@@ -1,9 +1,17 @@
 import 'package:e_ink_rpg/items/armor/ironArmor.dart';
+import 'package:e_ink_rpg/items/consumables/apricot.dart';
 import 'package:e_ink_rpg/items/consumables/banana.dart';
 import 'package:e_ink_rpg/items/consumables/beef_jerky.dart';
 import 'package:e_ink_rpg/items/consumables/cheese.dart';
+import 'package:e_ink_rpg/items/consumables/choko.dart';
 import 'package:e_ink_rpg/items/consumables/grape.dart';
 import 'package:e_ink_rpg/items/consumables/healingPotions.dart';
+import 'package:e_ink_rpg/items/consumables/honeycomb.dart';
+import 'package:e_ink_rpg/items/consumables/orange.dart';
+import 'package:e_ink_rpg/items/consumables/pear.dart';
+import 'package:e_ink_rpg/items/consumables/sausage.dart';
+import 'package:e_ink_rpg/items/consumables/snozzcumber.dart';
+import 'package:e_ink_rpg/items/consumables/strawberry.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
 import 'package:e_ink_rpg/models/stat.dart';
@@ -13,6 +21,9 @@ import 'package:flutter/material.dart';
 import 'fight.dart';
 import 'game.dart';
 import 'items/consumables/apple.dart';
+import 'items/consumables/bone.dart';
+import 'items/consumables/bread_ration.dart';
+import 'items/consumables/fruit.dart';
 import 'items/consumables/lemon.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
@@ -157,6 +168,19 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(Grape(), 8);
     Player().inventory.addItems(Lemon(), 8);
     Player().inventory.addItems(Grape(), 8);
+
+    Player().inventory.addItems(Bone(), 8);
+    Player().inventory.addItems(BreadRation(), 8);
+    Player().inventory.addItems(Fruit(), 8);
+    Player().inventory.addItems(Honeycomb(), 8);
+    Player().inventory.addItems(Orange(), 8);
+    Player().inventory.addItems(Pear(), 8);
+    Player().inventory.addItems(Sausage(), 8);
+    Player().inventory.addItems(Strawberry(), 8);
+    Player().inventory.addItems(Apricot(), 8);
+    Player().inventory.addItems(Choko(), 8);
+    Player().inventory.addItems(Snozzcumber(), 8);
+
 
     Player().inventory.addItems(GoldPile(), 50);
   }

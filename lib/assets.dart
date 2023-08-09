@@ -9,11 +9,22 @@ import 'package:flutter/material.dart';
 enum GameItemAsset {
   // food
   apple('food/apple.png'),
+  apricot('food/apricot_new.png'),
   banana('food/banana_new.png'),
   beef_jerky('food/beef_jerky_new.png'),
   cheese('food/cheese.png'),
   grape('food/grape.png'),
+  choko('food/choko.png'),
   lemon('food/lemon_new.png'),
+  bread_ration('food/bread_ration_new.png'),
+  bone('food/bone.png'),
+  fruit('food/fruit.png'),
+  honeycomb('food/honeycomb_new.png'),
+  orange('food/orange.png'),
+  pear('food/pear.png'),
+  sausage('food/sausage.png'),
+  strawberry('food/strawberry.png'),
+  snozzcumber('food/snozzcumber.png'),
   // valuables
   gold_pile('gold/gold_pile.png'),
   // potions
