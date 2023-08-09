@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 // Switches back to title screen
 // -----------------------------------------------
 void backToTitle(BuildContext context) {
+  print (" ----------------------> BACK TO TITLE" );
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
   );
+  GameState().setScreenType(ScreenType.title);
 }
 
 // -----------------------------------------------
 // Main game screen
 // -----------------------------------------------
 class Game extends StatelessWidget {
-  const Game({super.key});
+  Game({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class Game extends StatelessWidget {
           builder: (context) {
             final tabController = DefaultTabController.of(context)!;
             tabController.addListener(() {
-              print("New tab index: ${tabController.index}");
+              GameState().setScreenTypeByNumber(tabController.index);
             });
 
             return Column(
@@ -159,6 +161,31 @@ Widget getInventory(BuildContext context) {
   );
 }
 
+
+getMainAppBar() {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    title: ListenableBuilder(
+      listenable: GameState().appBarTitleState,
+      builder: (BuildContext context, Widget? child) {
+        /*
+        if (GameState().appBarTitleState.sections == AppBarSections.inventory) {
+          return Text('Inventory');
+        } else if (GameState().appBarTitleState.sections == AppBarSections.jobs) {
+          return Text('Jobs');
+        } else if (GameState().appBarTitleState.sections == AppBarSections.equip) {
+          return Text('Equipment');
+        }
+
+         */
+        return Text('');
+      },
+    ),
+    titleTextStyle: getTitleTextStyle(24),
+    centerTitle: true,
+    flexibleSpace: getAppBarImage(),
+  );
+}
 
 // -----------------------------------------------------------------------------
 // Equip screen

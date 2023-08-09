@@ -158,16 +158,21 @@ getAppBar(String title) {
     title: ListenableBuilder(
       listenable: GameState().appBarTitleState,
       builder: (BuildContext context, Widget? child) {
-        /*
-        if (GameState().appBarTitleState.sections == AppBarSections.inventory) {
+
+        if (GameState().screenType() == ScreenType.inventory) {
           return Text('Inventory');
-        } else if (GameState().appBarTitleState.sections == AppBarSections.jobs) {
+        } else if (GameState().screenType() == ScreenType.jobs) {
           return Text('Jobs');
-        } else if (GameState().appBarTitleState.sections == AppBarSections.equip) {
+        } else if (GameState().screenType() == ScreenType.shop) {
+          return Text('Shop');
+        } else if (GameState().screenType() == ScreenType.skills) {
+          return Text('Skills');
+        } else if (GameState().screenType() == ScreenType.equipment) {
           return Text('Equipment');
+        } else if (GameState().screenType() == ScreenType.title) {
+          return Text('Play4Ever Presents');
         }
 
-         */
         return Text(title);
       },
     ),
@@ -189,6 +194,7 @@ switchToScreen(Widget widget, BuildContext context) {
     context,
     MaterialPageRoute(builder: (context) => widget),
   );
+  GameState().setScreenByWidget(widget);
   GameState().update();
 }
 

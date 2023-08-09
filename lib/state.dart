@@ -7,8 +7,11 @@ import 'package:e_ink_rpg/items/consumables/healingPotions.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
 import 'package:e_ink_rpg/models/stat.dart';
-import 'package:flutter/foundation.dart';
+import 'package:e_ink_rpg/title.dart';
+import 'package:flutter/material.dart';
 
+import 'fight.dart';
+import 'game.dart';
 import 'items/consumables/apple.dart';
 import 'items/consumables/lemon.dart';
 import 'models/action.dart';
@@ -57,6 +60,17 @@ enum Difficulty {
   hard
 }
 
+enum ScreenType {
+  jobs,
+  shop,
+  inventory,
+  equipment,
+  skills,
+  title,
+  fight,
+  flight,
+}
+
 // --------------------------------------------------
 // Singleton game state holder and change notifier.
 // --------------------------------------------------
@@ -73,6 +87,7 @@ class GameState with ChangeNotifier {
   final GeneralState optionButtonState = GeneralState();
   final GeneralState appBarTitleState = GeneralState();
 
+  ScreenType _screenType = ScreenType.title;
   List<Job> availableJobs = [];
   Difficulty difficulty = Difficulty.normal;
 
@@ -81,6 +96,46 @@ class GameState with ChangeNotifier {
 
   factory GameState() {
     return _instance;
+  }
+
+  ScreenType screenType() {
+    return this._screenType;
+  }
+
+  void setScreenByWidget(Widget widget) {
+    print (">> set screen by widget: " + widget.runtimeType.toString());
+    if (widget.runtimeType == MonsterSlayerTitle) {
+      setScreenType(ScreenType.title);
+    } else if (widget.runtimeType == Fight) {
+      setScreenType(ScreenType.fight);
+    } else if (widget.runtimeType == Game) {
+      setScreenType(ScreenType.jobs);
+    }
+  }
+
+  void setScreenTypeByNumber(int tabIndex) {
+    switch (tabIndex) {
+      case 1:
+        setScreenType(ScreenType.shop);
+        break;
+      case 2:
+        setScreenType(ScreenType.inventory);
+        break;
+      case 3:
+        setScreenType(ScreenType.equipment);
+        break;
+      case 4:
+        setScreenType(ScreenType.skills);
+        break;
+      default:
+        setScreenType(ScreenType.jobs);
+    }
+  }
+
+  void setScreenType(ScreenType type) {
+    print ("-------> set screen type: " + type.name.toString());
+    this._screenType = type;
+    appBarTitleState.update();
   }
 
   update() {
