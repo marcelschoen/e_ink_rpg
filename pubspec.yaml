@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.0.0
   back_button_interceptor: ^6.0.2
   dotted_border: ^2.0.0
+  audioplayers: ^5.0.0
 
 dev_dependencies:
   flutter_test:
