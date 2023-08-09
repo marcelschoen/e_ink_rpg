@@ -97,6 +97,9 @@ class Game extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // Inventory screen
 // -----------------------------------------------------------------------------
+
+// MISSING BUTTONS FOR SELECTED ITEM ("Use", "Discard", ...)
+
 Widget getInventory(BuildContext context) {
   return Column(
     children: [
@@ -125,7 +128,7 @@ Widget getInventory(BuildContext context) {
           ),
         ),
         child: SizedBox(
-          height: 160,
+          height: 110,
           child: Container(
             child: Column(
               children: [

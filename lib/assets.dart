@@ -23,8 +23,9 @@ enum GameItemAsset {
   orange('food/orange.png'),
   pear('food/pear.png'),
   sausage('food/sausage.png'),
-  strawberry('food/strawberry.png'),
+  strawberry('food/strawberry_new.png'),
   snozzcumber('food/snozzcumber.png'),
+  sultana('food/sultana.png'),
   // valuables
   gold_pile('gold/gold_pile.png'),
   // potions

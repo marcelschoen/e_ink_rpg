@@ -12,6 +12,7 @@ import 'package:e_ink_rpg/items/consumables/pear.dart';
 import 'package:e_ink_rpg/items/consumables/sausage.dart';
 import 'package:e_ink_rpg/items/consumables/snozzcumber.dart';
 import 'package:e_ink_rpg/items/consumables/strawberry.dart';
+import 'package:e_ink_rpg/items/consumables/sultana.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
 import 'package:e_ink_rpg/models/stat.dart';
@@ -180,6 +181,7 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(Apricot(), 8);
     Player().inventory.addItems(Choko(), 8);
     Player().inventory.addItems(Snozzcumber(), 8);
+    Player().inventory.addItems(Sultana(), 8);
 
 
     Player().inventory.addItems(GoldPile(), 50);
