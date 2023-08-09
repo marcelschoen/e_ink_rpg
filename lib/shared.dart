@@ -148,11 +148,15 @@ Widget getProgressBar(double width, double value, double minHeight, Color color,
     );
 }
 
+getTitleTextStyle(double size) {
+  return TextStyle(fontWeight: FontWeight.bold, fontSize: size);
+}
+
 getAppBar(String title) {
   return AppBar(
     automaticallyImplyLeading: false,
     title: Text(title),
-    titleTextStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+    titleTextStyle: getTitleTextStyle(24),
     centerTitle: true,
     flexibleSpace: getAppBarImage(),
   );

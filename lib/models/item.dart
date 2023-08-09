@@ -12,37 +12,40 @@ import 'attack.dart';
 // ----------------
 Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
   Size size = Size(56, 56);
-  return Container(
-    color: Colors.black12,
-    child: Column(
-      children: [
-        Expanded(
-          child: Container(
-            constraints: BoxConstraints.tight(size),
-            padding: const EdgeInsets.all(4),
-            child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
+  return InkWell(
+    onTap: () { print("* tapped: " + itemStack.item!.name + " *"); },
+    child: Container(
+      color: Colors.black12,
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              constraints: BoxConstraints.tight(size),
+              padding: const EdgeInsets.all(4),
+              child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
+            ),
           ),
-        ),
 
-        Row(
-          children: [
-            Container(
+          Row(
+            children: [
+              Container(
 //              decoration: BoxDecoration(border: Border.all()),
-              color: Colors.black,
-              width: 24,
-              height: 36,
-              alignment: Alignment.center,
-              child: Text(itemStack.stackSize.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
-                  textAlign: TextAlign.center)
-            ),
-            Expanded(
-              child: Text(itemStack.item!.name,
-              style: TextStyle(fontWeight: FontWeight.bold, ),
-              textAlign: TextAlign.center),
-            ),
-          ],
-        ),
-      ],
+                color: Colors.black,
+                width: 24,
+                height: 36,
+                alignment: Alignment.center,
+                child: Text(itemStack.stackSize.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
+                    textAlign: TextAlign.center)
+              ),
+              Expanded(
+                child: Text(itemStack.item!.name,
+                style: TextStyle(fontWeight: FontWeight.bold, ),
+                textAlign: TextAlign.center),
+              ),
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

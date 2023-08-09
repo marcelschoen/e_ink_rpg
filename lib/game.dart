@@ -103,6 +103,48 @@ Widget getInventory(BuildContext context) {
           ),
         ),
       ),
+      Card(
+        shape: RoundedRectangleBorder( //<-- SEE HERE
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(
+            color: Colors.black54,
+            style: BorderStyle.solid,
+            width: 4
+          ),
+        ),
+        child: SizedBox(
+          height: 160,
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.black12,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 4, bottom: 0),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: 3.0,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Details', style: getTitleTextStyle(18)),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(),
+                )
+              ],
+            ),
+          ),
+        ),
+      )
     ],
   );
 }
