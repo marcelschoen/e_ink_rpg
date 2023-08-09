@@ -13,7 +13,26 @@ import 'attack.dart';
 Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
   Size size = Size(56, 56);
   return InkWell(
-    onTap: () { print("* tapped: " + itemStack.item!.name + " *"); },
+    onTap: () {
+        print("* tapped: " + itemStack.item!.name + " *");
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+          title: Text(itemStack.item!.name),
+          content: Text(itemStack.item!.description),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+        );
+      },
     child: Container(
       color: Colors.black12,
       child: Column(
