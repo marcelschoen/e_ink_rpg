@@ -1,9 +1,16 @@
 import 'package:e_ink_rpg/items/armor/ironArmor.dart';
+import 'package:e_ink_rpg/items/consumables/banana.dart';
+import 'package:e_ink_rpg/items/consumables/beef_jerky.dart';
+import 'package:e_ink_rpg/items/consumables/cheese.dart';
+import 'package:e_ink_rpg/items/consumables/grape.dart';
 import 'package:e_ink_rpg/items/consumables/healingPotions.dart';
+import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:flutter/foundation.dart';
 
+import 'items/consumables/apple.dart';
+import 'items/consumables/lemon.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
@@ -65,6 +72,15 @@ class GameState with ChangeNotifier {
     Player().inventory.addItem(RustyShortSword());
     Player().inventory.addItems(IronGloves(), 8);
     Player().inventory.addItem(MaximumHealingPotion());
+    Player().inventory.addItems(Apple(), 8);
+    Player().inventory.addItems(Banana(), 8);
+    Player().inventory.addItems(BeefJerky(), 8);
+    Player().inventory.addItems(Cheese(), 8);
+    Player().inventory.addItems(Grape(), 8);
+    Player().inventory.addItems(Lemon(), 8);
+    Player().inventory.addItems(Grape(), 8);
+
+    Player().inventory.addItems(GoldPile(), 50);
   }
 
   @override

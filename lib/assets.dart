@@ -9,6 +9,13 @@ import 'package:flutter/material.dart';
 enum GameItemAsset {
   // food
   apple('food/apple.png'),
+  banana('food/banana_new.png'),
+  beef_jerky('food/beef_jerky_new.png'),
+  cheese('food/cheese.png'),
+  grape('food/grape.png'),
+  lemon('food/lemon_new.png'),
+  // valuables
+  gold_pile('gold/gold_pile.png'),
   // potions
   potion('potion/brilliant_blue_new.png'),
   // armor
