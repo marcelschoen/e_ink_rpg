@@ -26,35 +26,45 @@ class Game extends StatelessWidget {
       appBar: getAppBar('Monster Slayer'),
       body: DefaultTabController(
         length: 5,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: TabBarView(
-                children: [
-                  Text('*** JOBS ***'),
-                  Text('*** SHOPPING ***'),
-                  getInventory(context),
-                  Text('*** EQUIPMENT ***'),
-                  Text('*** SKILLS ***'),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.black54,
-              height: 8,
-            ),
-            TabBar(
-              dividerColor: Colors.black54,
-              tabs: [
-                Tab(child: Image(image: AssetImage('assets/button-jobs.png'))),
-                Tab(child: Image(image: AssetImage('assets/button-shop.png'))),
-                Tab(child: Image(image: AssetImage('assets/button-inventory.png'))),
-                Tab(child: Image(image: AssetImage('assets/button-equip.png'))),
-                Tab(child: Image(image: AssetImage('assets/button-skills.png'))),
+        child: Builder(
+          builder: (context) {
+            final tabController = DefaultTabController.of(context)!;
+            tabController.addListener(() {
+              print("New tab index: ${tabController.index}");
+            });
+
+            return Column(
+              children: <Widget>[
+
+                Expanded(
+                  flex: 1,
+                  child: TabBarView(
+                    children: [
+                      Text('*** JOBS ***'),
+                      Text('*** SHOPPING ***'),
+                      getInventory(context),
+                      Text('*** EQUIPMENT ***'),
+                      Text('*** SKILLS ***'),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.black54,
+                  height: 8,
+                ),
+                TabBar(
+                  dividerColor: Colors.black54,
+                  tabs: [
+                    Tab(child: Image(image: AssetImage('assets/button-jobs.png'))),
+                    Tab(child: Image(image: AssetImage('assets/button-shop.png'))),
+                    Tab(child: Image(image: AssetImage('assets/button-inventory.png'))),
+                    Tab(child: Image(image: AssetImage('assets/button-equip.png'))),
+                    Tab(child: Image(image: AssetImage('assets/button-skills.png'))),
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          }
         ),
       ),
       bottomNavigationBar: BottomAppBar(

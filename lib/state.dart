@@ -25,6 +25,29 @@ class GeneralState with ChangeNotifier {
   }
 }
 
+enum AppBarSections {
+  jobs,
+  shop,
+  inventory,
+  equip,
+  skills
+  ;
+}
+
+class AppBarState with ChangeNotifier {
+
+  AppBarSections sections = AppBarSections.jobs;
+
+  void section(AppBarSections section) {
+    this.sections = section;
+    update();
+  }
+
+  update() {
+    notifyListeners();
+  }
+}
+
 // --------------------------------------------------
 // Game difficulty levels
 // --------------------------------------------------

@@ -155,7 +155,22 @@ getTitleTextStyle(double size) {
 getAppBar(String title) {
   return AppBar(
     automaticallyImplyLeading: false,
-    title: Text(title),
+    title: ListenableBuilder(
+      listenable: GameState().appBarTitleState,
+      builder: (BuildContext context, Widget? child) {
+        /*
+        if (GameState().appBarTitleState.sections == AppBarSections.inventory) {
+          return Text('Inventory');
+        } else if (GameState().appBarTitleState.sections == AppBarSections.jobs) {
+          return Text('Jobs');
+        } else if (GameState().appBarTitleState.sections == AppBarSections.equip) {
+          return Text('Equipment');
+        }
+
+         */
+        return Text(title);
+      },
+    ),
     titleTextStyle: getTitleTextStyle(24),
     centerTitle: true,
     flexibleSpace: getAppBarImage(),
