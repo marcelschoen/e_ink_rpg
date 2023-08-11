@@ -93,7 +93,7 @@ Widget getInventoryScreen(BuildContext context) {
           thickness: 20,
           isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
-            listenable: GameState().inventoryGridState,
+            listenable: GameState().inventorySelectionState,
             builder: (BuildContext context, Widget? child) {
               return GridView.count(
                   crossAxisSpacing: 8,
@@ -121,7 +121,7 @@ Widget getInventoryScreen(BuildContext context) {
                 ),
               ),
               child: SizedBox(
-                height: 110,
+                height: 230,
                 child: Container(
                   child: Column(
                     children: [
@@ -145,13 +145,7 @@ Widget getInventoryScreen(BuildContext context) {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.all(5),
-                          child: Text('dfa adf adf adf asdf ', style: getTitleTextStyle(16)),
-                        ),
-                      )
+                      itemDetails(),
                     ],
                   ),
                 ),
@@ -159,29 +153,65 @@ Widget getInventoryScreen(BuildContext context) {
             ),
           ),
           Column(children: [
-            BaseButton.textOnly("Use", (p0) {
-                if (GameState().selectedInInventory != null) {
-                  print("* use " + GameState().selectedInInventory!.item!.name + " *");
-                  if (GameState().selectedInInventory!.item! is Consumable) {
-                    // TODO - CONSUME ITEM
-                    var consumable = GameState().selectedInInventory!.item! as Consumable;
-                    consumable.consume();
-                    GameState().selectedInInventory!.remove(1);
-                    GameState().inventoryGridState.update();
-                  }
-                }
-              }),
-            BaseButton.textOnly("Discard", (p0) {
-                if (GameState().selectedInInventory != null) {
-                  GameState().selectedInInventory!.remove(1);
-                  GameState().inventoryGridState.update();
-                }
-              }),
+            BaseButton.textOnly("Use", (p0) => { useItem() }),
+            BaseButton.textOnly("Discard", (p0) => { discardItem() }),
+            BaseButton.textOnly("Discard all", (p0) => { discardItem() }),
           ],)
         ],
       )
     ],
   );
+}
+
+Widget itemDetails() {
+  return Expanded(
+    child: Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.all(5),
+      child: ListenableBuilder(
+        listenable: GameState().inventorySelectionState,
+        builder: (BuildContext context, Widget? child) {
+          return Row(
+            children: getSelectedItemDetails(),
+          );
+        },
+      ),
+    ),
+  );
+}
+
+List<Widget> getSelectedItemDetails() {
+  List<Widget> detailContents = [];
+  if (GameState().selectedInInventory != null) {
+    detailContents.add(GameState().selectedInInventory!.item!.itemAsset.getItemImage());
+    detailContents.add(Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(16)));
+  }
+  return detailContents;
+}
+
+// --------------------------------------------------------------------
+// Uses the selected item (consumes food etc.
+// --------------------------------------------------------------------
+void useItem() {
+  if (GameState().selectedInInventory != null) {
+    if (GameState().selectedInInventory!.item! is Consumable) {
+      // TODO - CONSUME ITEM
+      var consumable = GameState().selectedInInventory!.item! as Consumable;
+      consumable.consume();
+      GameState().selectedInInventory!.remove(1);
+      GameState().inventorySelectionState.update();
+    }
+  }
+}
+
+// --------------------------------------------------------------------
+// Discards the currently selected item
+// --------------------------------------------------------------------
+void discardItem() {
+  if (GameState().selectedInInventory != null) {
+    GameState().selectedInInventory!.remove(1);
+    GameState().inventorySelectionState.update();
+  }
 }
 
 // ----------------
@@ -193,7 +223,7 @@ Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
     onTap: () {
       print("* tapped: " + itemStack.item!.name + " *");
       GameState().selectedInInventory = itemStack;
-      GameState().inventoryGridState.update();
+      GameState().inventorySelectionState.update();
       /*
         showDialog<String>(
             context: context,

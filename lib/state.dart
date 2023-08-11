@@ -99,7 +99,7 @@ class GameState with ChangeNotifier {
   final GeneralState lowerButtonsState = GeneralState();
   final GeneralState optionButtonState = GeneralState();
   final GeneralState appBarTitleState = GeneralState();
-  final GeneralState inventoryGridState = GeneralState();
+  final GeneralState inventorySelectionState = GeneralState();
 
   ScreenType _screenType = ScreenType.title;
   List<Job> availableJobs = [];
