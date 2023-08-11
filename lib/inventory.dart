@@ -39,13 +39,11 @@ class Inventory {
       addItem(item);
     }
   }
-  /*
-  Iterable<GameItem> getItemsByCategory(ItemCategory category) {
 
-    return itemStacks.where((element) => element.itemCategory == category);
+  void removeStack(InventoryGameItemStack itemStack) {
+    itemStacks.remove(itemStack);
+    GameState().inventorySelectionState.update();
   }
-
-   */
 
   List<Widget> getItemWidgets(BuildContext context) {
     List<Widget> itemWidgets = [];
@@ -74,6 +72,11 @@ class InventoryGameItemStack {
       stackSize = 0;
       item = null;
     }
+  }
+
+  clear() {
+    stackSize = 0;
+    item = null;
   }
 }
 
@@ -154,8 +157,8 @@ Widget getInventoryScreen(BuildContext context) {
           ),
           Column(children: [
             BaseButton.textOnly("Use", (p0) => { useItem() }),
-            BaseButton.textOnly("Discard", (p0) => { discardItem() }),
-            BaseButton.textOnly("Discard all", (p0) => { discardItem() }),
+            BaseButton.textOnly("Discard", (p0) => { discardItem(false) }),
+            BaseButton.textOnly("Discard all", (p0) => { discardItem(true) }),
           ],)
         ],
       )
@@ -207,9 +210,17 @@ void useItem() {
 // --------------------------------------------------------------------
 // Discards the currently selected item
 // --------------------------------------------------------------------
-void discardItem() {
+void discardItem(bool discardAll) {
   if (GameState().selectedInInventory != null) {
-    GameState().selectedInInventory!.remove(1);
+    if (discardAll) {
+      GameState().selectedInInventory!.clear();
+    } else {
+      GameState().selectedInInventory!.remove(1);
+    }
+    if (GameState().selectedInInventory!.item == null) {
+      GameState().player.inventory.removeStack(GameState().selectedInInventory!);
+      GameState().selectedInInventory = null;
+    }
     GameState().inventorySelectionState.update();
   }
 }
