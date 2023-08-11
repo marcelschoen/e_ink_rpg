@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 
 import 'fight.dart';
 import 'game.dart';
+import 'inventory.dart';
 import 'items/consumables/apple.dart';
 import 'items/consumables/bone.dart';
 import 'items/consumables/bread_ration.dart';
@@ -98,10 +99,13 @@ class GameState with ChangeNotifier {
   final GeneralState lowerButtonsState = GeneralState();
   final GeneralState optionButtonState = GeneralState();
   final GeneralState appBarTitleState = GeneralState();
+  final GeneralState inventoryGridState = GeneralState();
 
   ScreenType _screenType = ScreenType.title;
   List<Job> availableJobs = [];
   Difficulty difficulty = Difficulty.normal;
+
+  InventoryGameItemStack? selectedInInventory = null;
 
   GameState._internal() : playerState = BeingState(Player()) {
   }

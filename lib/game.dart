@@ -4,6 +4,8 @@ import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
+import 'inventory.dart';
+
 // -----------------------------------------------
 // Switches back to title screen
 // -----------------------------------------------
@@ -44,7 +46,7 @@ class Game extends StatelessWidget {
                     children: [
                       Text('*** JOBS ***'),
                       Text('*** SHOPPING ***'),
-                      getInventory(context),
+                      getInventoryScreen(context),
                       Text('*** EQUIPMENT ***'),
                       Text('*** SKILLS ***'),
                     ],
@@ -92,77 +94,6 @@ class Game extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // Shop screen
 // -----------------------------------------------------------------------------
-
-
-// -----------------------------------------------------------------------------
-// Inventory screen
-// -----------------------------------------------------------------------------
-
-// MISSING BUTTONS FOR SELECTED ITEM ("Use", "Discard", ...)
-
-Widget getInventory(BuildContext context) {
-  return Column(
-    children: [
-      Expanded(
-        child: Scrollbar(
-          thickness: 20,
-          isAlwaysShown: true,
-          child: GridView.count(
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            // Create a grid with 2 columns. If you change the scrollDirection to
-            // horizontal, this produces 2 rows.
-            crossAxisCount: 6,
-            // Generate 100 widgets that display their index in the List.
-            children: GameState().player.inventory.getItemWidgets(context)
-          ),
-        ),
-      ),
-      Card(
-        shape: RoundedRectangleBorder( //<-- SEE HERE
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(
-            color: Colors.black54,
-            style: BorderStyle.solid,
-            width: 4
-          ),
-        ),
-        child: SizedBox(
-          height: 110,
-          child: Container(
-            child: Column(
-              children: [
-                Container(
-                  color: Colors.black12,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 4, bottom: 0),
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Details', style: getTitleTextStyle(18)),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Container(),
-                )
-              ],
-            ),
-          ),
-        ),
-      )
-    ],
-  );
-}
 
 // -----------------------------------------------------------------------------
 // Equip screen

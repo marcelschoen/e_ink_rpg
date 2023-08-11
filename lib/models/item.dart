@@ -1,73 +1,9 @@
-import 'package:e_ink_rpg/models/inventory.dart';
 import 'package:e_ink_rpg/models/stat.dart';
-import 'package:flutter/material.dart';
 
 import '../assets.dart';
 import '../state.dart';
 import 'attack.dart';
 
-
-// ----------------
-// Item widget
-// ----------------
-Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
-  Size size = Size(56, 56);
-  return InkWell(
-    onTap: () {
-        print("* tapped: " + itemStack.item!.name + " *");
-        showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-          title: Text(itemStack.item!.name),
-          content: Text(itemStack.item!.description),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-        );
-      },
-    child: Container(
-      color: Colors.black12,
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              constraints: BoxConstraints.tight(size),
-              padding: const EdgeInsets.all(4),
-              child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
-            ),
-          ),
-
-          Row(
-            children: [
-              Container(
-//              decoration: BoxDecoration(border: Border.all()),
-                color: Colors.black,
-                width: 24,
-                height: 36,
-                alignment: Alignment.center,
-                child: Text(itemStack.stackSize.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
-                    textAlign: TextAlign.center)
-              ),
-              Expanded(
-                child: Text(itemStack.item!.name,
-                style: TextStyle(fontWeight: FontWeight.bold, ),
-                textAlign: TextAlign.center),
-              ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
 // ----------------------------------------------
 // Base class for all items

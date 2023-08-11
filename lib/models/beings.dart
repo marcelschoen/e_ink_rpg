@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
+import '../inventory.dart';
 import 'attack.dart';
-import 'inventory.dart';
 import 'magic.dart';
 
 /**
