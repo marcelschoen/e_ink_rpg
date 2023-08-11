@@ -48,7 +48,7 @@ class Inventory {
   List<Widget> getItemWidgets(BuildContext context) {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
-      itemWidgets.add(getItemWidget(context, itemStack));
+      itemWidgets.add(getItemWidget(itemStack));
     }
     return itemWidgets;
   }
@@ -169,7 +169,7 @@ Widget getInventoryScreen(BuildContext context) {
 Widget itemDetails() {
   return Expanded(
     child: Container(
-      alignment: Alignment.center,
+      alignment: Alignment.topLeft,
       margin: EdgeInsets.all(5),
       child: ListenableBuilder(
         listenable: GameState().inventorySelectionState,
@@ -186,8 +186,12 @@ Widget itemDetails() {
 List<Widget> getSelectedItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
-    detailContents.add(GameState().selectedInInventory!.item!.itemAsset.getItemImage());
-    detailContents.add(Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(16)));
+//    detailContents.add(GameState().selectedInInventory!.item!.itemAsset.getItemImage());
+    detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!)));
+    detailContents.add(Container(
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      child: Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(16)))
+    );
   }
   return detailContents;
 }
@@ -228,7 +232,7 @@ void discardItem(bool discardAll) {
 // ----------------
 // Item widget
 // ----------------
-Widget getItemWidget(BuildContext context, InventoryGameItemStack itemStack) {
+Widget getItemWidget(InventoryGameItemStack itemStack) {
   Size size = Size(56, 56);
   return InkWell(
     onTap: () {
