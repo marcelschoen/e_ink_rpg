@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,13 @@ class Inventory {
     if (itemStack.item == null) {
       itemStacks.remove(itemStack);
     }
+  }
+
+  void selectStack(InventoryGameItemStack itemStack) {
+    for (InventoryGameItemStack itemStack in itemStacks) {
+      itemStack.selected = false;
+    }
+    itemStack.selected = true;
   }
 
   void reset() {
@@ -166,6 +174,9 @@ Widget getInventoryScreen(BuildContext context) {
   );
 }
 
+// ---------------------------------------------------------------------
+// The box with the details of the selected item stack
+// ---------------------------------------------------------------------
 Widget itemDetails() {
   return Expanded(
     child: Container(
@@ -183,10 +194,12 @@ Widget itemDetails() {
   );
 }
 
+// ---------------------------------------------------------------------
+// The item image and description of the selected item stack
+// ---------------------------------------------------------------------
 List<Widget> getSelectedItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
-//    detailContents.add(GameState().selectedInInventory!.item!.itemAsset.getItemImage());
     detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!)));
     detailContents.add(Container(
       padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
@@ -229,15 +242,16 @@ void discardItem(bool discardAll) {
   }
 }
 
-// ----------------
+// ---------------------------------------------------------------------
 // Item widget
-// ----------------
+// ---------------------------------------------------------------------
 Widget getItemWidget(InventoryGameItemStack itemStack) {
   Size size = Size(56, 56);
   return InkWell(
     onTap: () {
       print("* tapped: " + itemStack.item!.name + " *");
       GameState().selectedInInventory = itemStack;
+      GameState().player.inventory.selectStack(itemStack);
       GameState().inventorySelectionState.update();
       /*
         showDialog<String>(
@@ -292,17 +306,17 @@ Widget getItemWidget(InventoryGameItemStack itemStack) {
   );
 }
 
+// ---------------------------------------------------------------------
+// Border around selected inventory item stack
+// ---------------------------------------------------------------------
 Widget getItemBorder(InventoryGameItemStack itemStack, Widget content) {
   if(itemStack.selected) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black,
-            width: 3.0,
-          ),
-        ),
-      ),
+    return DottedBorder(
+      borderType: BorderType.RRect,
+      strokeWidth: 4,
+      color: Colors.blueGrey,
+      radius: Radius.circular(8),
+      padding: EdgeInsets.all(4),
       child: content,
     );
   }
