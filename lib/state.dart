@@ -102,6 +102,7 @@ class GameState with ChangeNotifier {
   final GeneralState optionButtonState = GeneralState();
   final GeneralState appBarTitleState = GeneralState();
   final GeneralState inventorySelectionState = GeneralState();
+  final GeneralState jobSelectionState = GeneralState();
 
   ScreenType _screenType = ScreenType.title;
   Difficulty difficulty = Difficulty.normal;
@@ -136,6 +137,9 @@ class GameState with ChangeNotifier {
   void setScreenTypeByNumber(int tabIndex) {
     switch (tabIndex) {
       case 1:
+        GameState().availableJobs.deselectAllJobs();
+        GameState().selectedInJobs = null;
+        GameState().jobSelectionState.update();
         setScreenType(ScreenType.shop);
         break;
       case 2:

@@ -53,7 +53,7 @@ Widget getJobsScreen(BuildContext context) {
           thickness: 20,
           isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
-            listenable: GameState().inventorySelectionState,
+            listenable: GameState().jobSelectionState,
             builder: (BuildContext context, Widget? child) {
               return GridView.count(
                 childAspectRatio: 4,
@@ -135,9 +135,10 @@ Widget jobDetails() {
       alignment: Alignment.topLeft,
       margin: EdgeInsets.all(5),
       child: ListenableBuilder(
-        listenable: GameState().inventorySelectionState,
+        listenable: GameState().jobSelectionState,
         builder: (BuildContext context, Widget? child) {
           return Row(
+            children: getSelectedJobDetails(),
           );
         },
       ),
@@ -145,6 +146,22 @@ Widget jobDetails() {
   );
 }
 
+// ---------------------------------------------------------------------
+// The job image and description of the selected job
+// ---------------------------------------------------------------------
+List<Widget> getSelectedJobDetails() {
+  List<Widget> detailContents = [];
+  if (GameState().selectedInJobs != null) {
+    detailContents.add(SizedBox(width: 160, child: getJobWidget(GameState().selectedInJobs!)));
+    detailContents.add(Expanded(
+        child: Container(
+            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+            child: Text(GameState().selectedInJobs!.description, style: getTitleTextStyle(20)))
+    )
+    );
+  }
+  return detailContents;
+}
 
 // ---------------------------------------------------------------------
 // Job widget
@@ -158,7 +175,7 @@ Widget getJobWidget(Job job) {
       GameState().availableJobs.selectJob(job);
 
 
-      GameState().inventorySelectionState.update();
+      GameState().jobSelectionState.update();
       /*
         showDialog<String>(
             context: context,
