@@ -132,7 +132,7 @@ Widget getInventoryScreen(BuildContext context) {
                 ),
               ),
               child: SizedBox(
-                height: 230,
+                height: 200,
                 child: Container(
                   child: Column(
                     children: [
@@ -201,9 +201,11 @@ List<Widget> getSelectedItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
     detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!, 96)));
-    detailContents.add(Container(
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-      child: Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(16)))
+    detailContents.add(Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+        child: Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(20)))
+      )
     );
   }
   return detailContents;
