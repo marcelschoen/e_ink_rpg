@@ -135,6 +135,9 @@ class GameState with ChangeNotifier {
         setScreenType(ScreenType.shop);
         break;
       case 2:
+        GameState().player.inventory.deselectAllStacks();
+        GameState().selectedInInventory = null;
+        GameState().inventorySelectionState.update();
         setScreenType(ScreenType.inventory);
         break;
       case 3:

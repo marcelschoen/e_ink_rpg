@@ -15,10 +15,14 @@ class Inventory {
     }
   }
 
-  void selectStack(InventoryGameItemStack itemStack) {
+  void deselectAllStacks() {
     for (InventoryGameItemStack itemStack in itemStacks) {
       itemStack.selected = false;
     }
+  }
+
+  void selectStack(InventoryGameItemStack itemStack) {
+    deselectAllStacks();
     itemStack.selected = true;
   }
 
