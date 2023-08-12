@@ -92,14 +92,9 @@ class InventoryGameItemStack {
   }
 }
 
-
-
 // -----------------------------------------------------------------------------
 // Inventory screen
 // -----------------------------------------------------------------------------
-
-// MISSING BUTTONS FOR SELECTED ITEM ("Use", "Discard", ...)
-
 Widget getInventoryScreen(BuildContext context) {
   return Column(
     children: [

@@ -5,6 +5,7 @@ import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
 import 'inventory.dart';
+import 'jobs.dart';
 
 // -----------------------------------------------
 // Switches back to title screen
@@ -44,7 +45,7 @@ class Game extends StatelessWidget {
                   flex: 1,
                   child: TabBarView(
                     children: [
-                      Text('*** JOBS ***'),
+                      getJobsScreen(context),
                       Text('*** SHOPPING ***'),
                       getInventoryScreen(context),
                       Text('*** EQUIPMENT ***'),
