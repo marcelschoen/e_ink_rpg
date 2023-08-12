@@ -15,6 +15,7 @@ import 'package:e_ink_rpg/items/consumables/strawberry.dart';
 import 'package:e_ink_rpg/items/consumables/sultana.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
+import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ import 'items/consumables/bone.dart';
 import 'items/consumables/bread_ration.dart';
 import 'items/consumables/fruit.dart';
 import 'items/consumables/lemon.dart';
+import 'jobs.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
@@ -102,10 +104,12 @@ class GameState with ChangeNotifier {
   final GeneralState inventorySelectionState = GeneralState();
 
   ScreenType _screenType = ScreenType.title;
-  List<Job> availableJobs = [];
   Difficulty difficulty = Difficulty.normal;
 
+  AvailableJobs availableJobs = AvailableJobs();
+
   InventoryGameItemStack? selectedInInventory = null;
+  Job? selectedInJobs = null;
 
   GameState._internal() : playerState = BeingState(Player()) {
   }
@@ -192,6 +196,11 @@ class GameState with ChangeNotifier {
 
 
     Player().inventory.addItems(GoldPile(), 50);
+
+
+    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!'));
+    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.'));
+    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!'));
   }
 
   @override

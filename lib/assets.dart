@@ -66,6 +66,8 @@ enum GameIconAsset {
   skill('icon9.png'),
   spy('icon35.png'),
   special('icon19.png'),
+
+  scrollWithFeather('icon212.png'),
   ;
 
   const GameIconAsset(this._filename);
@@ -74,6 +76,11 @@ enum GameIconAsset {
 
   String filename() {
     return 'assets/icons/' + this._filename;
+  }
+
+  Widget getIconImage() {
+    return getImageFit(filename());
+//    return getImageSmall(filename());
   }
 }
 

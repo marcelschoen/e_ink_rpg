@@ -57,7 +57,7 @@ class Inventory {
     GameState().inventorySelectionState.update();
   }
 
-  List<Widget> getItemWidgets(BuildContext context) {
+  List<Widget> getItemWidgets() {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
       itemWidgets.add(getItemWidget(itemStack, 56));
@@ -112,7 +112,7 @@ Widget getInventoryScreen(BuildContext context) {
                   // horizontal, this produces 2 rows.
                   crossAxisCount: 6,
                   // Generate 100 widgets that display their index in the List.
-                  children: GameState().player.inventory.getItemWidgets(context)
+                  children: GameState().player.inventory.getItemWidgets()
               );
             },
           ),
