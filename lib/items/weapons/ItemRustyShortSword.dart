@@ -6,7 +6,7 @@ import '../../models/item.dart';
 class RustyShortSword extends GameItem with Weapon {
 
   RustyShortSword() {
-    this.description = 'A bit rusty and pretty weak.';
+    this.description = 'A bit rusty and pretty weak, but it can still do some damage.';
     this.name = 'Rusty short sword';
     this.availableAttacks.add(Hit());
     this.availableAttacks.add(Swing());

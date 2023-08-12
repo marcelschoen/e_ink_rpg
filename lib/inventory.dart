@@ -132,7 +132,7 @@ Widget getInventoryScreen(BuildContext context) {
                 ),
               ),
               child: SizedBox(
-                height: 200,
+                height: 180,
                 child: Container(
                   child: Column(
                     children: [
@@ -164,9 +164,10 @@ Widget getInventoryScreen(BuildContext context) {
             ),
           ),
           Column(children: [
-            BaseButton.textOnly("Use", (p0) => { useItem() }),
-            BaseButton.textOnly("Discard", (p0) => { discardItem(false) }),
-            BaseButton.textOnly("Discard all", (p0) => { discardItem(true) }),
+            BaseButton.textOnlyWithSizes("Use", (p0) => { useItem() }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Combine", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Discard", (p0) => { discardItem(false) }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Discard all", (p0) => { discardItem(true) }, 26, 160, 2 ),
           ],)
         ],
       )

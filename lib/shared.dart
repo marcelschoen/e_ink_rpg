@@ -64,10 +64,23 @@ class PlayerWidget extends StatelessWidget {
  * Base class for button widgets; can have text and/or an image icon.
  */
 class BaseButton extends StatelessWidget {
+
   final _label;
   final _image;
   final _function;
   bool enabled = true;
+  double _fontSize = 24;
+  double _buttonWidth = 160;
+  double _paddingSize = 6;
+
+  BaseButton.textOnlyWithSizes(String label, void Function(BuildContext) function,
+      double fontSize, double buttonWidth, double paddingSize)
+      : _label = label,
+        _image = null,
+        _function = function,
+        _fontSize = fontSize,
+        _buttonWidth = buttonWidth,
+        _paddingSize = paddingSize;
 
   BaseButton.textOnly(String label, void Function(BuildContext) function)
       : _label = label,
@@ -89,45 +102,50 @@ class BaseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.all(2),
+            minimumSize: Size(_buttonWidth, 30),
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            alignment: Alignment.centerLeft),
         onPressed: () {
           print("*** PRESSED: $_label ***");
           _function(context);
         },
-        child: getButtonContent(enabled));
+        child: getButtonContent(this.enabled, _buttonWidth, _paddingSize));
   }
 
   // ---------------------------------------------
   // creates icon and text content box
   // ---------------------------------------------
-  Widget getButtonContent(bool enabled) {
+  Widget getButtonContent(bool enabled, double buttonWidth, double paddingSize) {
     Widget content;
 
     if (!enabled) {
-      content = Text('...', style: TextStyle(fontSize: 24), textAlign: TextAlign.center,);
+      content = Text('...', style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,);
     } else {
 
       if (_image != null && _label != null) {
         content = Row(
           children: [
             Image(image: AssetImage(_image)),
-            SizedBox(width: 16),
-            Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+            gap(16),
+            Text(_label, style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,)
           ],
         );
       } else {
         content = _image == null
-            ? Text(_label, style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)
+            ? Text(_label, style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,)
             : Image(image: AssetImage(_image));
       }
     }
 
     return SizedBox(
-      width: 160,
+      width: buttonWidth,
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,
         child: Padding(
-          padding: const EdgeInsets.all(6),
+          padding: EdgeInsets.all(paddingSize),
           child: content
         ),
       ),
@@ -135,6 +153,9 @@ class BaseButton extends StatelessWidget {
   }
 }
 
+// ----------------------------------------------------------
+// Progress bar
+// ----------------------------------------------------------
 Widget getProgressBar(double width, double value, double minHeight, Color color, Color backgroundColor) {
   return SizedBox(
       width: width,
@@ -143,15 +164,27 @@ Widget getProgressBar(double width, double value, double minHeight, Color color,
           minHeight: minHeight,
           color: color,
           backgroundColor: backgroundColor,
-//          valueColor: AlwaysStoppedAnimation(Colors.black54))
       )
     );
 }
 
+// ----------------------------------------------------------
+// Horizontal gap between widgets
+// ----------------------------------------------------------
+SizedBox gap(double width) {
+  return SizedBox(width: width);
+}
+
+// ----------------------------------------------------------
+// Bold text style in given size
+// ----------------------------------------------------------
 getTitleTextStyle(double size) {
   return TextStyle(fontWeight: FontWeight.bold, fontSize: size);
 }
 
+// ----------------------------------------------------------
+// App bar for screen with title adapted to game state
+// ----------------------------------------------------------
 getAppBar(String title) {
   return AppBar(
     automaticallyImplyLeading: false,
