@@ -56,7 +56,7 @@ class Inventory {
   List<Widget> getItemWidgets(BuildContext context) {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
-      itemWidgets.add(getItemWidget(itemStack));
+      itemWidgets.add(getItemWidget(itemStack, 56));
     }
     return itemWidgets;
   }
@@ -200,7 +200,7 @@ Widget itemDetails() {
 List<Widget> getSelectedItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
-    detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!)));
+    detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!, 96)));
     detailContents.add(Container(
       padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       child: Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(16)))
@@ -245,8 +245,8 @@ void discardItem(bool discardAll) {
 // ---------------------------------------------------------------------
 // Item widget
 // ---------------------------------------------------------------------
-Widget getItemWidget(InventoryGameItemStack itemStack) {
-  Size size = Size(56, 56);
+Widget getItemWidget(InventoryGameItemStack itemStack, double length) {
+  Size size = Size(length, length);
   return InkWell(
     onTap: () {
       print("* tapped: " + itemStack.item!.name + " *");
