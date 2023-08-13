@@ -21,23 +21,17 @@ import 'models/magic.dart';
 // Switches back to title screen
 // -----------------------------------------------
 void backToTitle(BuildContext context) {
-  print("*** abort fight ***");
   switchToScreen(MonsterSlayerTitle(), context);
 }
 
 void continueAfterFight(BuildContext context) {
-  print("*** continue ***");
   if (GameState().player.isAlive()) {
     if (GameState().selectedInJobs!.finished) {
-      print("*** get back to game screen ***");
       switchToScreen(Game(), context);
     } else {
-      print("*** start next fight ***");
       startFight(context, GameState().selectedInJobs! );
-//    switchToScreen(Fight(), context);
     }
   } else {
-    print("*** back to title ***");
     switchToScreen(MonsterSlayerTitle(), context);
   }
 }
@@ -79,13 +73,10 @@ void startFight(BuildContext context, Job job) {
 // Performs attacks by player and enemies
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
-//  CurrentFight().enemiesAttackPlayer();
-
   if (CurrentFight().selectedAttack == null ||
       CurrentFight().selectedTarget == null) {
     return;
   }
-
   if (CurrentFight().selectedTarget != null) {
     attackTarget(GameState().player, CurrentFight().selectedTarget!,
         CurrentFight().selectedAttack!);
@@ -98,19 +89,22 @@ executeCombatTurn(BuildContext context) {
     // Re-select target to enforce update of affected targets
     CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
   }
-
-////////////////  GameState().update();
-
   if (!GameState().player.isAlive()) {
     CurrentFight().aborted;
   }
 }
 
+// -------------------------------------------
+// Stop fighting and run...
+// -------------------------------------------
 void flee(BuildContext context) {
   CurrentFight().aborted = true;
   jumpToNewScreenAfterFight(context);
 }
 
+// -----------------------------------------------
+// Continue to another screen once fight is over
+// -----------------------------------------------
 void jumpToNewScreenAfterFight(BuildContext context) {
   if (CurrentFight().finished()) {
     if (GameState().player.isAlive()) {
@@ -183,6 +177,9 @@ class Fight extends StatelessWidget {
   }
 }
 
+// -----------------------------------------------
+// Fight
+// -----------------------------------------------
 class FightScaffold extends StatelessWidget {
   const FightScaffold({super.key, required this.gameStateNotifier});
 
