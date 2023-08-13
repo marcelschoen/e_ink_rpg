@@ -25,11 +25,38 @@ abstract class Job {
   JobType jobType = JobType.hunterguild;
   GameIconAsset iconAsset = GameIconAsset.scrollWithFeather;
 
+  bool finished = false;
   bool selected = false;
 
   Job(this.label, this.description, this.jobType) {
-    jobSteps.addAll(getJobSteps());
-    currentStep = jobSteps.first;
+    JobStep? lastStep = null;
+    for (JobStep step in getJobSteps()) {
+      jobSteps.add(step);
+      if (lastStep != null) {
+        lastStep.nextStep = step;
+      }
+    }
+    if (!jobSteps.isEmpty) {
+      currentStep = jobSteps.first;
+    }
+  }
+
+  nextStep() {
+    currentStep = currentStep!.nextStep;
+    if (currentStep == null) {
+      // last step was completed
+      finished = true;
+    }
+  }
+
+  addStep(JobStep step) {
+    if (!jobSteps.isEmpty) {
+      jobSteps.last.nextStep = step;
+    }
+    jobSteps.add(step);
+    if (currentStep == null) {
+      currentStep = step;
+    }
   }
 
   List<JobStep> getJobSteps();
@@ -42,4 +69,5 @@ class JobStep {
   List<GameItem> receiveUponCompletion = [];
   List<Being> attackers = [];
   int level = 0;
+  JobStep? nextStep = null;
 }

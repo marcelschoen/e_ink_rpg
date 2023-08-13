@@ -5,6 +5,10 @@ import 'package:e_ink_rpg/models/beings.dart';
 
 import '../../models/jobs.dart';
 
+class AngryWasp extends Being {
+  AngryWasp() : super(SpeciesType.angrywasp) ;
+}
+
 class Bandit extends Being with Humanoid {
   Bandit() : super(SpeciesType.npc) ;
 }
@@ -18,10 +22,10 @@ class EliminateBandit extends Job {
   List<JobStep> getJobSteps() {
     List<JobStep> steps = [];
 
-    JobStep bandit = JobStep();
-    steps.add(bandit);
     int stepCounter = 0;
     for (int enemyNo = 0; enemyNo < numberOfBandits; enemyNo++) {
+      JobStep bandit = JobStep();
+      steps.add(bandit);
       bandit.attackers.add(Bandit());
       stepCounter ++;
       if (stepCounter == 5) {

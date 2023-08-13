@@ -206,7 +206,20 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(GoldPile(), 50);
 
 
-    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
+    EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
+
+    JobStep waveOne = JobStep();
+    waveOne.attackers.add(AngryWasp());
+    waveOne.attackers.add(AngryWasp());
+    job.addStep(waveOne);
+
+    JobStep waveTwo = JobStep();
+    waveTwo.attackers.add(Bandit());
+    job.addStep(waveTwo);
+
+    availableJobs.add(job);
+
+//    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
     availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
     availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
   }

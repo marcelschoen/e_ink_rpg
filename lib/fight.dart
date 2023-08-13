@@ -28,8 +28,14 @@ void backToTitle(BuildContext context) {
 void continueAfterFight(BuildContext context) {
   print("*** continue ***");
   if (GameState().player.isAlive()) {
-    print("*** start next fight ***");
-    switchToScreen(Game(), context);
+    if (GameState().selectedInJobs!.finished) {
+      print("*** get back to game screen ***");
+      switchToScreen(Game(), context);
+    } else {
+      print("*** start next fight ***");
+      startFight(context, GameState().selectedInJobs! );
+//    switchToScreen(Fight(), context);
+    }
   } else {
     print("*** back to title ***");
     switchToScreen(MonsterSlayerTitle(), context);
@@ -48,11 +54,15 @@ void startFight(BuildContext context, Job job) {
   // ----------- TEMPORARY - INITIALIZE WAVE OF ENEMIES -----------------
   List<Being> enemies = [];
 
-  if (job.currentStep != null) {
-    JobStep step = job.currentStep!;
-    enemies.addAll(step.attackers);
-  }
-/*
+  JobStep step = job.currentStep!;
+  enemies.addAll(step.attackers);
+
+  GameState().turnOrderState.update();
+  GameState().lowerButtonsState.update();
+  GameState().optionButtonState.update();
+  GameState().update();
+
+  /*
   enemies.add(Being(SpeciesType.darkwizard));
   enemies.add(Being(SpeciesType.acidblob));
   enemies.add(Being(SpeciesType.angrywasp));
@@ -104,7 +114,12 @@ void flee(BuildContext context) {
 void jumpToNewScreenAfterFight(BuildContext context) {
   if (CurrentFight().finished()) {
     if (GameState().player.isAlive()) {
-      switchToScreen(FightOverScaffold(), context);
+      GameState().selectedInJobs!.nextStep();
+      if (GameState().selectedInJobs!.finished) {
+        switchToScreen(FightOverScaffold(), context);
+      } else {
+        switchToScreen(FightOverScaffold(), context);
+      }
     } else {
       switchToScreen(FightOverScaffold(), context);
     }
