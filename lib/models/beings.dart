@@ -167,7 +167,7 @@ enum SpeciesType {
   bloodbat('Blood Bat', 50, 'bloodbat.png'),
   acidblob('Acid Blob', 100, 'blob.png'),
 
-  npc('NPC', 100, ''),
+  npc('NPC', 100, 'RPG_Monster_123-3.png'),
   player('Player', 100, '')
   ;
 

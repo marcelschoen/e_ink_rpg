@@ -160,7 +160,6 @@ class GameState with ChangeNotifier {
   }
 
   void setScreenType(ScreenType type) {
-    print ("-------> set screen type: " + type.name.toString());
     this._screenType = type;
     appBarTitleState.update();
   }
@@ -171,6 +170,11 @@ class GameState with ChangeNotifier {
 
   void beginGame() {
     Player().inventory.reset();
+    GameState().availableJobs.reset();
+
+    selectedInInventory = null;
+    selectedInJobs = null;
+
     Player().inventory.addItem(IronHelmet());
     Player().inventory.addItem(IronBreastPlate());
     Player().inventory.addItems(SmallHealingPotion(), 150);
@@ -202,9 +206,9 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(GoldPile(), 50);
 
 
-    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!'));
-    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.'));
-    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!'));
+    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
+    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
+    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
   }
 
   @override

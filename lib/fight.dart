@@ -10,6 +10,7 @@ import 'game.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
+import 'models/jobs.dart';
 import 'models/magic.dart';
 
 // *****************************************************************************
@@ -43,16 +44,21 @@ void doNothing() {
 // -----------------------------------------------
 // Switches to the fight screen and starts combat
 // -----------------------------------------------
-void startFight(BuildContext context) {
+void startFight(BuildContext context, Job job) {
   // ----------- TEMPORARY - INITIALIZE WAVE OF ENEMIES -----------------
   List<Being> enemies = [];
 
+  if (job.currentStep != null) {
+    JobStep step = job.currentStep!;
+    enemies.addAll(step.attackers);
+  }
+/*
   enemies.add(Being(SpeciesType.darkwizard));
   enemies.add(Being(SpeciesType.acidblob));
   enemies.add(Being(SpeciesType.angrywasp));
   enemies.add(Being(SpeciesType.tentacleeye));
   enemies.add(Being(SpeciesType.bloodbat));
-
+*/
   // --------------------------------------------------------------------------
 
   CurrentFight().begin(enemies);

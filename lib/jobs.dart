@@ -5,6 +5,7 @@ import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
+import 'fight.dart';
 import 'models/jobs.dart';
 
 // -----------------------------------------------------------------------------
@@ -26,6 +27,11 @@ class AvailableJobs {
   selectJob(Job job) {
     deselectAllJobs();
     job.selected = true;
+  }
+
+  reset() {
+    availableJobs = [];
+    deselectAllJobs();
   }
 
   add(Job job) {
@@ -114,15 +120,20 @@ Widget getJobsScreen(BuildContext context) {
             ),
           ),
           Column(children: [
-            BaseButton.textOnlyWithSizes("Use", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Combine", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Discard", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Discard all", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Begin", (p0) => { startSelectedJob(context) }, 40, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Done", (p0) => { print("* NOT IMPLEMENTED *") }, 40, 160, 2 ),
           ],)
         ],
       )
     ],
   );
+}
+
+startSelectedJob(BuildContext context) {
+  if (GameState().selectedInJobs != null) {
+    print ('----------> START JOB: ' + GameState().selectedInJobs!.label);
+    startFight(context, GameState().selectedInJobs! );
+  }
 }
 
 

@@ -15,10 +15,11 @@ enum JobType {
 // ----------------------------------------------------------
 // A job (aka quest) which contains of 1-n attack waves
 // ----------------------------------------------------------
-class Job {
+abstract class Job {
   String label = '';
   String description = '';
   List<JobStep> jobSteps = [];
+  JobStep? currentStep = null;
   List<GameItem> receiveUponCompletion = [];
   List<Stat> requiredStats = [];
   JobType jobType = JobType.hunterguild;
@@ -26,20 +27,19 @@ class Job {
 
   bool selected = false;
 
-  Job(this.label, this.description, this.jobType);
+  Job(this.label, this.description, this.jobType) {
+    jobSteps.addAll(getJobSteps());
+    currentStep = jobSteps.first;
+  }
+
+  List<JobStep> getJobSteps();
 }
 
 // ----------------------------------------------------------
 // Base class for job steps
 // ----------------------------------------------------------
-abstract class JobStep {
+class JobStep {
   List<GameItem> receiveUponCompletion = [];
-}
-
-// ----------------------------------------------------------
-// One single wave of 1 - 5 attackers
-// ----------------------------------------------------------
-class AttackWave extends JobStep {
   List<Being> attackers = [];
   int level = 0;
 }
