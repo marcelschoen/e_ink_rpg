@@ -126,11 +126,36 @@ Widget getJobsScreen(BuildContext context) {
 
 Widget getJobsList(BuildContext context) {
   List<Widget> jobEntries = [];
+
+  jobEntries.add(getListSectionTitle('Available jobs', 16));
+
   for (Job job in GameState().availableJobs.availableJobs) {
-    jobEntries.add(getJobListEntry(context, job));
+    if (!job.finished) {
+      jobEntries.add(getJobListEntry(context, job));
+    }
   }
 
-  return Column(children: jobEntries);
+  jobEntries.add(getListSectionTitle('Completed jobs', 40));
+
+  for (Job job in GameState().availableJobs.availableJobs) {
+    if (job.finished) {
+      jobEntries.add(getJobListEntry(context, job));
+    }
+  }
+
+  return ListView.builder(
+    itemCount: GameState().availableJobs.availableJobs.length + 2,
+    itemBuilder: (BuildContext context, int index) {
+      return jobEntries[index];
+    }
+  );
+}
+
+Widget getListSectionTitle(String title, double topPadding) {
+  return Padding(
+    padding: EdgeInsets.fromLTRB(16, topPadding, 16, 16),
+    child: Text(title, style: getTitleTextStyle(16)),
+  );
 }
 
 Widget getJobListEntry(BuildContext context, Job job) {
