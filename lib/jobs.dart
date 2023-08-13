@@ -1,5 +1,3 @@
-
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
@@ -37,15 +35,6 @@ class AvailableJobs {
   add(Job job) {
     availableJobs.add(job);
   }
-
-  List<Widget> getJobWidgets() {
-    List<Widget> jobWidgets = [];
-    for (Job job in availableJobs) {
-      jobWidgets.add(getJobWidget(job));
-    }
-    return jobWidgets;
-  }
-
 }
 
 // -----------------------------------------------------------------------------
@@ -57,10 +46,12 @@ Widget getJobsScreen(BuildContext context) {
       Expanded(
         child: Scrollbar(
           thickness: 20,
-          isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
+          isAlwaysShown: true, // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
             listenable: GameState().jobSelectionState,
             builder: (BuildContext context, Widget? child) {
+              return getJobsList(context);
+              /*
               return GridView.count(
                 childAspectRatio: 4,
                   crossAxisSpacing: 8,
@@ -71,6 +62,8 @@ Widget getJobsScreen(BuildContext context) {
                   // Generate 100 widgets that display their index in the List.
                   children: GameState().availableJobs.getJobWidgets(),
               );
+
+              */
             },
           ),
         ),
@@ -79,13 +72,11 @@ Widget getJobsScreen(BuildContext context) {
         children: [
           Expanded(
             child: Card(
-              shape: RoundedRectangleBorder( //<-- SEE HERE
+              shape: RoundedRectangleBorder(
+                //<-- SEE HERE
                 borderRadius: BorderRadius.circular(10),
                 side: BorderSide(
-                    color: Colors.black54,
-                    style: BorderStyle.solid,
-                    width: 4
-                ),
+                    color: Colors.black54, style: BorderStyle.solid, width: 4),
               ),
               child: SizedBox(
                 height: 180,
@@ -119,23 +110,68 @@ Widget getJobsScreen(BuildContext context) {
               ),
             ),
           ),
-          Column(children: [
-            BaseButton.textOnlyWithSizes("Begin", (p0) => { startSelectedJob(context) }, 40, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Done", (p0) => { print("* NOT IMPLEMENTED *") }, 40, 160, 2 ),
-          ],)
+          Column(
+            children: [
+              BaseButton.textOnlyWithSizes(
+                  "Begin", (p0) => {startSelectedJob(context)}, 40, 160, 2),
+              BaseButton.textOnlyWithSizes(
+                  "Done", (p0) => {print("* NOT IMPLEMENTED *")}, 40, 160, 2),
+            ],
+          )
         ],
       )
     ],
   );
 }
 
-startSelectedJob(BuildContext context) {
-  if (GameState().selectedInJobs != null) {
-    print ('----------> START JOB: ' + GameState().selectedInJobs!.label);
-    startFight(context, GameState().selectedInJobs! );
+Widget getJobsList(BuildContext context) {
+  List<Widget> jobEntries = [];
+  for (Job job in GameState().availableJobs.availableJobs) {
+    jobEntries.add(getJobListEntry(context, job));
   }
+
+  return Column(children: jobEntries);
 }
 
+Widget getJobListEntry(BuildContext context, Job job) {
+  return InkWell(
+      onTap: () {
+        print("* tapped: " + job.label + " *");
+        GameState().selectedInJobs = job;
+        GameState().availableJobs.selectJob(job);
+        GameState().jobSelectionState.update();
+      },
+      child: getJobBorder(
+        job,
+        Column(
+          children: [
+            Row(
+              children: [
+                FittedBox(child: job.iconAsset.getIconImage()),
+                Expanded(
+                  child: Text(job.label,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center),
+                ),
+              ],
+            ),
+          ],
+        )
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------
+// Starts the fight for the current selected job
+// ---------------------------------------------------------------------
+startSelectedJob(BuildContext context) {
+  if (GameState().selectedInJobs != null) {
+    print('----------> START JOB: ' + GameState().selectedInJobs!.label);
+    startFight(context, GameState().selectedInJobs!);
+  }
+}
 
 // ---------------------------------------------------------------------
 // The box with the details of the selected item stack
@@ -148,9 +184,7 @@ Widget jobDetails() {
       child: ListenableBuilder(
         listenable: GameState().jobSelectionState,
         builder: (BuildContext context, Widget? child) {
-          return Row(
-            children: getSelectedJobDetails(),
-          );
+          return getSelectedJobDetails();
         },
       ),
     ),
@@ -160,34 +194,39 @@ Widget jobDetails() {
 // ---------------------------------------------------------------------
 // The job image and description of the selected job
 // ---------------------------------------------------------------------
-List<Widget> getSelectedJobDetails() {
-  List<Widget> detailContents = [];
+Widget getSelectedJobDetails() {
   if (GameState().selectedInJobs != null) {
-    detailContents.add(SizedBox(width: 160, child: getJobWidget(GameState().selectedInJobs!)));
-    detailContents.add(Expanded(
+    return Expanded(
         child: Container(
             padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-            child: Text(GameState().selectedInJobs!.description, style: getTitleTextStyle(20)))
-    )
-    );
+            child: Text(GameState().selectedInJobs!.description,
+                style: getTitleTextStyle(20))));
   }
-  return detailContents;
+  return Container();
 }
 
 // ---------------------------------------------------------------------
-// Job widget
+// Border around selected inventory item stack
 // ---------------------------------------------------------------------
-Widget getJobWidget(Job job) {
-  Size size = Size(100, 30);
-  return InkWell(
-    onTap: () {
-      print("* tapped: " + job.label + " *");
-      GameState().selectedInJobs = job;
-      GameState().availableJobs.selectJob(job);
+Widget getJobBorder(Job job, Widget content) {
+  if (job.selected) {
+    return DottedBorder(
+      borderType: BorderType.RRect,
+      strokeWidth: 4,
+      color: Colors.blueGrey,
+      radius: Radius.circular(8),
+      padding: EdgeInsets.all(4),
+      child: content,
+    );
+  }
+  return Container(
+    color: Colors.black12,
+    child: content,
+  );
+}
 
 
-      GameState().jobSelectionState.update();
-      /*
+/*
         showDialog<String>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
@@ -206,56 +245,3 @@ Widget getJobWidget(Job job) {
         ),
         );
         */
-    },
-    child: getJobBorder(job, Column(
-      children: [
-        Expanded(
-          child: Container(
-            constraints: BoxConstraints.tight(size),
-            padding: const EdgeInsets.all(4),
-            child: FittedBox(child: job.iconAsset.getIconImage()),
-          ),
-        ),
-
-        Row(
-          children: [
-            Container(
-                color: Colors.black,
-                width: 24,
-                height: 36,
-                alignment: Alignment.center,
-                child: Text('XY', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
-                    textAlign: TextAlign.center)
-            ),
-            Expanded(
-              child: Text(job.label,
-                  style: TextStyle(fontWeight: FontWeight.bold, ),
-                  textAlign: TextAlign.center),
-            ),
-          ],
-        ),
-      ],
-    ),
-    ),
-  );
-}
-
-// ---------------------------------------------------------------------
-// Border around selected inventory item stack
-// ---------------------------------------------------------------------
-Widget getJobBorder(Job job, Widget content) {
-  if(job.selected) {
-    return DottedBorder(
-      borderType: BorderType.RRect,
-      strokeWidth: 4,
-      color: Colors.blueGrey,
-      radius: Radius.circular(8),
-      padding: EdgeInsets.all(4),
-      child: content,
-    );
-  }
-  return Container(
-    color: Colors.black12,
-    child: content,
-  );
-}
