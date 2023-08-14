@@ -97,14 +97,17 @@ Widget getJobsScreen(BuildContext context) {
               ),
             ),
           ),
-          Column(
-            children: [
-              BaseButton.textOnlyWithSizes(
-                  "Begin", (p0) => {startSelectedJob(context)}, 40, 160, 2),
-              BaseButton.textOnlyWithSizes(
-                  "Done", (p0) => {print("* NOT IMPLEMENTED *")}, 40, 160, 2),
-            ],
-          )
+          ListenableBuilder(
+            listenable: GameState().jobsButtonState,
+            builder: (BuildContext context, Widget? child) {
+              String label = 'Start';
+              if (GameState().selectedInJobs == null) {
+                label = '...';
+              }
+              return BaseButton.textOnlyWithSizes(
+                label, (p0) => {startSelectedJob(context)}, 40, 160, 2);
+            },
+          ),
         ],
       )
     ],
@@ -152,6 +155,7 @@ Widget getJobListEntry(BuildContext context, Job job) {
         GameState().selectedInJobs = job;
         GameState().availableJobs.selectJob(job);
         GameState().jobSelectionState.update();
+        GameState().jobsButtonState.update();
       },
       child: getJobBorder(
         job,
@@ -180,7 +184,6 @@ Widget getJobListEntry(BuildContext context, Job job) {
 // ---------------------------------------------------------------------
 startSelectedJob(BuildContext context) {
   if (GameState().selectedInJobs != null) {
-    print('----------> START JOB: ' + GameState().selectedInJobs!.label);
     startFight(context, GameState().selectedInJobs!);
   }
 }

@@ -104,6 +104,8 @@ class GameState with ChangeNotifier {
   final GeneralState inventorySelectionState = GeneralState();
   final GeneralState jobSelectionState = GeneralState();
 
+  final GeneralState jobsButtonState = GeneralState();
+
   ScreenType _screenType = ScreenType.title;
   Difficulty difficulty = Difficulty.normal;
 

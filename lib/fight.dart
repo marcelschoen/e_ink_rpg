@@ -51,12 +51,12 @@ void startFight(BuildContext context, Job job) {
   JobStep step = job.currentStep!;
   enemies.addAll(step.attackers);
 
+  /*
   GameState().turnOrderState.update();
   GameState().lowerButtonsState.update();
   GameState().optionButtonState.update();
   GameState().update();
 
-  /*
   enemies.add(Being(SpeciesType.darkwizard));
   enemies.add(Being(SpeciesType.acidblob));
   enemies.add(Being(SpeciesType.angrywasp));
