@@ -51,19 +51,6 @@ Widget getJobsScreen(BuildContext context) {
             listenable: GameState().jobSelectionState,
             builder: (BuildContext context, Widget? child) {
               return getJobsList(context);
-              /*
-              return GridView.count(
-                childAspectRatio: 4,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  // Create a grid with 2 columns. If you change the scrollDirection to
-                  // horizontal, this produces 2 rows.
-                  crossAxisCount: 2,
-                  // Generate 100 widgets that display their index in the List.
-                  children: GameState().availableJobs.getJobWidgets(),
-              );
-
-              */
             },
           ),
         ),
@@ -202,6 +189,17 @@ startSelectedJob(BuildContext context) {
 // The box with the details of the selected item stack
 // ---------------------------------------------------------------------
 Widget jobDetails() {
+  return Container(
+    alignment: Alignment.topLeft,
+    margin: EdgeInsets.all(5),
+    child: ListenableBuilder(
+      listenable: GameState().jobSelectionState,
+      builder: (BuildContext context, Widget? child) {
+        return getSelectedJobDetails();
+      },
+    ),
+  );
+/*
   return Expanded(
     child: Container(
       alignment: Alignment.topLeft,
@@ -214,6 +212,8 @@ Widget jobDetails() {
       ),
     ),
   );
+
+ */
 }
 
 // ---------------------------------------------------------------------
@@ -221,11 +221,10 @@ Widget jobDetails() {
 // ---------------------------------------------------------------------
 Widget getSelectedJobDetails() {
   if (GameState().selectedInJobs != null) {
-    return Expanded(
-        child: Container(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-            child: Text(GameState().selectedInJobs!.description,
-                style: getTitleTextStyle(20))));
+    return Container(
+        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+        child: Text(GameState().selectedInJobs!.description,
+            style: getTitleTextStyle(20)));
   }
   return Container();
 }
