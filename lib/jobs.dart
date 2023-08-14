@@ -141,6 +141,9 @@ Widget getJobsList(BuildContext context) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Creates a title label for a section in the jobs list
+// -----------------------------------------------------------------------------
 Widget getListSectionTitle(String title, double topPadding) {
   return Padding(
     padding: EdgeInsets.fromLTRB(16, topPadding, 16, 16),
@@ -148,10 +151,12 @@ Widget getListSectionTitle(String title, double topPadding) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Returns a tappable job list entry (icon + label)
+// -----------------------------------------------------------------------------
 Widget getJobListEntry(BuildContext context, Job job) {
   return InkWell(
       onTap: () {
-        print("* tapped: " + job.label + " *");
         GameState().selectedInJobs = job;
         GameState().availableJobs.selectJob(job);
         GameState().jobSelectionState.update();
@@ -180,6 +185,26 @@ Widget getJobListEntry(BuildContext context, Job job) {
 }
 
 // ---------------------------------------------------------------------
+// Border around selected inventory item stack
+// ---------------------------------------------------------------------
+Widget getJobBorder(Job job, Widget content) {
+  if (job.selected) {
+    return DottedBorder(
+      borderType: BorderType.RRect,
+      strokeWidth: 4,
+      color: Colors.blueGrey,
+      radius: Radius.circular(8),
+      padding: EdgeInsets.all(4),
+      child: content,
+    );
+  }
+  return Container(
+    color: Colors.black12,
+    child: content,
+  );
+}
+
+// ---------------------------------------------------------------------
 // Starts the fight for the current selected job
 // ---------------------------------------------------------------------
 startSelectedJob(BuildContext context) {
@@ -202,21 +227,6 @@ Widget jobDetails() {
       },
     ),
   );
-/*
-  return Expanded(
-    child: Container(
-      alignment: Alignment.topLeft,
-      margin: EdgeInsets.all(5),
-      child: ListenableBuilder(
-        listenable: GameState().jobSelectionState,
-        builder: (BuildContext context, Widget? child) {
-          return getSelectedJobDetails();
-        },
-      ),
-    ),
-  );
-
- */
 }
 
 // ---------------------------------------------------------------------
@@ -230,26 +240,6 @@ Widget getSelectedJobDetails() {
             style: getTitleTextStyle(20)));
   }
   return Container();
-}
-
-// ---------------------------------------------------------------------
-// Border around selected inventory item stack
-// ---------------------------------------------------------------------
-Widget getJobBorder(Job job, Widget content) {
-  if (job.selected) {
-    return DottedBorder(
-      borderType: BorderType.RRect,
-      strokeWidth: 4,
-      color: Colors.blueGrey,
-      radius: Radius.circular(8),
-      padding: EdgeInsets.all(4),
-      child: content,
-    );
-  }
-  return Container(
-    color: Colors.black12,
-    child: content,
-  );
 }
 
 

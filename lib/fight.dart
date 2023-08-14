@@ -27,6 +27,8 @@ void backToTitle(BuildContext context) {
 void continueAfterFight(BuildContext context) {
   if (GameState().player.isAlive()) {
     if (GameState().selectedInJobs!.finished) {
+      GameState().availableJobs.deselectAllJobs();
+      GameState().selectedInJobs = null;
       switchToScreen(Game(), context);
     } else {
       startFight(context, GameState().selectedInJobs! );
@@ -110,12 +112,12 @@ void jumpToNewScreenAfterFight(BuildContext context) {
     if (GameState().player.isAlive()) {
       GameState().selectedInJobs!.nextStep();
       if (GameState().selectedInJobs!.finished) {
-        switchToScreen(FightOverScaffold(), context);
+        switchToScreen(FightOverScaffold('JOB COMPLETED!'), context);
       } else {
-        switchToScreen(FightOverScaffold(), context);
+        switchToScreen(FightOverScaffold('VICTORY!'), context);
       }
     } else {
-      switchToScreen(FightOverScaffold(), context);
+      switchToScreen(FightOverScaffold('DEFEAT!'), context);
     }
   }
 }
@@ -414,7 +416,10 @@ List<Widget> getActionOptions() {
 // *****************************************************************************
 
 class FightOverScaffold extends StatelessWidget {
-  const FightOverScaffold({super.key});
+
+  final String appBarTitle;
+
+  const FightOverScaffold(this.appBarTitle);
 
   Future<bool> _onWillPop() async {
     // disable "back" button
@@ -426,11 +431,7 @@ class FightOverScaffold extends StatelessWidget {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: getAppBar(GameState().player.isAlive()
-            ? (CurrentFight().aborted
-            ? '!! YOU ARE FLEEING !!'
-            : '!! VICTORY !!')
-            : '!! YOU LOST !!'),
+        appBar: getAppBar(appBarTitle),
 
         // ********** Actual combat screen part **********
         body: Center(
