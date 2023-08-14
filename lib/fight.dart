@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -112,7 +113,9 @@ void jumpToNewScreenAfterFight(BuildContext context) {
     if (GameState().player.isAlive()) {
       GameState().selectedInJobs!.nextStep();
       if (GameState().selectedInJobs!.finished) {
-        switchToScreen(FightOverScaffold('JOB COMPLETED!'), context);
+        print("*** INCREASE XP BY: " + GameState().selectedInJobs!.xp.toString());
+        GameState().player.restoreStatBy(StatType.xp, GameState().selectedInJobs!.xp);
+        switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
       } else {
         switchToScreen(FightOverScaffold('VICTORY!'), context);
       }
@@ -266,12 +269,12 @@ Widget wrapButtonsOrInfoLabel(Widget content) {
 Column fightScreen(BuildContext context) {
   return Column(
     children: [
+      // ------------- player status widget ----------
+      PlayerWidget(),
       // ------------- enemies display panel -------------
       enemyDisplay(context),
       // ------------- turn order list widget ----------
       getTurnOrderList(),
-      // ------------- player status widget ----------
-      PlayerWidget(),
       // ---------------- attack / magic selection panel ----------
       getActionButtonsOrEnemyActions(context),
     ],

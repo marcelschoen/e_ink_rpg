@@ -4,6 +4,7 @@ enum StatType {
   defense,
   mana,
   skillpoints,
+  xp
 }
 
 /**

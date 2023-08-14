@@ -32,12 +32,13 @@ class Being {
     int maxHealth = monsterType.maxHealth();
     Stat statHealth = Stat(StatType.health, maxHealth);
     statHealth.setValueTo(maxHealth);
-    addStat(statHealth);
+    setStat(statHealth);
 //    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
-    addStat(Stat.withValue(StatType.strength, 10, 10));
-    addStat(Stat.withValue(StatType.defense, 5, 5));
-    addStat(Stat.withValue(StatType.mana, 20, 20));
-    addStat(Stat.withValue(StatType.skillpoints, 0, 5));
+    setStat(Stat.withValue(StatType.strength, 10, 10));
+    setStat(Stat.withValue(StatType.defense, 5, 5));
+    setStat(Stat.withValue(StatType.mana, 20, 20));
+    setStat(Stat.withValue(StatType.skillpoints, 0, 5));
+    setStat(Stat.withValue(StatType.xp, 50, 100));
     _state = BeingState(this);
 
     if (species == SpeciesType.player) {
@@ -118,7 +119,7 @@ class Being {
     return _stats.containsKey(statType) ? _stats[statType]!.maxValue() : 0;
   }
 
-  void addStat(Stat stat) {
+  void setStat(Stat stat) {
     _stats.putIfAbsent(stat.statType, () => stat);
   }
 
@@ -202,7 +203,7 @@ mixin Humanoid {
  */
 class Player extends Being with Humanoid {
 
-  //  var experience = 0;
+  int xp = 0;
 
   Set<Attack> availableAttacks = {};
   Set<Spell> availableSpells = {};
@@ -221,6 +222,8 @@ class Player extends Being with Humanoid {
   reset() {
     setStatValue(StatType.strength, 10);
     setStatValue(StatType.health, 100);
+    setStatValue(StatType.skillpoints, 0);
+    setStatValue(StatType.xp, 0);
     money = 0;
     name = 'Harribo';
     availableAttacks = { Hit(), Swing() };

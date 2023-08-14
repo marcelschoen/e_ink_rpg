@@ -28,7 +28,11 @@ abstract class Job {
   bool finished = false;
   bool selected = false;
 
-  Job(this.label, this.description, this.jobType) {
+  // bounty for getting job done
+  int xp = 10;
+  List<GameItem> loot = [];
+
+  Job(this.label, this.description, this.jobType, this.xp) {
     JobStep? lastStep = null;
     for (JobStep step in getJobSteps()) {
       jobSteps.add(step);

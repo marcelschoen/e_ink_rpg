@@ -16,6 +16,18 @@ class PlayerWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
+              SizedBox(
+                width: 100,
+                child: Column(
+                  children: [
+                    Text('Level'),
+                    Text('0'),
+                    SizedBox(height: 4,),
+                    Text('Money'),
+                    Text('1300'),
+                  ],
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.all(8.0),
                 child: GameNpcImageAsset.player.getNpcImage(),
@@ -23,9 +35,10 @@ class PlayerWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text('HEALTH: ', style: TextStyle(fontSize: 16)),
-                  Text('MANA: ', style: TextStyle(fontSize: 16)),
-                  Text('SKILL: ', style: TextStyle(fontSize: 16)),
+                  Text('HEALTH: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  Text('MANA: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  Text('SKILL: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                  Text('XP: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                 ],
               ),
               ListenableBuilder(
@@ -37,17 +50,21 @@ class PlayerWidget extends StatelessWidget {
                     children: [
                       getProgressBar(60,
                           GameState().player.progressBarValue(StatType.health),
-                          14, Colors.black45, Colors.black12),
+                          10, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - MANA
                       getProgressBar(60,
                           GameState().player.progressBarValue(StatType.mana),
-                          14, Colors.black45, Colors.black12),
+                          10, Colors.black45, Colors.black12),
                       SizedBox(height: 6,),
                       // TODO - SKILL
                       getProgressBar(60,
                           GameState().player.progressBarValue(StatType.skillpoints),
-                          14, Colors.black45, Colors.black12),
+                          10, Colors.black45, Colors.black12),
+                      SizedBox(height: 6,),
+                      getProgressBar(60,
+                          GameState().player.progressBarValue(StatType.xp),
+                          10, Colors.black45, Colors.black12),
                     ],
                   );
                 },

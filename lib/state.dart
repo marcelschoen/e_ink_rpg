@@ -204,7 +204,6 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(Snozzcumber(), 8);
     Player().inventory.addItems(Sultana(), 8);
 
-
     Player().inventory.addItems(GoldPile(), 50);
 
 
