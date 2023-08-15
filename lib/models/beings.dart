@@ -210,7 +210,6 @@ class Player extends Being with Humanoid {
   static final Player _instance = Player._internal();
 
   Player._internal() : super.player() {
-    setStatValue(StatType.xp, 0);
     reset();
   }
 
@@ -223,6 +222,7 @@ class Player extends Being with Humanoid {
     setStatValue(StatType.strength, 10);
     setStatValue(StatType.health, 100);
     setStatValue(StatType.skillpoints, 0);
+    setStatValue(StatType.xp, 0);
     money = 0;
     name = 'Harribo';
     availableAttacks = { Hit(), Swing() };

@@ -171,6 +171,7 @@ class GameState with ChangeNotifier {
   }
 
   void beginGame() {
+    Player().reset();
     Player().inventory.reset();
     GameState().availableJobs.reset();
 

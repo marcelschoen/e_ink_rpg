@@ -32,6 +32,10 @@ class Stat {
     return _value;
   }
 
+  bool isFull() {
+    return _value >= _maxValue;
+  }
+
   double progressBarValue() {
     if (_value <= 0) {
       return 0;
