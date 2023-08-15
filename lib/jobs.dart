@@ -70,26 +70,7 @@ Widget getJobsScreen(BuildContext context) {
                 child: Container(
                   child: Column(
                     children: [
-                      Container(
-                        color: Colors.black12,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 4, bottom: 0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.black,
-                                width: 3.0,
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Details', style: getTitleTextStyle(18)),
-                            ],
-                          ),
-                        ),
-                      ),
+                      getDetailsBar('Details'),
                       jobDetails(),
                     ],
                   ),
@@ -105,12 +86,35 @@ Widget getJobsScreen(BuildContext context) {
                 label = '...';
               }
               return BaseButton.textOnlyWithSizes(
-                label, (p0) => {startSelectedJob(context)}, 40, 160, 2);
+                  label, (p0) => {startSelectedJob(context)}, 40, 160, 2);
             },
           ),
         ],
       )
     ],
+  );
+}
+
+Container getDetailsBar(String label) {
+  return Container(
+    color: Colors.black12,
+    child: Container(
+      margin: EdgeInsets.only(top: 4, bottom: 0),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black,
+            width: 3.0,
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(label, style: getTitleTextStyle(18)),
+        ],
+      ),
+    ),
   );
 }
 
@@ -134,11 +138,10 @@ Widget getJobsList(BuildContext context) {
   }
 
   return ListView.builder(
-    itemCount: GameState().availableJobs.availableJobs.length + 2,
-    itemBuilder: (BuildContext context, int index) {
-      return jobEntries[index];
-    }
-  );
+      itemCount: GameState().availableJobs.availableJobs.length + 2,
+      itemBuilder: (BuildContext context, int index) {
+        return jobEntries[index];
+      });
 }
 
 // -----------------------------------------------------------------------------
@@ -156,13 +159,13 @@ Widget getListSectionTitle(String title, double topPadding) {
 // -----------------------------------------------------------------------------
 Widget getJobListEntry(BuildContext context, Job job) {
   return InkWell(
-      onTap: () {
-        GameState().selectedInJobs = job;
-        GameState().availableJobs.selectJob(job);
-        GameState().jobSelectionState.update();
-        GameState().jobsButtonState.update();
-      },
-      child: getJobBorder(
+    onTap: () {
+      GameState().selectedInJobs = job;
+      GameState().availableJobs.selectJob(job);
+      GameState().jobSelectionState.update();
+      GameState().jobsButtonState.update();
+    },
+    child: getJobBorder(
         job,
         Column(
           children: [
@@ -179,8 +182,7 @@ Widget getJobListEntry(BuildContext context, Job job) {
               ],
             ),
           ],
-        )
-    ),
+        )),
   );
 }
 
@@ -234,14 +236,39 @@ Widget jobDetails() {
 // ---------------------------------------------------------------------
 Widget getSelectedJobDetails() {
   if (GameState().selectedInJobs != null) {
-    return Container(
-        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-        child: Text(GameState().selectedInJobs!.description,
-            style: getTitleTextStyle(20)));
+    return Column(
+      children: [
+        Container(
+            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+            child: Column(
+              children: [
+                getTextLine(GameState().selectedInJobs!.description, 20),
+                SizedBox(height: 10,),
+                getTextLine('Rewards:', 16),
+                getTextLine(getRewardsInfo(GameState().selectedInJobs!), 16),
+              ],
+            )),
+
+      ],
+    );
   }
   return Container();
 }
 
+String getRewardsInfo(Job job) {
+  List<String> rewards = [];
+  if (job.xp > 0) {
+    rewards.add(GameState().selectedInJobs!.xp.toString() + ' XP');
+  }
+  if (job.payment > 0) {
+    rewards.add(GameState().selectedInJobs!.payment.toString() + ' Gold');
+  }
+  return rewards.join(', ');
+}
+
+Text getTextLine(String text, double size) {
+  return Text(text, style: getTitleTextStyle(size));
+}
 
 /*
         showDialog<String>(

@@ -30,6 +30,7 @@ abstract class Job {
 
   // bounty for getting job done
   int xp = 10;
+  int payment = 150;
   List<GameItem> loot = [];
 
   Job(this.label, this.description, this.jobType, this.xp) {
