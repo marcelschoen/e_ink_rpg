@@ -114,8 +114,6 @@ void jumpToNewScreenAfterFight(BuildContext context) {
     if (GameState().player.isAlive()) {
       GameState().selectedInJobs!.nextStep();
       if (GameState().selectedInJobs!.finished) {
-        GameState().player.increaseXp(GameState().selectedInJobs!.xp);
-        GameState().player.money += GameState().selectedInJobs!.payment;
         switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
       } else {
         switchToScreen(FightOverScaffold('VICTORY!'), context);

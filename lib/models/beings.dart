@@ -226,6 +226,7 @@ class Player extends Being with Humanoid {
 
   reset() {
     print ("-------------------------- RESET --------------------------");
+    level = 1;
     setStatValue(StatType.strength, 10);
     setStatValue(StatType.health, 100);
     setStatValue(StatType.skillpoints, 0);

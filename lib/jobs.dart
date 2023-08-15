@@ -257,7 +257,7 @@ Widget getSelectedJobDetails() {
 
 String getRewardsInfo(Job job) {
   List<String> rewards = [];
-  if (job.xp > 0) {
+  if (job.xp > 0 && !job.finished) {
     rewards.add(GameState().selectedInJobs!.xp.toString() + ' XP');
   }
   if (job.payment > 0) {

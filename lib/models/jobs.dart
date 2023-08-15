@@ -1,6 +1,7 @@
 import 'package:e_ink_rpg/models/stat.dart';
 
 import '../assets.dart';
+import '../state.dart';
 import 'beings.dart';
 import 'item.dart';
 
@@ -50,6 +51,13 @@ abstract class Job {
     currentStep = currentStep!.nextStep;
     if (currentStep == null) {
       // last step was completed
+      if (!finished) {
+
+        // TODO - HOW TO HANDLE DIMINISHING XP GAINS FROM REPEATING JOBS
+
+        GameState().player.increaseXp(GameState().selectedInJobs!.xp);
+      }
+      GameState().player.money += GameState().selectedInJobs!.payment;
       finished = true;
     }
   }
