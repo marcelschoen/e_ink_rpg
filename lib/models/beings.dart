@@ -12,7 +12,7 @@ import 'magic.dart';
  */
 class Being {
 
-  int experience = 0;
+  int killXp = 10;
   int level = 1;
   BeingState? _state;
   Map<StatType, Stat> _stats = {};
@@ -38,7 +38,7 @@ class Being {
     setStat(Stat.withValue(StatType.defense, 5, 5));
     setStat(Stat.withValue(StatType.mana, 20, 20));
     setStat(Stat.withValue(StatType.skillpoints, 0, 5));
-    setStat(Stat.withValue(StatType.xp, 50, 100));
+    setStat(Stat.withValue(StatType.xp, 0, 100));
     _state = BeingState(this);
 
     if (species == SpeciesType.player) {
@@ -203,8 +203,6 @@ mixin Humanoid {
  */
 class Player extends Being with Humanoid {
 
-  int xp = 0;
-
   Set<Attack> availableAttacks = {};
   Set<Spell> availableSpells = {};
 
@@ -212,6 +210,7 @@ class Player extends Being with Humanoid {
   static final Player _instance = Player._internal();
 
   Player._internal() : super.player() {
+    setStatValue(StatType.xp, 0);
     reset();
   }
 
@@ -220,14 +219,18 @@ class Player extends Being with Humanoid {
   }
 
   reset() {
+    print ("-------------------------- RESET --------------------------");
     setStatValue(StatType.strength, 10);
     setStatValue(StatType.health, 100);
     setStatValue(StatType.skillpoints, 0);
-    setStatValue(StatType.xp, 0);
     money = 0;
     name = 'Harribo';
     availableAttacks = { Hit(), Swing() };
     availableSpells = { Fireball() };
+  }
+
+  increaseXp(int increase) {
+    restoreStatBy(StatType.xp, increase);
   }
 
   unlockAttack(Attack attack) {

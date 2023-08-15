@@ -1,4 +1,3 @@
-import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -87,11 +86,13 @@ executeCombatTurn(BuildContext context) {
 
   jumpToNewScreenAfterFight(context);
 
-  if (CurrentFight().selectedTarget != null &&
-      CurrentFight().selectedTarget!.isAlive()) {
-    // Re-select target to enforce update of affected targets
-    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+  if (CurrentFight().selectedTarget != null) {
+    if (CurrentFight().selectedTarget!.isAlive()) {
+      // Re-select target to enforce update of affected targets
+      CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+    }
   }
+
   if (!GameState().player.isAlive()) {
     CurrentFight().aborted;
   }
@@ -113,8 +114,7 @@ void jumpToNewScreenAfterFight(BuildContext context) {
     if (GameState().player.isAlive()) {
       GameState().selectedInJobs!.nextStep();
       if (GameState().selectedInJobs!.finished) {
-        print("*** INCREASE XP BY: " + GameState().selectedInJobs!.xp.toString());
-        GameState().player.restoreStatBy(StatType.xp, GameState().selectedInJobs!.xp);
+        GameState().player.increaseXp(GameState().selectedInJobs!.xp);
         switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
       } else {
         switchToScreen(FightOverScaffold('VICTORY!'), context);

@@ -67,6 +67,7 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   }
 
   if (!target.isAlive()) {
+    GameState().player.increaseXp(target.killXp);
     CurrentFight().selectedTarget = null;
     CurrentFight().deselectTargets();
     CurrentFight().deaffectTargets();
