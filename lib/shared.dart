@@ -21,10 +21,10 @@ class PlayerWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Text('Level'),
-                    Text('0'),
+                    Text(GameState().player.level.toString()),
                     SizedBox(height: 4,),
                     Text('Money'),
-                    Text('1300'),
+                    Text(GameState().player.money.toString()),
                   ],
                 ),
               ),

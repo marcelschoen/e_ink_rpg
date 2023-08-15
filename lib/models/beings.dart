@@ -89,6 +89,13 @@ class Being {
     }
   }
 
+  bool statIsFull(StatType statType) {
+    if (_stats.containsKey(statType)) {
+      return _stats[statType]!.value() >= _stats[statType]!.maxValue();
+    }
+    return false;
+  }
+
   void restoreStatBy(StatType statType, int restoreValue) {
     if (_stats.containsKey(statType)) {
       _stats[statType]!.restoreBy(restoreValue);
@@ -231,6 +238,10 @@ class Player extends Being with Humanoid {
 
   increaseXp(int increase) {
     restoreStatBy(StatType.xp, increase);
+    if (statIsFull(StatType.xp)) {
+      level ++;
+      depleteStat(StatType.xp);
+    }
   }
 
   unlockAttack(Attack attack) {
