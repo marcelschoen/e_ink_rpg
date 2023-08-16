@@ -13,58 +13,68 @@ class PlayerWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
+          shape: RoundedRectangleBorder( //<-- SEE HERE
+            side: BorderSide(
+              color: Colors.greenAccent,
+            ),
+          ),
           child: Row(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: 100,
-                child: Column(
-                  children: [
-                    Text('Level'),
-                    Text(GameState().player.level.toString()),
-                    SizedBox(height: 4,),
-                    Text('Money'),
-                    Text(GameState().player.money.toString()),
-                  ],
-                ),
-              ),
               Container(
                 margin: const EdgeInsets.all(8.0),
-                child: GameNpcImageAsset.player.getNpcImage(),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('HEALTH: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  Text('MANA: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  Text('SKILL: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                  Text('XP: ', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                ],
+                child: Column(
+                  children: [
+                    GameNpcImageAsset.player.getNpcImage(),
+                    Text('Level: ' + GameState().player.level.toString(), style: getTitleTextStyle(16)),
+                  ],
+                ),
               ),
               ListenableBuilder(
                 listenable: GameState().playerState,
                 builder: (BuildContext context, Widget? child) {
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      getProgressBar(60,
-                          GameState().player.progressBarValue(StatType.health),
-                          10, Colors.black45, Colors.black12),
-                      SizedBox(height: 6,),
-                      // TODO - MANA
-                      getProgressBar(60,
-                          GameState().player.progressBarValue(StatType.mana),
-                          10, Colors.black45, Colors.black12),
-                      SizedBox(height: 6,),
-                      // TODO - SKILL
-                      getProgressBar(60,
-                          GameState().player.progressBarValue(StatType.skillpoints),
-                          10, Colors.black45, Colors.black12),
-                      SizedBox(height: 6,),
-                      getProgressBar(60,
-                          GameState().player.progressBarValue(StatType.xp),
-                          10, Colors.black45, Colors.black12),
+                      RotatedBox(
+                        quarterTurns: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            getProgressBar(70,
+                                GameState().player.progressBarValue(StatType.health),
+                                12, Colors.black45, Colors.black12),
+                            SizedBox(height: 2,),
+                            // TODO - MANA
+                            getProgressBar(70,
+                                GameState().player.progressBarValue(StatType.mana),
+                                12, Colors.black45, Colors.black12),
+                            SizedBox(height: 2,),
+                            // TODO - SKILL
+                            getProgressBar(70,
+                                GameState().player.progressBarValue(StatType.skillpoints),
+                                12, Colors.black45, Colors.black12),
+                            SizedBox(height: 2,),
+                            getProgressBar(70,
+                                GameState().player.progressBarValue(StatType.xp),
+                                12, Colors.black45, Colors.black12),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                        child: Row(
+                          children: [
+                            GameIconAsset.heart.getIconImage(),
+                            gap(2),
+                            GameIconAsset.skill.getIconImage(),
+                            gap(2),
+                            GameIconAsset.special.getIconImage(),
+                            gap(2),
+                            GameIconAsset.magic.getIconImage(),
+                          ],
+                        ),
+                      )
                     ],
                   );
                 },
@@ -212,7 +222,7 @@ getAppBar(String title) {
         if (GameState().screenType() == ScreenType.inventory) {
           return Text('Inventory');
         } else if (GameState().screenType() == ScreenType.jobs) {
-          return Text('Jobs');
+          return Text('These Jobs are cool');
         } else if (GameState().screenType() == ScreenType.shop) {
           return Text('Shop');
         } else if (GameState().screenType() == ScreenType.skills) {
