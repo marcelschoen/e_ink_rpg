@@ -58,6 +58,7 @@ abstract class Job {
         GameState().player.increaseXp(GameState().selectedInJobs!.xp);
       }
       GameState().player.money += GameState().selectedInJobs!.payment;
+      currentStep = jobSteps.first; // reset in case player does job again
       finished = true;
     }
   }

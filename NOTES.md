@@ -48,4 +48,10 @@
 * Random Bandit attacks -> maybe also solvable with dialogue tree
 * Random attacks on unlocked location -> trigger defense quest
 
- 
+# Difficulty levels
+
+Things to adjust according to difficulty level:
+
+* Saving after every attack wave / restart job from checkpoint
+* Hires get half of loot / half of money
+* Obviously combat aspects (damage, defense)

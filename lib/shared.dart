@@ -12,6 +12,7 @@ Widget getPartyStatusBar() {
           PlayerWidget(),
           NpcWidget(),
           NpcWidget(),
+          NpcWidget(),
         ],
       ),
       NpcWidget(),
@@ -58,12 +59,6 @@ class NpcWidget extends StatelessWidget {
                                 GameState().player.progressBarValue(
                                     StatType.health),
                                 12, Colors.black45, Colors.black12),
-                            SizedBox(height: 2,),
-                            // TODO - MANA
-                            getProgressBar(60,
-                                GameState().player.progressBarValue(
-                                    StatType.mana),
-                                12, Colors.black45, Colors.black12),
                           ],
                         ),
                       ),
@@ -72,8 +67,6 @@ class NpcWidget extends StatelessWidget {
                         child: Row(
                           children: [
                             GameIconAsset.heart.getIconImage(),
-                            gap(2),
-                            GameIconAsset.magic.getIconImage(),
                           ],
                         ),
                       )
@@ -114,7 +107,7 @@ class PlayerWidget extends StatelessWidget {
                       children: [
                         Text('Lvl', style: getTitleTextStyle(14)),
                         SizedBox(height: 2,),
-                        Text('13', style: getTitleTextStyle(24)),
+                        Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
                       ],
                     ),
