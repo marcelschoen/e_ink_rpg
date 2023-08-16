@@ -14,9 +14,7 @@ Widget getPartyStatusBar() {
           NpcWidget(),
         ],
       ),
-      Card(
-        child: Text('Aha'),
-      )
+      NpcWidget(),
     ],
   );
 }
@@ -110,12 +108,27 @@ class PlayerWidget extends StatelessWidget {
             return Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Column(
+                Row(
                   children: [
-                    Text('Lvl', style: getTitleTextStyle(14)),
-                    SizedBox(height: 2,),
-                    Text('13', style: getTitleTextStyle(24)),
+                    Column(
+                      children: [
+                        Text('Lvl', style: getTitleTextStyle(14)),
+                        SizedBox(height: 2,),
+                        Text('13', style: getTitleTextStyle(24)),
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
+                      ],
+                    ),
+
+                    SizedBox(width: 4,),
+
+                    RotatedBox(
+                        quarterTurns: 3,
+                        child: getProgressBar(60,
+                            GameState().player.progressBarValue(StatType.xp),
+                            8, Colors.black45, Colors.black12),
+
+                    ),
+
                   ],
                 ),
                 Container(
@@ -150,10 +163,6 @@ class PlayerWidget extends StatelessWidget {
                               GameState().player.progressBarValue(
                                   StatType.skillpoints),
                               12, Colors.black45, Colors.black12),
-                          SizedBox(height: 2,),
-                          getProgressBar(60,
-                              GameState().player.progressBarValue(StatType.xp),
-                              12, Colors.black45, Colors.black12),
                         ],
                       ),
                     ),
@@ -166,8 +175,6 @@ class PlayerWidget extends StatelessWidget {
                           GameIconAsset.magic.getIconImage(),
                           gap(2),
                           GameIconAsset.skill.getIconImage(),
-                          gap(2),
-                          GameIconAsset.special.getIconImage(),
                         ],
                       ),
                     )

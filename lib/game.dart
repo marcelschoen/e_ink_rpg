@@ -30,7 +30,7 @@ class Game extends StatelessWidget {
       appBar: getAppBar('Monster Slayer'),
       body: Column(
         children: [
-          PlayerWidget(),
+          getPartyStatusBar(),
           Expanded(
             child: DefaultTabController(
               length: 5,
