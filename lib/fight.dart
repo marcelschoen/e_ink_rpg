@@ -269,7 +269,8 @@ Column fightScreen(BuildContext context) {
   return Column(
     children: [
       // ------------- player status widget ----------
-      PlayerWidget(),
+      // PlayerWidget(),
+      getPartyStatusBar(),
       // ------------- enemies display panel -------------
       enemyDisplay(context),
       // ------------- turn order list widget ----------

@@ -3,37 +3,52 @@ import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
-class PlayerWidget extends StatelessWidget {
+Widget getPartyStatusBar() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Row(
+        children: [
+          PlayerWidget(),
+          NpcWidget(),
+          NpcWidget(),
+        ],
+      ),
+      Card(
+        child: Text('Aha'),
+      )
+    ],
+  );
+}
 
+class NpcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      foregroundDecoration:
-          BoxDecoration(border: Border.all(color: Colors.red)),
+    return Card(
+      shape: RoundedRectangleBorder( //<-- SEE HERE
+        borderRadius: BorderRadius.circular(5),
+        side: BorderSide(
+          width: 3,
+          color: Colors.black45,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          shape: RoundedRectangleBorder( //<-- SEE HERE
-            side: BorderSide(
-              color: Colors.greenAccent,
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    GameNpcImageAsset.player.getNpcImage(),
-                    Text('Level: ' + GameState().player.level.toString(), style: getTitleTextStyle(16)),
-                  ],
-                ),
-              ),
-              ListenableBuilder(
-                listenable: GameState().playerState,
-                builder: (BuildContext context, Widget? child) {
-                  return Column(
+        padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+        child: ListenableBuilder(
+            listenable: GameState().playerState,
+            builder: (BuildContext context, Widget? child) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        GameNpcImageAsset.player.getNpcImage(),
+                      ],
+                    ),
+                  ),
+                  Column(
                     children: [
                       RotatedBox(
                         quarterTurns: 3,
@@ -41,22 +56,15 @@ class PlayerWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            getProgressBar(70,
-                                GameState().player.progressBarValue(StatType.health),
+                            getProgressBar(60,
+                                GameState().player.progressBarValue(
+                                    StatType.health),
                                 12, Colors.black45, Colors.black12),
                             SizedBox(height: 2,),
                             // TODO - MANA
-                            getProgressBar(70,
-                                GameState().player.progressBarValue(StatType.mana),
-                                12, Colors.black45, Colors.black12),
-                            SizedBox(height: 2,),
-                            // TODO - SKILL
-                            getProgressBar(70,
-                                GameState().player.progressBarValue(StatType.skillpoints),
-                                12, Colors.black45, Colors.black12),
-                            SizedBox(height: 2,),
-                            getProgressBar(70,
-                                GameState().player.progressBarValue(StatType.xp),
+                            getProgressBar(60,
+                                GameState().player.progressBarValue(
+                                    StatType.mana),
                                 12, Colors.black45, Colors.black12),
                           ],
                         ),
@@ -67,20 +75,107 @@ class PlayerWidget extends StatelessWidget {
                           children: [
                             GameIconAsset.heart.getIconImage(),
                             gap(2),
-                            GameIconAsset.skill.getIconImage(),
-                            gap(2),
-                            GameIconAsset.special.getIconImage(),
-                            gap(2),
                             GameIconAsset.magic.getIconImage(),
                           ],
                         ),
                       )
                     ],
-                  );
-                },
-              ),
-            ],
-          ),
+                  ),
+                ],
+              );
+            }
+        ),
+      ),
+    );
+  }
+}
+
+class PlayerWidget extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      shape: RoundedRectangleBorder( //<-- SEE HERE
+        borderRadius: BorderRadius.circular(5),
+        side: BorderSide(
+          width: 3,
+          color: Colors.black45,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+        child: ListenableBuilder(
+          listenable: GameState().playerState,
+          builder: (BuildContext context, Widget? child) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Column(
+                  children: [
+                    Text('Lvl', style: getTitleTextStyle(14)),
+                    SizedBox(height: 2,),
+                    Text('13', style: getTitleTextStyle(24)),
+//                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
+                  ],
+                ),
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      GameNpcImageAsset.player.getNpcImage(),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          getProgressBar(60,
+                              GameState().player.progressBarValue(
+                                  StatType.health),
+                              12, Colors.black45, Colors.black12),
+                          SizedBox(height: 2,),
+                          // TODO - MANA
+                          getProgressBar(60,
+                              GameState().player.progressBarValue(
+                                  StatType.mana),
+                              12, Colors.black45, Colors.black12),
+                          SizedBox(height: 2,),
+                          // TODO - SKILL
+                          getProgressBar(60,
+                              GameState().player.progressBarValue(
+                                  StatType.skillpoints),
+                              12, Colors.black45, Colors.black12),
+                          SizedBox(height: 2,),
+                          getProgressBar(60,
+                              GameState().player.progressBarValue(StatType.xp),
+                              12, Colors.black45, Colors.black12),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                      child: Row(
+                        children: [
+                          GameIconAsset.heart.getIconImage(),
+                          gap(2),
+                          GameIconAsset.magic.getIconImage(),
+                          gap(2),
+                          GameIconAsset.skill.getIconImage(),
+                          gap(2),
+                          GameIconAsset.special.getIconImage(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            );
+          }
         ),
       ),
     );
