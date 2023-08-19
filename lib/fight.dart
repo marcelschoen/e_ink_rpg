@@ -204,7 +204,7 @@ class FightScaffold extends StatelessWidget {
     return WillPopScope(
       onWillPop: _onWillPop, // disable 'back' button
       child: Scaffold(
-        appBar: getAppBar('!! Combat !!'),
+        appBar: getAppBar(''),
 
         // ********** Actual combat screen part **********
         body: Center(
@@ -375,7 +375,6 @@ Widget getExecutionButton(BuildContext context) {
   if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.skill) {
 
   } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
-      print(">>>>>>> SPECIAL action selektiert");
       if (CurrentFight().selectedAction != null && CurrentFight().selectedAction!.runtimeType == Spy ) {
         BaseButton button = BaseButton.withImageAndText('LOOK', GameIconAsset.spy.filename(),
                 (context) => CurrentFight().selectedAction!.perform() );
@@ -389,8 +388,6 @@ Widget getExecutionButton(BuildContext context) {
   // attack and magic
   BaseButton button = BaseButton.withImageAndText('FIGHT',
       GameIconAsset.fight.filename(), (context) => executeCombatTurn(context));
-  print("> execution button / selected target: " +
-      CurrentFight().selectedTarget.toString());
   if (CurrentFight().selectedTarget == null ||
       CurrentFight().selectedAttack == null) {
     button.enabled = false;

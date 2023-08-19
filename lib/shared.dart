@@ -314,19 +314,19 @@ getAppBar(String title) {
       listenable: GameState().appBarTitleState,
       builder: (BuildContext context, Widget? child) {
         if (GameState().screenType() == ScreenType.inventory) {
-          return getAppBarTitle('Inventory');
+          return getAppBarTitle('Inventory', false);
         } else if (GameState().screenType() == ScreenType.jobs) {
-          return getAppBarTitle('Jobs');
+          return getAppBarTitle('Jobs', false);
         } else if (GameState().screenType() == ScreenType.shop) {
-          return getAppBarTitle('Shop');
+          return getAppBarTitle('Shop', false);
         } else if (GameState().screenType() == ScreenType.skills) {
-          return getAppBarTitle('Skills');
+          return getAppBarTitle('Skills', false);
         } else if (GameState().screenType() == ScreenType.equipment) {
-          return getAppBarTitle('Equipment');
+          return getAppBarTitle('Equipment', false);
         } else if (GameState().screenType() == ScreenType.title) {
-          return getAppBarTitle('Play4Ever Presents');
+          return getAppBarTitle('Play4Ever Presents', true);
         }
-        return getAppBarTitle(title);
+        return getAppBarTitle(title, false);
       },
     ),
     titleTextStyle: getTitleTextStyle(24),
@@ -338,13 +338,37 @@ getAppBar(String title) {
   );
 }
 
-Widget getAppBarTitle(String title) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(title),
-    ],
-  ) ;
+Widget getAppBarTitle(String title, bool centered) {
+  Alignment alignment = Alignment.centerLeft;
+  if (centered) {
+    alignment = Alignment.center;
+  }
+  return Align(
+    alignment: alignment,
+    child: Stack(
+      children: <Widget>[
+        // Stroked text as border.
+        Text(title,
+          style: TextStyle(
+            fontSize: 30,
+            fontFamily: 'Diablo',
+            foreground: Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 6
+              ..color = Colors.black87,
+          ),
+        ),
+        // Solid text as fill.
+        Text(title,
+          style: TextStyle(
+            fontSize: 30,
+            fontFamily: 'Diablo',
+            color: Colors.grey[300],
+          ),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget getAppBarImage() {

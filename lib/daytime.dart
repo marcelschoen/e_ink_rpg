@@ -63,7 +63,7 @@ class GameDaytime {
    * Start the game at 09:00 in the morning.
    */
   reset() {
-    _internalMinute = 9 * 60;
+    _internalMinute = 17 * 60;
   }
 
   /**
