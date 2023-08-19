@@ -55,7 +55,7 @@ class NpcWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            getProgressBar(60,
+                            getProgressBar(50,
                                 GameState().player.progressBarValue(
                                     StatType.health),
                                 12, Colors.black45, Colors.black12),
@@ -140,19 +140,19 @@ class PlayerWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          getProgressBar(60,
+                          getProgressBar(50,
                               GameState().player.progressBarValue(
                                   StatType.health),
                               12, Colors.black45, Colors.black12),
                           SizedBox(height: 2,),
                           // TODO - MANA
-                          getProgressBar(60,
+                          getProgressBar(50,
                               GameState().player.progressBarValue(
                                   StatType.mana),
                               12, Colors.black45, Colors.black12),
                           SizedBox(height: 2,),
                           // TODO - SKILL
-                          getProgressBar(60,
+                          getProgressBar(50,
                               GameState().player.progressBarValue(
                                   StatType.skillpoints),
                               12, Colors.black45, Colors.black12),
@@ -309,37 +309,48 @@ getTitleTextStyle(double size) {
 // ----------------------------------------------------------
 getAppBar(String title) {
   return AppBar(
-    automaticallyImplyLeading: false,
+    automaticallyImplyLeading: false, // disable back button
     title: ListenableBuilder(
       listenable: GameState().appBarTitleState,
       builder: (BuildContext context, Widget? child) {
-
         if (GameState().screenType() == ScreenType.inventory) {
-          return Text('Inventory');
+          return getAppBarTitle('Inventory');
         } else if (GameState().screenType() == ScreenType.jobs) {
-          return Text('These Jobs are cool');
+          return getAppBarTitle('Jobs');
         } else if (GameState().screenType() == ScreenType.shop) {
-          return Text('Shop');
+          return getAppBarTitle('Shop');
         } else if (GameState().screenType() == ScreenType.skills) {
-          return Text('Skills');
+          return getAppBarTitle('Skills');
         } else if (GameState().screenType() == ScreenType.equipment) {
-          return Text('Equipment');
+          return getAppBarTitle('Equipment');
         } else if (GameState().screenType() == ScreenType.title) {
-          return Text('Play4Ever Presents');
+          return getAppBarTitle('Play4Ever Presents');
         }
-
-        return Text(title);
+        return getAppBarTitle(title);
       },
     ),
     titleTextStyle: getTitleTextStyle(24),
     centerTitle: true,
-    flexibleSpace: getAppBarImage(),
+    flexibleSpace: ListenableBuilder(
+        listenable: GameState().appBarTitleState,
+        builder: (BuildContext context, Widget? child) { return getAppBarImage(); },
+    ),
   );
 }
 
+Widget getAppBarTitle(String title) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(title),
+    ],
+  ) ;
+}
+
 Widget getAppBarImage() {
+  print('>>>>> daytime: ' + GameState().daytime.getDetail().name);
   return Image(
-    image: AssetImage('assets/background-title.png'),
+    image: AssetImage(GameState().daytime.getDetail().image.filename()),
     fit: BoxFit.fitWidth,
   );
 }

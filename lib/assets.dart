@@ -4,6 +4,30 @@
 import 'package:flutter/material.dart';
 
 // ****************************************
+// constants for various image assets
+// ****************************************
+enum GameImageAsset {
+
+  daytime_morning('daytime/time_morning.png'),
+  daytime_day('daytime/time_day.png'),
+  daytime_evening('daytime/time_evening.png'),
+  daytime_night('daytime/time_night.png'),
+  ;
+
+  const GameImageAsset(this._filename);
+
+  final String _filename;
+
+  String filename() {
+    return 'assets/' + this._filename;
+  }
+
+  Widget getGameImage(double size) {
+    return getSizedImage(filename(), size);
+  }
+}
+
+// ****************************************
 // constants for item assets
 // ****************************************
 enum GameItemAsset {
@@ -117,6 +141,14 @@ enum GameNpcImageAsset {
   Widget getNpcImage() {
     return getImage('assets/humanoid/' + this._filename);
   }
+}
+
+SizedBox getSizedImage(String filename, double size) {
+  return SizedBox(
+    width: size,
+    height: size,
+    child: Image(image: AssetImage(filename)),
+  );
 }
 
 SizedBox getImage(String filename) {

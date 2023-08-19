@@ -14,6 +14,26 @@
 * Knock-Down mechanic a la Persona: Knock down an enemy gives you an immediate additional turn;
   following that up with an AoE that knocks down all other enemies too gives yet another turn.
 
+# Day / Night cycle
+
+* Each attack wave may represent a certain amount of time, e.g. 1 hour.
+* Time of day is shown somewhere on top, possibly in appbar
+* Possibility to wait until morning / evening
+* Random attack waves at night have stronger enemies but also better loot
+** Possibly also different enemies, i.e. undead and ghosts that do not appear during day
+
+# Non-combat activities
+
+All of those might also give some XP
+
+* Cooking
+** Might require finding recipes
+* Fishing
+** Maybe needs bait / different types of bait for different catches 
+** Might allow to randomly fish out items (see Minecraft)
+* Gardening
+
+
 # Overarching Goals / Endgame Ideas
 
 * Trophies – collect all monsters
@@ -39,6 +59,9 @@
 * Siege quests? Same as defense quests, only to unlock a new location (fortress)
 * Special Quests
 ** Hunt NPC over multiple quests -> collect a riddle at the end of the quest that must be solved to get the follow-up quest
+* Endless hunting / collection quest
+** Allows to continue job after every 5 waves or so
+** Collects plants / attacked only by animals (usually)
 
 # Surprise Ideas
 
@@ -47,6 +70,7 @@
 * Rescue quest turns into boss fight when rescued NPC turns out to be villain
 * Random Bandit attacks -> maybe also solvable with dialogue tree
 * Random attacks on unlocked location -> trigger defense quest
+* Hired NPC turns on player / is in bed with bandits from quest
 
 # Difficulty levels
 

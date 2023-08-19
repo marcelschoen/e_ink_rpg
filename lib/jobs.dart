@@ -171,7 +171,7 @@ Widget getJobListEntry(BuildContext context, Job job) {
           children: [
             Row(
               children: [
-                FittedBox(child: job.iconAsset.getIconImage()),
+                job.iconAsset.getIconImage(),
                 Expanded(
                   child: Text(job.label,
                       style: TextStyle(

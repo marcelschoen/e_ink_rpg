@@ -27,10 +27,12 @@ void backToTitle(BuildContext context) {
 void continueAfterFight(BuildContext context) {
   if (GameState().player.isAlive()) {
     if (GameState().selectedInJobs!.finished) {
+      GameState().daytime.advanceByHours(1);
       GameState().availableJobs.deselectAllJobs();
       GameState().selectedInJobs = null;
       switchToScreen(Game(), context);
     } else {
+      GameState().daytime.advanceByMinutes(50);
       startFight(context, GameState().selectedInJobs! );
     }
   } else {
@@ -75,6 +77,9 @@ void startFight(BuildContext context, Job job) {
 // Performs attacks by player and enemies
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
+
+  GameState().daytime.advanceByMinutes(50); // each attack uses up 5 minutes
+
   if (CurrentFight().selectedAttack == null ||
       CurrentFight().selectedTarget == null) {
     return;
