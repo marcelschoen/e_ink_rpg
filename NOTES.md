@@ -65,6 +65,10 @@ All of those might also give some XP
 
 # Surprise Ideas
 
+Surprises may be disabled entirely for a while at the start of the game, so that the player first
+can get aquainted with the "normal" gameplay routine.
+
+* Chance encounters during jobs (between attack waves) with NPCs
 * While in the shop, the player is suddenly attacked by “bandit”, “thief” and “thug” NPCs -> receive special reward from shop owner
 * Sudden weather condition changes can inflict damage during combat (lightning, rain weaking fire enemies or strengthening water enemies)
 * Rescue quest turns into boss fight when rescued NPC turns out to be villain
