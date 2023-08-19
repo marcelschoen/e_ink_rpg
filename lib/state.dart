@@ -176,6 +176,7 @@ class GameState with ChangeNotifier {
     Player().reset();
     Player().inventory.reset();
     GameState().availableJobs.reset();
+    GameState().daytime.reset();
 
     selectedInInventory = null;
     selectedInJobs = null;

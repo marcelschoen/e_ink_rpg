@@ -60,6 +60,13 @@ class GameDaytime {
   int _internalMinute = 0;
 
   /**
+   * Start the game at 09:00 in the morning.
+   */
+  reset() {
+    _internalMinute = 9 * 60;
+  }
+
+  /**
    * Call this from any long-duration game action to advance the time by n hours.
    */
   advanceByHours(int hours) {
