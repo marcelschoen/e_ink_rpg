@@ -35,6 +35,10 @@ abstract class Job {
   List<GameItem> loot = [];
 
   Job(this.label, this.description, this.jobType, this.xp) {
+    reset();
+  }
+
+  reset() {
     JobStep? lastStep = null;
     for (JobStep step in getJobSteps()) {
       jobSteps.add(step);

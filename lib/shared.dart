@@ -348,7 +348,6 @@ Widget getAppBarTitle(String title) {
 }
 
 Widget getAppBarImage() {
-  print('>>>>> daytime: ' + GameState().daytime.getDetail().name);
   return Image(
     image: AssetImage(GameState().daytime.getDetail().image.filename()),
     fit: BoxFit.fitWidth,

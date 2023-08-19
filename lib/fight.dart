@@ -32,7 +32,7 @@ void continueAfterFight(BuildContext context) {
       GameState().selectedInJobs = null;
       switchToScreen(Game(), context);
     } else {
-      GameState().daytime.advanceByMinutes(50);
+      GameState().daytime.advanceByMinutes(10);
       startFight(context, GameState().selectedInJobs! );
     }
   } else {
@@ -78,7 +78,7 @@ void startFight(BuildContext context, Job job) {
 // -------------------------------------------
 executeCombatTurn(BuildContext context) {
 
-  GameState().daytime.advanceByMinutes(50); // each attack uses up 5 minutes
+  GameState().daytime.advanceByMinutes(5); // each attack uses up 5 minutes
 
   if (CurrentFight().selectedAttack == null ||
       CurrentFight().selectedTarget == null) {
