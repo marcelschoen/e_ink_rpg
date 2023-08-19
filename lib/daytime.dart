@@ -95,11 +95,7 @@ class GameDaytime {
   }
 
   DetailTime getDetail() {
-    print('___> INTERNAL MINUTE: ' + _internalMinute.toString());
     int hourOfDay = _internalMinute ~/ 60;
-    print('___> HOUR OF DAY: ' + hourOfDay.toString());
-    DetailTime detailTime = DetailTime.getByHourOfDay(hourOfDay);
-    print('___> DETAIL TIME: ' + detailTime.name + ' / ' + detailTime.label);
-    return detailTime;
+    return DetailTime.getByHourOfDay(hourOfDay);
   }
 }
