@@ -343,31 +343,60 @@ Widget getAppBarTitle(String title, bool centered) {
   if (centered) {
     alignment = Alignment.center;
   }
-  return Align(
-    alignment: alignment,
-    child: Stack(
-      children: <Widget>[
-        // Stroked text as border.
-        Text(title,
-          style: TextStyle(
-            fontSize: 30,
-            fontFamily: 'Diablo',
-            foreground: Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 6
-              ..color = Colors.black87,
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Stack(
+        children: <Widget>[
+          // Stroked text as border.
+          Text(title,
+            style: TextStyle(
+              fontSize: 30,
+              fontFamily: 'Diablo',
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 6
+                ..color = Colors.black87,
+            ),
           ),
-        ),
-        // Solid text as fill.
-        Text(title,
-          style: TextStyle(
-            fontSize: 30,
-            fontFamily: 'Diablo',
-            color: Colors.grey[300],
+          // Solid text as fill.
+          Text(title,
+            style: TextStyle(
+              fontSize: 30,
+              fontFamily: 'Diablo',
+              color: Colors.grey[300],
+            ),
           ),
+        ],
+      ),
+      getOutlinedText(GameState().daytime.getLabel(), 20, 1, Colors.black87, Colors.white),
+    ]
+  );
+}
+
+Widget getOutlinedText(String text, double fontSize, double strokeWidth, Color border, Color fill) {
+  return Stack(
+    children: <Widget>[
+      // Solid text as fill.
+      Text(text,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontFamily: 'Diablo',
+          color: fill,
         ),
-      ],
-    ),
+      ),
+      // Stroked text as border.
+      Text(text,
+        style: TextStyle(
+          fontSize: fontSize,
+          fontFamily: 'Diablo',
+          foreground: Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = strokeWidth
+            ..color = border,
+        ),
+      ),
+    ],
   );
 }
 

@@ -10,6 +10,7 @@
 
 ## Ideas 
 
+* Ability to send out spies to search for certain enemies or items, will reveal location / unlock job?
 * Use summons to get temporary allies
 ** Might be displayed on the side for a few turns
 ** Might have perks and/or buffs that also transfer over to the player (e.g. elemental affinity)
@@ -19,6 +20,7 @@
   and provide perks / buffs.
 * Knock-Down mechanic a la Persona: Knock down an enemy gives you an immediate additional turn;
   following that up with an AoE that knocks down all other enemies too gives yet another turn.
+* Equip screen provides list of loadouts
 
 # Day / Night cycle
 
