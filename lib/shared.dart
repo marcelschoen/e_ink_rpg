@@ -25,64 +25,55 @@ Widget getPartyStatusBar() {
 class NpcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        //<-- SEE HERE
-        borderRadius: BorderRadius.circular(5),
-        side: BorderSide(
-          width: 3,
-          color: Colors.black45,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-        child: ListenableBuilder(
-            listenable: GameState().playerState,
-            builder: (BuildContext context, Widget? child) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        GameNpcImageAsset.player.getNpcImage(),
-                      ],
-                    ),
-                  ),
-                  Column(
+    return getCardWithRoundedBorder(Padding(
+      padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+      child: ListenableBuilder(
+          listenable: GameState().playerState,
+          builder: (BuildContext context, Widget? child) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
-                      RotatedBox(
-                        quarterTurns: 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            getProgressBar(
-                                50,
-                                GameState()
-                                    .player
-                                    .progressBarValue(StatType.health),
-                                12,
-                                Colors.black45,
-                                Colors.black12),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 12,
-                        child: Row(
-                          children: [
-                            GameIconAsset.heart.getIconImage(),
-                          ],
-                        ),
-                      )
+                      GameNpcImageAsset.player.getNpcImage(),
                     ],
                   ),
-                ],
-              );
-            }),
-      ),
+                ),
+                Column(
+                  children: [
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          getProgressBar(
+                              50,
+                              GameState()
+                                  .player
+                                  .progressBarValue(StatType.health),
+                              12,
+                              Colors.black45,
+                              Colors.black12),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 12,
+                      child: Row(
+                        children: [
+                          GameIconAsset.heart.getIconImage(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            );
+          }),
+        )
     );
   }
 }
@@ -184,9 +175,9 @@ class PlayerWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           GameIconAsset.heart.getIconImage(),
-                          gap(2),
+                          hGap(2),
                           GameIconAsset.magic.getIconImage(),
-                          gap(2),
+                          hGap(2),
                           GameIconAsset.skill.getIconImage(),
                         ],
                       ),
@@ -276,7 +267,7 @@ class BaseButton extends StatelessWidget {
         content = Row(
           children: [
             Image(image: AssetImage(_image)),
-            gap(16),
+            hGap(16),
             Text(
               _label,
               style: TextStyle(fontSize: _fontSize),
@@ -380,8 +371,15 @@ Widget getAppBarImage() {
 // ----------------------------------------------------------
 // Horizontal gap between widgets
 // ----------------------------------------------------------
-SizedBox gap(double width) {
+SizedBox hGap(double width) {
   return SizedBox(width: width);
+}
+
+// ----------------------------------------------------------
+// Vertical gap between widgets
+// ----------------------------------------------------------
+SizedBox vGap(double height) {
+  return SizedBox(height: height);
 }
 
 // ----------------------------------------------------------
@@ -435,6 +433,9 @@ switchToScreen(Widget widget, BuildContext context) {
   GameState().update();
 }
 
+// -----------------------------------------------------------------------------
+// Creates a card with a rounded dark grey border
+// -----------------------------------------------------------------------------
 Card getCardWithRoundedBorder(Widget child) {
   return Card(
       shape: RoundedRectangleBorder(

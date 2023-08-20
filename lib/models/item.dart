@@ -75,6 +75,9 @@ mixin Wearable {
 
 }
 
+// -----------------------------------------------------------------------------
+// Types of wearables
+// -----------------------------------------------------------------------------
 enum WearableType {
   none,
   // these can be equiped on body parts (armor)

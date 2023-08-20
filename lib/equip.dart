@@ -48,7 +48,6 @@ class Loadouts {
   }
 }
 
-
 // -----------------------------------------------------------------------------
 // Equip screen
 // -----------------------------------------------------------------------------
@@ -99,14 +98,24 @@ Widget getEquipmentPanel() {
   return ListenableBuilder(
     listenable: GameState().equipState,
     builder: (BuildContext context, Widget? child) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          getEquipmentFieldWithLabel('Head', WearableType.head),
-          getEquipmentFieldWithLabel('Torso', WearableType.torso),
-          getEquipmentFieldWithLabel('Arms', WearableType.arms),
-          getEquipmentFieldWithLabel('Legs', WearableType.legs),
-        ],
+      return getCardWithRoundedBorder(
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getEquipmentFieldWithLabel('Head:', WearableType.head),
+              vGap(40),
+              getEquipmentFieldWithLabel('Body:', WearableType.torso),
+              vGap(40),
+              getEquipmentFieldWithLabel('Arms:', WearableType.arms),
+              vGap(40),
+              getEquipmentFieldWithLabel('Hands:', WearableType.arms),
+              vGap(40),
+              getEquipmentFieldWithLabel('Legs:', WearableType.legs),
+            ],
+        ),
+          )
       );
     },
   );
@@ -123,7 +132,7 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
   }
   return Row(
     children: [
-      SizedBox(width: 150, child: Text(label, style: getTitleTextStyle(30)),),
+      SizedBox(width: 150, child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),),
       itemImage,
     ],
   );
@@ -133,21 +142,14 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
 // Loadout buttons bar
 // -----------------------------------------------------------------------------
 Widget getLoadoutButtonsBar() {
-  return Card(
-    shape: RoundedRectangleBorder( //<-- SEE HERE
-      borderRadius: BorderRadius.circular(5),
-      side: BorderSide(
-        width: 3,
-        color: Colors.black45,
-      ),
-    ),
-    child: Padding(
+  return getCardWithRoundedBorder(
+    Padding(
       padding: const EdgeInsets.fromLTRB(10, 6, 6, 6),
       child: Row(
         children: [
-          Text('Loadout', style: getTitleTextStyle(20)),
+          Text('Loadout', style: getTitleTextStyle(32)),
         ],
       ),
-    ),
+    )
   );
 }
