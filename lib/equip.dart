@@ -28,6 +28,10 @@ class Equipment {
   equip(Wearable wearable) {
     wearables[wearable.wearableType] = wearable;
   }
+
+  unequip(Wearable wearable) {
+    wearables.remove(wearable.wearableType);
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -65,7 +69,7 @@ Widget getEquipScreen(BuildContext context) {
                 thickness: 20,
                 isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
                 child: ListenableBuilder(
-                  listenable: GameState().inventorySelectionState,
+                  listenable: GameState().equipState,
                   builder: (BuildContext context, Widget? child) {
                     return GridView.count(
                       shrinkWrap: true,
@@ -129,10 +133,27 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
   Widget itemImage = FittedBox();
   if (item != null) {
     itemImage = FittedBox(child: item!.itemAsset.getItemImage());
+    return Row(
+      children: [
+        SizedBox(
+          width: 150,
+          child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),
+        ),
+        InkWell(
+            onTap: () {
+              GameState().player.inventory.addItem(item);
+              GameState().equipment.unequip(item as Wearable);
+              GameState().equipState.update();
+            },
+            child: itemImage
+        ),
+      ],
+    );
   }
   return Row(
     children: [
-      SizedBox(width: 150, child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),),
+      SizedBox(width: 150, child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),
+      ),
       itemImage,
     ],
   );
@@ -146,8 +167,14 @@ Widget getLoadoutButtonsBar() {
     Padding(
       padding: const EdgeInsets.fromLTRB(10, 6, 6, 6),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Loadout', style: getTitleTextStyle(32)),
+          Row(
+            children: [
+
+            ],
+          )
         ],
       ),
     )

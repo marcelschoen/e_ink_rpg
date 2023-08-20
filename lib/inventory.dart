@@ -8,7 +8,7 @@ import 'models/item.dart';
 class Inventory {
   List<InventoryGameItemStack> itemStacks = [];
 
-  void throwAwayItem(InventoryGameItemStack itemStack) {
+  void removeOneItemFromStack(InventoryGameItemStack itemStack) {
     itemStack.remove(1);
     if (itemStack.item == null) {
       itemStacks.remove(itemStack);
@@ -63,7 +63,7 @@ class Inventory {
       if (itemStack.item != null &&
           (itemStack.item!.itemCategory == ItemCategory.wearable
           || itemStack.item!.itemCategory == ItemCategory.weapon)) {
-        itemWidgets.add(getItemWidget(itemStack, 56));
+        itemWidgets.add(getItemWidget(itemStack, 56, (p0) { getSelectEquippableItemFunction(itemStack); }, false ));
       }
     }
     return itemWidgets;
@@ -73,7 +73,7 @@ class Inventory {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
       if (itemStack.item != null) {
-        itemWidgets.add(getItemWidget(itemStack, 56));
+        itemWidgets.add(getItemWidget(itemStack, 56, (p0) { getSelectInventoryItemFunction(itemStack); }, true ));
       }
     }
     return itemWidgets;
@@ -217,7 +217,8 @@ Widget itemDetails() {
 List<Widget> getSelectedItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
-    detailContents.add(SizedBox(width: 160, child: getItemWidget(GameState().selectedInInventory!, 96)));
+    detailContents.add(SizedBox(width: 160,
+        child: getItemWidget(GameState().selectedInInventory!, 96, null, false )));
     detailContents.add(Expanded(
       child: Container(
         padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
@@ -251,85 +252,97 @@ void discardItem(bool discardAll) {
     if (discardAll) {
       GameState().selectedInInventory!.clear();
     } else {
-      GameState().selectedInInventory!.remove(1);
+//      GameState().selectedInInventory!.remove(1);
+      GameState().player.inventory.removeOneItemFromStack(GameState().selectedInInventory!);
     }
+    GameState().selectedInInventory = null;
+    /*
     if (GameState().selectedInInventory!.item == null) {
       GameState().player.inventory.removeStack(GameState().selectedInInventory!);
       GameState().selectedInInventory = null;
     }
+
+     */
     GameState().inventorySelectionState.update();
   }
+}
+
+getSelectEquippableItemFunction(InventoryGameItemStack itemStack) {
+  if (itemStack.stackSize > 0) {
+    Wearable wearable = itemStack.item as Wearable;
+    GameItem? item = GameState().equipment.getWearable(wearable.wearableType);
+    if (item != null) {
+      // re-add previously selected item to item stack in inventory
+      GameState().player.inventory.addItem(item);
+    }
+    GameState().equipment.equip(itemStack.item as Wearable);
+    GameState().player.inventory.removeOneItemFromStack(itemStack);
+    GameState().equipState.update();
+  }
+}
+
+getSelectInventoryItemFunction(InventoryGameItemStack itemStack) {
+  GameState().selectedInInventory = itemStack;
+  GameState().player.inventory.selectStack(itemStack);
+  GameState().inventorySelectionState.update();
 }
 
 // ---------------------------------------------------------------------
 // Item widget
 // ---------------------------------------------------------------------
-Widget getItemWidget(InventoryGameItemStack itemStack, double length) {
-  Size size = Size(length, length);
+Widget getItemWidget(InventoryGameItemStack itemStack, double length, Function(InventoryGameItemStack itemStack)? doStuff, bool selectionBorder) {
+  if (doStuff == null) {
+    return _getDetailIconWidget(itemStack, length, false);
+  }
+
   return InkWell(
     onTap: () {
-      print("* tapped: " + itemStack.item!.name + " *");
-      GameState().selectedInInventory = itemStack;
-      GameState().player.inventory.selectStack(itemStack);
-      GameState().inventorySelectionState.update();
-      /*
-        showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-          title: Text(itemStack.item!.name),
-          content: Text(itemStack.item!.description),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-        );
-        */
+      doStuff!(itemStack);
     },
-    child: getItemBorder(itemStack, Column(
-        children: [
-          Expanded(
-            child: Container(
-              constraints: BoxConstraints.tight(size),
-              padding: const EdgeInsets.all(4),
-              child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
-            ),
-          ),
+    child: _getDetailIconWidget(itemStack, length, selectionBorder),
+  );
+}
 
-          Row(
-            children: [
-              Container(
-                  color: Colors.black,
-                  width: 24,
-                  height: 36,
-                  alignment: Alignment.center,
-                  child: Text(itemStack.stackSize.toString(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
-                      textAlign: TextAlign.center)
-              ),
-              Expanded(
-                child: Text(itemStack.item!.name,
-                    style: TextStyle(fontWeight: FontWeight.bold, ),
-                    textAlign: TextAlign.center),
-              ),
-            ],
+Widget _getDetailIconWidget(InventoryGameItemStack itemStack, double length, bool selectionBorder) {
+  Size size = Size(length, length);
+  return getItemBorder(selectionBorder ? itemStack.selected : false, Column(
+    children: [
+      Expanded(
+        child: Container(
+          constraints: BoxConstraints.tight(size),
+          padding: const EdgeInsets.all(4),
+          child: FittedBox(child: itemStack.item!.itemAsset.getItemImage()),
+        ),
+      ),
+
+      Row(
+        children: [
+          Container(
+              color: Colors.black,
+              width: 24,
+              height: 36,
+              alignment: Alignment.center,
+              child: Text(itemStack.stackSize.toString(),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
+                  textAlign: TextAlign.center)
+          ),
+          Expanded(
+            child: Text(itemStack.item!.name,
+                style: TextStyle(fontWeight: FontWeight.bold, ),
+                textAlign: TextAlign.center),
           ),
         ],
       ),
-    ),
+    ],
+  ),
   );
 }
 
 // ---------------------------------------------------------------------
 // Border around selected inventory item stack
 // ---------------------------------------------------------------------
-Widget getItemBorder(InventoryGameItemStack itemStack, Widget content) {
-  if(itemStack.selected) {
+Widget getItemBorder(bool selected, Widget content) {
+  if(selected) {
     return DottedBorder(
       borderType: BorderType.RRect,
       strokeWidth: 4,
@@ -339,8 +352,11 @@ Widget getItemBorder(InventoryGameItemStack itemStack, Widget content) {
       child: content,
     );
   }
-  return Container(
-    color: Colors.black12,
-    child: content,
+  return Padding(
+    padding: const EdgeInsets.all(2.0),
+    child: Container(
+      color: Colors.black12,
+      child: content,
+    ),
   );
 }
