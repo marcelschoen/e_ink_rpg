@@ -114,7 +114,7 @@ Widget getEquipmentPanel() {
               vGap(40),
               getEquipmentFieldWithLabel('Arms:', WearableType.arms),
               vGap(40),
-              getEquipmentFieldWithLabel('Hands:', WearableType.arms),
+              getEquipmentFieldWithLabel('Hands:', WearableType.hands),
               vGap(40),
               getEquipmentFieldWithLabel('Legs:', WearableType.legs),
             ],
