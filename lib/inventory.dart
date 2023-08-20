@@ -57,10 +57,22 @@ class Inventory {
     GameState().inventorySelectionState.update();
   }
 
+  List<Widget> getEquipableItemWidgets() {
+    List<Widget> itemWidgets = [];
+    for (InventoryGameItemStack itemStack in itemStacks) {
+      if (itemStack.item != null && itemStack.item!.itemCategory == ItemCategory.wearable) {
+        itemWidgets.add(getItemWidget(itemStack, 56));
+      }
+    }
+    return itemWidgets;
+  }
+
   List<Widget> getItemWidgets() {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
-      itemWidgets.add(getItemWidget(itemStack, 56));
+      if (itemStack.item != null) {
+        itemWidgets.add(getItemWidget(itemStack, 56));
+      }
     }
     return itemWidgets;
   }
@@ -96,17 +108,19 @@ class InventoryGameItemStack {
 // Inventory screen
 // -----------------------------------------------------------------------------
 Widget getInventoryScreen(BuildContext context) {
+  ScrollController scrollController = ScrollController();
   return Column(
     children: [
       Expanded(
         child: Scrollbar(
+          controller: scrollController,
           thickness: 20,
           isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
             listenable: GameState().inventorySelectionState,
             builder: (BuildContext context, Widget? child) {
               return GridView.count(
-                controller: ScrollController(),
+                controller: scrollController,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 // Create a grid with 2 columns. If you change the scrollDirection to

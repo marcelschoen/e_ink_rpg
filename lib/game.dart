@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/equip.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -51,7 +52,7 @@ class Game extends StatelessWidget {
                             getJobsScreen(context),
                             Text('*** SHOPPING ***'),
                             getInventoryScreen(context),
-                            Text('*** EQUIPMENT ***'),
+                            getEquipScreen(context),
                             Text('*** SKILLS ***'),
                           ],
                         ),
