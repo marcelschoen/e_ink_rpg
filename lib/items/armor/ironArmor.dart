@@ -29,7 +29,7 @@ class IronGloves extends GameItem with Wearable {
   IronGloves() {
     this.name = 'Iron Gloves';
     this.description = 'Provides some basic protection.';
-    this.wearableType = WearableType.hands;
+    this.wearableType = WearableType.arms;
     this.price = 20;
     this.statBoostsOnEquip.add(Stat(StatType.defense, 6));
     this.itemAsset = GameItemAsset.ironGloves;

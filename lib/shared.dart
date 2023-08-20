@@ -10,9 +10,11 @@ Widget getPartyStatusBar() {
       Row(
         children: [
           PlayerWidget(),
+          /*
           NpcWidget(),
           NpcWidget(),
           NpcWidget(),
+           */
         ],
       ),
       NpcWidget(),
@@ -24,7 +26,8 @@ class NpcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder( //<-- SEE HERE
+      shape: RoundedRectangleBorder(
+        //<-- SEE HERE
         borderRadius: BorderRadius.circular(5),
         side: BorderSide(
           width: 3,
@@ -55,10 +58,14 @@ class NpcWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            getProgressBar(50,
-                                GameState().player.progressBarValue(
-                                    StatType.health),
-                                12, Colors.black45, Colors.black12),
+                            getProgressBar(
+                                50,
+                                GameState()
+                                    .player
+                                    .progressBarValue(StatType.health),
+                                12,
+                                Colors.black45,
+                                Colors.black12),
                           ],
                         ),
                       ),
@@ -74,28 +81,21 @@ class NpcWidget extends StatelessWidget {
                   ),
                 ],
               );
-            }
-        ),
+            }),
       ),
     );
   }
 }
 
+// -----------------------------------------------------------------------------
+// Widget containing the players level, status info, picture etc.
+// -----------------------------------------------------------------------------
 class PlayerWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder( //<-- SEE HERE
-        borderRadius: BorderRadius.circular(5),
-        side: BorderSide(
-          width: 3,
-          color: Colors.black45,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
-        child: ListenableBuilder(
+    return getCardWithRoundedBorder(Padding(
+      padding: const EdgeInsets.fromLTRB(6, 0, 6, 0),
+      child: ListenableBuilder(
           listenable: GameState().playerState,
           builder: (BuildContext context, Widget? child) {
             return Row(
@@ -106,22 +106,26 @@ class PlayerWidget extends StatelessWidget {
                     Column(
                       children: [
                         Text('Lvl', style: getTitleTextStyle(14)),
-                        SizedBox(height: 2,),
-                        Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(GameState().player.level.toString(),
+                            style: getTitleTextStyle(24)),
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
                       ],
                     ),
-
-                    SizedBox(width: 4,),
-
-                    RotatedBox(
-                        quarterTurns: 3,
-                        child: getProgressBar(60,
-                            GameState().player.progressBarValue(StatType.xp),
-                            8, Colors.black45, Colors.black12),
-
+                    SizedBox(
+                      width: 4,
                     ),
-
+                    RotatedBox(
+                      quarterTurns: 3,
+                      child: getProgressBar(
+                          60,
+                          GameState().player.progressBarValue(StatType.xp),
+                          8,
+                          Colors.black45,
+                          Colors.black12),
+                    ),
                   ],
                 ),
                 Container(
@@ -140,22 +144,38 @@ class PlayerWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          getProgressBar(50,
-                              GameState().player.progressBarValue(
-                                  StatType.health),
-                              12, Colors.black45, Colors.black12),
-                          SizedBox(height: 2,),
+                          getProgressBar(
+                              50,
+                              GameState()
+                                  .player
+                                  .progressBarValue(StatType.health),
+                              12,
+                              Colors.black45,
+                              Colors.black12),
+                          SizedBox(
+                            height: 2,
+                          ),
                           // TODO - MANA
-                          getProgressBar(50,
-                              GameState().player.progressBarValue(
-                                  StatType.mana),
-                              12, Colors.black45, Colors.black12),
-                          SizedBox(height: 2,),
+                          getProgressBar(
+                              50,
+                              GameState()
+                                  .player
+                                  .progressBarValue(StatType.mana),
+                              12,
+                              Colors.black45,
+                              Colors.black12),
+                          SizedBox(
+                            height: 2,
+                          ),
                           // TODO - SKILL
-                          getProgressBar(50,
-                              GameState().player.progressBarValue(
-                                  StatType.skillpoints),
-                              12, Colors.black45, Colors.black12),
+                          getProgressBar(
+                              50,
+                              GameState()
+                                  .player
+                                  .progressBarValue(StatType.skillpoints),
+                              12,
+                              Colors.black45,
+                              Colors.black12),
                         ],
                       ),
                     ),
@@ -177,16 +197,14 @@ class PlayerWidget extends StatelessWidget {
             );
           }
         ),
-      ),
-    );
+    ));
   }
 }
 
-/**
- * Base class for button widgets; can have text and/or an image icon.
- */
+// -----------------------------------------------------------------------------
+// Base class for button widgets; can have text and/or an image icon.
+// -----------------------------------------------------------------------------
 class BaseButton extends StatelessWidget {
-
   final _label;
   final _image;
   final _function;
@@ -195,8 +213,12 @@ class BaseButton extends StatelessWidget {
   double _buttonWidth = 160;
   double _paddingSize = 6;
 
-  BaseButton.textOnlyWithSizes(String label, void Function(BuildContext) function,
-      double fontSize, double buttonWidth, double paddingSize)
+  BaseButton.textOnlyWithSizes(
+      String label,
+      void Function(BuildContext) function,
+      double fontSize,
+      double buttonWidth,
+      double paddingSize)
       : _label = label,
         _image = null,
         _function = function,
@@ -239,24 +261,36 @@ class BaseButton extends StatelessWidget {
   // ---------------------------------------------
   // creates icon and text content box
   // ---------------------------------------------
-  Widget getButtonContent(bool enabled, double buttonWidth, double paddingSize) {
+  Widget getButtonContent(
+      bool enabled, double buttonWidth, double paddingSize) {
     Widget content;
 
     if (!enabled) {
-      content = Text('...', style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,);
+      content = Text(
+        '...',
+        style: TextStyle(fontSize: _fontSize),
+        textAlign: TextAlign.center,
+      );
     } else {
-
       if (_image != null && _label != null) {
         content = Row(
           children: [
             Image(image: AssetImage(_image)),
             gap(16),
-            Text(_label, style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,)
+            Text(
+              _label,
+              style: TextStyle(fontSize: _fontSize),
+              textAlign: TextAlign.center,
+            )
           ],
         );
       } else {
         content = _image == null
-            ? Text(_label, style: TextStyle(fontSize: _fontSize), textAlign: TextAlign.center,)
+            ? Text(
+                _label,
+                style: TextStyle(fontSize: _fontSize),
+                textAlign: TextAlign.center,
+              )
             : Image(image: AssetImage(_image));
       }
     }
@@ -266,10 +300,7 @@ class BaseButton extends StatelessWidget {
       child: Card(
         borderOnForeground: true,
         elevation: 5.0,
-        child: Padding(
-          padding: EdgeInsets.all(paddingSize),
-          child: content
-        ),
+        child: Padding(padding: EdgeInsets.all(paddingSize), child: content),
       ),
     );
   }
@@ -278,30 +309,16 @@ class BaseButton extends StatelessWidget {
 // ----------------------------------------------------------
 // Progress bar
 // ----------------------------------------------------------
-Widget getProgressBar(double width, double value, double minHeight, Color color, Color backgroundColor) {
+Widget getProgressBar(double width, double value, double minHeight, Color color,
+    Color backgroundColor) {
   return SizedBox(
       width: width,
       child: LinearProgressIndicator(
-          value: value,
-          minHeight: minHeight,
-          color: color,
-          backgroundColor: backgroundColor,
-      )
-    );
-}
-
-// ----------------------------------------------------------
-// Horizontal gap between widgets
-// ----------------------------------------------------------
-SizedBox gap(double width) {
-  return SizedBox(width: width);
-}
-
-// ----------------------------------------------------------
-// Bold text style in given size
-// ----------------------------------------------------------
-getTitleTextStyle(double size) {
-  return TextStyle(fontWeight: FontWeight.bold, fontSize: size);
+        value: value,
+        minHeight: minHeight,
+        color: color,
+        backgroundColor: backgroundColor,
+      ));
 }
 
 // ----------------------------------------------------------
@@ -309,7 +326,8 @@ getTitleTextStyle(double size) {
 // ----------------------------------------------------------
 getAppBar(String title) {
   return AppBar(
-    automaticallyImplyLeading: false, // disable back button
+    automaticallyImplyLeading: false,
+    // disable back button
     title: ListenableBuilder(
       listenable: GameState().appBarTitleState,
       builder: (BuildContext context, Widget? child) {
@@ -332,8 +350,10 @@ getAppBar(String title) {
     titleTextStyle: getTitleTextStyle(24),
     centerTitle: true,
     flexibleSpace: ListenableBuilder(
-        listenable: GameState().appBarTitleState,
-        builder: (BuildContext context, Widget? child) { return getAppBarImage(); },
+      listenable: GameState().appBarTitleState,
+      builder: (BuildContext context, Widget? child) {
+        return getAppBarImage();
+      },
     ),
   );
 }
@@ -343,42 +363,44 @@ Widget getAppBarTitle(String title, bool centered) {
   if (centered) {
     alignment = Alignment.center;
   }
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Stack(
-        children: <Widget>[
-          // Stroked text as border.
-          Text(title,
-            style: TextStyle(
-              fontSize: 30,
-              fontFamily: 'Diablo',
-              foreground: Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 6
-                ..color = Colors.black87,
-            ),
-          ),
-          // Solid text as fill.
-          Text(title,
-            style: TextStyle(
-              fontSize: 30,
-              fontFamily: 'Diablo',
-              color: Colors.grey[300],
-            ),
-          ),
-        ],
-      ),
-      getOutlinedText(GameState().daytime.getLabel(), 20, 1, Colors.black87, Colors.white),
-    ]
+  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    getOutlinedText(title, 36, 3, Colors.black87, Colors.white),
+    getOutlinedText(
+        GameState().daytime.getLabel(), 20, 1, Colors.black87, Colors.white),
+  ]);
+}
+
+Widget getAppBarImage() {
+  return Image(
+    image: AssetImage(GameState().daytime.getDetail().image.filename()),
+    fit: BoxFit.fitWidth,
   );
 }
 
-Widget getOutlinedText(String text, double fontSize, double strokeWidth, Color border, Color fill) {
+// ----------------------------------------------------------
+// Horizontal gap between widgets
+// ----------------------------------------------------------
+SizedBox gap(double width) {
+  return SizedBox(width: width);
+}
+
+// ----------------------------------------------------------
+// Bold text style in given size
+// ----------------------------------------------------------
+getTitleTextStyle(double size) {
+  return TextStyle(fontWeight: FontWeight.bold, fontSize: size);
+}
+
+// -----------------------------------------------------------------------------
+// Returns text as filled outline in the 'Diablo' font
+// -----------------------------------------------------------------------------
+Widget getOutlinedText(String text, double fontSize, double strokeWidth,
+    Color border, Color fill) {
   return Stack(
     children: <Widget>[
       // Solid text as fill.
-      Text(text,
+      Text(
+        text,
         style: TextStyle(
           fontSize: fontSize,
           fontFamily: 'Diablo',
@@ -386,7 +408,8 @@ Widget getOutlinedText(String text, double fontSize, double strokeWidth, Color b
         ),
       ),
       // Stroked text as border.
-      Text(text,
+      Text(
+        text,
         style: TextStyle(
           fontSize: fontSize,
           fontFamily: 'Diablo',
@@ -400,13 +423,9 @@ Widget getOutlinedText(String text, double fontSize, double strokeWidth, Color b
   );
 }
 
-Widget getAppBarImage() {
-  return Image(
-    image: AssetImage(GameState().daytime.getDetail().image.filename()),
-    fit: BoxFit.fitWidth,
-  );
-}
-
+// -----------------------------------------------------------------------------
+// Switches to the given screen
+// -----------------------------------------------------------------------------
 switchToScreen(Widget widget, BuildContext context) {
   Navigator.pushReplacement(
     context,
@@ -416,3 +435,14 @@ switchToScreen(Widget widget, BuildContext context) {
   GameState().update();
 }
 
+Card getCardWithRoundedBorder(Widget child) {
+  return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+        side: BorderSide(
+          width: 3,
+          color: Colors.black45,
+        ),
+      ),
+      child: child);
+}

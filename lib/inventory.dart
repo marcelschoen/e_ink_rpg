@@ -60,7 +60,9 @@ class Inventory {
   List<Widget> getEquipableItemWidgets() {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
-      if (itemStack.item != null && itemStack.item!.itemCategory == ItemCategory.wearable) {
+      if (itemStack.item != null &&
+          (itemStack.item!.itemCategory == ItemCategory.wearable
+          || itemStack.item!.itemCategory == ItemCategory.weapon)) {
         itemWidgets.add(getItemWidget(itemStack, 56));
       }
     }

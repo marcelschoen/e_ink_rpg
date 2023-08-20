@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/daytime.dart';
+import 'package:e_ink_rpg/equip.dart';
 import 'package:e_ink_rpg/items/armor/ironArmor.dart';
 import 'package:e_ink_rpg/items/consumables/apricot.dart';
 import 'package:e_ink_rpg/items/consumables/banana.dart';
@@ -105,8 +106,10 @@ class GameState with ChangeNotifier {
   final GeneralState inventorySelectionState = GeneralState();
   final GeneralState jobSelectionState = GeneralState();
   final GeneralState jobsButtonState = GeneralState();
+  final GeneralState equipState = GeneralState();
 
   final GameDaytime daytime = GameDaytime();
+  final Equipment equipment = Equipment();
 
   ScreenType _screenType = ScreenType.title;
   Difficulty difficulty = Difficulty.normal;

@@ -5,9 +5,9 @@ import '../state.dart';
 import 'attack.dart';
 
 
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 // Base class for all items
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 abstract class GameItem {
 
   String name = 'item';
@@ -26,17 +26,9 @@ enum ItemCategory {
   rune,
 }
 
-// ----------------------------------------------
-// Weapon items
-// ----------------------------------------------
-mixin Weapon {
-  List<Attack> availableAttacks = [];
-  ItemCategory itemCategory = ItemCategory.weapon;
-}
-
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 // Item that can be consumed for some effect
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 mixin Consumable {
 
   ItemCategory itemCategory = ItemCategory.consumable;
@@ -71,9 +63,9 @@ mixin Consumable {
   }
 }
 
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 // Item that can be equiped (armor etc.)
-// ----------------------------------------------
+// -----------------------------------------------------------------------------
 mixin Wearable {
 
   List<Stat> statBoostsOnEquip = [];
@@ -88,10 +80,24 @@ enum WearableType {
   // these can be equiped on body parts (armor)
   head,
   torso,
-  hands,
+  arms,
   legs,
   feet,
+  // these are usually weapons or shields
+  hands,
   // these can be put on in addition to armor
   rings,
   necklace
+}
+
+// -----------------------------------------------------------------------------
+// Weapon items
+// -----------------------------------------------------------------------------
+class Weapon extends GameItem with Wearable {
+  List<Attack> availableAttacks = [];
+  ItemCategory itemCategory = ItemCategory.weapon;
+
+  Weapon() {
+    this.wearableType = WearableType.hands;
+  }
 }
