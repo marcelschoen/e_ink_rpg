@@ -106,13 +106,14 @@ Widget getInventoryScreen(BuildContext context) {
             listenable: GameState().inventorySelectionState,
             builder: (BuildContext context, Widget? child) {
               return GridView.count(
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  // Create a grid with 2 columns. If you change the scrollDirection to
-                  // horizontal, this produces 2 rows.
-                  crossAxisCount: 6,
-                  // Generate 100 widgets that display their index in the List.
-                  children: GameState().player.inventory.getItemWidgets()
+                controller: ScrollController(),
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                // Create a grid with 2 columns. If you change the scrollDirection to
+                // horizontal, this produces 2 rows.
+                crossAxisCount: 6,
+                // Generate 100 widgets that display their index in the List.
+                children: GameState().player.inventory.getItemWidgets()
               );
             },
           ),

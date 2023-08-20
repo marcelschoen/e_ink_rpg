@@ -2,6 +2,12 @@
 
 * Flutter refactoring shortcut: ALT + ENTER
 
+## To Dos / Next
+
+* Equip screen
+* "Equip" button in inventory screen
+** Disable "Discard" etc. buttons for equipped items
+
 ## Ideas 
 
 * Use summons to get temporary allies
