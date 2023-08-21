@@ -188,6 +188,7 @@ class GameState with ChangeNotifier {
 
     Player().inventory.addItem(IronHelmet());
     Player().inventory.addItem(IronBreastPlate());
+    Player().inventory.addItem(IronBoots());
     Player().inventory.addItems(SmallHealingPotion(), 150);
     Player().inventory.addItem(RustyShortSword());
     Player().inventory.addItems(IronGloves(), 8);
