@@ -32,6 +32,18 @@ class Equipment {
   unequip(Wearable wearable) {
     wearables.remove(wearable.wearableType);
   }
+
+  bool hasEquipped(GameItem item) {
+    print('>>>> CHECK IF EQUIPPED: ' + item.name);
+    for (Wearable wearable in wearables.values) {
+      GameItem equippedItem = wearable as GameItem;
+      print('>>>> check against: ' + equippedItem.name);
+      if (equippedItem.name == item.name) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -90,10 +102,119 @@ Widget getEquipScreen(BuildContext context) {
           ],
         ),
       ),
+
+
+
+      Row(
+        children: [
+          Expanded(
+            child: Card(
+              shape: RoundedRectangleBorder( //<-- SEE HERE
+                borderRadius: BorderRadius.circular(10),
+                side: BorderSide(
+                    color: Colors.black54,
+                    style: BorderStyle.solid,
+                    width: 4
+                ),
+              ),
+              child: SizedBox(
+                height: 180,
+                child: Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.black12,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 4, bottom: 0),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.black,
+                                width: 3.0,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Details', style: getTitleTextStyle(18)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      equipmentItemDetails(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Column(children: [
+            ListenableBuilder(
+              listenable: GameState().equipState,
+              builder: (BuildContext context, Widget? child) {
+                return getEquipOrUnequipButton();
+              },
+            ),
+          ],)
+        ],
+      ),
       getLoadoutButtonsBar(),
     ],
   );
 }
+
+Widget getEquipOrUnequipButton() {
+  if (GameState().selectedInEquipment != null) {
+    if (GameState().equipment.hasEquipped(GameState().selectedInEquipment!)) {
+      return BaseButton.textOnlyWithSizes("Unequip", (p0) => {  }, 26, 160, 2 );
+    } else {
+      return BaseButton.textOnlyWithSizes("Equip", (p0) => {  }, 26, 160, 2 );
+    }
+  }
+  return BaseButton.textOnlyWithSizes("...", (p0) => {  }, 26, 160, 2 );
+}
+
+
+// ---------------------------------------------------------------------
+// The box with the details of the selected item stack
+// ---------------------------------------------------------------------
+Widget equipmentItemDetails() {
+  return Expanded(
+    child: Container(
+      alignment: Alignment.topLeft,
+      margin: EdgeInsets.all(5),
+      child: ListenableBuilder(
+        listenable: GameState().equipState,
+        builder: (BuildContext context, Widget? child) {
+          return Row(
+            children: getSelectedEquipmentItemDetails(),
+          );
+        },
+      ),
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------
+// The item image and description of the selected item stack
+// ---------------------------------------------------------------------
+List<Widget> getSelectedEquipmentItemDetails() {
+  List<Widget> detailContents = [];
+  if (GameState().selectedInEquipment != null) {
+    detailContents.add(SizedBox(width: 160,
+        child: getEquipmentItemWidget(GameState().selectedInEquipment!, 96)));
+    detailContents.add(Expanded(
+        child: Container(
+            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+            child: Text(GameState().selectedInEquipment!.description, style: getTitleTextStyle(20)))
+    )
+    );
+  }
+  return detailContents;
+}
+
+
 
 // -----------------------------------------------------------------------------
 // Equipment details panel
@@ -109,13 +230,13 @@ Widget getEquipmentPanel() {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               getEquipmentFieldWithLabel('Head:', WearableType.head),
-              vGap(40),
+              vGap(20),
               getEquipmentFieldWithLabel('Body:', WearableType.torso),
-              vGap(40),
+              vGap(20),
               getEquipmentFieldWithLabel('Arms:', WearableType.arms),
-              vGap(40),
+              vGap(20),
               getEquipmentFieldWithLabel('Hands:', WearableType.hands),
-              vGap(40),
+              vGap(20),
               getEquipmentFieldWithLabel('Legs:', WearableType.legs),
             ],
         ),
@@ -141,8 +262,13 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
         ),
         InkWell(
             onTap: () {
+              print('---> tapped equipped item: ' + item!.name + ' <----');
+              /*
               GameState().player.inventory.addItem(item);
               GameState().equipment.unequip(item as Wearable);
+
+               */
+              GameState().selectedInEquipment = item!;
               GameState().equipState.update();
             },
             child: itemImage
@@ -159,6 +285,34 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
   );
 }
 
+// ---------------------------------------------------------------------
+// Item widget
+// ---------------------------------------------------------------------
+Widget getEquipmentItemWidget(GameItem gameItem, double length) {
+  Size size = Size(length, length);
+  return Column(
+    children: [
+      Expanded(
+        child: Container(
+          constraints: BoxConstraints.tight(size),
+          padding: const EdgeInsets.all(4),
+          child: FittedBox(child: gameItem.itemAsset.getItemImage()),
+        ),
+      ),
+
+      Row(
+        children: [
+          Expanded(
+            child: Text(gameItem.name,
+                style: TextStyle(fontWeight: FontWeight.bold, ),
+                textAlign: TextAlign.center),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
 // -----------------------------------------------------------------------------
 // Loadout buttons bar
 // -----------------------------------------------------------------------------
@@ -167,16 +321,29 @@ Widget getLoadoutButtonsBar() {
     Padding(
       padding: const EdgeInsets.fromLTRB(10, 6, 6, 6),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text('Loadout', style: getTitleTextStyle(32)),
-          Row(
-            children: [
-
-            ],
-          )
+          getLoadoutButton(' 1 '),
+          getLoadoutButton(' 2 '),
+          getLoadoutButton(' 3 '),
+          getLoadoutButton(' 4 '),
+          getLoadoutButton(' 5 '),
+          getLoadoutButton(' 6 '),
+          getLoadoutButton(' 7 '),
+          getLoadoutButton(' 8 '),
         ],
       ),
     )
+  );
+}
+
+Widget getLoadoutButton(String label) {
+  return InkWell(
+    onTap: () { print('select loadout ' + label); } ,
+    child: Container(
+      color: Colors.black12,
+      child: Text(label, style: getTitleTextStyle(30)),
+    ),
   );
 }

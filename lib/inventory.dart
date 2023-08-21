@@ -63,7 +63,7 @@ class Inventory {
       if (itemStack.item != null &&
           (itemStack.item!.itemCategory == ItemCategory.wearable
           || itemStack.item!.itemCategory == ItemCategory.weapon)) {
-        itemWidgets.add(getItemWidget(itemStack, 56, (p0) { getSelectEquippableItemFunction(itemStack); }, false ));
+        itemWidgets.add(getItemStackWidget(itemStack, 56, (p0) { getSelectEquippableItemFunction(itemStack); }, false ));
       }
     }
     return itemWidgets;
@@ -73,7 +73,7 @@ class Inventory {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
       if (itemStack.item != null) {
-        itemWidgets.add(getItemWidget(itemStack, 56, (p0) { getSelectInventoryItemFunction(itemStack); }, true ));
+        itemWidgets.add(getItemStackWidget(itemStack, 56, (p0) { getSelectInventoryItemFunction(itemStack); }, true ));
       }
     }
     return itemWidgets;
@@ -172,7 +172,7 @@ Widget getInventoryScreen(BuildContext context) {
                           ),
                         ),
                       ),
-                      itemDetails(),
+                      inventoryItemDetails(),
                     ],
                   ),
                 ),
@@ -194,7 +194,7 @@ Widget getInventoryScreen(BuildContext context) {
 // ---------------------------------------------------------------------
 // The box with the details of the selected item stack
 // ---------------------------------------------------------------------
-Widget itemDetails() {
+Widget inventoryItemDetails() {
   return Expanded(
     child: Container(
       alignment: Alignment.topLeft,
@@ -203,7 +203,7 @@ Widget itemDetails() {
         listenable: GameState().inventorySelectionState,
         builder: (BuildContext context, Widget? child) {
           return Row(
-            children: getSelectedItemDetails(),
+            children: getSelectedInventoryItemDetails(),
           );
         },
       ),
@@ -214,11 +214,11 @@ Widget itemDetails() {
 // ---------------------------------------------------------------------
 // The item image and description of the selected item stack
 // ---------------------------------------------------------------------
-List<Widget> getSelectedItemDetails() {
+List<Widget> getSelectedInventoryItemDetails() {
   List<Widget> detailContents = [];
   if (GameState().selectedInInventory != null) {
     detailContents.add(SizedBox(width: 160,
-        child: getItemWidget(GameState().selectedInInventory!, 96, null, false )));
+        child: getItemStackWidget(GameState().selectedInInventory!, 96, null, false )));
     detailContents.add(Expanded(
       child: Container(
         padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
@@ -268,6 +268,7 @@ void discardItem(bool discardAll) {
 }
 
 getSelectEquippableItemFunction(InventoryGameItemStack itemStack) {
+  /*
   if (itemStack.stackSize > 0) {
     Wearable wearable = itemStack.item as Wearable;
     GameItem? item = GameState().equipment.getWearable(wearable.wearableType);
@@ -279,6 +280,10 @@ getSelectEquippableItemFunction(InventoryGameItemStack itemStack) {
     GameState().player.inventory.removeOneItemFromStack(itemStack);
     GameState().equipState.update();
   }
+*/
+  GameState().selectedInEquipment = itemStack!.item;
+  GameState().equipState.update();
+
 }
 
 getSelectInventoryItemFunction(InventoryGameItemStack itemStack) {
@@ -288,9 +293,9 @@ getSelectInventoryItemFunction(InventoryGameItemStack itemStack) {
 }
 
 // ---------------------------------------------------------------------
-// Item widget
+// Item stack widget
 // ---------------------------------------------------------------------
-Widget getItemWidget(InventoryGameItemStack itemStack, double length, Function(InventoryGameItemStack itemStack)? doStuff, bool selectionBorder) {
+Widget getItemStackWidget(InventoryGameItemStack itemStack, double length, Function(InventoryGameItemStack itemStack)? doStuff, bool selectionBorder) {
   if (doStuff == null) {
     return _getDetailIconWidget(itemStack, length, false);
   }

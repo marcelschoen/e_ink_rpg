@@ -34,6 +34,7 @@ import 'jobs.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
 import 'models/beings.dart';
+import 'models/item.dart';
 import 'models/jobs.dart';
 
 // ---------------------------------------------
@@ -116,6 +117,7 @@ class GameState with ChangeNotifier {
 
   AvailableJobs availableJobs = AvailableJobs();
 
+  GameItem? selectedInEquipment = null;
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;
 
