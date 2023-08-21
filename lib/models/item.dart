@@ -104,3 +104,4 @@ class Weapon extends GameItem with Wearable {
     this.wearableType = WearableType.hands;
   }
 }
+

@@ -1,6 +1,7 @@
 import 'package:e_ink_rpg/daytime.dart';
 import 'package:e_ink_rpg/equip.dart';
 import 'package:e_ink_rpg/items/armor/ironArmor.dart';
+import 'package:e_ink_rpg/items/armor/leatherArmor.dart';
 import 'package:e_ink_rpg/items/consumables/apricot.dart';
 import 'package:e_ink_rpg/items/consumables/banana.dart';
 import 'package:e_ink_rpg/items/consumables/beef_jerky.dart';
@@ -16,7 +17,7 @@ import 'package:e_ink_rpg/items/consumables/snozzcumber.dart';
 import 'package:e_ink_rpg/items/consumables/strawberry.dart';
 import 'package:e_ink_rpg/items/consumables/sultana.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
-import 'package:e_ink_rpg/items/weapons/ItemRustyShortSword.dart';
+import 'package:e_ink_rpg/items/weapons/swords.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -186,12 +187,18 @@ class GameState with ChangeNotifier {
     selectedInInventory = null;
     selectedInJobs = null;
 
+    Player().inventory.addItem(LeatherHelmet());
+    Player().inventory.addItem(LeatherBreastPlate());
+    Player().inventory.addItem(LeatherGloves());
+    Player().inventory.addItem(LeatherBoots());
+
     Player().inventory.addItem(IronHelmet());
     Player().inventory.addItem(IronBreastPlate());
     Player().inventory.addItem(IronBoots());
+    Player().inventory.addItems(IronGloves(), 8);
+
     Player().inventory.addItems(SmallHealingPotion(), 150);
     Player().inventory.addItem(RustyShortSword());
-    Player().inventory.addItems(IronGloves(), 8);
     Player().inventory.addItem(MaximumHealingPotion());
     Player().inventory.addItems(Apple(), 8);
     Player().inventory.addItems(Banana(), 8);
