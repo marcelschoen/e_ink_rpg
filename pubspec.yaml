@@ -89,6 +89,7 @@ flutter:
     - assets/item/staff/
     - assets/item/wand/
     - assets/item/weapon/
+    - assets/item/weapon/ranged/
     - assets/daytime/
   # To add assets to your application, add an assets section, like this:
   # assets:

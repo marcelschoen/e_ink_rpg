@@ -10,7 +10,7 @@ class IronHelmet extends GameItem with Wearable {
     this.wearableType = WearableType.head;
     this.price = 30;
     this.statBoostsOnEquip.add(Stat(StatType.defense, 5));
-    this.itemAsset = GameItemAsset.ironHelmet;
+    this.itemAsset = GameItemAsset.helmet;
   }
 }
 
@@ -21,7 +21,7 @@ class IronBreastPlate extends GameItem with Wearable {
     this.wearableType = WearableType.torso;
     this.price = 80;
     this.statBoostsOnEquip.add(Stat(StatType.defense, 10));
-    this.itemAsset = GameItemAsset.ironBreastPlate;
+    this.itemAsset = GameItemAsset.chainMailBreastPlate;
   }
 }
 
@@ -32,6 +32,6 @@ class IronGloves extends GameItem with Wearable {
     this.wearableType = WearableType.arms;
     this.price = 20;
     this.statBoostsOnEquip.add(Stat(StatType.defense, 6));
-    this.itemAsset = GameItemAsset.ironGloves;
+    this.itemAsset = GameItemAsset.gauntlet;
   }
 }
