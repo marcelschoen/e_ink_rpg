@@ -37,13 +37,37 @@ class Inventory {
   }
 
   void addItem(GameItem item) {
+    InventoryGameItemStack? stack = _findStackForItem(item);
+    if (stack != null) {
+      stack.stackSize ++;
+      return;
+    }
+/*
     for (InventoryGameItemStack itemStack in itemStacks) {
       if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
         itemStack.stackSize ++;
         return;
       }
     }
+
+ */
     itemStacks.add(InventoryGameItemStack(item));
+  }
+
+  void removeItem(GameItem item) {
+    InventoryGameItemStack? stack = _findStackForItem(item);
+    if (stack != null) {
+      stack.remove(1);
+    }
+  }
+
+  InventoryGameItemStack? _findStackForItem(GameItem item) {
+    for (InventoryGameItemStack itemStack in itemStacks) {
+      if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
+        return itemStack;
+      }
+    }
+    return null;
   }
 
   void addVariousItems(Iterable<GameItem> newItems) {
@@ -57,6 +81,9 @@ class Inventory {
     GameState().inventorySelectionState.update();
   }
 
+  // ---------------------------------------------------------------------------
+  // List of equipable items from inventory
+  // ---------------------------------------------------------------------------
   List<Widget> getEquipableItemWidgets() {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
@@ -69,6 +96,9 @@ class Inventory {
     return itemWidgets;
   }
 
+  // ---------------------------------------------------------------------------
+  // List of inventory items
+  // ---------------------------------------------------------------------------
   List<Widget> getItemWidgets() {
     List<Widget> itemWidgets = [];
     for (InventoryGameItemStack itemStack in itemStacks) {
@@ -81,6 +111,9 @@ class Inventory {
 
 }
 
+// -----------------------------------------------------------------------------
+// Holder for a stack of items in the inventory
+// -----------------------------------------------------------------------------
 class InventoryGameItemStack {
   int stackSize = 0;
   bool selected = false;
@@ -252,35 +285,17 @@ void discardItem(bool discardAll) {
     if (discardAll) {
       GameState().selectedInInventory!.clear();
     } else {
-//      GameState().selectedInInventory!.remove(1);
       GameState().player.inventory.removeOneItemFromStack(GameState().selectedInInventory!);
     }
     GameState().selectedInInventory = null;
-    /*
-    if (GameState().selectedInInventory!.item == null) {
-      GameState().player.inventory.removeStack(GameState().selectedInInventory!);
-      GameState().selectedInInventory = null;
-    }
-
-     */
     GameState().inventorySelectionState.update();
   }
 }
 
+// --------------------------------------------------------------------
+// Function for selecting an equipable item
+// --------------------------------------------------------------------
 getSelectEquippableItemFunction(InventoryGameItemStack itemStack) {
-  /*
-  if (itemStack.stackSize > 0) {
-    Wearable wearable = itemStack.item as Wearable;
-    GameItem? item = GameState().equipment.getWearable(wearable.wearableType);
-    if (item != null) {
-      // re-add previously selected item to item stack in inventory
-      GameState().player.inventory.addItem(item);
-    }
-    GameState().equipment.equip(itemStack.item as Wearable);
-    GameState().player.inventory.removeOneItemFromStack(itemStack);
-    GameState().equipState.update();
-  }
-*/
   GameState().selectedInEquipment = itemStack!.item;
   GameState().equipState.update();
 

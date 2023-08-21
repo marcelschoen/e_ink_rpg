@@ -27,17 +27,17 @@ class Equipment {
 
   equip(Wearable wearable) {
     wearables[wearable.wearableType] = wearable;
+    GameState().equipState.update();
   }
 
   unequip(Wearable wearable) {
     wearables.remove(wearable.wearableType);
+    GameState().equipState.update();
   }
 
   bool hasEquipped(GameItem item) {
-    print('>>>> CHECK IF EQUIPPED: ' + item.name);
     for (Wearable wearable in wearables.values) {
       GameItem equippedItem = wearable as GameItem;
-      print('>>>> check against: ' + equippedItem.name);
       if (equippedItem.name == item.name) {
         return true;
       }
@@ -167,14 +167,29 @@ Widget getEquipScreen(BuildContext context) {
 Widget getEquipOrUnequipButton() {
   if (GameState().selectedInEquipment != null) {
     if (GameState().equipment.hasEquipped(GameState().selectedInEquipment!)) {
-      return BaseButton.textOnlyWithSizes("Unequip", (p0) => {  }, 26, 160, 2 );
+      return BaseButton.textOnlyWithSizes("Unequip", (p0) => {
+        unequipSelectedItem(GameState().selectedInEquipment!)
+      }, 26, 160, 2 );
     } else {
-      return BaseButton.textOnlyWithSizes("Equip", (p0) => {  }, 26, 160, 2 );
+      return BaseButton.textOnlyWithSizes("Equip", (p0) => {
+        equipSelectedItem(GameState().selectedInEquipment!)
+      }, 26, 160, 2 );
     }
   }
   return BaseButton.textOnlyWithSizes("...", (p0) => {  }, 26, 160, 2 );
 }
 
+void unequipSelectedItem(GameItem item) {
+  GameState().equipment.unequip(item as Wearable);
+  GameState().player.inventory.addItem(item);
+  GameState().equipState.update();
+}
+
+void equipSelectedItem(GameItem item) {
+  GameState().equipment.equip(item as Wearable);
+  GameState().player.inventory.removeItem(item);
+  GameState().equipState.update();
+}
 
 // ---------------------------------------------------------------------
 // The box with the details of the selected item stack
@@ -262,12 +277,6 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
         ),
         InkWell(
             onTap: () {
-              print('---> tapped equipped item: ' + item!.name + ' <----');
-              /*
-              GameState().player.inventory.addItem(item);
-              GameState().equipment.unequip(item as Wearable);
-
-               */
               GameState().selectedInEquipment = item!;
               GameState().equipState.update();
             },
