@@ -5,7 +5,7 @@ import '../../models/item.dart';
 
 
 class IronGloves extends GameItem with Wearable {
-  IronGloves() {
+  IronGloves() : super() {
     name = 'Iron Gloves';
     description = 'Provides some basic protection.';
     wearableType = WearableType.arms;
@@ -16,7 +16,7 @@ class IronGloves extends GameItem with Wearable {
 }
 
 class SturdyLeatherGloves extends GameItem with Wearable {
-  SturdyLeatherGloves() {
+  SturdyLeatherGloves() : super() {
     name = 'Sturdy Leather Gloves';
     description = 'Provide good protection.';
     wearableType = WearableType.arms;
@@ -27,7 +27,7 @@ class SturdyLeatherGloves extends GameItem with Wearable {
 }
 
 class OldLeatherGloves extends GameItem with Wearable {
-  OldLeatherGloves() {
+  OldLeatherGloves() : super() {
     name = 'Old Leather Gloves';
     description = 'Provides a little protection.';
     wearableType = WearableType.arms;
@@ -38,7 +38,7 @@ class OldLeatherGloves extends GameItem with Wearable {
 }
 
 class NobleGloves extends GameItem with Wearable {
-  NobleGloves() {
+  NobleGloves() : super() {
     name = 'Noble Gloves';
     description = 'Provides medium protection.';
     wearableType = WearableType.arms;
@@ -49,7 +49,7 @@ class NobleGloves extends GameItem with Wearable {
 }
 
 class ClericGloves extends GameItem with Wearable {
-  ClericGloves() {
+  ClericGloves() : super() {
     name = 'Cleric Gloves';
     description = 'Special gloves, provide medium protection.';
     wearableType = WearableType.arms;
@@ -60,7 +60,7 @@ class ClericGloves extends GameItem with Wearable {
 }
 
 class KnightsGloves extends GameItem with Wearable {
-  KnightsGloves() {
+  KnightsGloves() : super() {
     name = 'Knights Gloves';
     description = 'Provide strong protection.';
     wearableType = WearableType.arms;
@@ -71,7 +71,7 @@ class KnightsGloves extends GameItem with Wearable {
 }
 
 class FightingGloves extends GameItem with Wearable {
-  FightingGloves() {
+  FightingGloves() : super() {
     name = 'Fighting Gloves';
     description = 'Provide mediocre protection.';
     wearableType = WearableType.arms;
@@ -82,7 +82,7 @@ class FightingGloves extends GameItem with Wearable {
 }
 
 class NobleGauntlets extends GameItem with Wearable {
-  NobleGauntlets() {
+  NobleGauntlets() : super() {
     name = 'Noble Gauntlets';
     description = 'Provide superior protection.';
     wearableType = WearableType.arms;
@@ -93,7 +93,7 @@ class NobleGauntlets extends GameItem with Wearable {
 }
 
 class SilverGloves extends GameItem with Wearable {
-  SilverGloves() {
+  SilverGloves() : super() {
     name = 'Silver Gloves';
     description = 'Provide medium protection.';
     wearableType = WearableType.arms;
@@ -104,7 +104,7 @@ class SilverGloves extends GameItem with Wearable {
 }
 
 class WornGloves extends GameItem with Wearable {
-  WornGloves() {
+  WornGloves() : super() {
     name = 'Worn Gloves';
     description = 'Provide weak protection.';
     wearableType = WearableType.arms;
@@ -115,7 +115,7 @@ class WornGloves extends GameItem with Wearable {
 }
 
 class DragonScaleGloves extends GameItem with Wearable {
-  DragonScaleGloves() {
+  DragonScaleGloves() : super() {
     name = 'Dragon Scale Gloves';
     description = 'Provide maximum protection.';
     wearableType = WearableType.arms;

@@ -6,7 +6,7 @@ import '../../models/item.dart';
 
 
 class StripeBoots extends GameItem with Wearable {
-  StripeBoots() {
+  StripeBoots() : super() {
     name = 'Stripe Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -17,7 +17,7 @@ class StripeBoots extends GameItem with Wearable {
 }
 
 class StripeBootsOld extends GameItem with Wearable {
-  StripeBootsOld() {
+  StripeBootsOld() : super() {
     name = 'Old Stripe Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -28,7 +28,7 @@ class StripeBootsOld extends GameItem with Wearable {
 }
 
 class LowBoots extends GameItem with Wearable {
-  LowBoots() {
+  LowBoots() : super() {
     name = 'Low Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -39,7 +39,7 @@ class LowBoots extends GameItem with Wearable {
 }
 
 class Jackboots extends GameItem with Wearable {
-  Jackboots() {
+  Jackboots() : super() {
     name = 'Jackboots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -50,7 +50,7 @@ class Jackboots extends GameItem with Wearable {
 }
 
 class GreenBoots extends GameItem with Wearable {
-  GreenBoots() {
+  GreenBoots() : super() {
     name = 'Green Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -61,7 +61,7 @@ class GreenBoots extends GameItem with Wearable {
 }
 
 class IronBoots extends GameItem with Wearable {
-  IronBoots() {
+  IronBoots() : super() {
     name = 'Iron Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
@@ -72,7 +72,7 @@ class IronBoots extends GameItem with Wearable {
 }
 
 class LeatherBootsOld extends GameItem with Wearable {
-  LeatherBootsOld() {
+  LeatherBootsOld() : super() {
     name = 'Old Leather Boots';
     description = 'Provides a little protection.';
     wearableType = WearableType.legs;
@@ -83,7 +83,7 @@ class LeatherBootsOld extends GameItem with Wearable {
 }
 
 class LeatherBoots extends GameItem with Wearable {
-  LeatherBoots() {
+  LeatherBoots() : super() {
     name = 'Leather Boots';
     description = 'Provides a little protection.';
     wearableType = WearableType.legs;

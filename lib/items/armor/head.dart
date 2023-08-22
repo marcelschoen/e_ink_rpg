@@ -5,7 +5,7 @@ import '../../models/item.dart';
 
 
 class LeatherCap extends GameItem with Wearable {
-  LeatherCap() {
+  LeatherCap() : super() {
     name = 'Leather Cap';
     description = 'Provides some basic protection.';
     wearableType = WearableType.head;
@@ -16,7 +16,7 @@ class LeatherCap extends GameItem with Wearable {
 }
 
 class OldLeatherCap extends GameItem with Wearable {
-  OldLeatherCap() {
+  OldLeatherCap() : super() {
     name = 'Old Leather Cap';
     description = 'Provides some basic protection.';
     wearableType = WearableType.head;
@@ -27,7 +27,7 @@ class OldLeatherCap extends GameItem with Wearable {
 }
 
 class WizardCap extends GameItem with Wearable {
-  WizardCap() {
+  WizardCap() : super() {
     name = 'Fancy Wizard Hat';
     description = 'Magical hat.';
     wearableType = WearableType.head;
@@ -38,7 +38,7 @@ class WizardCap extends GameItem with Wearable {
 }
 
 class WizardHat extends GameItem with Wearable {
-  WizardHat() {
+  WizardHat() : super() {
     name = 'Plain Wizard Hat';
     description = 'Magical hat.';
     wearableType = WearableType.head;
@@ -49,7 +49,7 @@ class WizardHat extends GameItem with Wearable {
 }
 
 class WizardHat2 extends GameItem with Wearable {
-  WizardHat2() {
+  WizardHat2() : super() {
     name = 'Ancient Wizard Hat';
     description = 'Magical hat.';
     wearableType = WearableType.head;
@@ -60,7 +60,7 @@ class WizardHat2 extends GameItem with Wearable {
 }
 
 class WizardHat3 extends GameItem with Wearable {
-  WizardHat3() {
+  WizardHat3() : super() {
     name = 'Icy Wizard Hat';
     description = 'A cold, icy magical hat.';
     wearableType = WearableType.head;
@@ -71,7 +71,7 @@ class WizardHat3 extends GameItem with Wearable {
 }
 
 class WizardHat4 extends GameItem with Wearable {
-  WizardHat4() {
+  WizardHat4() : super() {
     name = 'Wizard Hat';
     description = 'A magical hat.';
     wearableType = WearableType.head;
@@ -82,7 +82,7 @@ class WizardHat4 extends GameItem with Wearable {
 }
 
 class WizardHat5 extends GameItem with Wearable {
-  WizardHat5() {
+  WizardHat5() : super() {
     name = 'Sparkly Wizard Hat';
     description = 'My god, it is full of stars!';
     wearableType = WearableType.head;
@@ -93,7 +93,7 @@ class WizardHat5 extends GameItem with Wearable {
 }
 
 class CrestedHelmet extends GameItem with Wearable {
-  CrestedHelmet() {
+  CrestedHelmet() : super() {
     name = 'Crested Helmet';
     description = 'Magical helmet.';
     wearableType = WearableType.head;
@@ -104,7 +104,7 @@ class CrestedHelmet extends GameItem with Wearable {
 }
 
 class ElvenLeatherHat extends GameItem with Wearable {
-  ElvenLeatherHat() {
+  ElvenLeatherHat() : super() {
     name = 'Elvent Leather Hat';
     description = 'Looking good...';
     wearableType = WearableType.head;
@@ -115,7 +115,7 @@ class ElvenLeatherHat extends GameItem with Wearable {
 }
 
 class GreenMask extends GameItem with Wearable {
-  GreenMask() {
+  GreenMask() : super() {
     name = 'Mysterious Mask';
     description = 'A powerful relic.';
     wearableType = WearableType.head;
@@ -126,7 +126,7 @@ class GreenMask extends GameItem with Wearable {
 }
 
 class LeatherHelmet extends GameItem with Wearable {
-  LeatherHelmet() {
+  LeatherHelmet() : super() {
     name = 'Leather Helmet';
     description = 'Provides a little protection.';
     wearableType = WearableType.head;
@@ -137,7 +137,7 @@ class LeatherHelmet extends GameItem with Wearable {
 }
 
 class IronHelmet extends GameItem with Wearable {
-  IronHelmet() {
+  IronHelmet() : super() {
     name = 'Iron Helmet';
     description = 'Provides some basic protection.';
     wearableType = WearableType.head;
@@ -148,7 +148,7 @@ class IronHelmet extends GameItem with Wearable {
 }
 
 class VisoredHelmet extends GameItem with Wearable {
-  VisoredHelmet() {
+  VisoredHelmet() : super() {
     name = 'Visored Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -159,7 +159,7 @@ class VisoredHelmet extends GameItem with Wearable {
 }
 
 class WingedHelmet extends GameItem with Wearable {
-  WingedHelmet() {
+  WingedHelmet() : super() {
   name = 'Winged Helmet';
   description = 'Provides solid protection.';
   wearableType = WearableType.head;
@@ -170,7 +170,7 @@ class WingedHelmet extends GameItem with Wearable {
 }
 
 class EtchedHelmet extends GameItem with Wearable {
-  EtchedHelmet() {
+  EtchedHelmet() : super() {
     name = 'Etched Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -181,7 +181,7 @@ class EtchedHelmet extends GameItem with Wearable {
 }
 
 class SpikyHelmet extends GameItem with Wearable {
-  SpikyHelmet() {
+  SpikyHelmet() : super() {
     name = 'Spiky Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -192,7 +192,7 @@ class SpikyHelmet extends GameItem with Wearable {
 }
 
 class NobleHelmet extends GameItem with Wearable {
-  NobleHelmet() {
+  NobleHelmet() : super() {
     name = 'Noble Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -203,7 +203,7 @@ class NobleHelmet extends GameItem with Wearable {
 }
 
 class HornedHelmet extends GameItem with Wearable {
-  HornedHelmet() {
+  HornedHelmet() : super() {
     name = 'Hornet Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -214,7 +214,7 @@ class HornedHelmet extends GameItem with Wearable {
 }
 
 class VisoredHelmet2 extends GameItem with Wearable {
-  VisoredHelmet2() {
+  VisoredHelmet2() : super() {
     name = 'Old Visored Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -225,7 +225,7 @@ class VisoredHelmet2 extends GameItem with Wearable {
 }
 
 class VisoredHelmet3 extends GameItem with Wearable {
-  VisoredHelmet3() {
+  VisoredHelmet3() : super() {
     name = 'Steel Visored Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;
@@ -236,7 +236,7 @@ class VisoredHelmet3 extends GameItem with Wearable {
 }
 
 class ArtHelmet extends GameItem with Wearable {
-  ArtHelmet() {
+  ArtHelmet() : super() {
     name = 'Art Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -247,7 +247,7 @@ class ArtHelmet extends GameItem with Wearable {
 }
 
 class ArtHelmet2 extends GameItem with Wearable {
-  ArtHelmet2() {
+  ArtHelmet2() : super() {
     name = 'Silver Art Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -258,7 +258,7 @@ class ArtHelmet2 extends GameItem with Wearable {
 }
 
 class ArtHelmet3 extends GameItem with Wearable {
-  ArtHelmet3() {
+  ArtHelmet3() : super() {
     name = 'Centurion Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -269,7 +269,7 @@ class ArtHelmet3 extends GameItem with Wearable {
 }
 
 class EgoHelmet extends GameItem with Wearable {
-  EgoHelmet() {
+  EgoHelmet() : super() {
     name = 'Goldwing Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -280,7 +280,7 @@ class EgoHelmet extends GameItem with Wearable {
 }
 
 class EgoHelmet2 extends GameItem with Wearable {
-  EgoHelmet2() {
+  EgoHelmet2() : super() {
     name = 'Gold Visored Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -291,7 +291,7 @@ class EgoHelmet2 extends GameItem with Wearable {
 }
 
 class EgoHelmet3 extends GameItem with Wearable {
-  EgoHelmet3() {
+  EgoHelmet3() : super() {
     name = 'Ceremonial Helmet';
     description = 'A special helmet, provides meagre protection.';
     wearableType = WearableType.head;
@@ -302,7 +302,7 @@ class EgoHelmet3 extends GameItem with Wearable {
 }
 
 class EgoHelmet4 extends GameItem with Wearable {
-  EgoHelmet4() {
+  EgoHelmet4() : super() {
     name = 'Southern Helmet';
     description = 'Provides basic protection.';
     wearableType = WearableType.head;
@@ -313,7 +313,7 @@ class EgoHelmet4 extends GameItem with Wearable {
 }
 
 class PlumedHelmet extends GameItem with Wearable {
-  PlumedHelmet() {
+  PlumedHelmet() : super() {
     name = 'Plumed Helmet';
     description = 'Provides solid protection.';
     wearableType = WearableType.head;

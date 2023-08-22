@@ -5,7 +5,7 @@ import '../../models/item.dart';
 
 
 class BandedMailBreastPlate extends GameItem with Wearable {
-  BandedMailBreastPlate() {
+  BandedMailBreastPlate() : super() {
     name = 'Old Banded Mail Breastplate';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -16,7 +16,7 @@ class BandedMailBreastPlate extends GameItem with Wearable {
 }
 
 class BandedMail2BreastPlate extends GameItem with Wearable {
-  BandedMail2BreastPlate() {
+  BandedMail2BreastPlate() : super() {
     name = 'Banded Mail Breastplate';
     description = 'Provides a little protection.';
     wearableType = WearableType.torso;
@@ -27,7 +27,7 @@ class BandedMail2BreastPlate extends GameItem with Wearable {
 }
 
 class OldChainMail extends GameItem with Wearable {
-  OldChainMail() {
+  OldChainMail() : super() {
     name = 'Old Chain Mail';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -38,7 +38,7 @@ class OldChainMail extends GameItem with Wearable {
 }
 
 class NobleChainMail extends GameItem with Wearable {
-  NobleChainMail() {
+  NobleChainMail() : super() {
     name = 'Noble Chain Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -49,7 +49,7 @@ class NobleChainMail extends GameItem with Wearable {
 }
 
 class ChainMail extends GameItem with Wearable {
-  ChainMail() {
+  ChainMail() : super() {
     name = 'Chain Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -60,7 +60,7 @@ class ChainMail extends GameItem with Wearable {
 }
 
 class IronBreastPlate extends GameItem with Wearable {
-  IronBreastPlate() {
+  IronBreastPlate() : super() {
     name = 'Iron Breastplate';
     description = 'Provides some basic protection.';
     wearableType = WearableType.torso;
@@ -71,7 +71,7 @@ class IronBreastPlate extends GameItem with Wearable {
 }
 
 class LeatherBreastPlate extends GameItem with Wearable {
-  LeatherBreastPlate() {
+  LeatherBreastPlate() : super() {
     name = 'Leather Breastplate';
     description = 'Provides a little protection.';
     wearableType = WearableType.torso;
@@ -82,7 +82,7 @@ class LeatherBreastPlate extends GameItem with Wearable {
 }
 
 class CrystalBreastPlate extends GameItem with Wearable {
-  CrystalBreastPlate() {
+  CrystalBreastPlate() : super() {
     name = 'Crystal Breastplate';
     description = 'Provides special protection.';
     wearableType = WearableType.torso;
@@ -93,7 +93,7 @@ class CrystalBreastPlate extends GameItem with Wearable {
 }
 
 class DwarvenRingMail extends GameItem with Wearable {
-  DwarvenRingMail() {
+  DwarvenRingMail() : super() {
     name = 'Dwarven Ring Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -104,7 +104,7 @@ class DwarvenRingMail extends GameItem with Wearable {
 }
 
 class ElvenLeatherBreastPlate extends GameItem with Wearable {
-  ElvenLeatherBreastPlate() {
+  ElvenLeatherBreastPlate() : super() {
     name = 'Elven Leather Breastplate';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -115,7 +115,7 @@ class ElvenLeatherBreastPlate extends GameItem with Wearable {
 }
 
 class ElvenRingMail extends GameItem with Wearable {
-  ElvenRingMail() {
+  ElvenRingMail() : super() {
     name = 'Elven Ring Mail';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -126,7 +126,7 @@ class ElvenRingMail extends GameItem with Wearable {
 }
 
 class ElvenScaleMail extends GameItem with Wearable {
-  ElvenScaleMail() {
+  ElvenScaleMail() : super() {
     name = 'Elven Scale Mail';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -137,7 +137,7 @@ class ElvenScaleMail extends GameItem with Wearable {
 }
 
 class IceDragonBreastPlate extends GameItem with Wearable {
-  IceDragonBreastPlate() {
+  IceDragonBreastPlate() : super() {
     name = 'Ice Dragon Breastplate';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -148,7 +148,7 @@ class IceDragonBreastPlate extends GameItem with Wearable {
 }
 
 class OldIceDragonBreastPlate extends GameItem with Wearable {
-  OldIceDragonBreastPlate() {
+  OldIceDragonBreastPlate() : super() {
     name = 'Old Ice Dragon Breastplate';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -159,7 +159,7 @@ class OldIceDragonBreastPlate extends GameItem with Wearable {
 }
 
 class LeatherArmor extends GameItem with Wearable {
-  LeatherArmor() {
+  LeatherArmor() : super() {
     name = 'Leather Armor';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -170,7 +170,7 @@ class LeatherArmor extends GameItem with Wearable {
 }
 
 class SturdyLeatherArmor extends GameItem with Wearable {
-  SturdyLeatherArmor() {
+  SturdyLeatherArmor() : super() {
     name = 'Sturdy Leather Armor';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -181,7 +181,7 @@ class SturdyLeatherArmor extends GameItem with Wearable {
 }
 
 class NobleLeatherArmor extends GameItem with Wearable {
-  NobleLeatherArmor() {
+  NobleLeatherArmor() : super() {
     name = 'Noble Leather Armor';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -192,7 +192,7 @@ class NobleLeatherArmor extends GameItem with Wearable {
 }
 
 class OrcishChainMail extends GameItem with Wearable {
-  OrcishChainMail() {
+  OrcishChainMail() : super() {
     name = 'Orcish Chain Mail';
     description = 'Provides good protection.';
     wearableType = WearableType.torso;
@@ -203,7 +203,7 @@ class OrcishChainMail extends GameItem with Wearable {
 }
 
 class OrcishLeatherArmor extends GameItem with Wearable {
-  OrcishLeatherArmor() {
+  OrcishLeatherArmor() : super() {
     name = 'Orcish Leather Armor';
     description = 'Provides mediocre protection.';
     wearableType = WearableType.torso;
@@ -214,7 +214,7 @@ class OrcishLeatherArmor extends GameItem with Wearable {
 }
 
 class OrcishSpikyMail extends GameItem with Wearable {
-  OrcishSpikyMail() {
+  OrcishSpikyMail() : super() {
     name = 'Orcish Spiky Mail';
     description = 'Provides good protection.';
     wearableType = WearableType.torso;
@@ -225,7 +225,7 @@ class OrcishSpikyMail extends GameItem with Wearable {
 }
 
 class OrcishPlateMail extends GameItem with Wearable {
-  OrcishPlateMail() {
+  OrcishPlateMail() : super() {
     name = 'Orcish Plate Mail';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -236,7 +236,7 @@ class OrcishPlateMail extends GameItem with Wearable {
 }
 
 class OrcishRingMail extends GameItem with Wearable {
-  OrcishRingMail() {
+  OrcishRingMail() : super() {
     name = 'Orcish Ring Mail';
     description = 'Provides good protection.';
     wearableType = WearableType.torso;
@@ -247,7 +247,7 @@ class OrcishRingMail extends GameItem with Wearable {
 }
 
 class PearlDragonBreastPlate extends GameItem with Wearable {
-  PearlDragonBreastPlate() {
+  PearlDragonBreastPlate() : super() {
     name = 'Pearl Dragon Breastplate';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -258,7 +258,7 @@ class PearlDragonBreastPlate extends GameItem with Wearable {
 }
 
 class PearlDragonHide extends GameItem with Wearable {
-  PearlDragonHide() {
+  PearlDragonHide() : super() {
     name = 'Pearl Dragon Hide';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -269,7 +269,7 @@ class PearlDragonHide extends GameItem with Wearable {
 }
 
 class IronArmor extends GameItem with Wearable {
-  IronArmor() {
+  IronArmor() : super() {
     name = 'Iron Armor';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -280,7 +280,7 @@ class IronArmor extends GameItem with Wearable {
 }
 
 class SteelArmor extends GameItem with Wearable {
-  SteelArmor() {
+  SteelArmor() : super() {
     name = 'Steel Armor';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -291,7 +291,7 @@ class SteelArmor extends GameItem with Wearable {
 }
 
 class NobleArmor extends GameItem with Wearable {
-  NobleArmor() {
+  NobleArmor() : super() {
     name = 'Noble Armor';
     description = 'Provides strong protection.';
     wearableType = WearableType.torso;
@@ -302,7 +302,7 @@ class NobleArmor extends GameItem with Wearable {
 }
 
 class QuicksilverDragonScaleMail extends GameItem with Wearable {
-  QuicksilverDragonScaleMail() {
+  QuicksilverDragonScaleMail() : super() {
     name = 'Quicksilver Dragon Mail';
     description = 'Provides superior protection.';
     wearableType = WearableType.torso;
@@ -313,7 +313,7 @@ class QuicksilverDragonScaleMail extends GameItem with Wearable {
 }
 
 class QuicksilverDragonScaleArmor extends GameItem with Wearable {
-  QuicksilverDragonScaleArmor() {
+  QuicksilverDragonScaleArmor() : super() {
     name = 'Quicksilver Dragon Armor';
     description = 'Provides superior protection.';
     wearableType = WearableType.torso;
@@ -324,7 +324,7 @@ class QuicksilverDragonScaleArmor extends GameItem with Wearable {
 }
 
 class RingmailBreastplate extends GameItem with Wearable {
-  RingmailBreastplate() {
+  RingmailBreastplate() : super() {
     name = 'Ring Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -335,7 +335,7 @@ class RingmailBreastplate extends GameItem with Wearable {
 }
 
 class OldRingmailBreastplate extends GameItem with Wearable {
-  RingmailBreastplate() {
+  OldRingmailBreastplate() : super() {
     name = 'Old Ring Mail';
     description = 'Provides good protection.';
     wearableType = WearableType.torso;
@@ -346,7 +346,7 @@ class OldRingmailBreastplate extends GameItem with Wearable {
 }
 
 class NobleRingmail extends GameItem with Wearable {
-  NobleRingmail() {
+  NobleRingmail() : super() {
     name = 'Noble Ring Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -357,7 +357,7 @@ class NobleRingmail extends GameItem with Wearable {
 }
 
 class OldNobleRingmail extends GameItem with Wearable {
-  OldNobleRingmail() {
+  OldNobleRingmail() : super() {
     name = 'Old Noble Ring Mail';
     description = 'Provides solid protection.';
     wearableType = WearableType.torso;
@@ -368,7 +368,7 @@ class OldNobleRingmail extends GameItem with Wearable {
 }
 
 class MagicRingmail extends GameItem with Wearable {
-  MagicRingmail() {
+  MagicRingmail() : super() {
     name = 'Magic Ring Mail';
     description = 'Protection for wizards.';
     wearableType = WearableType.torso;
@@ -379,7 +379,7 @@ class MagicRingmail extends GameItem with Wearable {
 }
 
 class OldRobe extends GameItem with Wearable {
-  OldRobe() {
+  OldRobe() : super() {
     name = 'Old Robe';
     description = 'Ugly and worn.';
     wearableType = WearableType.torso;
@@ -390,7 +390,7 @@ class OldRobe extends GameItem with Wearable {
 }
 
 class SimpleRobe extends GameItem with Wearable {
-  SimpleRobe() {
+  SimpleRobe() : super() {
     name = 'Simple Robe';
     description = 'Comfy but weak.';
     wearableType = WearableType.torso;
@@ -401,7 +401,7 @@ class SimpleRobe extends GameItem with Wearable {
 }
 
 class SatinRobe extends GameItem with Wearable {
-  SatinRobe() {
+  SatinRobe() : super() {
     name = 'Satin Robe';
     description = 'Comfy but weak.';
     wearableType = WearableType.torso;
@@ -412,7 +412,7 @@ class SatinRobe extends GameItem with Wearable {
 }
 
 class MagicRobe extends GameItem with Wearable {
-  MagicRobe() {
+  MagicRobe() : super() {
     name = 'Magic Robe';
     description = 'A magical robe.';
     wearableType = WearableType.torso;
@@ -423,7 +423,7 @@ class MagicRobe extends GameItem with Wearable {
 }
 
 class WizardRobe extends GameItem with Wearable {
-  WizardRobe() {
+  WizardRobe() : super() {
     name = 'Wizard Robe';
     description = 'A wizards robe.';
     wearableType = WearableType.torso;
@@ -434,7 +434,7 @@ class WizardRobe extends GameItem with Wearable {
 }
 
 class ArtRobe extends GameItem with Wearable {
-  ArtRobe() {
+  ArtRobe() : super() {
     name = 'Fancy Magic Robe';
     description = 'A fancy magical robe.';
     wearableType = WearableType.torso;
@@ -445,7 +445,7 @@ class ArtRobe extends GameItem with Wearable {
 }
 
 class ArtRobe2 extends GameItem with Wearable {
-  ArtRobe2() {
+  ArtRobe2() : super() {
     name = 'Strong Magic Robe';
     description = 'A strong magical robe.';
     wearableType = WearableType.torso;
@@ -456,7 +456,7 @@ class ArtRobe2 extends GameItem with Wearable {
 }
 
 class ClericRobe extends GameItem with Wearable {
-  ClericRobe() {
+  ClericRobe() : super() {
     name = 'Cleric Robe';
     description = 'A clerics robe.';
     wearableType = WearableType.torso;
@@ -467,7 +467,7 @@ class ClericRobe extends GameItem with Wearable {
 }
 
 class PriestRobe extends GameItem with Wearable {
-  PriestRobe() {
+  PriestRobe() : super() {
     name = 'Priest Robe';
     description = 'A priests robe.';
     wearableType = WearableType.torso;
@@ -478,7 +478,7 @@ class PriestRobe extends GameItem with Wearable {
 }
 
 class ScaleMail extends GameItem with Wearable {
-  ScaleMail() {
+  ScaleMail() : super() {
     name = 'Scale Mail';
     description = 'A solid armor.';
     wearableType = WearableType.torso;
@@ -489,7 +489,7 @@ class ScaleMail extends GameItem with Wearable {
 }
 
 class OldScaleMail extends GameItem with Wearable {
-  OldScaleMail() {
+  OldScaleMail() : super() {
     name = 'Old Scale Mail';
     description = 'A solid armor.';
     wearableType = WearableType.torso;
@@ -500,7 +500,7 @@ class OldScaleMail extends GameItem with Wearable {
 }
 
 class NobleScaleMail extends GameItem with Wearable {
-  NobleScaleMail() {
+  NobleScaleMail() : super() {
     name = 'Noble Scale Mail';
     description = 'A solid armor.';
     wearableType = WearableType.torso;
@@ -511,7 +511,7 @@ class NobleScaleMail extends GameItem with Wearable {
 }
 
 class WornScaleMail extends GameItem with Wearable {
-  WornScaleMail() {
+  WornScaleMail() : super() {
     name = 'Worn Scale Mail';
     description = 'An old, but still valid armor.';
     wearableType = WearableType.torso;
@@ -522,7 +522,7 @@ class WornScaleMail extends GameItem with Wearable {
 }
 
 class MagicScaleMail extends GameItem with Wearable {
-  MagicScaleMail() {
+  MagicScaleMail() : super() {
     name = 'Magic Scale Mail';
     description = 'A magical armor.';
     wearableType = WearableType.torso;
@@ -533,7 +533,7 @@ class MagicScaleMail extends GameItem with Wearable {
 }
 
 class SilverDragonScaleArmor extends GameItem with Wearable {
-  SilverDragonScaleArmor() {
+  SilverDragonScaleArmor() : super() {
     name = 'Silver Dragon Scale Armor';
     description = 'A powerful dragon armor.';
     wearableType = WearableType.torso;
@@ -544,7 +544,7 @@ class SilverDragonScaleArmor extends GameItem with Wearable {
 }
 
 class SplintMail extends GameItem with Wearable {
-  SplintMail() {
+  SplintMail() : super() {
     name = 'Splint Mail';
     description = 'An old armor.';
     wearableType = WearableType.torso;
@@ -555,7 +555,7 @@ class SplintMail extends GameItem with Wearable {
 }
 
 class NobleSplintMail extends GameItem with Wearable {
-  NobleSplintMail() {
+  NobleSplintMail() : super() {
     name = 'Noble Splint Mail';
     description = 'A solid armor for nobles.';
     wearableType = WearableType.torso;
@@ -566,7 +566,7 @@ class NobleSplintMail extends GameItem with Wearable {
 }
 
 class SwampDragonArmor extends GameItem with Wearable {
-  SwampDragonArmor() {
+  SwampDragonArmor() : super() {
     name = 'Swamp Dragon Armor';
     description = 'A powerful dragon armor.';
     wearableType = WearableType.torso;
@@ -577,7 +577,7 @@ class SwampDragonArmor extends GameItem with Wearable {
 }
 
 class OldSwampDragonArmor extends GameItem with Wearable {
-  OldSwampDragonArmor() {
+  OldSwampDragonArmor() : super() {
     name = 'Old Swamp Dragon Armor';
     description = 'A powerful dragon armor.';
     wearableType = WearableType.torso;
@@ -588,7 +588,7 @@ class OldSwampDragonArmor extends GameItem with Wearable {
 }
 
 class TrollLeatherArmor extends GameItem with Wearable {
-  TrollLeatherArmor() {
+  TrollLeatherArmor() : super() {
     name = 'Troll Leather Armor';
     description = 'A solid armor.';
     wearableType = WearableType.torso;

@@ -4,7 +4,7 @@ import '../../assets.dart';
 import '../../models/item.dart';
 
 class RustyShortSword extends Weapon {
-  RustyShortSword() {
+  RustyShortSword() : super() {
     description = 'A bit rusty and pretty weak, but it can still do some damage.';
     name = 'Rusty short sword';
     availableAttacks.add(Hit());

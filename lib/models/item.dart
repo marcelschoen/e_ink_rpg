@@ -16,6 +16,13 @@ abstract class GameItem {
   GameItemAsset itemAsset = GameItemAsset.apple;
 
   int price = -1;
+
+  GameItem() {
+    itemCollection.add(this);
+    print ('> number of game items registered: ' + itemCollection.length.toString());
+  }
+
+  static List<GameItem> itemCollection = [];
 }
 
 enum ItemCategory {
