@@ -1,7 +1,5 @@
 import 'package:e_ink_rpg/daytime.dart';
 import 'package:e_ink_rpg/equip.dart';
-import 'package:e_ink_rpg/items/armor/ironArmor.dart';
-import 'package:e_ink_rpg/items/armor/leatherArmor.dart';
 import 'package:e_ink_rpg/items/consumables/apricot.dart';
 import 'package:e_ink_rpg/items/consumables/banana.dart';
 import 'package:e_ink_rpg/items/consumables/beef_jerky.dart';
@@ -26,6 +24,10 @@ import 'package:flutter/material.dart';
 import 'fight.dart';
 import 'game.dart';
 import 'inventory.dart';
+import 'items/armor/arms.dart';
+import 'items/armor/head.dart';
+import 'items/armor/legs.dart';
+import 'items/armor/torso.dart';
 import 'items/consumables/apple.dart';
 import 'items/consumables/bone.dart';
 import 'items/consumables/bread_ration.dart';
@@ -189,7 +191,7 @@ class GameState with ChangeNotifier {
 
     Player().inventory.addItem(LeatherHelmet());
     Player().inventory.addItem(LeatherBreastPlate());
-    Player().inventory.addItem(LeatherGloves());
+    Player().inventory.addItem(OldLeatherGloves());
     Player().inventory.addItem(LeatherBoots());
 
     Player().inventory.addItem(IronHelmet());

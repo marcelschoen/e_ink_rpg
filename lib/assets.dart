@@ -127,7 +127,7 @@ enum GameItemAsset {
   orcishPlateMailBreastPlate('armor/torso/orcish_plate_mail.png'),
   orcishRingmailBreastPlate('armor/torso/orcish_ringmail.png'),
   pearlDragonBreastPlate('armor/torso/pearl_dragon_armor.png'),
-  pearlDragonHidePlate('armor/torso/pearl_dragon_hide.png'),
+  pearlDragonHide('armor/torso/pearl_dragon_hide.png'),
   plateBreastPlate('armor/torso/plate_1.png'),
   plateMailBreastPlate('armor/torso/plate_mail_1.png'),
   plateMail2BreastPlate('armor/torso/plate_mail_2.png'),

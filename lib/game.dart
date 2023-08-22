@@ -49,8 +49,8 @@ class Game extends StatelessWidget {
                         flex: 1,
                         child: TabBarView(
                           children: [
+                            Text('*** MAP ***'),
                             getJobsScreen(context),
-                            Text('*** SHOPPING ***'),
                             getInventoryScreen(context),
                             getEquipScreen(context),
                             Text('*** SKILLS ***'),
@@ -64,8 +64,8 @@ class Game extends StatelessWidget {
                       TabBar(
                         dividerColor: Colors.black54,
                         tabs: [
+                          Tab(child: Image(image: AssetImage('assets/button-map.png'))),
                           Tab(child: Image(image: AssetImage('assets/button-jobs.png'))),
-                          Tab(child: Image(image: AssetImage('assets/button-shop.png'))),
                           Tab(child: Image(image: AssetImage('assets/button-inventory.png'))),
                           Tab(child: Image(image: AssetImage('assets/button-equip.png'))),
                           Tab(child: Image(image: AssetImage('assets/button-skills.png'))),
