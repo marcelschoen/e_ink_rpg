@@ -343,6 +343,185 @@ class NobleFalchion extends Sword {
   }
 }
 
+class GoldenSword extends LargeSword {
+  GoldenSword() : super() {
+    description = 'A golden broadsword.';
+    name = 'Golden Broadsword';
+    price = 140;
+    attackPower = 17.0;
+    itemAsset = GameItemAsset.goldenSword;
+  }
+}
+
+class GreatSword extends LargeSword {
+  GreatSword() : super() {
+    description = 'A greatsword.';
+    name = 'Greatsword';
+    price = 37;
+    attackPower = 24.0;
+    itemAsset = GameItemAsset.greatSword;
+  }
+}
+
+class OldGreatSword extends LargeSword {
+  OldGreatSword() : super() {
+    description = 'An old greatsword.';
+    name = 'Old Greatsword';
+    price = 27;
+    attackPower = 20.0;
+    itemAsset = GameItemAsset.greatSwordOld;
+  }
+}
+
+class RunicGreatSword extends LargeSword {
+  RunicGreatSword() : super() {
+    description = 'A greatsword with mysterious runes.';
+    name = 'Runic Greatsword';
+    price = 177;
+    attackPower = 28.0;
+    itemAsset = GameItemAsset.greatSword2;
+  }
+}
+
+class NobleGreatSword extends LargeSword {
+  NobleGreatSword() : super() {
+    description = 'A noble man\'s greatsword.';
+    name = 'Noble Greatsword';
+    price = 126;
+    attackPower = 25.0;
+    itemAsset = GameItemAsset.greatSword3;
+  }
+}
+
+class SteelGreatSword extends LargeSword {
+  SteelGreatSword() : super() {
+    description = 'A steel greatsword.';
+    name = 'Steel Greatsword';
+    price = 56;
+    attackPower = 23.0;
+    itemAsset = GameItemAsset.greatSword3Old;
+  }
+}
+
+class MagicGreatSword extends LargeSword {
+  MagicGreatSword() : super() {
+    description = 'A magical greatsword.';
+    name = 'Magic Greatsword';
+    price = 192;
+    attackPower = 28.0;
+    itemAsset = GameItemAsset.greatSword4;
+  }
+}
+
+class SteelKatana extends LargeSword {
+  SteelKatana() : super() {
+    description = 'A steel katana.';
+    name = 'Steel Katana';
+    price = 53;
+    attackPower = 28.0;
+    itemAsset = GameItemAsset.katana;
+  }
+}
+
+class Katana extends LargeSword {
+  Katana() : super() {
+    description = 'An elegant katana.';
+    name = 'Katana';
+    price = 48;
+    attackPower = 25.0;
+    itemAsset = GameItemAsset.katana1;
+  }
+}
+
+class MasterKatana extends LargeSword {
+  MasterKatana() : super() {
+    description = 'An master katana.';
+    name = 'Master Katana';
+    price = 82;
+    attackPower = 30.0;
+    itemAsset = GameItemAsset.katana2;
+  }
+}
+
+class Knife extends Dagger {
+  Knife() : super() {
+    description = 'A small knife.';
+    name = 'Knife';
+    price = 17;
+    attackPower = 16.0;
+    itemAsset = GameItemAsset.knife;
+  }
+}
+
+class OldLongSword extends LargeSword {
+  OldLongSword() : super() {
+    description = 'An old longsword.';
+    name = 'Old Longsword';
+    price = 22;
+    attackPower = 26.0;
+    itemAsset = GameItemAsset.longSword;
+  }
+}
+
+class LongSword extends LargeSword {
+  LongSword() : super() {
+    description = 'A longsword.';
+    name = 'Longsword';
+    price = 26;
+    attackPower = 29.0;
+    itemAsset = GameItemAsset.longSwordOld;
+  }
+}
+
+class NobleLongSword extends LargeSword {
+  NobleLongSword() : super() {
+    description = 'A noble longsword.';
+    name = 'Noble Longsword';
+    price = 50;
+    attackPower = 31.0;
+    itemAsset = GameItemAsset.longSword2;
+  }
+}
+
+class WeirdLongSword extends LargeSword {
+  WeirdLongSword() : super() {
+    description = 'A mysterious, weird longsword.';
+    name = 'Weird Longsword';
+    price = 0;
+    attackPower = 25.0;
+    itemAsset = GameItemAsset.longSword3;
+  }
+}
+
+class MagicLongSword extends LargeSword {
+  MagicLongSword() : super() {
+    description = 'A magical longsword.';
+    name = 'Magical Longsword';
+    price = 110;
+    attackPower = 26.0;
+    itemAsset = GameItemAsset.longSword5;
+  }
+}
+
+class SturdyLongSword extends LargeSword {
+  SturdyLongSword() : super() {
+    description = 'A sturdy longsword.';
+    name = 'Sturdy Longsword';
+    price = 40;
+    attackPower = 29.0;
+    itemAsset = GameItemAsset.longSword6;
+  }
+}
+
+class EnchantedLongSword extends LargeSword {
+  EnchantedLongSword() : super() {
+    description = 'An enchanted longsword.';
+    name = 'Enchanted Longsword';
+    price = 190;
+    attackPower = 40.0;
+    itemAsset = GameItemAsset.longSword7;
+  }
+}
 
 
 class RustyShortSword extends Sword {
