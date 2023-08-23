@@ -106,9 +106,36 @@ enum WearableType {
 class Weapon extends GameItem with Wearable {
   List<Attack> availableAttacks = [];
   ItemCategory itemCategory = ItemCategory.weapon;
+  double attackPower = 1.0;
+  bool twoHanded = false;
 
   Weapon() {
     this.wearableType = WearableType.hands;
+    for (Attack attack in getAvailableAttacks()) {
+      availableAttacks.add(attack);
+    }
+  }
+
+  List<Attack> getAvailableAttacks() {
+    return [Hit(), Swing()];
+  }
+}
+
+class Sword extends Weapon {
+  List<Attack> getAvailableAttacks() {
+    return [Hit(), Swing()];
+  }
+}
+
+class LargeSword extends Sword {
+  LargeSword() {
+    twoHanded = true;
+  }
+}
+
+class Dagger extends Weapon {
+  List<Attack> getAvailableAttacks() {
+    return [Hit()];
   }
 }
 
