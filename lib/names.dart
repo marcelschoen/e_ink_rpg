@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:math';
 
 class NameGeneratorException implements Exception {
 
@@ -12,6 +13,8 @@ class NameGeneratorException implements Exception {
 }
 
 class NewNameGenerator {
+
+  Random random = new Random();
 
   List<String> pre = [];
   List<String> mid = [];
@@ -108,7 +111,7 @@ class NewNameGenerator {
     int expecting = 0; // 1 for vocal, 2 for consonant
     int last = 0; // 1 for vocal, 2 for consonant
     String name;
-    int a = (int) (Math.random() * pre.length);
+    int a = random.nextInt(pre.length);
 
     if (vocalLast(pureSyl(pre[a]))) last = 1;
     else last = 2;
@@ -142,19 +145,19 @@ class NewNameGenerator {
     }
     if (vocalLast(pureSyl(pre[a])) && allowVocs(mid) == false)
       throw new NameGeneratorException("Expecting \"middle\" part that allows last character of prefix to be a vocal, " +
-          "but there is none. You should add one, or remove requirements that cannot be fulfilled.. the prefix used, was : \"" + pre.get(a) + "\", which" +
+          "but there is none. You should add one, or remove requirements that cannot be fulfilled.. the prefix used, was : \"" + pre[a] + "\", which" +
           "means there should be a part available, that has \"-v\" requirement or no requirements for previous syllables at all.");
 
     if (consonantLast(pureSyl(pre[a])) && allowCons(mid) == false)
       throw new NameGeneratorException("Expecting \"middle\" part that allows last character of prefix to be a consonant, " +
-          "but there is none. You should add one, or remove requirements that cannot be fulfilled.. the prefix used, was : \"" + pre.get(a) + "\", which" +
+          "but there is none. You should add one, or remove requirements that cannot be fulfilled.. the prefix used, was : \"" + pre[a] + "\", which" +
           "means there should be a part available, that has \"-c\" requirement or no requirements for previous syllables at all.");
 
     List<int> b = [syllables];
     for (int i = 0; i < b.length - 2; i++) {
 
       do {
-        b[i] = (int) (Math.random() * mid.length);
+        b[i] = random.nextInt(mid.length);
         //System.out.println("exp " +expecting+" vocalF:"+vocalFirst(mid.get(b[i]))+" syl: "+mid.get(b[i]));
       }
       while (expecting == 1 && vocalFirst(pureSyl(mid[b[i]])) == false || expecting == 2 && consonantFirst(pureSyl(mid[b[i]])) == false
@@ -209,7 +212,7 @@ class NewNameGenerator {
 
     int c;
     do {
-      c = (int) (Math.random() * sur.length);
+      c = random.nextInt(sur.length);
     }
     while (expecting == 1 && vocalFirst(pureSyl(sur[c])) == false || expecting == 2 && consonantFirst(pureSyl(sur[c])) == false
         || last == 1 && hatesPreviousVocals(sur[c]) || last == 2 && hatesPreviousConsonants(sur[c]));
