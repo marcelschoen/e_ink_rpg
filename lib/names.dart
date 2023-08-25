@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
+
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
 
 class NameGeneratorException implements Exception {
 
@@ -12,7 +16,18 @@ class NameGeneratorException implements Exception {
   }
 }
 
+enum NameGroup {
+  all,
+  elven,
+  fantasy,
+  goblin,
+  roman
+}
+
 class NewNameGenerator {
+
+  static String vocals = 'aeiouy' ;
+  static String consonants = 'bcdfghjklmnpqrstvwxy' ;
 
   Random random = new Random();
 
@@ -20,9 +35,34 @@ class NewNameGenerator {
   List<String> mid = [];
   List<String> sur = [];
 
-  static String vocals = 'aeiouy' ;
-  static String consonants = 'bcdfghjklmnpqrstvwxy' ;
+  String syllablesFile = '';
+  String content = '';
+  NameGroup group;
 
+  NewNameGenerator(this.group) {
+    loadAssets();
+  }
+
+  loadAssets() async {
+    syllablesFile = this.group.name + '.txt';
+    content = await loadAsset(syllablesFile);
+    List<String> _lines = LineSplitter().convert(content);
+    for (String line in _lines) {
+      if (line != null && line != "") {
+        if (line[0] == '-') {
+          pre.add(line.substring(1).toLowerCase());
+        } else if (line[0] == '+') {
+          sur.add(line.substring(1).toLowerCase());
+        } else {
+          mid.add(line.toLowerCase());
+        }
+      }
+    }
+  }
+
+  Future<String> loadAsset(String filename) async {
+    return await rootBundle.loadString('assets/names/' + filename);
+  }
 
   String upper(String s) {
     return s.substring(0, 1).toUpperCase() + s.substring(1);
@@ -102,7 +142,7 @@ class NewNameGenerator {
 
     if (syllables > 2 && mid.length == 0)
       throw new NameGeneratorException("You are trying to create a name with more than 3 parts, which requires middle parts, " +
-          "which you have none in the file " + syllablesFile.getAbsolutePath() + ". You should add some. Every word, which doesn't have + or - for a prefix is counted as a middle part.");
+          "which you have none in the file " + syllablesFile + ". You should add some. Every word, which doesn't have + or - for a prefix is counted as a middle part.");
     if (pre.length == 0)
       throw new NameGeneratorException("You have no prefixes to start creating a name. add some and use \"-\" prefix, to identify it as a prefix for a name. (example: -asd)");
     if (sur.length == 0)
@@ -224,6 +264,25 @@ class NewNameGenerator {
     if (syllables > 1)
       name = name + pureSyl(sur[c].toLowerCase());
     return name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
+}
+
+class NameHandler {
+
+  static NewNameGenerator allNames = NewNameGenerator(NameGroup.all);
+  static NewNameGenerator elvenNames = NewNameGenerator(NameGroup.elven);
+  static NewNameGenerator fantasyNames = NewNameGenerator(NameGroup.fantasy);
+  static NewNameGenerator goblinNames = NewNameGenerator(NameGroup.goblin);
+  static NewNameGenerator romanNames = NewNameGenerator(NameGroup.roman);
+
+  // singleton instance
+  static final NameHandler _instance = NameHandler._internal();
+
+  NameHandler._internal() {
+  }
+
+  factory NameHandler() {
+    return _instance;
   }
 
 }

@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/names.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MonsterSlayerTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NameHandler(); // force initialization of text name assets
     Image titleImage = Image(image: AssetImage('assets/monster-slayer-logo.png'));
     return MaterialApp(
       home: WillPopScope(

@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:e_ink_rpg/names.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -214,7 +215,7 @@ Widget getInventoryScreen(BuildContext context) {
           ),
           Column(children: [
             BaseButton.textOnlyWithSizes("Use", (p0) => { useItem() }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Combine", (p0) => { print("* NOT IMPLEMENTED *") }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Combine", (p0) => { print('>> NAME: ' + NameHandler.allNames.compose(3)) }, 26, 160, 2 ),
             BaseButton.textOnlyWithSizes("Discard", (p0) => { discardItem(false) }, 26, 160, 2 ),
             BaseButton.textOnlyWithSizes("Discard all", (p0) => { discardItem(true) }, 26, 160, 2 ),
           ],)
