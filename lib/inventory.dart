@@ -215,7 +215,7 @@ Widget getInventoryScreen(BuildContext context) {
           ),
           Column(children: [
             BaseButton.textOnlyWithSizes("Use", (p0) => { useItem() }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Combine", (p0) => { print('>> NAME: ' + NameHandler.allNames.compose(3)) }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Combine", (p0) => { print('>> NAME: ' + NameHandler.elvenNames.compose(3)) }, 26, 160, 2 ),
             BaseButton.textOnlyWithSizes("Discard", (p0) => { discardItem(false) }, 26, 160, 2 ),
             BaseButton.textOnlyWithSizes("Discard all", (p0) => { discardItem(true) }, 26, 160, 2 ),
           ],)
