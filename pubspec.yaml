@@ -92,6 +92,7 @@ flutter:
     - assets/item/weapon/ranged/
     - assets/daytime/
     - assets/names/
+    - assets/map/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

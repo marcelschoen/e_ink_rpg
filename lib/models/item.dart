@@ -3,6 +3,7 @@ import 'package:e_ink_rpg/models/stat.dart';
 import '../assets.dart';
 import '../state.dart';
 import 'attack.dart';
+import 'effects.dart';
 
 
 // -----------------------------------------------------------------------------
@@ -17,7 +18,7 @@ abstract class GameItem {
 
   int price = -1;
 
-  GameItem() {
+  GameItem(this.itemAsset) {
     itemCollection.add(this);
     print ('> number of game items registered: ' + itemCollection.length.toString());
   }
@@ -36,7 +37,7 @@ enum ItemCategory {
 // -----------------------------------------------------------------------------
 // Item that can be consumed for some effect
 // -----------------------------------------------------------------------------
-mixin Consumable {
+class Consumable extends GameItem {
 
   ItemCategory itemCategory = ItemCategory.consumable;
 
@@ -50,6 +51,8 @@ mixin Consumable {
 
   // List of stats that will be restored completely when the item is consumed.
   List<Stat> statRestoreOnConsume = [];
+
+  Consumable(GameItemAsset itemAsset) : super(itemAsset);
 
   consume() {
     // simpler items just refill one of the stats (e.g. health)
@@ -90,14 +93,33 @@ enum WearableType {
   // these can be equiped on body parts (armor)
   head,
   torso,
+  shield,  // cloaks / capes
   arms,
   legs,
-  feet,
   // these are usually weapons or shields
   hands,
   // these can be put on in addition to armor
   rings,
   necklace
+}
+
+// -----------------------------------------------------------------------------
+// Armor items
+// -----------------------------------------------------------------------------
+class Armor extends GameItem with Wearable {
+  double defense = 2;
+  Map<StatType, double> statBoosts = {};
+  List<Effect> effects = [];
+
+  Armor(GameItemAsset itemAsset) : super(itemAsset);
+
+  addStatBoost(StatType type, double boostValue) {
+    statBoosts.putIfAbsent(type, () => boostValue);
+  }
+
+  addEffect(Effect effect) {
+    effects.add(effect);
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -109,7 +131,7 @@ class Weapon extends GameItem with Wearable {
   double attackPower = 1.0;
   bool twoHanded = false;
 
-  Weapon() {
+  Weapon(GameItemAsset itemAsset) : super(itemAsset) {
     this.wearableType = WearableType.hands;
     for (Attack attack in getAvailableAttacks()) {
       availableAttacks.add(attack);
@@ -121,19 +143,34 @@ class Weapon extends GameItem with Wearable {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Weapon items
+// -----------------------------------------------------------------------------
 class Sword extends Weapon {
+
+  Sword(GameItemAsset itemAsset) : super(itemAsset);
+
   List<Attack> getAvailableAttacks() {
     return [Hit(), Swing()];
   }
 }
 
+// -----------------------------------------------------------------------------
+// Double-handed sword items
+// -----------------------------------------------------------------------------
 class LargeSword extends Sword {
-  LargeSword() {
+  LargeSword(GameItemAsset itemAsset) : super(itemAsset) {
     twoHanded = true;
   }
 }
 
+// -----------------------------------------------------------------------------
+// Dagger items
+// -----------------------------------------------------------------------------
 class Dagger extends Weapon {
+
+  Dagger(GameItemAsset itemAsset) : super(itemAsset);
+
   List<Attack> getAvailableAttacks() {
     return [Hit()];
   }

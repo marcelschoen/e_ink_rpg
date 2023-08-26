@@ -28,6 +28,7 @@ enum GameImageAsset {
   daytime_day('daytime/time_day.png'),
   daytime_evening('daytime/time_evening.png'),
   daytime_night('daytime/time_night.png'),
+  map_paper_background('map/paper-background.png'),
   ;
 
   const GameImageAsset(this._filename);

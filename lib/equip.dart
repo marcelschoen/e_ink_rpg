@@ -240,21 +240,32 @@ Widget getEquipmentPanel() {
     builder: (BuildContext context, Widget? child) {
       return getCardWithRoundedBorder(
           Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              getEquipmentFieldWithLabel('Head:', WearableType.head),
-              vGap(20),
-              getEquipmentFieldWithLabel('Body:', WearableType.torso),
-              vGap(20),
-              getEquipmentFieldWithLabel('Arms:', WearableType.arms),
-              vGap(20),
-              getEquipmentFieldWithLabel('Hands:', WearableType.hands),
-              vGap(20),
-              getEquipmentFieldWithLabel('Legs:', WearableType.legs),
-            ],
-        ),
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    getEquipmentFieldWithLabel('Head:', WearableType.head),
+                    getEquipmentFieldWithLabel('Neck:', WearableType.necklace),
+                    getEquipmentFieldWithLabel('Body:', WearableType.torso),
+                    getEquipmentFieldWithLabel('Arms:', WearableType.arms),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    getEquipmentFieldWithLabel('Hand:', WearableType.hands),
+                    getEquipmentFieldWithLabel('Shield:', WearableType.shield),
+                    getEquipmentFieldWithLabel('Ring:', WearableType.rings),
+                    getEquipmentFieldWithLabel('Legs:', WearableType.legs),
+                  ],
+                ),
+              ],
+            ),
           )
       );
     },
@@ -266,30 +277,31 @@ Widget getEquipmentPanel() {
 // -----------------------------------------------------------------------------
 Widget getEquipmentFieldWithLabel(String label, WearableType type) {
   GameItem? item = GameState().equipment.getWearable(type);
-  Widget itemImage = FittedBox();
+  Widget imageWidget;
   if (item != null) {
-    itemImage = FittedBox(child: item!.itemAsset.getItemImage());
-    return Row(
-      children: [
-        SizedBox(
-          width: 150,
-          child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),
-        ),
-        InkWell(
-            onTap: () {
-              GameState().selectedInEquipment = item!;
-              GameState().equipState.update();
-            },
-            child: itemImage
-        ),
-      ],
+    imageWidget = InkWell(
+        onTap: () {
+          GameState().selectedInEquipment = item!;
+          GameState().equipState.update();
+        },
+        child: FittedBox(child: item!.itemAsset.getItemImage())
     );
+  } else {
+    imageWidget = FittedBox(child: SizedBox(width: 64, height: 64, child: SizedBox(width: 10, height: 10,)));
   }
+
   return Row(
     children: [
-      SizedBox(width: 150, child: Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),
-      ),
-      itemImage,
+      Text(label, textAlign: TextAlign.right, style: getTitleTextStyle(30)),
+      SizedBox(
+        width: 64,
+        child: getCardWithRoundedBorder(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: imageWidget,
+          ),
+        ),
+      )
     ],
   );
 }

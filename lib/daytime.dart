@@ -4,7 +4,6 @@
 // Day or night (easier or harder monsters)
 // --------------------------------------------------------------------
 import 'package:e_ink_rpg/state.dart';
-import 'package:flutter/material.dart';
 
 import 'assets.dart';
 
@@ -34,11 +33,11 @@ enum DetailTime {
   final GameImageAsset image;
 
   const DetailTime(this.overallTime, this.label, this.startingHour, this.endingHour, this.image);
-
+/*
   Widget getImage() {
     return getSizedImage(this.image.filename(), 32);
   }
-
+*/
   static DetailTime getByHourOfDay(int hour) {
     for (DetailTime detailTime in DetailTime.values) {
       if (hour >= detailTime.startingHour && hour <= detailTime.endingHour) {

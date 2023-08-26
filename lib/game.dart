@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'inventory.dart';
 import 'jobs.dart';
+import 'map.dart';
 
 // -----------------------------------------------
 // Switches back to title screen
 // -----------------------------------------------
 void backToTitle(BuildContext context) {
-  print (" ----------------------> BACK TO TITLE" );
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
@@ -49,7 +49,7 @@ class Game extends StatelessWidget {
                         flex: 1,
                         child: TabBarView(
                           children: [
-                            Text('*** MAP ***'),
+                            getMapScreen(context),
                             getJobsScreen(context),
                             getInventoryScreen(context),
                             getEquipScreen(context),

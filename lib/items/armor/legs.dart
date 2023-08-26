@@ -5,90 +5,82 @@ import '../../models/item.dart';
 
 
 
-class StripeBoots extends GameItem with Wearable {
-  StripeBoots() : super() {
+class StripeBoots extends Armor {
+  StripeBoots() : super(GameItemAsset.bootsStripe) {
     name = 'Stripe Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 45;
     statBoostsOnEquip.add(Stat(StatType.defense, 18));
-    itemAsset = GameItemAsset.bootsStripe;
   }
 }
 
-class StripeBootsOld extends GameItem with Wearable {
-  StripeBootsOld() : super() {
+class StripeBootsOld extends Armor {
+  StripeBootsOld() : super(GameItemAsset.bootsStripeOld) {
     name = 'Old Stripe Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 30;
     statBoostsOnEquip.add(Stat(StatType.defense, 10));
-    itemAsset = GameItemAsset.bootsStripeOld;
   }
 }
 
-class LowBoots extends GameItem with Wearable {
-  LowBoots() : super() {
+class LowBoots extends Armor {
+  LowBoots() : super(GameItemAsset.bootsLow) {
     name = 'Low Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 6;
     statBoostsOnEquip.add(Stat(StatType.defense, 4));
-    itemAsset = GameItemAsset.bootsLow;
   }
 }
 
-class Jackboots extends GameItem with Wearable {
-  Jackboots() : super() {
+class Jackboots extends Armor {
+  Jackboots() : super(GameItemAsset.bootsJackboots) {
     name = 'Jackboots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 12;
     statBoostsOnEquip.add(Stat(StatType.defense, 7));
-    itemAsset = GameItemAsset.bootsJackboots;
   }
 }
 
-class GreenBoots extends GameItem with Wearable {
-  GreenBoots() : super() {
+class GreenBoots extends Armor {
+  GreenBoots() : super(GameItemAsset.bootsGreen) {
     name = 'Green Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 15;
     statBoostsOnEquip.add(Stat(StatType.defense, 5));
-    itemAsset = GameItemAsset.bootsGreen;
   }
 }
 
-class IronBoots extends GameItem with Wearable {
-  IronBoots() : super() {
+class IronBoots extends Armor {
+  IronBoots() : super(GameItemAsset.bootsIron) {
     name = 'Iron Boots';
     description = 'Provides some basic protection.';
     wearableType = WearableType.legs;
     price = 15;
     statBoostsOnEquip.add(Stat(StatType.defense, 6));
-    itemAsset = GameItemAsset.bootsIron;
   }
 }
 
-class LeatherBootsOld extends GameItem with Wearable {
-  LeatherBootsOld() : super() {
+class LeatherBootsOld extends Armor {
+  LeatherBootsOld() : super(GameItemAsset.bootsBrownOld) {
     name = 'Old Leather Boots';
     description = 'Provides a little protection.';
     wearableType = WearableType.legs;
     price = 5;
     statBoostsOnEquip.add(Stat(StatType.defense, 4));
-    itemAsset = GameItemAsset.bootsBrownOld;
   }
 }
 
-class LeatherBoots extends GameItem with Wearable {
-  LeatherBoots() : super() {
+class LeatherBoots extends Armor {
+  LeatherBoots() : super(GameItemAsset.bootsBrown) {
     name = 'Leather Boots';
     description = 'Provides a little protection.';
     wearableType = WearableType.legs;
     price = 15;
     statBoostsOnEquip.add(Stat(StatType.defense, 6));
-    itemAsset = GameItemAsset.bootsBrown;
   }
 }

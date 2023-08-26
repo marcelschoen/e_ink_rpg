@@ -4,123 +4,112 @@ import '../../assets.dart';
 import '../../models/item.dart';
 
 
-class IronGloves extends GameItem with Wearable {
-  IronGloves() : super() {
+class IronGloves extends Armor {
+  IronGloves() : super(GameItemAsset.gauntlet) {
     name = 'Iron Gloves';
     description = 'Provides some basic protection.';
     wearableType = WearableType.arms;
     price = 20;
     statBoostsOnEquip.add(Stat(StatType.defense, 6));
-    itemAsset = GameItemAsset.gauntlet;
   }
 }
 
-class SturdyLeatherGloves extends GameItem with Wearable {
-  SturdyLeatherGloves() : super() {
+class SturdyLeatherGloves extends Armor {
+  SturdyLeatherGloves() : super(GameItemAsset.glove) {
     name = 'Sturdy Leather Gloves';
     description = 'Provide good protection.';
     wearableType = WearableType.arms;
     price = 28;
     statBoostsOnEquip.add(Stat(StatType.defense, 9));
-    itemAsset = GameItemAsset.glove;
   }
 }
 
-class OldLeatherGloves extends GameItem with Wearable {
-  OldLeatherGloves() : super() {
+class OldLeatherGloves extends Armor {
+  OldLeatherGloves() : super(GameItemAsset.gloveOld) {
     name = 'Old Leather Gloves';
     description = 'Provides a little protection.';
     wearableType = WearableType.arms;
     price = 16;
     statBoostsOnEquip.add(Stat(StatType.defense, 4));
-    itemAsset = GameItemAsset.gloveOld;
   }
 }
 
-class NobleGloves extends GameItem with Wearable {
-  NobleGloves() : super() {
+class NobleGloves extends Armor {
+  NobleGloves() : super(GameItemAsset.glove2) {
     name = 'Noble Gloves';
     description = 'Provides medium protection.';
     wearableType = WearableType.arms;
     price = 55;
     statBoostsOnEquip.add(Stat(StatType.defense, 10));
-    itemAsset = GameItemAsset.glove2;
   }
 }
 
-class ClericGloves extends GameItem with Wearable {
-  ClericGloves() : super() {
+class ClericGloves extends Armor {
+  ClericGloves() : super(GameItemAsset.glove2old) {
     name = 'Cleric Gloves';
     description = 'Special gloves, provide medium protection.';
     wearableType = WearableType.arms;
     price = 125;
     statBoostsOnEquip.add(Stat(StatType.defense, 18));
-    itemAsset = GameItemAsset.glove2old;
   }
 }
 
-class KnightsGloves extends GameItem with Wearable {
-  KnightsGloves() : super() {
+class KnightsGloves extends Armor {
+  KnightsGloves() : super(GameItemAsset.glove3) {
     name = 'Knights Gloves';
     description = 'Provide strong protection.';
     wearableType = WearableType.arms;
     price = 100;
     statBoostsOnEquip.add(Stat(StatType.defense, 28));
-    itemAsset = GameItemAsset.glove3;
   }
 }
 
-class FightingGloves extends GameItem with Wearable {
-  FightingGloves() : super() {
+class FightingGloves extends Armor {
+  FightingGloves() : super(GameItemAsset.glove3old) {
     name = 'Fighting Gloves';
     description = 'Provide mediocre protection.';
     wearableType = WearableType.arms;
     price = 18;
     statBoostsOnEquip.add(Stat(StatType.defense, 8));
-    itemAsset = GameItemAsset.glove3old;
   }
 }
 
-class NobleGauntlets extends GameItem with Wearable {
-  NobleGauntlets() : super() {
+class NobleGauntlets extends Armor {
+  NobleGauntlets() : super(GameItemAsset.glove4Gauntlets) {
     name = 'Noble Gauntlets';
     description = 'Provide superior protection.';
     wearableType = WearableType.arms;
     price = 220;
     statBoostsOnEquip.add(Stat(StatType.defense, 48));
-    itemAsset = GameItemAsset.glove4Gauntlets;
   }
 }
 
-class SilverGloves extends GameItem with Wearable {
-  SilverGloves() : super() {
+class SilverGloves extends Armor {
+  SilverGloves() : super(GameItemAsset.glove4) {
     name = 'Silver Gloves';
     description = 'Provide medium protection.';
     wearableType = WearableType.arms;
     price = 110;
     statBoostsOnEquip.add(Stat(StatType.defense, 12));
-    itemAsset = GameItemAsset.glove4;
   }
 }
 
-class WornGloves extends GameItem with Wearable {
-  WornGloves() : super() {
+class WornGloves extends Armor {
+  WornGloves() : super(GameItemAsset.glove4old) {
     name = 'Worn Gloves';
     description = 'Provide weak protection.';
     wearableType = WearableType.arms;
     price = 8;
     statBoostsOnEquip.add(Stat(StatType.defense, 5));
-    itemAsset = GameItemAsset.glove4old;
   }
 }
 
-class DragonScaleGloves extends GameItem with Wearable {
-  DragonScaleGloves() : super() {
+class DragonScaleGloves extends Armor {
+  DragonScaleGloves() : super(GameItemAsset.glove5) {
     name = 'Dragon Scale Gloves';
     description = 'Provide maximum protection.';
     wearableType = WearableType.arms;
     price = 450;
     statBoostsOnEquip.add(Stat(StatType.defense, 80));
-    itemAsset = GameItemAsset.glove5;
   }
 }

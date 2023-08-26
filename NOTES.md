@@ -21,6 +21,8 @@
 * Knock-Down mechanic a la Persona: Knock down an enemy gives you an immediate additional turn;
   following that up with an AoE that knocks down all other enemies too gives yet another turn.
 * Equip screen provides list of loadouts
+* Sniping mechanism with ranged weapons? When discovering enemies during exploration but still outside combat
+* Stealth minigame when raiding enemy camp?
 
 # Day / Night cycle
 
