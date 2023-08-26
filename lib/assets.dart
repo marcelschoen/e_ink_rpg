@@ -98,6 +98,7 @@ enum GameImageAsset {
   map_icon_walled_enclosure('map/icons/Narrasil Walled Enclosure.png'),
   map_icon_walled_enclosure_2('map/icons/Narrasil Walled Enclosure 2.png'),
   map_icon_walled_tower('map/icons/Narrasil Walled Tower.png'),
+  map_icon_custom_dungeon_entrance('map/icons/Custom Dungeon Entrance.png'),
   ;
 
   const GameImageAsset(this._filename);

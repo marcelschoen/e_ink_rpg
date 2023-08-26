@@ -6,6 +6,8 @@ import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
 List<GameImageAsset> locationImage = [
+  GameImageAsset.map_icon_custom_dungeon_entrance,
+
   GameImageAsset.map_icon_bridge_east_west,
   GameImageAsset.map_icon_bridge_north_south,
   GameImageAsset.map_icon_castle,
@@ -109,7 +111,12 @@ Widget getMapPointsOfInterest(BuildContext context) {
       mainAxisSpacing: 0,
       // Generate 100 widgets that display their index in the List.
       children: List.generate(25, (index) {
-        return getMapPointOfInterest(context, index);
+        return InkWell(
+          onTap: () {
+            print('> tapped: ' + locationImage[index].name);
+          },
+          child: getMapPointOfInterest(context, index)
+        );
 //        return getCardWithRoundedBorder(getMapPointOfInterest(context));
 /*
         return Text('$index',
@@ -122,8 +129,9 @@ Widget getMapPointsOfInterest(BuildContext context) {
 }
 
 Widget getMapPointOfInterest(BuildContext context, int index) {
-  if (Random().nextInt(10) > 7) {
+  if (Random().nextInt(10) > 6) {
     return Image.asset(locationImage[index].filename());
   }
-  return Image.asset(GameImageAsset.map_icon_marsh.filename());
+  return Image.asset(locationImage[index].filename());
+//  return Image.asset(GameImageAsset.map_icon_marsh.filename());
 }

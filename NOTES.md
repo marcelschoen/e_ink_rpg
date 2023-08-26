@@ -23,6 +23,7 @@
 * Equip screen provides list of loadouts
 * Sniping mechanism with ranged weapons? When discovering enemies during exploration but still outside combat
 * Stealth minigame when raiding enemy camp?
+* Dungeons with hidden entrance - requires puzzle solving to open door
 
 # Day / Night cycle
 
