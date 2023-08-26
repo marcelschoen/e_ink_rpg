@@ -1,9 +1,34 @@
+import 'dart:math';
+
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/names.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:flutter/material.dart';
 
 List<GameImageAsset> locationImage = [
+  GameImageAsset.map_icon_bridge_east_west,
+  GameImageAsset.map_icon_bridge_north_south,
+  GameImageAsset.map_icon_castle,
+  GameImageAsset.map_icon_castle_2,
+  GameImageAsset.map_icon_city,
+  GameImageAsset.map_icon_city_2,
+  GameImageAsset.map_icon_crevasse,
+  GameImageAsset.map_icon_dead_tree_1,
+  GameImageAsset.map_icon_dead_tree_2,
+  GameImageAsset.map_icon_dunes,
+  GameImageAsset.map_icon_fortress,
+  GameImageAsset.map_icon_hamlet,
+  GameImageAsset.map_icon_hill_1,
+
+  GameImageAsset.map_icon_jungle_tree_1,
+
+  GameImageAsset.map_icon_marsh,
+
+  GameImageAsset.map_icon_mesa_1,
+  GameImageAsset.map_icon_mesa_2,
+
+  GameImageAsset.map_icon_monolith,
+
   GameImageAsset.map_icon_mountain_1,
   GameImageAsset.map_icon_mountain_2,
   GameImageAsset.map_icon_mountain_3,
@@ -97,5 +122,8 @@ Widget getMapPointsOfInterest(BuildContext context) {
 }
 
 Widget getMapPointOfInterest(BuildContext context, int index) {
-  return Image.asset(locationImage[index].filename());
+  if (Random().nextInt(10) > 7) {
+    return Image.asset(locationImage[index].filename());
+  }
+  return Image.asset(GameImageAsset.map_icon_marsh.filename());
 }
