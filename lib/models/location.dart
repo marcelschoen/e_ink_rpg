@@ -40,14 +40,14 @@ class LocalPointOfInterest {
 // Points of interest per region (e.g. villages, dungeons, castles etc.)
 // -----------------------------------------------------------------------------
 enum GameLocationType {
-  village(GameImageAsset.map_icon_hamlet),
-  dungeon(GameImageAsset.map_icon_custom_dungeon_entrance),
-  cottage(GameImageAsset.map_icon_hamlet),
-  farm(GameImageAsset.map_icon_hamlet),
-  bridge(GameImageAsset.map_icon_bridge_north_south),
-  encampment(GameImageAsset.map_icon_walled_enclosure),
-  castle(GameImageAsset.map_icon_castle),
-  fortress(GameImageAsset.map_icon_fortress),
+  village(GameImageAsset.map_loc_hamlet),
+  dungeon(GameImageAsset.map_loc_custom_dungeon_entrance),
+  cottage(GameImageAsset.map_loc_hamlet),
+  farm(GameImageAsset.map_loc_hamlet),
+  bridge(GameImageAsset.map_loc_bridge_north_south),
+  encampment(GameImageAsset.map_loc_walled_enclosure),
+  castle(GameImageAsset.map_loc_castle),
+  fortress(GameImageAsset.map_loc_fortress),
   ;
 
   final GameImageAsset imageAsset;
@@ -56,12 +56,14 @@ enum GameLocationType {
 }
 
 class GameLocation {
+  GameRegion parentRegion;
   int index;
+  bool unlocked = false;
   GameLocationType locationType;
   List<LocalPointOfInterest> localPointsOfInterest = [];
   String name;
 
-  GameLocation(this.locationType, this.name, this.index);
+  GameLocation(this.parentRegion, this.locationType, this.name, this.index);
 }
 
 // -----------------------------------------------------------------------------
@@ -70,6 +72,7 @@ class GameLocation {
 class GameRegion {
   List<GameLocation> locations = [];
   String name;
+  GameLocation? currentLocation;
 
   GameRegion(this.name);
 }
@@ -90,13 +93,13 @@ class LocalPointOfInterestFactory {
 // -----------------------------------------------------------------------------
 class LocationFactory {
 
-  static GameLocation create(int index) {
+  static GameLocation create(GameRegion region, int index) {
     int numberOfPoIs = gameRandom.nextInt(10) - 6;
-    if (numberOfPoIs < 1) {
-      numberOfPoIs = 1;
+    if (numberOfPoIs < 0) {
+      numberOfPoIs = 0;
     }
     String name = NameHandler.fantasyNames.compose(3);
-    GameLocation location = GameLocation(GameLocationType.cottage, name, index);
+    GameLocation location = GameLocation(region, GameLocationType.cottage, name, index);
 
     for (int index = 0; index < numberOfPoIs; index++) {
       name = NameHandler.fantasyNames.compose(3);
@@ -115,7 +118,7 @@ class RegionFactory {
     String name = NameHandler.fantasyNames.compose(3);
     GameRegion region = GameRegion(name);
     for (int index = 0; index < MAX_LOCATIONS_PER_REGION; index ++) {
-      GameLocation location = LocationFactory.create(index);
+      GameLocation location = LocationFactory.create(region, index);
       region.locations.add(location);
     }
     return region;

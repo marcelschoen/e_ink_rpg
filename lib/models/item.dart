@@ -20,7 +20,6 @@ abstract class GameItem {
 
   GameItem(this.itemAsset) {
     itemCollection.add(this);
-    print ('> number of game items registered: ' + itemCollection.length.toString());
   }
 
   static List<GameItem> itemCollection = [];

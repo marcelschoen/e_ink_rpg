@@ -4,6 +4,7 @@ import 'package:e_ink_rpg/items/consumables/potions.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/swords.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
+import 'package:e_ink_rpg/models/location.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
@@ -103,11 +104,13 @@ class GameState with ChangeNotifier {
 
   AvailableJobs availableJobs = AvailableJobs();
 
+  GameRegion currentRegion;
+
   GameItem? selectedInEquipment = null;
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;
 
-  GameState._internal() : playerState = BeingState(Player()) {
+  GameState._internal() : playerState = BeingState(Player()), currentRegion = RegionFactory.create() {
   }
 
   factory GameState() {
@@ -168,6 +171,7 @@ class GameState with ChangeNotifier {
     Player().inventory.reset();
     GameState().availableJobs.reset();
     GameState().daytime.reset();
+    GameState().currentRegion.locations[12].unlocked = true;  // Starting location center of map
 
     selectedInInventory = null;
     selectedInJobs = null;

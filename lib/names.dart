@@ -44,6 +44,7 @@ class NewNameGenerator {
   }
 
   loadAssets() async {
+    print('-------------> Loading text assets for: ' + this.group.toString() + ' ...');
     syllablesFile = this.group.name + '.txt';
     content = await loadAsset(syllablesFile);
     List<String> _lines = LineSplitter().convert(content);
@@ -58,6 +59,7 @@ class NewNameGenerator {
         }
       }
     }
+    print('-------------> Text assets loaded.');
   }
 
   Future<String> loadAsset(String filename) async {
@@ -139,7 +141,6 @@ class NewNameGenerator {
   }
 
   String compose(int syllables) {
-
     if (syllables > 2 && mid.length == 0)
       throw new NameGeneratorException("You are trying to create a name with more than 3 parts, which requires middle parts, " +
           "which you have none in the file " + syllablesFile + ". You should add some. Every word, which doesn't have + or - for a prefix is counted as a middle part.");
@@ -282,6 +283,10 @@ class NameHandler {
   }
 
   factory NameHandler() {
+    Future<String> getFileData(String path) async {
+      return await rootBundle.loadString(path);
+    }
+
     return _instance;
   }
 
