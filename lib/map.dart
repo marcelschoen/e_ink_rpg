@@ -88,17 +88,26 @@ Widget getMapScreen(BuildContext context) {
         listenable: GameState().mapState,
         builder: (BuildContext context, Widget? child) {
           return Column(
-            children: [
-              BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
-              BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
-            ],
+            children: getMapButtons(),
           );
         },
       )
     ],
   );
 }
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+List<Widget> getMapButtons() {
+  List<Widget> buttons = [];
+  if (GameState().selectedInMap != null) {
+    buttons.add(BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedInMap!.name); }, 18, 160, 40));
+  }
+  return buttons;
+}
 
+// -----------------------------------------------------------------------------
+// Returns the main map contents
+// -----------------------------------------------------------------------------
 Widget getMapContents(BuildContext context) {
   GameRegion region = GameState().currentRegion;
   return Column(
@@ -126,6 +135,8 @@ Widget getLocations(GameRegion region, BuildContext context) {
       locationWidgets.add(InkWell(
           onTap: () {
             print('> tapped: ' + location.name);
+            GameState().selectedInMap = location;
+            GameState().mapState.update();
           },
           child: Image.asset(GameImageAsset.map_loc_hamlet.filename())  // TODO - set correct
         )

@@ -107,6 +107,7 @@ class GameState with ChangeNotifier {
 
   GameRegion currentRegion;
 
+  GameLocation? selectedInMap = null;
   GameItem? selectedInEquipment = null;
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;
