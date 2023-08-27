@@ -95,6 +95,7 @@ class GameState with ChangeNotifier {
   final GeneralState jobSelectionState = GeneralState();
   final GeneralState jobsButtonState = GeneralState();
   final GeneralState equipState = GeneralState();
+  final GeneralState mapState = GeneralState();
 
   final GameDaytime daytime = GameDaytime();
   final Equipment equipment = Equipment();

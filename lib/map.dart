@@ -76,15 +76,24 @@ Widget getMapScreen(BuildContext context) {
           ),
           alignment: Alignment.topCenter,
           padding: EdgeInsets.only(top: 40),
-          child: getMapContents(context),
-          //getOutlinedText('Region: ' + NameHandler.allNames.compose(3), 24, 1, Colors.black, Colors.white),
+          child: ListenableBuilder(
+              listenable: GameState().mapState,
+              builder: (BuildContext context, Widget? child) {
+                return getMapContents(context);
+              },
+            ),
         ),
       ),
-      Column(
-        children: [
-          BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
-          BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
-        ],
+      ListenableBuilder(
+        listenable: GameState().mapState,
+        builder: (BuildContext context, Widget? child) {
+          return Column(
+            children: [
+              BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
+              BaseButton.textOnlyWithSizes('CLICK', (p0) { }, 18, 160, 40),
+            ],
+          );
+        },
       )
     ],
   );
@@ -103,8 +112,10 @@ Widget getMapContents(BuildContext context) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Returns grid widget with all the locations of the current region
+// -----------------------------------------------------------------------------
 Widget getLocations(GameRegion region, BuildContext context) {
-
   List<GameLocation> locations = region.locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
@@ -134,6 +145,9 @@ Widget getLocations(GameRegion region, BuildContext context) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Gets a single location as a widget
+// -----------------------------------------------------------------------------
 Widget getLocation(GameLocation location) {
   Widget locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
   if (GameState().currentRegion.currentLocation == location) {
@@ -142,6 +156,9 @@ Widget getLocation(GameLocation location) {
   return locationWidget;
 }
 
+// -----------------------------------------------------------------------------
+// Gets a question mark or empty widget for unlocked loc
+// -----------------------------------------------------------------------------
 Widget getQuestionMarkOrLock(bool isConnectedToUnlockedLocation) {
   return Padding(
     padding: const EdgeInsets.all(12.0),
@@ -150,14 +167,3 @@ Widget getQuestionMarkOrLock(bool isConnectedToUnlockedLocation) {
         Container(),
   );
 }
-
-/*
-Widget getMapPointOfInterest(BuildContext context, int index) {
-  if (Random().nextInt(10) > 6) {
-    return Image.asset(locationImage[index].filename());
-  }
-  return Image.asset(locationImage[index].filename());
-//  return Image.asset(GameImageAsset.map_loc_marsh.filename());
-}
-
- */
