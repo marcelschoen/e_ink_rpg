@@ -18,6 +18,16 @@ import 'package:e_ink_rpg/names.dart';
 import '../shared.dart';
 
 final int MAX_LOCATIONS_PER_REGION = 25;
+final int COLUMNS_PER_REGION = 5;
+final int ROWS_PER_REGION = 5;
+
+enum ConnectionsDirection {
+  north,
+  south,
+  west,
+  east
+  ;
+}
 
 enum LocalPointOfInterestType {
   generalGoodsStore,
@@ -58,12 +68,70 @@ enum GameLocationType {
 class GameLocation {
   GameRegion parentRegion;
   int index;
+  int mapColumn;
+  int mapRow;
   bool unlocked = false;
   GameLocationType locationType;
   List<LocalPointOfInterest> localPointsOfInterest = [];
   String name;
+  Map<ConnectionsDirection, GameLocation> connectedLocations = {};
 
-  GameLocation(this.parentRegion, this.locationType, this.name, this.index);
+  GameLocation(this.parentRegion, this.locationType, this.name, this.index)
+      : this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION), this.mapRow = index ~/ COLUMNS_PER_REGION {
+  }
+
+  bool isConnectedToUnlockedLocation() {
+    for (GameLocation location in connectedLocations.values) {
+      if (location.unlocked) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  connectToAdjoiningLocations() {
+    for (ConnectionsDirection direction in ConnectionsDirection.values) {
+      GameLocation? adjoiningLocation = getLocationInDirection(direction);
+      if (adjoiningLocation != null) {
+        connectedLocations[direction] = adjoiningLocation;
+      }
+    }
+  }
+
+  GameLocation? getLocationInDirection(ConnectionsDirection direction) {
+    int offset = 0;
+    if (direction == ConnectionsDirection.north) {
+      if (this.mapRow == 0) {
+        // this location is at the upper border of the region
+        return null;
+      }
+      offset = -COLUMNS_PER_REGION;
+    } else if (direction == ConnectionsDirection.south) {
+      if (this.mapRow == ROWS_PER_REGION - 1) {
+        // this location is at the lower border of the region
+        return null;
+      }
+      offset = COLUMNS_PER_REGION;
+    } else if (direction == ConnectionsDirection.east) {
+      if (this.mapColumn == 0) {
+        // this location is at the left border of the region
+        return null;
+      }
+      offset = 1;
+    } else if (direction == ConnectionsDirection.west) {
+      if (this.mapColumn == COLUMNS_PER_REGION - 1) {
+        // this location is at the right border of the region
+        return null;
+      }
+      offset = -1;
+    }
+    int targetIndex = this.index + offset;
+    if (targetIndex > -1 && targetIndex < MAX_LOCATIONS_PER_REGION) {
+      return parentRegion.locations[targetIndex];
+    }
+    return null;
+  }
+
 }
 
 // -----------------------------------------------------------------------------
@@ -117,11 +185,19 @@ class RegionFactory {
   static GameRegion create() {
     String name = NameHandler.fantasyNames.compose(3);
     GameRegion region = GameRegion(name);
+    // Generate all locations in the region
     for (int index = 0; index < MAX_LOCATIONS_PER_REGION; index ++) {
       GameLocation location = LocationFactory.create(region, index);
       region.locations.add(location);
     }
+    int currentLocationIndex = MAX_LOCATIONS_PER_REGION ~/ 2;
+    print(">>>>>> current location: " + currentLocationIndex.toString());
+    region.currentLocation = region.locations[currentLocationIndex];
+
+    // Then connect them with each other
+    for (GameLocation location in region.locations) {
+      location.connectToAdjoiningLocations();
+    }
     return region;
   }
 }
-

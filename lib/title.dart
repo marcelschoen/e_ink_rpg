@@ -70,12 +70,6 @@ getTitleAppBar(String title) {
     title: getTitleAppBarTitle(title, false),
     titleTextStyle: getTitleTextStyle(24),
     centerTitle: true,
-    flexibleSpace: ListenableBuilder(
-      listenable: GameState().appBarTitleState,
-      builder: (BuildContext context, Widget? child) {
-        return getAppBarImage();
-      },
-    ),
   );
 }
 

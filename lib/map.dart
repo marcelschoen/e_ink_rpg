@@ -109,7 +109,7 @@ Widget getLocations(GameRegion region, BuildContext context) {
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
     if (!location.unlocked) {
-      locationWidgets.add(Image.asset(GameImageAsset.map_icon_question_mark.filename()));
+      locationWidgets.add(getQuestionMarkOrLock(location.isConnectedToUnlockedLocation()));
     } else {
       // TODO
       locationWidgets.add(InkWell(
@@ -131,6 +131,23 @@ Widget getLocations(GameRegion region, BuildContext context) {
       // Generate 100 widgets that display their index in the List.
       children:locationWidgets
     ),
+  );
+}
+
+Widget getLocation(GameLocation location) {
+  Widget locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
+  if (GameState().currentRegion.currentLocation == location) {
+    locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
+  }
+  return locationWidget;
+}
+
+Widget getQuestionMarkOrLock(bool isConnectedToUnlockedLocation) {
+  return Padding(
+    padding: const EdgeInsets.all(12.0),
+    child: isConnectedToUnlockedLocation ?
+      Image.asset(GameImageAsset.map_icon_question_mark.filename()) :
+        Container(),
   );
 }
 
