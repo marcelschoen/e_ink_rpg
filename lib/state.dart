@@ -109,7 +109,8 @@ class GameState with ChangeNotifier {
   GameRegion currentRegion;
 
   MapZoomLevel mapZoomLevel = MapZoomLevel.location;
-  GameLocation? selectedInMap = null;
+  GameLocation? selectedLocationInMap = null;
+  LocalPointOfInterest? selectedPoiInMap = null;
   GameItem? selectedInEquipment = null;
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;

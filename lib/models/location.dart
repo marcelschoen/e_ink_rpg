@@ -66,7 +66,7 @@ enum GameLocationType {
 }
 
 class GameLocation {
-  GameRegion parentRegion;
+  GameRegion? parentRegion;
   int index;
   int mapColumn;
   int mapRow;
@@ -76,7 +76,7 @@ class GameLocation {
   String name;
   Map<ConnectionsDirection, GameLocation> connectedLocations = {};
 
-  GameLocation(this.parentRegion, this.locationType, this.name, this.index)
+  GameLocation(this.locationType, this.name, this.index)
       : this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION), this.mapRow = index ~/ COLUMNS_PER_REGION {
   }
 
@@ -127,7 +127,7 @@ class GameLocation {
     }
     int targetIndex = this.index + offset;
     if (targetIndex > -1 && targetIndex < MAX_LOCATIONS_PER_REGION) {
-      return parentRegion.locations[targetIndex];
+      return parentRegion!.locations[targetIndex];
     }
     return null;
   }
@@ -138,11 +138,15 @@ class GameLocation {
 // Region (mid-level of map, contains multiple PoI, like villages etc.)
 // -----------------------------------------------------------------------------
 class GameRegion {
-  List<GameLocation> locations = [];
+  List<GameLocation> locations;
   String name;
   GameLocation? currentLocation;
 
-  GameRegion(this.name);
+  GameRegion(this.name, this.locations, this.currentLocation) {
+    for (GameLocation loc in this.locations) {
+      loc.parentRegion = this;
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -161,15 +165,18 @@ class LocalPointOfInterestFactory {
 // -----------------------------------------------------------------------------
 class LocationFactory {
 
-  static GameLocation create(GameRegion region, int index) {
+  static GameLocation create(int index) {
     int numberOfPoIs = gameRandom.nextInt(10) - 6;
     if (numberOfPoIs < 0) {
       numberOfPoIs = 0;
     }
     String name = NameHandler.fantasyNames.compose(3);
-    GameLocation location = GameLocation(region, GameLocationType.cottage, name, index);
+    GameLocation location = GameLocation(GameLocationType.cottage, name, index);
 
     for (int index = 0; index < numberOfPoIs; index++) {
+
+      // TODO - GENERATE POIs (Shop, Tavern etc.)
+
       name = NameHandler.fantasyNames.compose(3);
       LocalPointOfInterest localPointOfInterest = LocalPointOfInterestFactory.create(index);
       location.localPointsOfInterest.add(localPointOfInterest);
@@ -184,15 +191,15 @@ class LocationFactory {
 class RegionFactory {
   static GameRegion create() {
     String name = NameHandler.fantasyNames.compose(3);
-    GameRegion region = GameRegion(name);
     // Generate all locations in the region
+    List<GameLocation> locations = [];
     for (int index = 0; index < MAX_LOCATIONS_PER_REGION; index ++) {
-      GameLocation location = LocationFactory.create(region, index);
-      region.locations.add(location);
+      GameLocation location = LocationFactory.create(index);
+      locations.add(location);
     }
     int currentLocationIndex = MAX_LOCATIONS_PER_REGION ~/ 2;
-    print(">>>>>> current location: " + currentLocationIndex.toString());
-    region.currentLocation = region.locations[currentLocationIndex];
+    GameRegion region = GameRegion(name, locations, locations[currentLocationIndex]);
+
 
     // Then connect them with each other
     for (GameLocation location in region.locations) {

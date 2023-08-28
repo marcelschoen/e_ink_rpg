@@ -124,11 +124,11 @@ Widget getDetailInfos(BuildContext context) {
 // -----------------------------------------------------------------------------
 List<Widget> getMapButtons() {
   List<Widget> buttons = [];
-  if (GameState().selectedInMap != null) {
-    if (!GameState().selectedInMap!.unlocked) {
+  if (GameState().selectedLocationInMap != null) {
+    if (!GameState().selectedLocationInMap!.unlocked) {
       buttons.add(getSelectedPlaceButton());
     } else {
-      for ( LocalPointOfInterest poi in GameState().selectedInMap!.localPointsOfInterest) {
+      for ( LocalPointOfInterest poi in GameState().selectedLocationInMap!.localPointsOfInterest) {
         buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 40));
       }
     }
@@ -140,7 +140,7 @@ List<Widget> getMapButtons() {
 // Button for interaction with selected map location
 // -----------------------------------------------------------------------------
 Widget getSelectedPlaceButton() {
-  return BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedInMap!.name); }, 18, 140, 20);
+  return BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedLocationInMap!.name); }, 18, 140, 20);
 }
 
 // -----------------------------------------------------------------------------
@@ -158,13 +158,12 @@ Widget getMapContents(BuildContext context) {
             SizedBox(width: 20),
             getZoomButton(false),
             getMapTitle(),
-//            getOutlinedText('Region: ' + region.name, 24, 1, Colors.black, Colors.white),
             getZoomButton(true),
             SizedBox(width: 20),
           ],
         ),
       ),
-      Expanded(child: getLocations(region, context)),
+      Expanded(child: getMapGridContents(context)),
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -177,6 +176,9 @@ Widget getMapContents(BuildContext context) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Title of map based on zoom-level
+// -----------------------------------------------------------------------------
 Widget getMapTitle() {
   if (GameState().mapZoomLevel == MapZoomLevel.world) {
     return getOutlinedText('World', 24, 1, Colors.black, Colors.white);
@@ -193,7 +195,7 @@ Widget getHomeButton() {
   return InkWell(
     onTap: () {
       GameState().mapZoomLevel = MapZoomLevel.location;
-      GameState().selectedInMap = GameState().currentRegion.currentLocation;
+      GameState().selectedLocationInMap = GameState().currentRegion.currentLocation;
       GameState().mapState.update();
     },
     child: Image.asset(GameIconAsset.goback.filename()),
@@ -227,38 +229,78 @@ Widget getZoomButton(bool zoomIn) {
 }
 
 // -----------------------------------------------------------------------------
+// Returns the map grid, based on zoom level
+// -----------------------------------------------------------------------------
+Widget getMapGridContents(BuildContext context) {
+  List<Widget> mapGridWidgets = [];
+  if (GameState().mapZoomLevel == MapZoomLevel.region) {
+    mapGridWidgets = getLocations(context);
+  } else if (GameState().mapZoomLevel == MapZoomLevel.world) {
+
+  }
+  return Padding(
+    padding: const EdgeInsets.only(left:80, top: 30, right: 50),
+    child: GridView.count(
+        crossAxisCount: 5,
+        crossAxisSpacing: 0,
+        mainAxisSpacing: 0,
+        // Generate 100 widgets that display their index in the List.
+        children:mapGridWidgets
+    ),
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Returns grid widget with all the point of interest of the current location
+// -----------------------------------------------------------------------------
+List<Widget> getPointsOfInterest(BuildContext context) {
+  if (GameState().currentRegion.currentLocation == null) {
+    return [];
+  }
+  List<LocalPointOfInterest>? pois = GameState().currentRegion.currentLocation!.localPointsOfInterest;
+  if (pois == null) {
+    return [];
+  }
+  List<Widget> poiWidgets = [];
+  for (LocalPointOfInterest poi in pois) {
+      // TODO
+    poiWidgets.add(getLocalPointOfInterest(poi));
+  }
+  return poiWidgets;
+}
+
+// -----------------------------------------------------------------------------
+// Gets a single point of interest as a widget
+// -----------------------------------------------------------------------------
+Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
+  Widget poiWidget = Image.asset(GameImageAsset.map_loc_monolith.filename());  // TODO
+
+  return SizedBox(width: 25, child: InkWell(
+        onTap: () {
+          print('> tapped: ' + poi.name);
+          GameState().selectedPoiInMap = poi;
+          GameState().mapState.update();
+        },
+        child: poiWidget
+    )
+  );
+}
+
+// -----------------------------------------------------------------------------
 // Returns grid widget with all the locations of the current region
 // -----------------------------------------------------------------------------
-Widget getLocations(GameRegion region, BuildContext context) {
-  List<GameLocation> locations = region.locations;
+List<Widget> getLocations(BuildContext context) {
+  List<GameLocation> locations = GameState().currentRegion.locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
     if (!location.unlocked && !location.isConnectedToUnlockedLocation() ) {
       locationWidgets.add(getEmptyField());
     } else {
       // TODO
-      locationWidgets.add(InkWell(
-          onTap: () {
-            print('> tapped: ' + location.name);
-            GameState().selectedInMap = location;
-            GameState().mapState.update();
-          },
-          child: getLocation(location)
-        )
-      );
+      locationWidgets.add(getLocation(location));
     }
   }
-
-  return Padding(
-    padding: const EdgeInsets.only(left:80, top: 30, right: 50),
-    child: GridView.count(
-      crossAxisCount: 5,
-      crossAxisSpacing: 0,
-      mainAxisSpacing: 0,
-      // Generate 100 widgets that display their index in the List.
-      children:locationWidgets
-    ),
-  );
+  return locationWidgets;
 }
 
 // -----------------------------------------------------------------------------
@@ -277,7 +319,7 @@ Widget getLocation(GameLocation location) {
     locationWidget = InkWell(
         onTap: () {
           print('> tapped: ' + location.name + ', unlocked: ' + location.unlocked.toString());
-          GameState().selectedInMap = location;
+          GameState().selectedLocationInMap = location;
           GameState().mapState.update();
         },
         child: locationWidget
