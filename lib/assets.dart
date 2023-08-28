@@ -365,6 +365,9 @@ enum GameItemAsset {
 // ****************************************
 enum GameIconAsset {
 
+  search('icon213.png'),
+  goback('icon19.png'),
+
   attack('icon163.png'),
   fight('icon2.png'),
   flee('icon8.png'),

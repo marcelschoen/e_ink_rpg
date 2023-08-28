@@ -4,6 +4,7 @@ import 'package:e_ink_rpg/items/consumables/potions.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/swords.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
+import 'package:e_ink_rpg/map.dart';
 import 'package:e_ink_rpg/models/location.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -107,6 +108,7 @@ class GameState with ChangeNotifier {
 
   GameRegion currentRegion;
 
+  MapZoomLevel mapZoomLevel = MapZoomLevel.location;
   GameLocation? selectedInMap = null;
   GameItem? selectedInEquipment = null;
   InventoryGameItemStack? selectedInInventory = null;
@@ -131,6 +133,15 @@ class GameState with ChangeNotifier {
       setScreenType(ScreenType.fight);
     } else if (widget.runtimeType == Game) {
       setScreenType(ScreenType.jobs);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // FOR DEBUGGING / DEVELOPMENT PURPOSES ONLY
+  // ---------------------------------------------------------------------------
+  void debugUnlockAllLocations() {
+    for (GameLocation location in currentRegion.locations) {
+      location.unlocked = true;
     }
   }
 
@@ -174,6 +185,10 @@ class GameState with ChangeNotifier {
     GameState().availableJobs.reset();
     GameState().daytime.reset();
     GameState().currentRegion.locations[12].unlocked = true;  // Starting location center of map
+
+
+    GameState().debugUnlockAllLocations();
+
 
     selectedInInventory = null;
     selectedInJobs = null;

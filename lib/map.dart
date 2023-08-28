@@ -1,10 +1,15 @@
 import 'package:e_ink_rpg/assets.dart';
-import 'package:e_ink_rpg/names.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
 import 'models/location.dart';
+
+enum MapZoomLevel {
+  world,
+  region,
+  location
+}
 
 List<GameImageAsset> locationImage = [
   GameImageAsset.map_loc_custom_dungeon_entrance,
@@ -88,21 +93,54 @@ Widget getMapScreen(BuildContext context) {
         listenable: GameState().mapState,
         builder: (BuildContext context, Widget? child) {
           return Column(
-            children: getMapButtons(),
+            children:[
+              BaseButton.textOnlyWithSizes('World', (p0) { print('World'); }, 18, 160, 30),
+              getDetailInfos(context),
+              Column(
+                children: getMapButtons(),
+              )
+            ]
           );
         },
       )
     ],
   );
 }
+
 // -----------------------------------------------------------------------------
+// Box for details about selected location / poi
+// -----------------------------------------------------------------------------
+Widget getDetailInfos(BuildContext context) {
+
+
+  return SizedBox(width: MediaQuery.of(context).size.width / 4,
+    child: getCardWithRoundedBorder(Text('x'))
+  );
+}
+
+
+// -----------------------------------------------------------------------------
+// List of map context buttons
 // -----------------------------------------------------------------------------
 List<Widget> getMapButtons() {
   List<Widget> buttons = [];
   if (GameState().selectedInMap != null) {
-    buttons.add(BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedInMap!.name); }, 18, 160, 40));
+    if (!GameState().selectedInMap!.unlocked) {
+      buttons.add(getSelectedPlaceButton());
+    } else {
+      for ( LocalPointOfInterest poi in GameState().selectedInMap!.localPointsOfInterest) {
+        buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 40));
+      }
+    }
   }
   return buttons;
+}
+
+// -----------------------------------------------------------------------------
+// Button for interaction with selected map location
+// -----------------------------------------------------------------------------
+Widget getSelectedPlaceButton() {
+  return BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedInMap!.name); }, 18, 140, 20);
 }
 
 // -----------------------------------------------------------------------------
@@ -113,11 +151,78 @@ Widget getMapContents(BuildContext context) {
   return Column(
     children: [
       Padding(
-        padding: EdgeInsets.only(top: 30),
-        child: getOutlinedText('Region: ' + NameHandler.allNames.compose(3), 24, 1, Colors.black, Colors.white),
+        padding: EdgeInsets.only(top: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(width: 20),
+            getZoomButton(false),
+            getMapTitle(),
+//            getOutlinedText('Region: ' + region.name, 24, 1, Colors.black, Colors.white),
+            getZoomButton(true),
+            SizedBox(width: 20),
+          ],
+        ),
       ),
       Expanded(child: getLocations(region, context)),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(width: 60),
+          getHomeButton()
+        ],
+      ),
+      SizedBox(height: 50,)
     ],
+  );
+}
+
+Widget getMapTitle() {
+  if (GameState().mapZoomLevel == MapZoomLevel.world) {
+    return getOutlinedText('World', 24, 1, Colors.black, Colors.white);
+  } else if (GameState().mapZoomLevel == MapZoomLevel.region) {
+    return getOutlinedText('Region: ' + GameState().currentRegion.name, 24, 1, Colors.black, Colors.white);
+  }
+  return getOutlinedText('Location: ' + GameState().currentRegion.currentLocation!.name, 24, 1, Colors.black, Colors.white);
+}
+
+// -----------------------------------------------------------------------------
+// Reset view back to where we currently are
+// -----------------------------------------------------------------------------
+Widget getHomeButton() {
+  return InkWell(
+    onTap: () {
+      GameState().mapZoomLevel = MapZoomLevel.location;
+      GameState().selectedInMap = GameState().currentRegion.currentLocation;
+      GameState().mapState.update();
+    },
+    child: Image.asset(GameIconAsset.goback.filename()),
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Map zoom level buttons
+// -----------------------------------------------------------------------------
+Widget getZoomButton(bool zoomIn) {
+  MapZoomLevel currentLevel = GameState().mapZoomLevel;
+  return InkWell(
+    onTap: () {
+      if (zoomIn) {
+        if (currentLevel == MapZoomLevel.region) {
+          GameState().mapZoomLevel = MapZoomLevel.location;
+        } else if (currentLevel == MapZoomLevel.world) {
+          GameState().mapZoomLevel = MapZoomLevel.region;
+        }
+      } else {
+        if (currentLevel == MapZoomLevel.location) {
+          GameState().mapZoomLevel = MapZoomLevel.region;
+        } else if (currentLevel == MapZoomLevel.region) {
+          GameState().mapZoomLevel = MapZoomLevel.world;
+        }
+      }
+      GameState().mapState.update();
+    },
+    child: Image.asset(GameIconAsset.search.filename()),
   );
 }
 
@@ -128,8 +233,8 @@ Widget getLocations(GameRegion region, BuildContext context) {
   List<GameLocation> locations = region.locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
-    if (!location.unlocked) {
-      locationWidgets.add(getQuestionMarkOrLock(location.isConnectedToUnlockedLocation()));
+    if (!location.unlocked && !location.isConnectedToUnlockedLocation() ) {
+      locationWidgets.add(getEmptyField());
     } else {
       // TODO
       locationWidgets.add(InkWell(
@@ -138,7 +243,7 @@ Widget getLocations(GameRegion region, BuildContext context) {
             GameState().selectedInMap = location;
             GameState().mapState.update();
           },
-          child: Image.asset(GameImageAsset.map_loc_hamlet.filename())  // TODO - set correct
+          child: getLocation(location)
         )
       );
     }
@@ -160,21 +265,35 @@ Widget getLocations(GameRegion region, BuildContext context) {
 // Gets a single location as a widget
 // -----------------------------------------------------------------------------
 Widget getLocation(GameLocation location) {
-  Widget locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
+  Widget locationWidget = location.unlocked ?
+    Image.asset(GameImageAsset.map_loc_hamlet.filename()) :
+    Image.asset(GameImageAsset.map_icon_question_mark.filename());
+
   if (GameState().currentRegion.currentLocation == location) {
     locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
   }
-  return locationWidget;
+
+  if (location.unlocked || location.isConnectedToUnlockedLocation()) {
+    locationWidget = InkWell(
+        onTap: () {
+          print('> tapped: ' + location.name + ', unlocked: ' + location.unlocked.toString());
+          GameState().selectedInMap = location;
+          GameState().mapState.update();
+        },
+        child: locationWidget
+    );
+  }
+
+  return SizedBox(width: 25, child: locationWidget);
 }
 
 // -----------------------------------------------------------------------------
 // Gets a question mark or empty widget for unlocked loc
 // -----------------------------------------------------------------------------
-Widget getQuestionMarkOrLock(bool isConnectedToUnlockedLocation) {
+Widget getEmptyField() {
   return Padding(
     padding: const EdgeInsets.all(12.0),
-    child: isConnectedToUnlockedLocation ?
-      Image.asset(GameImageAsset.map_icon_question_mark.filename()) :
-        Container(),
+    child: Container(),
   );
 }
+
