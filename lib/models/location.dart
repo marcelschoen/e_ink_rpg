@@ -30,14 +30,24 @@ enum ConnectionsDirection {
 }
 
 enum LocalPointOfInterestType {
-  generalGoodsStore,
-  weaponSmith,
-  armorSmith,
-  tavern,
-  pond,
-  garden
+  generalGoodsStore(GameImageAsset.map_poi_shop_interior, 'General Goods'),
+  weaponSmith(GameImageAsset.map_poi_shop_interior, 'Weapon Smith'),
+  armorSmith(GameImageAsset.map_poi_shop_interior, 'Armor Smith'),
+  tavern(GameImageAsset.map_loc_hamlet, 'Tavern'),
+  pond(GameImageAsset.map_loc_monolith, 'Pond'),
+  garden(GameImageAsset.map_loc_ruin_small, 'Garden'),
+  ;
+
+  final GameImageAsset imageAsset;
+  final String label;
+
+  const LocalPointOfInterestType(this.imageAsset, this.label);
+
 }
 
+// -----------------------------------------------------------------------------
+// Local point of view within a location (e.g. shop, tavern, pond...)
+// -----------------------------------------------------------------------------
 class LocalPointOfInterest {
   int index;
   LocalPointOfInterestType pointOfInterestType;
@@ -65,6 +75,9 @@ enum GameLocationType {
   const GameLocationType(this.imageAsset);
 }
 
+// -----------------------------------------------------------------------------
+// Location (lowest level of map, contains multiple PoI, like villages etc.)
+// -----------------------------------------------------------------------------
 class GameLocation {
   GameRegion? parentRegion;
   int index;
@@ -135,12 +148,13 @@ class GameLocation {
 }
 
 // -----------------------------------------------------------------------------
-// Region (mid-level of map, contains multiple PoI, like villages etc.)
+// Region (mid-level of map, contains multiple locations)
 // -----------------------------------------------------------------------------
 class GameRegion {
   List<GameLocation> locations;
   String name;
   GameLocation? currentLocation;
+  Map<ConnectionsDirection, GameRegion> adjoiningRegions = {};
 
   GameRegion(this.name, this.locations, this.currentLocation) {
     for (GameLocation loc in this.locations) {
@@ -149,12 +163,24 @@ class GameRegion {
   }
 }
 
+// *****************************************************************************
+//
+// FACTORIES
+//
+// *****************************************************************************
+
+
 // -----------------------------------------------------------------------------
 // Generates local points of interest
 // -----------------------------------------------------------------------------
 class LocalPointOfInterestFactory {
   static LocalPointOfInterest create(int index) {
-    LocalPointOfInterestType type = LocalPointOfInterestType.tavern;
+
+    // TODO - CREATE ACTUAL POIs
+    int poiType = gameRandom.nextInt(LocalPointOfInterestType.values.length);
+    print ("> generate random POI of type: " + LocalPointOfInterestType.values[poiType].name);
+
+    LocalPointOfInterestType type = LocalPointOfInterestType.values[poiType];
     String name = NameHandler.fantasyNames.compose(3);
     return LocalPointOfInterest(type, name, index);
   }
@@ -166,19 +192,28 @@ class LocalPointOfInterestFactory {
 class LocationFactory {
 
   static GameLocation create(int index) {
-    int numberOfPoIs = gameRandom.nextInt(10) - 6;
+    int numberOfPoIs = gameRandom.nextInt(3) + 1;
     if (numberOfPoIs < 0) {
       numberOfPoIs = 0;
     }
+
+    numberOfPoIs += 2;  // TEMPORARY
+
     String name = NameHandler.fantasyNames.compose(3);
     GameLocation location = GameLocation(GameLocationType.cottage, name, index);
 
-    for (int index = 0; index < numberOfPoIs; index++) {
+    List<int> usedIndexes = [];
+    for (int i = 0; i < numberOfPoIs; i++) {
 
       // TODO - GENERATE POIs (Shop, Tavern etc.)
+      int fieldNumber = gameRandom.nextInt(25);
+      while (usedIndexes.contains(fieldNumber)) {
+        fieldNumber = gameRandom.nextInt(25);
+      }
+      usedIndexes.add(fieldNumber);
 
       name = NameHandler.fantasyNames.compose(3);
-      LocalPointOfInterest localPointOfInterest = LocalPointOfInterestFactory.create(index);
+      LocalPointOfInterest localPointOfInterest = LocalPointOfInterestFactory.create(fieldNumber);
       location.localPointsOfInterest.add(localPointOfInterest);
     }
     return location;

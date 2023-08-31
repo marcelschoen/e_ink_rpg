@@ -24,6 +24,10 @@ enum GameFontAsset {
 // ****************************************
 enum GameImageAsset {
 
+  npc_humanoid('humanoid/Human1.png'),
+
+  mount_horse('mounts/horse.png'),
+
   daytime_morning('daytime/time_morning.png'),
   daytime_day('daytime/time_day.png'),
   daytime_evening('daytime/time_evening.png'),
@@ -33,10 +37,11 @@ enum GameImageAsset {
   map_paper_background_bw_transparent('map/paper-background-bw-transparent.png'),
 
   map_icon_question_mark('map/question-mark.png'),
+  map_icon_lock('map/locked.png'),
 
   map_poi_dungeon_entrance('map/poi/DungeonEntrance1.png'),
   map_poi_dungeon_entrance2('map/poi/DungeonEntrance2.png'),
-  map_poi_shop_interior('map/poi/ShowInterior1.png'),
+  map_poi_shop_interior('map/poi/ShopInterior1.png'),
 
   map_loc_bridge_east_west('map/locations/Narrasil Bridge East-West.png'),
   map_loc_bridge_north_south('map/locations/Narrasil Bridge North-South.png'),
@@ -116,9 +121,15 @@ enum GameImageAsset {
     return 'assets/' + this._filename;
   }
 
+  Widget getGameImage() {
+    return getSizedImage(filename(), 64);
+  }
+/*
   Widget getGameImage(double size) {
     return getSizedImage(filename(), size);
   }
+
+ */
 }
 
 // ****************************************

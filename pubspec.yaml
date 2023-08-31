@@ -92,6 +92,7 @@ flutter:
     - assets/item/weapon/ranged/
     - assets/daytime/
     - assets/names/
+    - assets/mounts/
     - assets/map/
     - assets/map/locations/
     - assets/map/poi/

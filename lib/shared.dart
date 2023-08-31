@@ -42,6 +42,7 @@ class NpcWidget extends StatelessWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
+//                      GameImageAsset.mount_horse.getGameImage(),
                       GameNpcImageAsset.player.getNpcImage(),
                     ],
                   ),
@@ -394,6 +395,13 @@ getTitleTextStyle(double size) {
   return TextStyle(fontWeight: FontWeight.bold, fontSize: size);
 }
 
+// ----------------------------------------------------------
+// Regular text style in given size
+// ----------------------------------------------------------
+getRegularTextStyle(double size) {
+  return TextStyle(fontWeight: FontWeight.normal, fontSize: size);
+}
+
 // -----------------------------------------------------------------------------
 // Returns text as filled outline in the 'Diablo' font
 // -----------------------------------------------------------------------------
@@ -443,14 +451,14 @@ switchToScreen(Widget widget, BuildContext context) {
 // -----------------------------------------------------------------------------
 Card getCardWithRoundedBorder(Widget child) {
   return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-        side: BorderSide(
-          width: 3,
-          color: Colors.black45,
-        ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(5),
+      side: BorderSide(
+        width: 3,
+        color: Colors.black45,
       ),
-      child: child);
+    ),
+  child: child);
 }
 
 

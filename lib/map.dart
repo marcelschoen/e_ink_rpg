@@ -94,7 +94,6 @@ Widget getMapScreen(BuildContext context) {
         builder: (BuildContext context, Widget? child) {
           return Column(
             children:[
-              BaseButton.textOnlyWithSizes('World', (p0) { print('World'); }, 18, 160, 30),
               getDetailInfos(context),
               Column(
                 children: getMapButtons(),
@@ -111,10 +110,25 @@ Widget getMapScreen(BuildContext context) {
 // Box for details about selected location / poi
 // -----------------------------------------------------------------------------
 Widget getDetailInfos(BuildContext context) {
-
-
+  Widget details = Container();
+  if (GameState().selectedPoiInMap != null) {
+    details = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text(GameState().selectedPoiInMap!.pointOfInterestType.label, style: getTitleTextStyle(14)),
+          Text(GameState().selectedPoiInMap!.name, style: getTitleTextStyle(18)),
+          vGap(6),
+          Text('Some description goes here because anyway', style: getRegularTextStyle(12)),
+        ],
+      ),
+    );
+  }
   return SizedBox(width: MediaQuery.of(context).size.width / 4,
-    child: getCardWithRoundedBorder(Text('x'))
+    height: MediaQuery.of(context).size.height / 5,
+    child: getCardWithRoundedBorder(
+      details
+    )
   );
 }
 
@@ -128,9 +142,12 @@ List<Widget> getMapButtons() {
     if (!GameState().selectedLocationInMap!.unlocked) {
       buttons.add(getSelectedPlaceButton());
     } else {
+      /*
       for ( LocalPointOfInterest poi in GameState().selectedLocationInMap!.localPointsOfInterest) {
-        buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 40));
+        buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 30));
       }
+
+       */
     }
   }
   return buttons;
@@ -147,7 +164,6 @@ Widget getSelectedPlaceButton() {
 // Returns the main map contents
 // -----------------------------------------------------------------------------
 Widget getMapContents(BuildContext context) {
-  GameRegion region = GameState().currentRegion;
   return Column(
     children: [
       Padding(
@@ -218,6 +234,7 @@ Widget getZoomButton(bool zoomIn) {
       } else {
         if (currentLevel == MapZoomLevel.location) {
           GameState().mapZoomLevel = MapZoomLevel.region;
+          GameState().selectedPoiInMap = null;
         } else if (currentLevel == MapZoomLevel.region) {
           GameState().mapZoomLevel = MapZoomLevel.world;
         }
@@ -236,7 +253,8 @@ Widget getMapGridContents(BuildContext context) {
   if (GameState().mapZoomLevel == MapZoomLevel.region) {
     mapGridWidgets = getLocations(context);
   } else if (GameState().mapZoomLevel == MapZoomLevel.world) {
-
+  } else {
+    mapGridWidgets = getPointsOfInterest(context);
   }
   return Padding(
     padding: const EdgeInsets.only(left:80, top: 30, right: 50),
@@ -262,9 +280,17 @@ List<Widget> getPointsOfInterest(BuildContext context) {
     return [];
   }
   List<Widget> poiWidgets = [];
-  for (LocalPointOfInterest poi in pois) {
-      // TODO
-    poiWidgets.add(getLocalPointOfInterest(poi));
+  for (int index = 0; index < MAX_LOCATIONS_PER_REGION; index ++) {
+    bool found = false;
+    for (LocalPointOfInterest poi in pois) {
+      if (poi.index == index) {
+        found = true;
+        poiWidgets.add(getLocalPointOfInterest(poi));
+      }
+    }
+    if (!found) {
+      poiWidgets.add(Container());
+    }
   }
   return poiWidgets;
 }
@@ -273,7 +299,7 @@ List<Widget> getPointsOfInterest(BuildContext context) {
 // Gets a single point of interest as a widget
 // -----------------------------------------------------------------------------
 Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
-  Widget poiWidget = Image.asset(GameImageAsset.map_loc_monolith.filename());  // TODO
+  Widget poiWidget = Image.asset(poi.pointOfInterestType.imageAsset.filename());  // TODO
 
   return SizedBox(width: 25, child: InkWell(
         onTap: () {
@@ -290,6 +316,7 @@ Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
 // Returns grid widget with all the locations of the current region
 // -----------------------------------------------------------------------------
 List<Widget> getLocations(BuildContext context) {
+  print ('get locations in map...');
   List<GameLocation> locations = GameState().currentRegion.locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
@@ -326,6 +353,9 @@ Widget getLocation(GameLocation location) {
     );
   }
 
+  if (location == GameState().currentRegion.currentLocation) {
+    return SizedBox(width: 25, child: getCardWithRoundedBorder(locationWidget));
+  }
   return SizedBox(width: 25, child: locationWidget);
 }
 
