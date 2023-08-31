@@ -300,8 +300,7 @@ List<Widget> getPointsOfInterest(BuildContext context) {
 // -----------------------------------------------------------------------------
 Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
   Widget poiWidget = Image.asset(poi.pointOfInterestType.imageAsset.filename());  // TODO
-
-  return SizedBox(width: 25, child: InkWell(
+  poiWidget = SizedBox(width: 25, child: InkWell(
         onTap: () {
           print('> tapped: ' + poi.name);
           GameState().selectedPoiInMap = poi;
@@ -310,6 +309,10 @@ Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
         child: poiWidget
     )
   );
+  if (poi == GameState().selectedPoiInMap) {
+    return getCardWithRoundedBorder(poiWidget);
+  }
+  return poiWidget;
 }
 
 // -----------------------------------------------------------------------------
