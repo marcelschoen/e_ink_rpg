@@ -250,6 +250,7 @@ Widget getZoomButton(bool zoomIn) {
         if (currentLevel == MapZoomLevel.location) {
           GameState().mapZoomLevel = MapZoomLevel.region;
           GameState().selectedPoiInMap = null;
+          GameState().selectedLocationInMap = null;
         } else if (currentLevel == MapZoomLevel.region) {
           GameState().mapZoomLevel = MapZoomLevel.world;
         }
