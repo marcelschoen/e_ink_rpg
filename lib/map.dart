@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
@@ -341,7 +342,16 @@ List<Widget> getLocations(BuildContext context) {
       locationWidgets.add(getEmptyField());
     } else {
       // TODO
-      locationWidgets.add(getLocation(location));
+      if (location == GameState().selectedLocationInMap) {
+        if (location.unlocked) {
+          // TODO - SHOW CORRECT LOCATION GRAPHICS
+          locationWidgets.add(getSelectedLocationBorder(SizedBox(width: 80, child: Image.asset(GameImageAsset.map_loc_hamlet.filename()))));
+        } else {
+          locationWidgets.add(getSelectedLocationBorder(SizedBox(width: 80, child: Image.asset(GameImageAsset.map_icon_question_mark.filename()))));
+        }
+      } else {
+        locationWidgets.add(getLocation(location));
+      }
     }
   }
   return locationWidgets;
@@ -386,3 +396,22 @@ Widget getEmptyField() {
   );
 }
 
+// -----------------------------------------------------------------------------
+// Get dotted border for selected, but not current, location
+// -----------------------------------------------------------------------------
+DottedBorder getSelectedLocationBorder(Widget content) {
+  Color borderColor = Colors.white;
+  double borderWidth = 0;
+  //BorderStyle borderStyle = BorderStyle.solid;
+  borderColor = Colors.black45;
+  borderWidth = 3;
+  return DottedBorder(
+    borderType: BorderType.RRect,
+    strokeWidth: borderWidth,
+    color: borderColor,
+    radius: Radius.circular(8),
+//    padding: EdgeInsets.all(12),
+    child: content,
+  );
+//  return Border.all(color: borderColor, width: borderWidth);
+}
