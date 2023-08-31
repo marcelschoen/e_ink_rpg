@@ -139,9 +139,12 @@ Widget getDetailInfos(BuildContext context) {
 List<Widget> getMapButtons() {
   List<Widget> buttons = [];
   if (GameState().selectedLocationInMap != null) {
+    print ('>>> selected location in map: ' + GameState().selectedLocationInMap!.name
+        + ', unlocked: ' + GameState().selectedLocationInMap!.unlocked.toString());
     if (!GameState().selectedLocationInMap!.unlocked) {
-      buttons.add(getSelectedPlaceButton());
-    } else {
+      buttons.add(getExploreButton());
+    } else if (GameState().selectedLocationInMap != GameState().currentRegion.currentLocation) {
+      buttons.add(getVisitButton());
       /*
       for ( LocalPointOfInterest poi in GameState().selectedLocationInMap!.localPointsOfInterest) {
         buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 30));
@@ -154,10 +157,21 @@ List<Widget> getMapButtons() {
 }
 
 // -----------------------------------------------------------------------------
-// Button for interaction with selected map location
+// Button for going to selected unlocked location
 // -----------------------------------------------------------------------------
-Widget getSelectedPlaceButton() {
-  return BaseButton.textOnlyWithSizes('Explore', (p0) { print('explore location ' + GameState().selectedLocationInMap!.name); }, 18, 140, 20);
+Widget getVisitButton() {
+  return BaseButton.textOnlyWithSizes('Visit', (p0) {
+    print('go to location ' + GameState().selectedLocationInMap!.name);
+  }, 18, 140, 20);
+}
+
+// -----------------------------------------------------------------------------
+// Button for exploring selected location
+// -----------------------------------------------------------------------------
+Widget getExploreButton() {
+  return BaseButton.textOnlyWithSizes('Explore', (p0) {
+      print('explore location ' + GameState().selectedLocationInMap!.name);
+    }, 18, 140, 20);
 }
 
 // -----------------------------------------------------------------------------
