@@ -123,6 +123,9 @@ Widget getDetailInfos(BuildContext context) {
         details = getDetailText('Location',
             'Unknown', 'Explore this location to unlock it');
       }
+  } else if (GameState().mapZoomLevel == MapZoomLevel.region) {
+    details = getDetailText(GameState().currentRegion.currentLocation!.locationType.name,
+        GameState().currentRegion.currentLocation!.name, 'This location was explored by you already.');
   }
   return SizedBox(width: MediaQuery.of(context).size.width / 4,
     height: MediaQuery.of(context).size.height / 5,
