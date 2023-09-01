@@ -113,23 +113,39 @@ Widget getMapScreen(BuildContext context) {
 Widget getDetailInfos(BuildContext context) {
   Widget details = Container();
   if (GameState().selectedPoiInMap != null) {
-    details = Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Text(GameState().selectedPoiInMap!.pointOfInterestType.label, style: getTitleTextStyle(14)),
-          Text(GameState().selectedPoiInMap!.name, style: getTitleTextStyle(18)),
-          vGap(6),
-          Text('Some description goes here because anyway', style: getRegularTextStyle(12)),
-        ],
-      ),
-    );
+    details = getDetailText(GameState().selectedPoiInMap!.pointOfInterestType.label,
+        GameState().selectedPoiInMap!.name, 'Check out this point of interest!');
+  } else if (GameState().selectedLocationInMap != null) {
+      if (GameState().selectedLocationInMap!.unlocked) {
+        details = getDetailText(GameState().selectedLocationInMap!.locationType.name,
+            GameState().selectedLocationInMap!.name, 'This location was explored by you already.');
+      } else {
+        details = getDetailText('Location',
+            'Unknown', 'Explore this location to unlock it');
+      }
   }
   return SizedBox(width: MediaQuery.of(context).size.width / 4,
     height: MediaQuery.of(context).size.height / 5,
     child: getCardWithRoundedBorder(
-      details
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: details,
+      )
     )
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Text content for box with details about selected location / poi
+// -----------------------------------------------------------------------------
+Column getDetailText(String label, String title, String description) {
+  return Column(
+    children: [
+      Text(label, style: getTitleTextStyle(14)),
+      Text(title, style: getTitleTextStyle(18)),
+      vGap(6),
+      Text(description, style: getRegularTextStyle(12)),
+    ],
   );
 }
 
@@ -163,6 +179,9 @@ List<Widget> getMapButtons() {
 Widget getVisitButton() {
   return BaseButton.textOnlyWithSizes('Visit', (p0) {
     print('go to location ' + GameState().selectedLocationInMap!.name);
+    GameState().currentRegion.currentLocation = GameState().selectedLocationInMap;
+    GameState().selectedLocationInMap = null;
+    GameState().mapState.update();
   }, 18, 140, 20);
 }
 
@@ -249,12 +268,12 @@ Widget getZoomButton(bool zoomIn) {
       } else {
         if (currentLevel == MapZoomLevel.location) {
           GameState().mapZoomLevel = MapZoomLevel.region;
-          GameState().selectedPoiInMap = null;
-          GameState().selectedLocationInMap = null;
         } else if (currentLevel == MapZoomLevel.region) {
           GameState().mapZoomLevel = MapZoomLevel.world;
         }
       }
+      GameState().selectedPoiInMap = null;
+      GameState().selectedLocationInMap = null;
       GameState().mapState.update();
     },
     child: Image.asset(GameIconAsset.search.filename()),
@@ -374,8 +393,10 @@ Widget getLocation(GameLocation location) {
     locationWidget = InkWell(
         onTap: () {
           print('> tapped: ' + location.name + ', unlocked: ' + location.unlocked.toString());
-          GameState().selectedLocationInMap = location;
-          GameState().mapState.update();
+          if (location != GameState().currentRegion.currentLocation) {
+            GameState().selectedLocationInMap = location;
+            GameState().mapState.update();
+          }
         },
         child: locationWidget
     );
