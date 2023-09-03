@@ -86,22 +86,9 @@ class GameSaves extends StatelessWidget {
 
   deleteGame(String saveName, BuildContext context) async {
 
-    String? value = await showDialog<String>(
+    bool? value = await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text('DELETE SAVE'),
-        content: Text('Really delete save?'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+      builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete save?'),
     );
 
     print ('>>> value: ' + (value == null ? 'null' : value!.toString()));

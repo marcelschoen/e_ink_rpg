@@ -463,6 +463,23 @@ Card getCardWithRoundedBorder(Widget child) {
 }
 
 
+AlertDialog createAlertDialog(BuildContext context, String title, String text) {
+  return AlertDialog(
+      title: Text(title),
+      content: Text(text),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('OK'),
+        ),
+      ],
+    );
+}
+
 /*
         showDialog<String>(
             context: context,
