@@ -320,7 +320,7 @@ Widget getTurnOrderList() {
 
 Widget getTurnEntry(Being being, BoxDecoration? border) {
   Widget imageWidget = being.species == SpeciesType.player
-      ? GameNpcImageAsset.player.getNpcImage()
+      ? getImage(GameNpcImageAsset.player.filename())
       : GameMonsterImageAsset.monster.getMonsterImage();
   return Container(
     decoration: border,

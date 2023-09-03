@@ -66,6 +66,9 @@ flutter:
   assets:
     - assets/
     - assets/humanoid/
+    - assets/humanoid/faces/
+    - assets/humanoid/faces/female/
+    - assets/humanoid/faces/male/
     - assets/monster/
     - assets/icons/
     - assets/item/amulet/

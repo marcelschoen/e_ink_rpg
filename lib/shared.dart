@@ -42,8 +42,8 @@ class NpcWidget extends StatelessWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-//                      GameImageAsset.mount_horse.getGameImage(),
-                      GameNpcImageAsset.player.getNpcImage(),
+                      GameImageAsset.mount_horse.getGameImage(),
+//                      GameNpcImageAsset.player.getNpcImage(),
                     ],
                   ),
                 ),
@@ -129,7 +129,7 @@ class PlayerWidget extends StatelessWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      GameNpcImageAsset.player.getNpcImage(),
+                      getImage(GameNpcImageAsset.male7.filename()),
                     ],
                   ),
                 ),

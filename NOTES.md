@@ -23,7 +23,18 @@
 * Equip screen provides list of loadouts
 * Sniping mechanism with ranged weapons? When discovering enemies during exploration but still outside combat
 * Stealth minigame when raiding enemy camp?
+** Enemies have line of sight with 2 levels (near and far) 
+** Player has <n> actions; e.g. move, throw stone, attack
+** Player is upright or crouching / upright seen from far away (like in Commandos)
 * Dungeons with hidden entrance - requires puzzle solving to open door
+* Ability to buy into shops like in Sykrim (part owner), and be able to collect income later.
+
+# Map / Regions, Locations
+
+* Multiple regions form one county, e.g. region "Telar" would be "Telar" (central region), "North Telar"
+  1 up, "South Telar" 1 down etc.
+* 3 x 3 regions are one actual county
+* One county has a ruler (yarl, major, general...) in a town or city
 
 # Day / Night cycle
 
@@ -37,6 +48,8 @@
 
 All of those might also give some XP
 
+* Build player home
+** Buy a plot on a location 
 * Cooking
 ** Might require finding recipes
 * Fishing
