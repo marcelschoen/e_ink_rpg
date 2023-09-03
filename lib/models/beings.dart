@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
+import '../equip.dart';
 import '../inventory.dart';
 import 'attack.dart';
+import 'location.dart';
 import 'magic.dart';
 
 /**
@@ -212,6 +214,8 @@ class Player extends Being with Humanoid {
 
   Set<Attack> availableAttacks = {};
   Set<Spell> availableSpells = {};
+  GameRegion? _currentRegion;
+  final Equipment equipment = Equipment();
 
   // singleton instance
   static final Player _instance = Player._internal();
@@ -222,6 +226,26 @@ class Player extends Being with Humanoid {
 
   factory Player() {
     return _instance;
+  }
+
+  createNewRegion() {
+    _currentRegion = RegionFactory.create();
+  }
+
+  GameRegion currentRegion() {
+    return _currentRegion!;
+  }
+
+  setCurrentRegionTo(GameRegion region) {
+    _currentRegion = region;
+  }
+
+  setCurrentLocationTo(GameLocation location) {
+    _currentRegion!.setCurrentLocationTo(location);
+  }
+
+  GameLocation currentLocation() {
+    return _currentRegion!.currentLocation();
   }
 
   reset() {

@@ -166,7 +166,7 @@ Widget getEquipScreen(BuildContext context) {
 
 Widget getEquipOrUnequipButton() {
   if (GameState().selectedInEquipment != null) {
-    if (GameState().equipment.hasEquipped(GameState().selectedInEquipment!)) {
+    if (GameState().player.equipment.hasEquipped(GameState().selectedInEquipment!)) {
       return BaseButton.textOnlyWithSizes("Unequip", (p0) => {
         unequipSelectedItem(GameState().selectedInEquipment!)
       }, 26, 160, 2 );
@@ -180,13 +180,13 @@ Widget getEquipOrUnequipButton() {
 }
 
 void unequipSelectedItem(GameItem item) {
-  GameState().equipment.unequip(item as Wearable);
+  GameState().player.equipment.unequip(item as Wearable);
   GameState().player.inventory.addItem(item);
   GameState().equipState.update();
 }
 
 void equipSelectedItem(GameItem item) {
-  GameState().equipment.equip(item as Wearable);
+  GameState().player.equipment.equip(item as Wearable);
   GameState().player.inventory.removeItem(item);
   GameState().equipState.update();
 }
@@ -276,7 +276,7 @@ Widget getEquipmentPanel() {
 // Creates a label with a item picture
 // -----------------------------------------------------------------------------
 Widget getEquipmentFieldWithLabel(String label, WearableType type) {
-  GameItem? item = GameState().equipment.getWearable(type);
+  GameItem? item = GameState().player.equipment.getWearable(type);
   Widget imageWidget;
   if (item != null) {
     imageWidget = InkWell(

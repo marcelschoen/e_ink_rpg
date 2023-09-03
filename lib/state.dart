@@ -1,5 +1,4 @@
 import 'package:e_ink_rpg/daytime.dart';
-import 'package:e_ink_rpg/equip.dart';
 import 'package:e_ink_rpg/items/consumables/potions.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/swords.dart';
@@ -83,10 +82,21 @@ enum ScreenType {
 // --------------------------------------------------
 class GameState with ChangeNotifier {
 
+  // *******************************************************
+  // persisted variables
+  // *******************************************************
+
+  final Player player = Player();
+
+  AvailableJobs availableJobs = AvailableJobs();
+
+  // *******************************************************
+  // transient variables
+  // *******************************************************
+
   // singleton instance
   static final GameState _instance = GameState._internal();
 
-  final Player player = Player();
   final BeingState playerState;
   final GeneralState hintState = GeneralState();
   final GeneralState turnOrderState = GeneralState();
@@ -101,14 +111,9 @@ class GameState with ChangeNotifier {
   final GeneralState saveState = GeneralState();
 
   final GameDaytime daytime = GameDaytime();
-  final Equipment equipment = Equipment();
 
   ScreenType _screenType = ScreenType.title;
   Difficulty difficulty = Difficulty.normal;
-
-  AvailableJobs availableJobs = AvailableJobs();
-
-  GameRegion currentRegion;
 
   String? selectedGameSave = null;
   MapZoomLevel mapZoomLevel = MapZoomLevel.location;
@@ -118,7 +123,7 @@ class GameState with ChangeNotifier {
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;
 
-  GameState._internal() : playerState = BeingState(Player()), currentRegion = RegionFactory.create() {
+  GameState._internal() : playerState = BeingState(Player()) {
   }
 
   factory GameState() {
@@ -130,7 +135,6 @@ class GameState with ChangeNotifier {
   }
 
   void setScreenByWidget(Widget widget) {
-    print (">> set screen by widget: " + widget.runtimeType.toString());
     if (widget.runtimeType == MonsterSlayerTitle) {
       setScreenType(ScreenType.title);
     } else if (widget.runtimeType == Fight) {
@@ -144,7 +148,7 @@ class GameState with ChangeNotifier {
   // FOR DEBUGGING / DEVELOPMENT PURPOSES ONLY
   // ---------------------------------------------------------------------------
   void debugUnlockAllLocations() {
-    for (GameLocation location in currentRegion.locations) {
+    for (GameLocation location in player.currentRegion().locations) {
       if (gameRandom.nextBool()) {
         location.unlocked = true;
       }
@@ -190,8 +194,12 @@ class GameState with ChangeNotifier {
     Player().inventory.reset();
     GameState().availableJobs.reset();
     GameState().daytime.reset();
-    GameState().currentRegion.locations[12].unlocked = true;  // Starting location center of map
 
+
+//    GameState().player.currentRegion().locations[12].unlocked = true;  // Starting location center of map
+
+
+    GameState().player.createNewRegion();  // TEMPORARY
 
     GameState().debugUnlockAllLocations();
 

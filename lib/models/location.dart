@@ -153,13 +153,21 @@ class GameLocation {
 class GameRegion {
   List<GameLocation> locations;
   String name;
-  GameLocation? currentLocation;
+  GameLocation? _currentLocation;
   Map<ConnectionsDirection, GameRegion> adjoiningRegions = {};
 
-  GameRegion(this.name, this.locations, this.currentLocation) {
+  GameRegion(this.name, this.locations, this._currentLocation) {
     for (GameLocation loc in this.locations) {
       loc.parentRegion = this;
     }
+  }
+
+  setCurrentLocationTo(GameLocation location) {
+    _currentLocation = location;
+  }
+
+  GameLocation currentLocation() {
+    return _currentLocation!;
   }
 }
 

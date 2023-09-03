@@ -124,8 +124,8 @@ Widget getDetailInfos(BuildContext context) {
             'Unknown', 'Explore this location to unlock it');
       }
   } else if (GameState().mapZoomLevel == MapZoomLevel.region) {
-    details = getDetailText(GameState().currentRegion.currentLocation!.locationType.name,
-        GameState().currentRegion.currentLocation!.name, 'This location was explored by you already.');
+    details = getDetailText(GameState().player.currentRegion().currentLocation().locationType.name,
+        GameState().player.currentRegion().currentLocation().name, 'This location was explored by you already.');
   }
   return SizedBox(width: MediaQuery.of(context).size.width / 4,
     height: MediaQuery.of(context).size.height / 5,
@@ -152,7 +152,6 @@ Column getDetailText(String label, String title, String description) {
   );
 }
 
-
 // -----------------------------------------------------------------------------
 // List of map context buttons
 // -----------------------------------------------------------------------------
@@ -163,14 +162,8 @@ List<Widget> getMapButtons() {
         + ', unlocked: ' + GameState().selectedLocationInMap!.unlocked.toString());
     if (!GameState().selectedLocationInMap!.unlocked) {
       buttons.add(getExploreButton());
-    } else if (GameState().selectedLocationInMap != GameState().currentRegion.currentLocation) {
+    } else if (GameState().selectedLocationInMap != GameState().player.currentLocation()) {
       buttons.add(getVisitButton());
-      /*
-      for ( LocalPointOfInterest poi in GameState().selectedLocationInMap!.localPointsOfInterest) {
-        buttons.add(BaseButton.textOnlyWithSizes(poi.name, (p0) { print('go to: ' + poi.name); }, 18, 160, 30));
-      }
-
-       */
     }
   }
   return buttons;
@@ -182,7 +175,7 @@ List<Widget> getMapButtons() {
 Widget getVisitButton() {
   return BaseButton.textOnlyWithSizes('Visit', (p0) {
     print('go to location ' + GameState().selectedLocationInMap!.name);
-    GameState().currentRegion.currentLocation = GameState().selectedLocationInMap;
+    GameState().player.setCurrentLocationTo(GameState().selectedLocationInMap!);
     GameState().selectedLocationInMap = null;
     GameState().mapState.update();
   }, 18, 140, 20);
@@ -236,9 +229,9 @@ Widget getMapTitle() {
   if (GameState().mapZoomLevel == MapZoomLevel.world) {
     return getOutlinedText('World', 24, 1, Colors.black, Colors.white);
   } else if (GameState().mapZoomLevel == MapZoomLevel.region) {
-    return getOutlinedText('Region: ' + GameState().currentRegion.name, 24, 1, Colors.black, Colors.white);
+    return getOutlinedText('Region: ' + GameState().player.currentRegion().name, 24, 1, Colors.black, Colors.white);
   }
-  return getOutlinedText('Location: ' + GameState().currentRegion.currentLocation!.name, 24, 1, Colors.black, Colors.white);
+  return getOutlinedText('Location: ' + GameState().player.currentLocation().name, 24, 1, Colors.black, Colors.white);
 }
 
 // -----------------------------------------------------------------------------
@@ -248,7 +241,7 @@ Widget getHomeButton() {
   return InkWell(
     onTap: () {
       GameState().mapZoomLevel = MapZoomLevel.location;
-      GameState().selectedLocationInMap = GameState().currentRegion.currentLocation;
+      GameState().selectedLocationInMap = GameState().player.currentLocation();
       GameState().mapState.update();
     },
     child: Image.asset(GameIconAsset.goback.filename()),
@@ -310,10 +303,10 @@ Widget getMapGridContents(BuildContext context) {
 // Returns grid widget with all the point of interest of the current location
 // -----------------------------------------------------------------------------
 List<Widget> getPointsOfInterest(BuildContext context) {
-  if (GameState().currentRegion.currentLocation == null) {
+  if (GameState().player.currentLocation() == null) {
     return [];
   }
-  List<LocalPointOfInterest>? pois = GameState().currentRegion.currentLocation!.localPointsOfInterest;
+  List<LocalPointOfInterest>? pois = GameState().player.currentLocation().localPointsOfInterest;
   if (pois == null) {
     return [];
   }
@@ -358,7 +351,7 @@ Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
 // -----------------------------------------------------------------------------
 List<Widget> getLocations(BuildContext context) {
   print ('get locations in map...');
-  List<GameLocation> locations = GameState().currentRegion.locations;
+  List<GameLocation> locations = GameState().player.currentRegion().locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
     if (!location.unlocked && !location.isConnectedToUnlockedLocation() ) {
@@ -388,7 +381,7 @@ Widget getLocation(GameLocation location) {
     Image.asset(GameImageAsset.map_loc_hamlet.filename()) :
     Image.asset(GameImageAsset.map_icon_question_mark.filename());
 
-  if (GameState().currentRegion.currentLocation == location) {
+  if (GameState().player.currentRegion().currentLocation() == location) {
     locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
   }
 
@@ -396,7 +389,7 @@ Widget getLocation(GameLocation location) {
     locationWidget = InkWell(
         onTap: () {
           print('> tapped: ' + location.name + ', unlocked: ' + location.unlocked.toString());
-          if (location != GameState().currentRegion.currentLocation) {
+          if (location != GameState().player.currentLocation()) {
             GameState().selectedLocationInMap = location;
             GameState().mapState.update();
           }
@@ -405,7 +398,7 @@ Widget getLocation(GameLocation location) {
     );
   }
 
-  if (location == GameState().currentRegion.currentLocation) {
+  if (location == GameState().player.currentRegion().currentLocation()) {
     return SizedBox(width: 25, child: getCardWithRoundedBorder(locationWidget));
   }
   return SizedBox(width: 25, child: locationWidget);
