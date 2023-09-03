@@ -98,6 +98,7 @@ class GameState with ChangeNotifier {
   final GeneralState jobsButtonState = GeneralState();
   final GeneralState equipState = GeneralState();
   final GeneralState mapState = GeneralState();
+  final GeneralState saveState = GeneralState();
 
   final GameDaytime daytime = GameDaytime();
   final Equipment equipment = Equipment();
@@ -109,6 +110,7 @@ class GameState with ChangeNotifier {
 
   GameRegion currentRegion;
 
+  String? selectedGameSave = null;
   MapZoomLevel mapZoomLevel = MapZoomLevel.location;
   GameLocation? selectedLocationInMap = null;
   LocalPointOfInterest? selectedPoiInMap = null;

@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/names.dart';
+import 'package:e_ink_rpg/saves.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,8 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseButton.withImageOnly('assets/button-play.png', (context) => beginGame(context)),
+                  BaseButton.textOnly('CONTINUE', (context) => beginGame(context)),  // TODO - ONLY AVAILABLE IF CURRENT GAME EXISTS
+                  BaseButton.textOnly('LOAD', (context) => loadSave(context)),
                 ],
               ),
             ),
@@ -60,9 +62,9 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
   }
 }
 
-// ----------------------------------------------------------
+// -----------------------------------------------------------------------------
 // App bar for screen with title adapted to game state
-// ----------------------------------------------------------
+// -----------------------------------------------------------------------------
 getTitleAppBar(String title) {
   return AppBar(
     automaticallyImplyLeading: false,
@@ -83,6 +85,9 @@ Widget getTitleAppBarTitle(String title, bool centered) {
   ]);
 }
 
+// -----------------------------------------------------------------------------
+/// Begin / continue game
+// -----------------------------------------------------------------------------
 beginGame(BuildContext context) {
 
   print ('*************** BEGIN GAME **********************');
@@ -91,4 +96,14 @@ beginGame(BuildContext context) {
   GameState().beginGame();
 
   switchToScreen(Game(), context);
+}
+
+// -----------------------------------------------------------------------------
+// Load a game save
+// -----------------------------------------------------------------------------
+loadSave(BuildContext context) {
+
+  print ('*************** LOAD SAVE **********************');
+
+  switchToScreen(GameSaves(), context);
 }

@@ -41,10 +41,12 @@ class AvailableJobs {
 // Jobs screen
 // -----------------------------------------------------------------------------
 Widget getJobsScreen(BuildContext context) {
+  ScrollController scrollController = ScrollController();
   return Column(
     children: [
       Expanded(
         child: Scrollbar(
+          controller: scrollController,
           thickness: 20,
           isAlwaysShown: true, // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
