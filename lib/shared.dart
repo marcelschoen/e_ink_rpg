@@ -462,6 +462,39 @@ Card getCardWithRoundedBorder(Widget child) {
   child: child);
 }
 
+AlertDialog createNameInputDialog(BuildContext context, String title, String text, String inputFieldName) {
+  final myController = TextEditingController();
+  return AlertDialog(
+    title: Text(title),
+    content: SizedBox(height: 100,  // TODO: AVOID FIXED VALUE
+      child: Column(
+        children: [
+          Text(text),
+          TextFormField(
+            controller: myController,
+            validator:  (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a name';
+              }
+              return null;
+            },
+          )
+        ],
+      ),
+    ),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () => Navigator.pop(context, ''),
+        child: const Text('Cancel'),
+      ),
+      TextButton(
+        onPressed: () => Navigator.pop(context, myController.text),
+        child: const Text('OK'),
+      ),
+    ],
+  );
+}
+
 
 AlertDialog createAlertDialog(BuildContext context, String title, String text) {
   return AlertDialog(

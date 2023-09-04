@@ -61,7 +61,7 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   BaseButton.textOnly('CONTINUE', (context) => beginGame(context)),  // TODO - ONLY AVAILABLE IF CURRENT GAME EXISTS
-                  BaseButton.textOnly('LOAD', (context) => loadSave(context)),
+                  BaseButton.textOnly('SAVES', (context) => switchToScreen(GameSaves(), context)),
                 ],
               ),
             ),
@@ -106,14 +106,4 @@ beginGame(BuildContext context) {
   GameState().beginGame();
 
   switchToScreen(Game(), context);
-}
-
-// -----------------------------------------------------------------------------
-// Load a game save
-// -----------------------------------------------------------------------------
-loadSave(BuildContext context) {
-
-  print ('*************** LOAD SAVE **********************');
-
-  switchToScreen(GameSaves(), context);
 }

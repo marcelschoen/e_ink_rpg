@@ -237,7 +237,6 @@ class GameState with ChangeNotifier {
 
     Player().inventory.addItems(GoldPile(), 50);
 
-
     EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
 
     JobStep waveOne = JobStep();

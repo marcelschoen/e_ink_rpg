@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 // -----------------------------------------------------------------------------
 // Game save load and save stuff
@@ -34,10 +37,10 @@ class GameSaves extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  BaseButton.textOnlyWithSizes('NEW', (context) => newGame('xy'), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame('xy'), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('SAVE', (context) => loadGame('xy'), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame('xy', context), 32, 160, 4 ),
+                  BaseButton.textOnlyWithSizes('NEW', (context) => newGame(context), 32, 160, 4 ),
+                  BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 160, 4 ),
+                  BaseButton.textOnlyWithSizes('SAVE', (context) => saveGame(GameState().selectedGameSave, context), 32, 160, 4 ),
+                  BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 160, 4 ),
                 ],
               ),
             ),
@@ -72,28 +75,93 @@ class GameSaves extends StatelessWidget {
     );
   }
 
-  newGame(String saveName) {
-    print ('*** new game ' + saveName + ' ***');
+  newGame(BuildContext context) async {
+    String? value = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => createNameInputDialog(context, 'CREATE SAVE', 'Please enter name of new save', 'Name'),
+    );
+    if (!value!.isEmpty) {
+      print ('*** create new game: ' + value! + ' ***');
+      saveGameState(value!);
+    }
   }
 
-  loadGame(String saveName) {
-    print ('*** load game ' + saveName + ' ***');
-  }
-
-  saveGame(String saveName) {
-    print ('*** load game ' + saveName + ' ***');
-  }
-
-  deleteGame(String saveName, BuildContext context) async {
-
+  loadGame(String? saveName, BuildContext context) async {
+    if (saveName == null) {
+      return;
+    }
     bool? value = await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete save?'),
+      builder: (BuildContext context) => createAlertDialog(context, 'LOAD SAVE', 'Really load \'' + saveName! + '\'? You may lose current unsaved changes.'),
     );
-
-    print ('>>> value: ' + (value == null ? 'null' : value!.toString()));
-    print ('*** delete game ' + saveName + ' ***');
+    if (value != null && value!) {
+      print ('*** load game ' + saveName + ' ***');
+    }
   }
 
+  saveGame(String? saveName, BuildContext context) async {
+    if (saveName == null) {
+      return;
+    }
+    bool? value = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => createAlertDialog(context, 'SAVE GAME', 'Really overwrite \'' + saveName! + '\'?'),
+    );
+    if (value != null && value!) {
+      print ('*** save game ' + saveName + ' ***');
+    }
+  }
+
+  deleteGame(String? saveName, BuildContext context) async {
+    if (saveName == null) {
+      return;
+    }
+    bool? value = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete \'' + saveName! + '\'?'),
+    );
+    if (value != null && value!) {
+      print ('*** delete game ' + saveName + ' ***');
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Saves current state under given filename
+  // ---------------------------------------------------------------------------
+  Future<File> saveGameState(String saveName) async {
+    final file = await _localFile(saveName);
+
+    // Create JSON from current state - TODO
+    String jsonContent = '{}';
+
+    // Write the file
+    return file.writeAsString(jsonContent);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Initialize current state from file with given filename
+  // ---------------------------------------------------------------------------
+  Future<String> loadGameState(String saveName) async {
+    try {
+      final file = await _localFile(saveName);
+      // Read the file
+      final contents = await file.readAsString();
+      return contents;
+    } catch (e) {
+      print(e);
+      // If encountering an error, return 0
+      return '';
+    }
+  }
+
+  Future<File> _localFile(String saveName) async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
 }
 
