@@ -1,6 +1,5 @@
 import 'package:e_ink_rpg/daytime.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
-import 'package:e_ink_rpg/items/weapons/swords.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/map.dart';
 import 'package:e_ink_rpg/models/location.dart';
@@ -215,7 +214,8 @@ class GameState with ChangeNotifier {
     Player().inventory.addItem(IronBoots());
     Player().inventory.addItems(IronGloves(), 8);
 
-    Player().inventory.addItem(RustyShortSword());
+//    Player().inventory.addItem(RustyShortSword());
+    Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
 
     Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
     Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);

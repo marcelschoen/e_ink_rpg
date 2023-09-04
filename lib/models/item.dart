@@ -40,6 +40,14 @@ class ItemRegistry {
     String jsonConsumables = await loadAsset('consumables.json');
     Map<String, dynamic> consumables = _processJsonData(jsonConsumables, 'food', 'consumables.json');
     _processConsumables(consumables, 1000);
+
+    String jsonWeapons = await loadAsset('weapons.json');
+    Map<String, dynamic> weapons = _processJsonData(jsonWeapons, 'sword', 'weapons.json');
+    _processJsonData(jsonWeapons, 'dagger', 'weapons.json');
+    _processJsonData(jsonWeapons, 'largeSword', 'weapons.json');
+    _processWeapons(weapons, 'sword', 2000);
+    _processWeapons(weapons, 'dagger', 3000);
+    _processWeapons(weapons, 'largeSword', 4000);
   }
 
   static Future<String> loadAsset(String filename) async {
@@ -64,6 +72,39 @@ class ItemRegistry {
       usedIds.add(number);
     }
     return data;
+  }
+
+  static _processWeapons(Map<String, dynamic> weapons, String node, num indexOffset) {
+    List<dynamic> swords = weapons[node];
+    for (int index = 0; index < swords.length; index ++) {
+      var id = swords[index]['id'];
+      var asset = swords[index]['asset'];
+      var name = swords[index]['name'];
+      var description = swords[index]['description'];
+      var attackPower = swords[index]['attackPower'];
+      if (node == 'sword') {
+        Sword sword = Sword(GameItemAsset.values.byName(asset));
+        sword.id = id + indexOffset;
+        sword.name = name;
+        sword.description = description;
+        sword.attackPower = attackPower;
+        ItemRegistry.registerItem(sword);
+      } else if (node == 'dagger') {
+        Dagger dagger = Dagger(GameItemAsset.values.byName(asset));
+        dagger.id = id + indexOffset;
+        dagger.name = name;
+        dagger.description = description;
+        dagger.attackPower = attackPower;
+        ItemRegistry.registerItem(dagger);
+      } else if (node == 'largeSword') {
+        LargeSword largeSword = LargeSword(GameItemAsset.values.byName(asset));
+        largeSword.id = id + indexOffset;
+        largeSword.name = name;
+        largeSword.description = description;
+        largeSword.attackPower = attackPower;
+        ItemRegistry.registerItem(largeSword);
+      }
+    }
   }
 
   // Processes all "consumables" items
