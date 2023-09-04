@@ -1,0 +1,106 @@
+{
+  "food" : [
+    {
+      "asset": "apple",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "apricot",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "banana",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "beef_jerky",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "bone",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "bread_ration",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "cheese",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "choko",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "fruit",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "grape",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "honeycomb",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "lemon",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "orange",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "pear",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "sausage",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "snozzcumber",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "strawberry",
+      "restoreHealth": 1
+    },
+    {
+      "asset": "sultana",
+      "restoreHealth": 1
+    },
+    {
+      "name": "Tiny Health Potion",
+      "asset": "potion",
+      "restoreHealth": 5
+    },
+    {
+      "name": "(S) Health Potion",
+      "asset": "potion",
+      "restoreHealth": 10
+    },
+    {
+      "name": "Health Potion",
+      "asset": "potion",
+      "restoreHealth": 20
+    },
+    {
+      "name": "(L) Health Potion",
+      "asset": "potion",
+      "restoreHealth": 35
+    },
+    {
+      "name": "XL Health Potion",
+      "asset": "potion",
+      "restoreHealth": 55
+    },
+    {
+      "name": "Restore Potion",
+      "asset": "potion",
+      "restoreHealth": -1
+    }
+  ]
+}

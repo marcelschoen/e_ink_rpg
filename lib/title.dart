@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/models/item.dart';
 import 'package:e_ink_rpg/names.dart';
 import 'package:e_ink_rpg/saves.dart';
 import 'package:e_ink_rpg/shared.dart';
@@ -32,6 +33,8 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
     NameHandler.elvenNames.loadAssets();
     NameHandler.romanNames.loadAssets();
     NameHandler.goblinNames.loadAssets();
+
+    ItemRegistry.loadJson();
   }
 
   @override

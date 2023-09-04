@@ -44,7 +44,6 @@ class NewNameGenerator {
   }
 
   loadAssets() async {
-    print('-------------> Loading text assets for: ' + this.group.toString() + ' ...');
     syllablesFile = this.group.name + '.txt';
     content = await loadAsset(syllablesFile);
     List<String> _lines = LineSplitter().convert(content);
@@ -59,7 +58,6 @@ class NewNameGenerator {
         }
       }
     }
-    print('-------------> Text assets loaded.');
   }
 
   Future<String> loadAsset(String filename) async {

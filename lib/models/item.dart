@@ -1,9 +1,66 @@
+import 'dart:convert';
+
+import 'package:basic_utils/basic_utils.dart';
 import 'package:e_ink_rpg/models/stat.dart';
+import 'package:flutter/services.dart';
 
 import '../assets.dart';
 import '../state.dart';
 import 'attack.dart';
 import 'effects.dart';
+
+
+// -----------------------------------------------------------------------------
+// Provides item instances
+// -----------------------------------------------------------------------------
+class ItemRegistry {
+
+  static Map<GameItemAsset, GameItem> _itemMap = {};
+
+  static GameItem getItem(GameItemAsset gameItemAsset) {
+    return _itemMap[gameItemAsset]!;
+  }
+
+  static void registerItem(GameItem item) {
+    _itemMap[item.itemAsset] = item;
+  }
+
+  static loadJson() async {
+    String content = await loadAsset('consumables.json');
+    /*
+    print('------------> CONTENT <------------');
+    debugPrint(content, wrapWidth: 1024);
+    print('------------> ENDx <------------');
+     */
+    Map<String, dynamic> consumables = jsonDecode(content);
+    _processConsumables(consumables);
+  }
+
+  static Future<String> loadAsset(String filename) async {
+    return await rootBundle.loadString('assets/item/' + filename);
+  }
+
+  static _processConsumables(Map<String, dynamic> consumables) {
+    List<dynamic> food = consumables['food'];
+    for (int index = 0; index < food.length; index ++) {
+      var asset = food[index]['asset'];
+      var name = food[index]['name'];
+      var restoreHealth = food[index]['restoreHealth'];
+      if (name == null) {
+        name = _camelCasedAssetName(asset);
+      }
+      Consumable consumable = Consumable(GameItemAsset.values.byName(asset));
+      consumable.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, restoreHealth, restoreHealth));
+      ItemRegistry.registerItem(consumable);
+    }
+  }
+
+  // Turns asset name 'bread_ration' into 'Bread Ration'
+  static String _camelCasedAssetName(String assetName) {
+    return StringUtils.capitalize(assetName.replaceAll('_', ' '), allWords: true);
+  }
+}
+
 
 
 // -----------------------------------------------------------------------------
@@ -18,13 +75,18 @@ abstract class GameItem {
 
   int price = -1;
 
-  GameItem(this.itemAsset) {
+  GameItem() {}
+
+  GameItem.fromAsset(this.itemAsset) {
     itemCollection.add(this);
   }
 
   static List<GameItem> itemCollection = [];
 }
 
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 enum ItemCategory {
   item,
   consumable,
@@ -51,7 +113,22 @@ class Consumable extends GameItem {
   // List of stats that will be restored completely when the item is consumed.
   List<Stat> statRestoreOnConsume = [];
 
-  Consumable(GameItemAsset itemAsset) : super(itemAsset);
+  Consumable(GameItemAsset itemAsset) : super.fromAsset(itemAsset);
+
+//  factory Consumable.fromJson(Map<String, dynamic> consumable) =>
+//      Consumable(_toInt(consumable['id']), consumable['name']);
+/*
+  Consumable clone() {
+    Consumable consumable = Consumable(this.itemAsset);
+    consumable.itemCategory = this.itemCategory;
+    consumable.statRestoreOnConsume = this.statRestoreOnConsume;
+    consumable.statValueBoostsOnConsume = this.statValueBoostsOnConsume;
+    consumable.statMaxValueBoostsOnConsume = this.statMaxValueBoostsOnConsume;
+    consumable.price = this.price;
+    consumable.description = this.description;
+    return consumable;
+  }
+*/
 
   consume() {
     // simpler items just refill one of the stats (e.g. health)
@@ -110,7 +187,7 @@ class Armor extends GameItem with Wearable {
   Map<StatType, double> statBoosts = {};
   List<Effect> effects = [];
 
-  Armor(GameItemAsset itemAsset) : super(itemAsset);
+  Armor(GameItemAsset itemAsset) : super.fromAsset(itemAsset);
 
   addStatBoost(StatType type, double boostValue) {
     statBoosts.putIfAbsent(type, () => boostValue);
@@ -130,7 +207,7 @@ class Weapon extends GameItem with Wearable {
   double attackPower = 1.0;
   bool twoHanded = false;
 
-  Weapon(GameItemAsset itemAsset) : super(itemAsset) {
+  Weapon(GameItemAsset itemAsset) : super.fromAsset(itemAsset) {
     this.wearableType = WearableType.hands;
     for (Attack attack in getAvailableAttacks()) {
       availableAttacks.add(attack);
