@@ -15,14 +15,14 @@ import 'effects.dart';
 // -----------------------------------------------------------------------------
 class ItemRegistry {
 
-  static Map<GameItemAsset, GameItem> _itemMap = {};
+  static Map<String, GameItem> _itemMap = {};
 
-  static GameItem getItem(GameItemAsset gameItemAsset) {
-    return _itemMap[gameItemAsset]!;
+  static GameItem getItem(String itemName) {
+    return _itemMap[itemName]!;
   }
 
   static void registerItem(GameItem item) {
-    _itemMap[item.itemAsset] = item;
+    _itemMap[item.name] = item;
   }
 
   static loadJson() async {
@@ -45,12 +45,22 @@ class ItemRegistry {
     for (int index = 0; index < food.length; index ++) {
       var asset = food[index]['asset'];
       var name = food[index]['name'];
+      var description = food[index]['description'];
       var restoreHealth = food[index]['restoreHealth'];
       if (name == null) {
         name = _camelCasedAssetName(asset);
       }
+      if (description == null) {
+        description = 'Restores ' + restoreHealth.toString() + ' HP';
+      }
       Consumable consumable = Consumable(GameItemAsset.values.byName(asset));
-      consumable.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, restoreHealth, restoreHealth));
+      consumable.name = name;
+      consumable.description = description;
+      if (restoreHealth == -1) {
+        consumable.statRestoreOnConsume.add(Stat.withValue(StatType.health, 1, 1));
+      } else {
+        consumable.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, restoreHealth, restoreHealth));
+      }
       ItemRegistry.registerItem(consumable);
     }
   }

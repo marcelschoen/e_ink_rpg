@@ -1,5 +1,4 @@
 import 'package:e_ink_rpg/daytime.dart';
-import 'package:e_ink_rpg/items/consumables/potions.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/items/weapons/swords.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
@@ -17,7 +16,6 @@ import 'items/armor/arms.dart';
 import 'items/armor/head.dart';
 import 'items/armor/legs.dart';
 import 'items/armor/torso.dart';
-import 'items/consumables/food.dart';
 import 'jobs.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
@@ -217,29 +215,26 @@ class GameState with ChangeNotifier {
     Player().inventory.addItem(IronBoots());
     Player().inventory.addItems(IronGloves(), 8);
 
-    Player().inventory.addItems(SmallHealingPotion(), 150);
     Player().inventory.addItem(RustyShortSword());
-    Player().inventory.addItem(MaximumHealingPotion());
-    Player().inventory.addItems(Apple(), 8);
-    Player().inventory.addItems(Banana(), 8);
-    Player().inventory.addItems(BeefJerky(), 8);
-    Player().inventory.addItems(Cheese(), 8);
-    Player().inventory.addItems(Grape(), 8);
-    Player().inventory.addItems(Lemon(), 8);
-    Player().inventory.addItems(Grape(), 8);
-
-    Player().inventory.addItems(Bone(), 8);
-    Player().inventory.addItems(BreadRation(), 8);
-    Player().inventory.addItems(Fruit(), 8);
-    Player().inventory.addItems(Honeycomb(), 8);
-    Player().inventory.addItems(Orange(), 8);
-    Player().inventory.addItems(Pear(), 8);
-    Player().inventory.addItems(Sausage(), 8);
-    Player().inventory.addItems(Strawberry(), 8);
-    Player().inventory.addItems(Apricot(), 8);
-    Player().inventory.addItems(Choko(), 8);
-    Player().inventory.addItems(Snozzcumber(), 8);
-    Player().inventory.addItems(Sultana(), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
+    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Grape'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Lemon'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bone'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bread Ration'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Fruit'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Honeycomb'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Orange'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Pear'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sausage'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Strawberry'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Apricot'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Choko'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Snozzcumber'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sultana'), 8);
 
     Player().inventory.addItems(GoldPile(), 50);
 
