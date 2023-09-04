@@ -216,8 +216,9 @@ class GameState with ChangeNotifier {
     Player().inventory.addItems(IronGloves(), 8);
 
     Player().inventory.addItem(RustyShortSword());
+
+    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
     Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
-    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 8);
     Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
     Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
     Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);

@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'models/item.dart';
 
+// -----------------------------------------------------------------------------
+// Stores the contents of the inventory of a being (player, npc)
+// -----------------------------------------------------------------------------
 class Inventory {
   List<InventoryGameItemStack> itemStacks = [];
 
@@ -43,15 +46,7 @@ class Inventory {
       stack.stackSize ++;
       return;
     }
-/*
-    for (InventoryGameItemStack itemStack in itemStacks) {
-      if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
-        itemStack.stackSize ++;
-        return;
-      }
-    }
 
- */
     itemStacks.add(InventoryGameItemStack(item));
   }
 
@@ -63,6 +58,17 @@ class Inventory {
   }
 
   InventoryGameItemStack? _findStackForItem(GameItem item) {
+    // TEMPORARY BEGIN - UNTIL ALL ITEMS HAVE AN ID
+    if (item.id > 0) {
+      for (InventoryGameItemStack itemStack in itemStacks) {
+        if (itemStack.item != null && itemStack.item!.id == item.id && itemStack.stackSize < 99) {
+          return itemStack;
+        }
+      }
+      return null;
+    }
+    // TEMPORARY - END
+
     for (InventoryGameItemStack itemStack in itemStacks) {
       if (itemStack.item.runtimeType == item.runtimeType && itemStack.stackSize < 99) {
         return itemStack;
@@ -116,6 +122,7 @@ class Inventory {
 // Holder for a stack of items in the inventory
 // -----------------------------------------------------------------------------
 class InventoryGameItemStack {
+
   int stackSize = 0;
   bool selected = false;
   GameItem? item = null;

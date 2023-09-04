@@ -15,6 +15,8 @@ class MonsterSlayerTitle extends StatefulWidget {
 
   MonsterSlayerTitle({super.key});
 
+  static bool initialized = false;
+
   @override
   State<MonsterSlayerTitle> createState() => _MonsterSlayerTitleState();
 }
@@ -28,13 +30,18 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
   @override
   void initState() {
     super.initState();
-    NameHandler.allNames.loadAssets();
-    NameHandler.fantasyNames.loadAssets();
-    NameHandler.elvenNames.loadAssets();
-    NameHandler.romanNames.loadAssets();
-    NameHandler.goblinNames.loadAssets();
 
-    ItemRegistry.loadJson();
+    if (!MonsterSlayerTitle.initialized) {
+      NameHandler.allNames.loadAssets();
+      NameHandler.fantasyNames.loadAssets();
+      NameHandler.elvenNames.loadAssets();
+      NameHandler.romanNames.loadAssets();
+      NameHandler.goblinNames.loadAssets();
+
+      ItemRegistry.loadJson();
+    }
+
+    MonsterSlayerTitle.initialized = true;
   }
 
   @override

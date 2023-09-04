@@ -186,7 +186,7 @@ class LocalPointOfInterestFactory {
 
     // TODO - CREATE ACTUAL POIs
     int poiType = gameRandom.nextInt(LocalPointOfInterestType.values.length);
-    print ("> generate random POI of type: " + LocalPointOfInterestType.values[poiType].name);
+//    print ("> generate random POI of type: " + LocalPointOfInterestType.values[poiType].name);
 
     LocalPointOfInterestType type = LocalPointOfInterestType.values[poiType];
     String name = NameHandler.fantasyNames.compose(3);

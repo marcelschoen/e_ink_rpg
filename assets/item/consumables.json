@@ -1,103 +1,127 @@
 {
   "food" : [
     {
+      "id": 0,
       "asset": "apple",
       "restoreHealth": 1
     },
     {
+      "id": 1,
       "asset": "apricot",
       "restoreHealth": 1
     },
     {
+      "id": 2,
       "asset": "banana",
       "restoreHealth": 1
     },
     {
+      "id": 3,
       "asset": "beef_jerky",
       "restoreHealth": 1
     },
     {
+      "id": 4,
       "asset": "bone",
       "restoreHealth": 1
     },
     {
+      "id": 5,
       "asset": "bread_ration",
       "restoreHealth": 1
     },
     {
+      "id": 6,
       "asset": "cheese",
       "restoreHealth": 1
     },
     {
+      "id": 7,
       "asset": "choko",
       "restoreHealth": 1
     },
     {
+      "id": 8,
       "asset": "fruit",
       "restoreHealth": 1
     },
     {
+      "id": 9,
       "asset": "grape",
       "restoreHealth": 1
     },
     {
+      "id": 10,
       "asset": "honeycomb",
       "restoreHealth": 1
     },
     {
+      "id": 11,
       "asset": "lemon",
       "restoreHealth": 1
     },
     {
+      "id": 12,
       "asset": "orange",
       "restoreHealth": 1
     },
     {
+      "id": 13,
       "asset": "pear",
       "restoreHealth": 1
     },
     {
+      "id": 14,
       "asset": "sausage",
       "restoreHealth": 1
     },
     {
+      "id": 15,
       "asset": "snozzcumber",
       "restoreHealth": 1
     },
     {
+      "id": 16,
       "asset": "strawberry",
       "restoreHealth": 1
     },
     {
+      "id": 17,
       "asset": "sultana",
       "restoreHealth": 1
     },
     {
+      "id": 18,
       "name": "Tiny Health Potion",
       "asset": "potion",
       "restoreHealth": 5
     },
     {
+      "id": 19,
       "name": "(S) Health Potion",
       "asset": "potion",
       "restoreHealth": 10
     },
     {
+      "id": 20,
       "name": "Health Potion",
       "asset": "potion",
       "restoreHealth": 20
     },
     {
+      "id": 21,
       "name": "(L) Health Potion",
       "asset": "potion",
       "restoreHealth": 35
     },
     {
+      "id": 22,
       "name": "XL Health Potion",
       "asset": "potion",
       "restoreHealth": 55
     },
     {
+      "id": 23,
       "name": "Restore Potion",
       "asset": "potion",
       "description": "Restores all HP",

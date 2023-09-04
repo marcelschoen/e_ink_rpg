@@ -16,33 +16,61 @@ import 'effects.dart';
 class ItemRegistry {
 
   static Map<String, GameItem> _itemMap = {};
+  static Map<int, GameItem> _itemIndex = {};
 
   static GameItem getItem(String itemName) {
     return _itemMap[itemName]!;
   }
 
+  static GameItem getItemById(num itemId) {
+    return _itemIndex[itemId]!;
+  }
+
   static void registerItem(GameItem item) {
     _itemMap[item.name] = item;
+    _itemIndex[item.id] = item;
   }
 
   static loadJson() async {
-    String content = await loadAsset('consumables.json');
     /*
     print('------------> CONTENT <------------');
     debugPrint(content, wrapWidth: 1024);
     print('------------> ENDx <------------');
      */
-    Map<String, dynamic> consumables = jsonDecode(content);
-    _processConsumables(consumables);
+    String jsonConsumables = await loadAsset('consumables.json');
+    Map<String, dynamic> consumables = _processJsonData(jsonConsumables, 'food', 'consumables.json');
+    _processConsumables(consumables, 1000);
   }
 
   static Future<String> loadAsset(String filename) async {
     return await rootBundle.loadString('assets/item/' + filename);
   }
 
-  static _processConsumables(Map<String, dynamic> consumables) {
+  // Processes JSON data containing game items, validates the "id" field and returns a map
+  static Map<String, dynamic> _processJsonData(String json, String node, String filename) {
+    Map<String, dynamic> data = jsonDecode(json);
+    List<dynamic> entries = data[node];
+    Set<int> usedIds = {};
+    for (int index = 0; index < entries.length; index ++) {
+      var id = entries[index]['id'];
+      var name = entries[index]['name'];
+      if (id == null) {
+        throw 'Invalid JSON data in: ' + filename + ' / entry ' + (name == null ? '?' : name) + ' has no "id" field.';
+      }
+      int number = id;
+      if (usedIds.contains(number)) {
+        throw 'Invalid JSON data in: ' + filename + ' / id ' + id.toString() + ' used more than once.';
+      }
+      usedIds.add(number);
+    }
+    return data;
+  }
+
+  // Processes all "consumables" items
+  static _processConsumables(Map<String, dynamic> consumables, num indexOffset) {
     List<dynamic> food = consumables['food'];
     for (int index = 0; index < food.length; index ++) {
+      var id = food[index]['id'];
       var asset = food[index]['asset'];
       var name = food[index]['name'];
       var description = food[index]['description'];
@@ -54,6 +82,7 @@ class ItemRegistry {
         description = 'Restores ' + restoreHealth.toString() + ' HP';
       }
       Consumable consumable = Consumable(GameItemAsset.values.byName(asset));
+      consumable.id = id + indexOffset;
       consumable.name = name;
       consumable.description = description;
       if (restoreHealth == -1) {
@@ -78,6 +107,7 @@ class ItemRegistry {
 // -----------------------------------------------------------------------------
 abstract class GameItem {
 
+  int id = 0;
   String name = 'item';
   String description = '';
   ItemCategory itemCategory = ItemCategory.item;
