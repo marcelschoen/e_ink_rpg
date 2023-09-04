@@ -52,11 +52,9 @@ class GameSaves extends StatelessWidget {
 
   List<Widget> getListOfSaves() {
     List<Widget> saves = [];
-
     for(int i = 0; i < 5; i ++) {
       saves.add(getSaveEntry('Save ' + i.toString()));
     }
-
     return saves;
   }
 
@@ -75,6 +73,9 @@ class GameSaves extends StatelessWidget {
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // Shows dialog for creating a new game save
+  // ---------------------------------------------------------------------------
   newGame(BuildContext context) async {
     String? value = await showDialog<String>(
       context: context,
@@ -86,6 +87,9 @@ class GameSaves extends StatelessWidget {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Shows dialog for loading a game save
+  // ---------------------------------------------------------------------------
   loadGame(String? saveName, BuildContext context) async {
     if (saveName == null) {
       return;
@@ -96,9 +100,13 @@ class GameSaves extends StatelessWidget {
     );
     if (value != null && value!) {
       print ('*** load game ' + saveName + ' ***');
+      String jsonData = await loadGameState(saveName);
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Shows dialog for saving a game
+  // ---------------------------------------------------------------------------
   saveGame(String? saveName, BuildContext context) async {
     if (saveName == null) {
       return;
@@ -109,9 +117,13 @@ class GameSaves extends StatelessWidget {
     );
     if (value != null && value!) {
       print ('*** save game ' + saveName + ' ***');
+      saveGameState(saveName!);
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Shows dialog for deleting a game save
+  // ---------------------------------------------------------------------------
   deleteGame(String? saveName, BuildContext context) async {
     if (saveName == null) {
       return;
@@ -122,6 +134,7 @@ class GameSaves extends StatelessWidget {
     );
     if (value != null && value!) {
       print ('*** delete game ' + saveName + ' ***');
+      // TODO - DELETE SAVE
     }
   }
 
@@ -154,14 +167,21 @@ class GameSaves extends StatelessWidget {
     }
   }
 
+  Future<List> _listOfSaves() async {
+    final path = await _localPath;
+    var dir = Directory(path);
+    return dir.listSync();
+  }
+
   Future<File> _localFile(String saveName) async {
     final path = await _localPath;
-    return File('$path/counter.txt');
+    return File('$path/$saveName.save');
   }
 
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-    return directory.path;
+    var subDirectory = await Directory(directory.path + "/einkdir").create(recursive: true);
+    return subDirectory.path;
   }
 }
 
