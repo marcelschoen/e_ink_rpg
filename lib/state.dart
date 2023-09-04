@@ -12,9 +12,7 @@ import 'fight.dart';
 import 'game.dart';
 import 'inventory.dart';
 import 'items/armor/arms.dart';
-import 'items/armor/head.dart';
 import 'items/armor/legs.dart';
-import 'items/armor/torso.dart';
 import 'jobs.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
@@ -204,17 +202,21 @@ class GameState with ChangeNotifier {
     selectedInInventory = null;
     selectedInJobs = null;
 
-    Player().inventory.addItem(LeatherHelmet());
-    Player().inventory.addItem(LeatherBreastPlate());
+    // TEMPORARY
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Helmet'));
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Breastplate'));
+    Player().inventory.addItem(ItemRegistry.getItem('Iron Chain Mail'));
+
+    Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
+
     Player().inventory.addItem(OldLeatherGloves());
     Player().inventory.addItem(LeatherBoots());
 
-    Player().inventory.addItem(IronHelmet());
-    Player().inventory.addItem(IronBreastPlate());
     Player().inventory.addItem(IronBoots());
     Player().inventory.addItems(IronGloves(), 8);
 
 //    Player().inventory.addItem(RustyShortSword());
+
     Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
 
     Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);

@@ -48,6 +48,14 @@ class ItemRegistry {
     _processWeapons(weapons, 'sword', 2000);
     _processWeapons(weapons, 'dagger', 3000);
     _processWeapons(weapons, 'largeSword', 4000);
+
+    String jsonArmor = await loadAsset('armor.json');
+    Map<String, dynamic> armor = _processJsonData(jsonArmor, 'head', 'armor.json');
+    _processJsonData(jsonArmor, 'torso', 'armor.json');
+//    _processJsonData(jsonArmor, 'arms', 'armor.json');
+//    _processJsonData(jsonArmor, 'legs', 'armor.json');
+    _processArmor(armor, 'head', 5000);
+    _processArmor(armor, 'torso', 6000);
   }
 
   static Future<String> loadAsset(String filename) async {
@@ -74,6 +82,38 @@ class ItemRegistry {
     return data;
   }
 
+  static _processArmor(Map<String, dynamic> armor, String node, num indexOffset) {
+    List<dynamic> wearable = armor[node];
+    for (int index = 0; index < wearable.length; index ++) {
+      var id = wearable[index]['id'];
+      var asset = wearable[index]['asset'];
+      var name = wearable[index]['name'];
+      var description = wearable[index]['description'];
+      var price = wearable[index]['price'];
+      var defense = wearable[index]['defense'];
+      Armor armor = Armor(GameItemAsset.values.byName(asset));
+      armor.id = id + indexOffset;
+      armor.name = name;
+      armor.description = description;
+      armor.defense = defense;
+      armor.price = price;
+      if (node == 'head') {
+        armor.wearableType = WearableType.head;
+      } else if (node == 'torso') {
+        armor.wearableType = WearableType.torso;
+      } else if (node == 'arms') {
+        armor.wearableType = WearableType.arms;
+      } else if (node == 'legs') {
+        armor.wearableType = WearableType.legs;
+      } else if (node == 'necklace') {
+        armor.wearableType = WearableType.necklace;
+      } else if (node == 'rings') {
+        armor.wearableType = WearableType.rings;
+      }
+      ItemRegistry.registerItem(armor);
+    }
+  }
+
   static _processWeapons(Map<String, dynamic> weapons, String node, num indexOffset) {
     List<dynamic> swords = weapons[node];
     for (int index = 0; index < swords.length; index ++) {
@@ -82,12 +122,14 @@ class ItemRegistry {
       var name = swords[index]['name'];
       var description = swords[index]['description'];
       var attackPower = swords[index]['attackPower'];
+      var price = swords[index]['price'];
       if (node == 'sword') {
         Sword sword = Sword(GameItemAsset.values.byName(asset));
         sword.id = id + indexOffset;
         sword.name = name;
         sword.description = description;
         sword.attackPower = attackPower;
+        sword.price = price;
         ItemRegistry.registerItem(sword);
       } else if (node == 'dagger') {
         Dagger dagger = Dagger(GameItemAsset.values.byName(asset));
@@ -95,6 +137,7 @@ class ItemRegistry {
         dagger.name = name;
         dagger.description = description;
         dagger.attackPower = attackPower;
+        dagger.price = price;
         ItemRegistry.registerItem(dagger);
       } else if (node == 'largeSword') {
         LargeSword largeSword = LargeSword(GameItemAsset.values.byName(asset));
@@ -102,6 +145,7 @@ class ItemRegistry {
         largeSword.name = name;
         largeSword.description = description;
         largeSword.attackPower = attackPower;
+        largeSword.price = price;
         ItemRegistry.registerItem(largeSword);
       }
     }
