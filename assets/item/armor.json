@@ -750,6 +750,69 @@
     }
   ],
   "legs": [
-
+    {
+      "id": 0,
+      "asset": "bootsStripe",
+      "name": "Stripe Boots",
+      "description": "Provides some basic protection.",
+      "price": 45,
+      "defense": 18.0
+    },
+    {
+      "id": 1,
+      "asset": "bootsStripeOld",
+      "name": "Old Stripe Boots",
+      "description": "Provides some basic protection.",
+      "price": 30,
+      "defense": 10.0
+    },
+    {
+      "id": 2,
+      "asset": "bootsLow",
+      "name": "Low Boots",
+      "description": "Provides some basic protection.",
+      "price": 6,
+      "defense": 4.0
+    },
+    {
+      "id": 3,
+      "asset": "bootsJackboots",
+      "name": "Jackboots",
+      "description": "Provides some basic protection.",
+      "price": 12,
+      "defense": 7.0
+    },
+    {
+      "id": 4,
+      "asset": "bootsGreen",
+      "name": "Green Boots",
+      "description": "Provides some basic protection.",
+      "price": 15,
+      "defense": 5.0
+    },
+    {
+      "id": 5,
+      "asset": "bootsIron",
+      "name": "Iron Boots",
+      "description": "Provides some basic protection.",
+      "price": 15,
+      "defense": 6.0
+    },
+    {
+      "id": 6,
+      "asset": "bootsBrownOld",
+      "name": "Old Leather Boots",
+      "description": "Provides a little protection.",
+      "price": 5,
+      "defense": 4.0
+    },
+    {
+      "id": 7,
+      "asset": "bootsBrown",
+      "name": "Leather Boots",
+      "description": "Provides a little protection.",
+      "price": 15,
+      "defense": 6.0
+    }
   ]
 }

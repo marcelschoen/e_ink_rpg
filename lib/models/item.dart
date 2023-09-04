@@ -53,11 +53,11 @@ class ItemRegistry {
     Map<String, dynamic> armor = _processJsonData(jsonArmor, 'head', 'armor.json');
     _processJsonData(jsonArmor, 'torso', 'armor.json');
     _processJsonData(jsonArmor, 'arms', 'armor.json');
-//    _processJsonData(jsonArmor, 'arms', 'armor.json');
-//    _processJsonData(jsonArmor, 'legs', 'armor.json');
+    _processJsonData(jsonArmor, 'legs', 'armor.json');
     _processArmor(armor, 'head', 5000);
     _processArmor(armor, 'torso', 6000);
     _processArmor(armor, 'arms', 7000);
+    _processArmor(armor, 'legs', 8000);
   }
 
   static Future<String> loadAsset(String filename) async {
