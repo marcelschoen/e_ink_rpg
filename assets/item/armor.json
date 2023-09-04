@@ -652,7 +652,102 @@
     }
   ],
   "arms": [
-
+    {
+      "id": 0,
+      "asset": "gauntlet",
+      "name": "Iron Gloves",
+      "description": "Provides some basic protection.",
+      "price": 20,
+      "defense": 6.0
+    },
+    {
+      "id": 1,
+      "asset": "glove",
+      "name": "Sturdy Leather Gloves",
+      "description": "Provide good protection.",
+      "price": 28,
+      "defense": 9.0
+    },
+    {
+      "id": 2,
+      "asset": "gloveOld",
+      "name": "Old Leather Gloves",
+      "description": "Provides a little protection.",
+      "price": 16,
+      "defense": 4.0
+    },
+    {
+      "id": 3,
+      "asset": "glove2",
+      "name": "Noble Gloves",
+      "description": "Provides medium protection.",
+      "price": 55,
+      "defense": 10.0
+    },
+    {
+      "id": 4,
+      "asset": "glove2",
+      "name": "Noble Gloves",
+      "description": "Provides medium protection.",
+      "price": 55,
+      "defense": 10.0
+    },
+    {
+      "id": 5,
+      "asset": "glove2old",
+      "name": "Cleric Gloves",
+      "description": "Special gloves, provide medium protection.",
+      "price": 125,
+      "defense": 18.0
+    },
+    {
+      "id": 6,
+      "asset": "glove3",
+      "name": "Knights Gloves",
+      "description": "Provide strong protection.",
+      "price": 100,
+      "defense": 28.0
+    },
+    {
+      "id": 7,
+      "asset": "glove3old",
+      "name": "Fighting Gloves",
+      "description": "Provide mediocre protection.",
+      "price": 18,
+      "defense": 8.0
+    },
+    {
+      "id": 8,
+      "asset": "glove4Gauntlets",
+      "name": "Noble Gauntlets",
+      "description": "Provide superior protection.",
+      "price": 220,
+      "defense": 48.0
+    },
+    {
+      "id": 9,
+      "asset": "glove4",
+      "name": "Silver Gloves",
+      "description": "Provide medium protection.",
+      "price": 110,
+      "defense": 12.0
+    },
+    {
+      "id": 10,
+      "asset": "glove4old",
+      "name": "Worn Gloves",
+      "description": "Provide weak protection.",
+      "price": 8,
+      "defense": 5.0
+    },
+    {
+      "id": 11,
+      "asset": "glove5",
+      "name": "Dragon Scale Gloves",
+      "description": "Provide maximum protection.",
+      "price": 450,
+      "defense": 80.0
+    }
   ],
   "legs": [
 

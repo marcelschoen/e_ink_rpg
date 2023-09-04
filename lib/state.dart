@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'fight.dart';
 import 'game.dart';
 import 'inventory.dart';
-import 'items/armor/arms.dart';
 import 'items/armor/legs.dart';
 import 'jobs.dart';
 import 'models/action.dart';
@@ -209,11 +208,12 @@ class GameState with ChangeNotifier {
 
     Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
 
-    Player().inventory.addItem(OldLeatherGloves());
+    Player().inventory.addItem((ItemRegistry.getItem('Old Leather Gloves')));
+    Player().inventory.addItems((ItemRegistry.getItem('Iron Gloves')), 2);
+
     Player().inventory.addItem(LeatherBoots());
 
     Player().inventory.addItem(IronBoots());
-    Player().inventory.addItems(IronGloves(), 8);
 
 //    Player().inventory.addItem(RustyShortSword());
 
