@@ -113,7 +113,7 @@ Widget getTitleAppBarTitle(String title, bool centered) {
 beginGame(BuildContext context, bool startNewGame) {
   if (startNewGame) {
     print ('*************** START NEW GAME **********************');
-    GameState().beginGame();
+    GameState().beginNewGame();
   } else {
     print ('*************** CONTINUE GAME **********************');
     GameSaveHandler.loadGameState(GameState().selectedGameSave!);

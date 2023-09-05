@@ -15,7 +15,7 @@
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/names.dart';
 
-import '../shared.dart';
+import '../state.dart';
 
 final int MAX_LOCATIONS_PER_REGION = 25;
 final int COLUMNS_PER_REGION = 5;
@@ -185,7 +185,7 @@ class LocalPointOfInterestFactory {
   static LocalPointOfInterest create(int index) {
 
     // TODO - CREATE ACTUAL POIs
-    int poiType = gameRandom.nextInt(LocalPointOfInterestType.values.length);
+    int poiType = GameState().gameRandom.nextInt(LocalPointOfInterestType.values.length);
 //    print ("> generate random POI of type: " + LocalPointOfInterestType.values[poiType].name);
 
     LocalPointOfInterestType type = LocalPointOfInterestType.values[poiType];
@@ -200,7 +200,7 @@ class LocalPointOfInterestFactory {
 class LocationFactory {
 
   static GameLocation create(int index) {
-    int numberOfPoIs = gameRandom.nextInt(3) + 1;
+    int numberOfPoIs = GameState().gameRandom.nextInt(3) + 1;
     if (numberOfPoIs < 0) {
       numberOfPoIs = 0;
     }
@@ -214,9 +214,9 @@ class LocationFactory {
     for (int i = 0; i < numberOfPoIs; i++) {
 
       // TODO - GENERATE POIs (Shop, Tavern etc.)
-      int fieldNumber = gameRandom.nextInt(25);
+      int fieldNumber = GameState().gameRandom.nextInt(25);
       while (usedIndexes.contains(fieldNumber)) {
-        fieldNumber = gameRandom.nextInt(25);
+        fieldNumber = GameState().gameRandom.nextInt(25);
       }
       usedIndexes.add(fieldNumber);
 

@@ -141,7 +141,6 @@ class GameSaves extends StatelessWidget {
         }
       }
       if (createSave) {
-        GameState().beginGame();    // TODO - ADJUST DIFFICULTY ETC.
         GameSaveHandler.saveGameState(value!);
         GameState().selectedGameSave = null;
         switchToScreen(Game(), context);
@@ -161,8 +160,9 @@ class GameSaves extends StatelessWidget {
       builder: (BuildContext context) => createAlertDialog(context, 'LOAD SAVE', 'Really load \'' + saveName! + '\'? You may lose current unsaved changes.'),
     );
     if (value != null && value!) {
-      GameState().selectedGameSave = null;
+      GameState().selectedGameSave = saveName;
       await GameSaveHandler.loadGameState(saveName);
+      switchToScreen(Game(), context);
     }
   }
 
@@ -192,7 +192,6 @@ class GameSaves extends StatelessWidget {
     if (value != null && value!) {
       // TODO - DELETE SAVE
       GameSaveHandler.deleteGameState(saveName);
-      GameState().selectedGameSave = null;
       GameSaveHandler.updateListOfSaves();
     }
   }
@@ -229,7 +228,7 @@ class GameSaveHandler {
     final file = await _localFile(saveName);
 
     // Create JSON from current state - TODO
-    String jsonContent = '{}';
+    String jsonContent = GameState().toJson();
 
     // Write the file
     file.writeAsString(jsonContent);
@@ -257,9 +256,7 @@ class GameSaveHandler {
       final file = await _localFile(saveName);
       // Read the file
       final contents = await file.readAsString();
-
-      // TODO - INITIALIZE GAME STATE FROM JSON
-
+      GameState().fromJson(contents);
     } catch (e) {
       print(e);
       // If encountering an error, return 0

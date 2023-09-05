@@ -1,10 +1,12 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:e_ink_rpg/daytime.dart';
 import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/map.dart';
 import 'package:e_ink_rpg/models/location.dart';
 import 'package:e_ink_rpg/models/stat.dart';
-import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
 
@@ -81,14 +83,16 @@ class GameState with ChangeNotifier {
 
   final Player player = Player();
 
+  int gameRandomSeed = 0;
+  Random gameRandom = Random(0);
+
   AvailableJobs availableJobs = AvailableJobs();
+  Difficulty difficulty = Difficulty.normal;
+  String? selectedGameSave = null;
 
   // *******************************************************
   // transient variables
   // *******************************************************
-
-  // singleton instance
-  static final GameState _instance = GameState._internal();
 
   final BeingState playerState;
   final GeneralState hintState = GeneralState();
@@ -106,9 +110,7 @@ class GameState with ChangeNotifier {
   final GameDaytime daytime = GameDaytime();
 
   ScreenType _screenType = ScreenType.title;
-  Difficulty difficulty = Difficulty.normal;
 
-  String? selectedGameSave = null;
   MapZoomLevel mapZoomLevel = MapZoomLevel.location;
   GameLocation? selectedLocationInMap = null;
   LocalPointOfInterest? selectedPoiInMap = null;
@@ -116,11 +118,85 @@ class GameState with ChangeNotifier {
   InventoryGameItemStack? selectedInInventory = null;
   Job? selectedInJobs = null;
 
+  // singleton instance
+  static final GameState _instance = GameState._internal();
+
   GameState._internal() : playerState = BeingState(Player()) {
   }
 
   factory GameState() {
     return _instance;
+  }
+
+  // ---------------------------------------------------------------------------
+  // RESETS everything - the player state and the game state
+  // ---------------------------------------------------------------------------
+  reset() {
+    Player().reset();
+    availableJobs.reset();
+    daytime.reset();
+    gameRandom = Random(gameRandomSeed);
+
+    GameState().player.createNewRegion();  // TEMPORARY
+
+    GameState().debugUnlockAllLocations();
+
+    selectedInInventory = null;
+    selectedInJobs = null;
+
+    // TEMPORARY
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Helmet'));
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Breastplate'));
+    Player().inventory.addItem(ItemRegistry.getItem('Iron Chain Mail'));
+
+    Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
+
+    Player().inventory.addItem((ItemRegistry.getItem('Old Leather Gloves')));
+    Player().inventory.addItems((ItemRegistry.getItem('Iron Gloves')), 2);
+
+    Player().inventory.addItem((ItemRegistry.getItem('Leather Boots')));
+    Player().inventory.addItem((ItemRegistry.getItem('Iron Boots')));
+
+    Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
+
+    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
+    Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
+    Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Grape'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Lemon'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bone'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bread Ration'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Fruit'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Honeycomb'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Orange'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Pear'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sausage'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Strawberry'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Apricot'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Choko'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Snozzcumber'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sultana'), 8);
+
+    Player().inventory.addItems(GoldPile(), 50);
+
+    EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
+
+    JobStep waveOne = JobStep();
+    waveOne.attackers.add(AngryWasp());
+    waveOne.attackers.add(AngryWasp());
+    job.addStep(waveOne);
+
+    JobStep waveTwo = JobStep();
+    waveTwo.attackers.add(Bandit());
+    job.addStep(waveTwo);
+
+    availableJobs.add(job);
+
+//    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
+    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
+    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
   }
 
   ScreenType screenType() {
@@ -182,77 +258,34 @@ class GameState with ChangeNotifier {
     notifyListeners();
   }
 
-  void beginGame() {
-    Player().reset();
-    Player().inventory.reset();
-    GameState().availableJobs.reset();
-    GameState().daytime.reset();
+  void beginNewGame() {
+    gameRandomSeed = Random().nextInt(999999);
 
+    GameState().reset();
 
 //    GameState().player.currentRegion().locations[12].unlocked = true;  // Starting location center of map
+  }
 
+  // ---------------------------------------------------------------------------
+  // Converts the current state into a JSON string.
+  // ---------------------------------------------------------------------------
+  String toJson() {
+    Map<String, dynamic> data = {};
 
-    GameState().player.createNewRegion();  // TEMPORARY
+    data['gameRandomSeed'] = gameRandomSeed;
 
-    GameState().debugUnlockAllLocations();
+    return jsonEncode(data);
+  }
 
+  // ---------------------------------------------------------------------------
+  // Initializes the current state from a JSON string.
+  // ---------------------------------------------------------------------------
+  fromJson(String json) {
+    var data = jsonDecode(json);
 
-    selectedInInventory = null;
-    selectedInJobs = null;
+    GameState().gameRandomSeed = data['gameRandomSeed'];
 
-    // TEMPORARY
-    Player().inventory.addItem(ItemRegistry.getItem('Leather Helmet'));
-    Player().inventory.addItem(ItemRegistry.getItem('Leather Breastplate'));
-    Player().inventory.addItem(ItemRegistry.getItem('Iron Chain Mail'));
-
-    Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
-
-    Player().inventory.addItem((ItemRegistry.getItem('Old Leather Gloves')));
-    Player().inventory.addItems((ItemRegistry.getItem('Iron Gloves')), 2);
-
-    Player().inventory.addItem((ItemRegistry.getItem('Leather Boots')));
-    Player().inventory.addItem((ItemRegistry.getItem('Iron Boots')));
-
-    Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
-
-    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
-    Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
-    Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Grape'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Lemon'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Bone'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Bread Ration'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Fruit'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Honeycomb'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Orange'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Pear'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Sausage'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Strawberry'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Apricot'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Choko'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Snozzcumber'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Sultana'), 8);
-
-    Player().inventory.addItems(GoldPile(), 50);
-
-    EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
-
-    JobStep waveOne = JobStep();
-    waveOne.attackers.add(AngryWasp());
-    waveOne.attackers.add(AngryWasp());
-    job.addStep(waveOne);
-
-    JobStep waveTwo = JobStep();
-    waveTwo.attackers.add(Bandit());
-    job.addStep(waveTwo);
-
-    availableJobs.add(job);
-
-//    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
-    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
-    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
+    GameState().reset();
   }
 
   @override

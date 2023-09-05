@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
-import 'dart:math';
 
+import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter/services.dart';
 
@@ -28,8 +28,6 @@ class NewNameGenerator {
 
   static String vocals = 'aeiouy' ;
   static String consonants = 'bcdfghjklmnpqrstvwxy' ;
-
-  Random random = new Random();
 
   List<String> pre = [];
   List<String> mid = [];
@@ -150,7 +148,7 @@ class NewNameGenerator {
     int expecting = 0; // 1 for vocal, 2 for consonant
     int last = 0; // 1 for vocal, 2 for consonant
     String name;
-    int a = random.nextInt(pre.length);
+    int a = GameState().gameRandom.nextInt(pre.length);
 
     if (vocalLast(pureSyl(pre[a]))) last = 1;
     else last = 2;
@@ -196,7 +194,7 @@ class NewNameGenerator {
     for (int i = 0; i < b.length - 2; i++) {
 
       do {
-        b[i] = random.nextInt(mid.length);
+        b[i] = GameState().gameRandom.nextInt(mid.length);
         //System.out.println("exp " +expecting+" vocalF:"+vocalFirst(mid.get(b[i]))+" syl: "+mid.get(b[i]));
       }
       while (expecting == 1 && vocalFirst(pureSyl(mid[b[i]])) == false || expecting == 2 && consonantFirst(pureSyl(mid[b[i]])) == false
@@ -251,7 +249,7 @@ class NewNameGenerator {
 
     int c;
     do {
-      c = random.nextInt(sur.length);
+      c = GameState().gameRandom.nextInt(sur.length);
     }
     while (expecting == 1 && vocalFirst(pureSyl(sur[c])) == false || expecting == 2 && consonantFirst(pureSyl(sur[c])) == false
         || last == 1 && hatesPreviousVocals(sur[c]) || last == 2 && hatesPreviousConsonants(sur[c]));

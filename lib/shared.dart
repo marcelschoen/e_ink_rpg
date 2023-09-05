@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
-
-// TODO - INITIALIZE WITH GIVEN SEED FROM PLAYER
-Random gameRandom = Random();
 
 Widget getPartyStatusBar() {
   return Row(
