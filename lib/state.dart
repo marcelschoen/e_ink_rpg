@@ -95,6 +95,7 @@ class GameState with ChangeNotifier {
   // *******************************************************
 
   final BeingState playerState;
+  final GeneralState titleState = GeneralState();
   final GeneralState hintState = GeneralState();
   final GeneralState turnOrderState = GeneralState();
   final GeneralState lowerButtonsState = GeneralState();
@@ -143,43 +144,10 @@ class GameState with ChangeNotifier {
 
     selectedInInventory = null;
     selectedInJobs = null;
-
-    // TEMPORARY
-    Player().inventory.addItem(ItemRegistry.getItem('Leather Helmet'));
-    Player().inventory.addItem(ItemRegistry.getItem('Leather Breastplate'));
-    Player().inventory.addItem(ItemRegistry.getItem('Iron Chain Mail'));
-
-    Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
-
-    Player().inventory.addItem((ItemRegistry.getItem('Old Leather Gloves')));
-    Player().inventory.addItems((ItemRegistry.getItem('Iron Gloves')), 2);
-
-    Player().inventory.addItem((ItemRegistry.getItem('Leather Boots')));
-    Player().inventory.addItem((ItemRegistry.getItem('Iron Boots')));
-
-    Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
-
-    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
-    Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
-    Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Grape'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Lemon'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Bone'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Bread Ration'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Fruit'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Honeycomb'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Orange'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Pear'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Sausage'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Strawberry'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Apricot'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Choko'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Snozzcumber'), 8);
-    Player().inventory.addItems(ItemRegistry.getItem('Sultana'), 8);
-
-    Player().inventory.addItems(GoldPile(), 50);
+    selectedLocationInMap = null;
+    selectedPoiInMap = null;
+    selectedInInventory = null;
+    selectedInEquipment = null;
 
     EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
 
@@ -263,6 +231,43 @@ class GameState with ChangeNotifier {
 
     GameState().reset();
 
+    // TEMPORARY
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Helmet'));
+    Player().inventory.addItem(ItemRegistry.getItem('Leather Breastplate'));
+    Player().inventory.addItem(ItemRegistry.getItem('Iron Chain Mail'));
+
+    Player().inventory.addItem((ItemRegistry.getItem('Iron Helmet')));
+
+    Player().inventory.addItem((ItemRegistry.getItem('Old Leather Gloves')));
+    Player().inventory.addItems((ItemRegistry.getItem('Iron Gloves')), 2);
+
+    Player().inventory.addItem((ItemRegistry.getItem('Leather Boots')));
+    Player().inventory.addItem((ItemRegistry.getItem('Iron Boots')));
+
+    Player().inventory.addItem(ItemRegistry.getItem('Rusty Shortsword'));
+
+    Player().inventory.addItems(ItemRegistry.getItem('Apple'), 7);
+    Player().inventory.addItems(ItemRegistry.getItem('Restore Potion'), 50);
+    Player().inventory.addItems(ItemRegistry.getItem('Banana'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Beef Jerky'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Cheese'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Grape'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Lemon'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bone'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Bread Ration'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Fruit'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Honeycomb'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Orange'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Pear'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sausage'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Strawberry'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Apricot'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Choko'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Snozzcumber'), 8);
+    Player().inventory.addItems(ItemRegistry.getItem('Sultana'), 8);
+
+    Player().inventory.addItems(GoldPile(), 50);
+
 //    GameState().player.currentRegion().locations[12].unlocked = true;  // Starting location center of map
   }
 
@@ -274,6 +279,14 @@ class GameState with ChangeNotifier {
 
     data['gameRandomSeed'] = gameRandomSeed;
 
+    // TODO - GOLD PILES ARE NOT SAVED - WHY?
+
+    for (InventoryGameItemStack stack in GameState().player.inventory.itemStacks) {
+      if (stack.item != null) {
+        data['items.' + stack.item!.id.toString()] = stack.stackSize;
+      }
+    }
+
     return jsonEncode(data);
   }
 
@@ -284,8 +297,17 @@ class GameState with ChangeNotifier {
     var data = jsonDecode(json);
 
     GameState().gameRandomSeed = data['gameRandomSeed'];
-
     GameState().reset();
+
+    String itemPrefix = 'items.';
+    for (int itemId in ItemRegistry.getRegisteredIds()) {
+      String itemKey = itemPrefix + itemId.toString();
+      var itemStackSize = data[itemKey];
+      if (itemStackSize != null && itemStackSize > 0) {
+        GameState().player.inventory.addItems(ItemRegistry.getItemById(itemId), itemStackSize);
+      }
+    }
+
   }
 
   @override

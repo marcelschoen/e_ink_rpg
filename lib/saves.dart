@@ -70,11 +70,15 @@ class GameSaves extends StatelessWidget {
 
   List<Widget> getButtons() {
     List<Widget> buttons = [];
-    buttons.add(BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+    if (!GameSaveHandler.currentSaves.isEmpty) {
+      buttons.add(BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+    }
     if (!onlyLoading()) {
       // Opened from within game
       buttons.add(BaseButton.textOnlyWithSizes('SAVE', (context) => saveGame(context), 32, 130, 4 ));
-      buttons.add(BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+      if (!GameSaveHandler.currentSaves.isEmpty) {
+        buttons.add(BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+      }
       buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => switchToScreen(Game(), context), 32, 130, 4 ));
     } else {
       // Opened from title screen
@@ -88,8 +92,10 @@ class GameSaves extends StatelessWidget {
     List<Widget> saves = [];
     for(File entry in GameSaveHandler.currentSaves) {
       String name = basename(entry.path);
-      name = name.substring(0, name.indexOf('.save'));
-      saves.add(getSaveEntry(name, name == GameState().selectedGameSave));
+      if (name.endsWith('.save')) {
+        name = name.substring(0, name.indexOf('.save'));
+        saves.add(getSaveEntry(name, name == GameState().selectedGameSave));
+      }
     }
     return saves;
   }
@@ -227,6 +233,8 @@ class GameSaveHandler {
   static saveGameState(String saveName) async {
     final file = await _localFile(saveName);
 
+    GameState().selectedGameSave = saveName;
+
     // Create JSON from current state - TODO
     String jsonContent = GameState().toJson();
 
@@ -283,6 +291,7 @@ class GameSaveHandler {
       print('> last used save: ' + GameState().selectedGameSave!);
       await loadGameState(GameState().selectedGameSave!);
       print('> last used save loaded.');
+      GameState().titleState.update();
     } catch (e) {
       // If encountering an error, return 0
     }
@@ -291,7 +300,16 @@ class GameSaveHandler {
   static updateListOfSaves() async {
     final path = await _localPath;
     var dir = Directory(path);
-    currentSaves = dir.listSync();
+    List tempSaves = dir.listSync();
+
+    currentSaves = [];
+    for (File entry in tempSaves) {
+      if (entry.path.endsWith('.save')) {
+        currentSaves.add(entry);
+      }
+    }
+
+    print('> number of saves: ' + currentSaves.length.toString());
     GameState().saveState.update();
   }
 

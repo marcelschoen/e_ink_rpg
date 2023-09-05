@@ -31,6 +31,10 @@ class ItemRegistry {
     _itemIndex[item.id] = item;
   }
 
+  static Iterable<int> getRegisteredIds() {
+    return _itemIndex.keys;
+  }
+
   static loadJson() async {
     /*
     print('------------> CONTENT <------------');

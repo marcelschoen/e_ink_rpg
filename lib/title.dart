@@ -40,6 +40,8 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
 
       ItemRegistry.loadJson();
 
+      GameSaveHandler.updateListOfSaves();
+
       GameSaveHandler.loadLastUsedSave();
     }
 
@@ -59,9 +61,14 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: getButtons(),
+              child: ListenableBuilder(
+                listenable: GameState().titleState,
+                builder: (BuildContext context, Widget? child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: getButtons(),
+                  );
+                },
               ),
             ),
           ),
@@ -76,7 +83,12 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
     if (GameState().selectedGameSave != null) {
       buttons.add(BaseButton.textOnly('CONTINUE', (context) => beginGame(context, false)));
     }
-    buttons.add(BaseButton.textOnly('LOAD', (context) => switchToScreen(LoadGame(), context)));
+
+    print('>>>>>>>>> NUMBER OF SAVES: ' + GameSaveHandler.currentSaves.length.toString());
+    if (!GameSaveHandler.currentSaves.isEmpty) {
+      buttons.add(BaseButton.textOnly('LOAD', (context) => switchToScreen(LoadGame(), context)));
+    }
+
     return buttons;
   }
 
