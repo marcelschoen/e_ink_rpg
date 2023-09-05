@@ -451,19 +451,30 @@ switchToScreen(Widget widget, BuildContext context) {
 // Creates a card with a rounded dark grey border
 // -----------------------------------------------------------------------------
 Card getCardWithRoundedBorder(Widget child) {
-  return Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5),
-      side: BorderSide(
-        width: 3,
-        color: Colors.black45,
-      ),
-    ),
-  child: child);
+  return getCustomCardWithRoundedBorder(child, 3, Colors.black45);
 }
 
-AlertDialog createNameInputDialog(BuildContext context, String title, String text, String inputFieldName) {
+// -----------------------------------------------------------------------------
+// Creates a card with a rounded dark grey border
+// -----------------------------------------------------------------------------
+Card getCustomCardWithRoundedBorder(Widget child, double borderWidth, Color borderColor) {
+  return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+        side: BorderSide(
+          width: borderWidth,
+          color: borderColor,
+        ),
+      ),
+      child: child);
+}
+
+// -----------------------------------------------------------------------------
+// Creates an alert dialog that asks for a string value
+// -----------------------------------------------------------------------------
+AlertDialog createNameInputDialog(BuildContext context, String title, String text, String inputFieldName, String inputFieldValue) {
   final myController = TextEditingController();
+  myController.text = inputFieldValue;
   return AlertDialog(
     title: Text(title),
     content: SizedBox(height: 100,  // TODO: AVOID FIXED VALUE
@@ -495,7 +506,9 @@ AlertDialog createNameInputDialog(BuildContext context, String title, String tex
   );
 }
 
-
+// -----------------------------------------------------------------------------
+// Creates an alert dialog for a yes/no question
+// -----------------------------------------------------------------------------
 AlertDialog createAlertDialog(BuildContext context, String title, String text) {
   return AlertDialog(
       title: Text(title),
@@ -513,22 +526,10 @@ AlertDialog createAlertDialog(BuildContext context, String title, String text) {
     );
 }
 
-/*
-        showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-          title: Text(itemStack.item!.name),
-          content: Text(itemStack.item!.description),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'Cancel'),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-        );
-        */
+getScreenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
+getScreenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
+}

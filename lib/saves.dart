@@ -4,86 +4,148 @@ import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'game.dart';
+
+
 
 // -----------------------------------------------------------------------------
 // Game save load and save stuff
 // -----------------------------------------------------------------------------
 class GameSaves extends StatelessWidget {
 
+  ScrollController scrollController = ScrollController();
+
   Future<bool> _onWillPop() async {
     // disable back button
     return false;
   }
 
+  bool onlyLoading() {
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController();
+    return getGameSavePageContent();
+  }
+
+  MaterialApp getGameSavePageContent() {
     return MaterialApp(
-      home: WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          appBar: getTitleAppBar('GAME SAVES'),
-          body: Center(
-            child: Scrollbar(
-              controller: scrollController,
-              child: Column(
-                children: getListOfSaves(),
-              ),
+    home: WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: getTitleAppBar('GAME SAVES'),
+        body: Center(
+          child: Scrollbar(
+            controller: scrollController,
+            child: ListenableBuilder(
+              listenable: GameState().saveState,
+              builder: (BuildContext context, Widget? child) {
+                return SizedBox(
+                  width: getScreenWidth(context) / 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: getListOfSaves(),
+                  ),
+                );
+              },
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BaseButton.textOnlyWithSizes('NEW', (context) => newGame(context), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('SAVE', (context) => saveGame(GameState().selectedGameSave, context), 32, 160, 4 ),
-                  BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 160, 4 ),
-                ],
-              ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: getButtons(),
             ),
           ),
         ),
       ),
-    );
+    ),
+  );
+  }
+
+  List<Widget> getButtons() {
+    List<Widget> buttons = [];
+    buttons.add(BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+    if (!onlyLoading()) {
+      // Opened from within game
+      buttons.add(BaseButton.textOnlyWithSizes('SAVE', (context) => saveGame(context), 32, 130, 4 ));
+      buttons.add(BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 130, 4 ));
+      buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => switchToScreen(Game(), context), 32, 130, 4 ));
+    } else {
+      // Opened from title screen
+      buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => backToTitle(context), 32, 130, 4 ));
+    }
+    return buttons;
   }
 
   List<Widget> getListOfSaves() {
+    GameSaveHandler.updateListOfSaves();
     List<Widget> saves = [];
-    for(int i = 0; i < 5; i ++) {
-      saves.add(getSaveEntry('Save ' + i.toString()));
+    for(File entry in GameSaveHandler.currentSaves) {
+      String name = basename(entry.path);
+      name = name.substring(0, name.indexOf('.save'));
+      saves.add(getSaveEntry(name, name == GameState().selectedGameSave));
     }
     return saves;
   }
 
-  Widget getSaveEntry(String label) {
-    return getCardWithRoundedBorder(
+  Widget getSaveEntry(String label, bool selected) {
+    double fontSize = 32;
+    double borderWidth = 3;
+    Color borderColor = Colors.black45;
+    if (selected) {
+      fontSize = 48;
+      borderWidth = 4;
+      borderColor = Colors.black;
+    }
+    return getCustomCardWithRoundedBorder(
         InkWell(
           onTap: () {
             GameState().selectedGameSave = label;
             GameState().saveState.update();
           },
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: getOutlinedText(label, 32, 2, Colors.black, Colors.white),
+            padding: const EdgeInsets.all(10.0),
+            child: Center(child: getOutlinedText(label, fontSize, 2, Colors.black, Colors.white)),
           ),
-        )
+        ),
+        borderWidth,
+        borderColor
     );
   }
 
   // ---------------------------------------------------------------------------
   // Shows dialog for creating a new game save
   // ---------------------------------------------------------------------------
-  newGame(BuildContext context) async {
+  saveGame(BuildContext context) async {
+    String initialName = GameState().selectedGameSave == null ? '' : GameState().selectedGameSave!;
     String? value = await showDialog<String>(
       context: context,
-      builder: (BuildContext context) => createNameInputDialog(context, 'CREATE SAVE', 'Please enter name of new save', 'Name'),
+      builder: (BuildContext context) => createNameInputDialog(context, 'SAVE GAME', 'Enter name of save game', 'Name', initialName),
     );
     if (!value!.isEmpty) {
-      print ('*** create new game: ' + value! + ' ***');
-      saveGameState(value!);
+      value = value.toLowerCase();
+      bool createSave = true;
+      for (File entry in GameSaveHandler.currentSaves) {
+        if (entry.path.endsWith(value + '.save')) {
+          bool? value = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) => createAlertDialog(context, 'OVERWRITE', 'A save with that name already exists. Do you want to overwrite it?'),
+          );
+          createSave = value == null ? false : value;
+        }
+      }
+      if (createSave) {
+        GameState().beginGame();    // TODO - ADJUST DIFFICULTY ETC.
+        GameSaveHandler.saveGameState(value!);
+        GameState().selectedGameSave = null;
+        switchToScreen(Game(), context);
+      }
     }
   }
 
@@ -99,26 +161,21 @@ class GameSaves extends StatelessWidget {
       builder: (BuildContext context) => createAlertDialog(context, 'LOAD SAVE', 'Really load \'' + saveName! + '\'? You may lose current unsaved changes.'),
     );
     if (value != null && value!) {
-      print ('*** load game ' + saveName + ' ***');
-      String jsonData = await loadGameState(saveName);
+      GameState().selectedGameSave = null;
+      await GameSaveHandler.loadGameState(saveName);
     }
   }
 
   // ---------------------------------------------------------------------------
   // Shows dialog for saving a game
   // ---------------------------------------------------------------------------
-  saveGame(String? saveName, BuildContext context) async {
+  quickSaveGame(BuildContext context) async {
+    String? saveName = GameState().selectedGameSave;
     if (saveName == null) {
       return;
     }
-    bool? value = await showDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => createAlertDialog(context, 'SAVE GAME', 'Really overwrite \'' + saveName! + '\'?'),
-    );
-    if (value != null && value!) {
-      print ('*** save game ' + saveName + ' ***');
-      saveGameState(saveName!);
-    }
+    GameSaveHandler.saveGameState(saveName!);
+    GameSaveHandler.updateListOfSaves();
   }
 
   // ---------------------------------------------------------------------------
@@ -133,55 +190,134 @@ class GameSaves extends StatelessWidget {
       builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete \'' + saveName! + '\'?'),
     );
     if (value != null && value!) {
-      print ('*** delete game ' + saveName + ' ***');
       // TODO - DELETE SAVE
+      GameSaveHandler.deleteGameState(saveName);
+      GameState().selectedGameSave = null;
+      GameSaveHandler.updateListOfSaves();
     }
   }
+
+}
+
+// -----------------------------------------------------------------------------
+// Allows to select a save and load it.
+// -----------------------------------------------------------------------------
+class LoadGame extends GameSaves {
+
+  Future<bool> _onWillPop() async {
+    // disable back button
+    return false;
+  }
+
+  @override
+  bool onlyLoading() {
+    return true;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Handles saving and loading game state
+// -----------------------------------------------------------------------------
+class GameSaveHandler {
+
+  static List currentSaves = [];
 
   // ---------------------------------------------------------------------------
   // Saves current state under given filename
   // ---------------------------------------------------------------------------
-  Future<File> saveGameState(String saveName) async {
+  static saveGameState(String saveName) async {
     final file = await _localFile(saveName);
 
     // Create JSON from current state - TODO
     String jsonContent = '{}';
 
     // Write the file
-    return file.writeAsString(jsonContent);
+    file.writeAsString(jsonContent);
+
+    saveNameOfCurrentSave();
+    updateListOfSaves();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Deletes file with given filename
+  // ---------------------------------------------------------------------------
+  static deleteGameState(String saveName) async {
+    final file = await _localFile(saveName);
+    // Delete the file
+    print('> delete file ' + file.path);
+    file.delete(recursive: false);
+    updateListOfSaves();
   }
 
   // ---------------------------------------------------------------------------
   // Initialize current state from file with given filename
   // ---------------------------------------------------------------------------
-  Future<String> loadGameState(String saveName) async {
+  static loadGameState(String saveName) async {
     try {
       final file = await _localFile(saveName);
       // Read the file
       final contents = await file.readAsString();
-      return contents;
+
+      // TODO - INITIALIZE GAME STATE FROM JSON
+
     } catch (e) {
       print(e);
       // If encountering an error, return 0
-      return '';
     }
   }
 
-  Future<List> _listOfSaves() async {
-    final path = await _localPath;
-    var dir = Directory(path);
-    return dir.listSync();
+  // ---------------------------------------------------------------------------
+  // Saves name of current game save
+  // ---------------------------------------------------------------------------
+  static saveNameOfCurrentSave() async {
+    final file = await _localLastSaveFile();
+    file.writeAsString(GameState().selectedGameSave!);
+    updateListOfSaves();
   }
 
-  Future<File> _localFile(String saveName) async {
+  // ---------------------------------------------------------------------------
+  // Loads name of last used game save
+  // ---------------------------------------------------------------------------
+  static loadLastUsedSave() async {
+    try {
+      final file = await _localLastSaveFile();
+      final contents = await file.readAsString();
+      GameState().selectedGameSave = contents;
+      print('> last used save: ' + GameState().selectedGameSave!);
+      await loadGameState(GameState().selectedGameSave!);
+      print('> last used save loaded.');
+    } catch (e) {
+      // If encountering an error, return 0
+    }
+  }
+
+  static updateListOfSaves() async {
+    final path = await _localPath;
+    var dir = Directory(path);
+    currentSaves = dir.listSync();
+    GameState().saveState.update();
+  }
+
+  static Future<File> _localFile(String saveName) async {
     final path = await _localPath;
     return File('$path/$saveName.save');
   }
 
-  Future<String> get _localPath async {
+  static Future<File> _localLastSaveFile() async {
+    final path = await _localPath;
+    return File('$path/game.lastsave');
+  }
+
+  static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-    var subDirectory = await Directory(directory.path + "/einkdir").create(recursive: true);
+    var subDirectory = await Directory(directory.path + "/saves").create(recursive: true);
     return subDirectory.path;
   }
 }
 
+// -----------------------------------------------
+// Switches back to title screen
+// -----------------------------------------------
+void backToTitle(BuildContext context) {
+  switchToScreen(MonsterSlayerTitle(), context);
+}

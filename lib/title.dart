@@ -39,6 +39,8 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
       NameHandler.goblinNames.loadAssets();
 
       ItemRegistry.loadJson();
+
+      GameSaveHandler.loadLastUsedSave();
     }
 
     MonsterSlayerTitle.initialized = true;
@@ -59,10 +61,7 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
             child: Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  BaseButton.textOnly('CONTINUE', (context) => beginGame(context)),  // TODO - ONLY AVAILABLE IF CURRENT GAME EXISTS
-                  BaseButton.textOnly('SAVES', (context) => switchToScreen(GameSaves(), context)),
-                ],
+                children: getButtons(),
               ),
             ),
           ),
@@ -70,7 +69,20 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
       ),
     );
   }
+
+  List<Widget> getButtons() {
+    List<Widget> buttons = [];
+    buttons.add(BaseButton.textOnly('NEW GAME', (context) => beginGame(context, true)));
+    if (GameState().selectedGameSave != null) {
+      buttons.add(BaseButton.textOnly('CONTINUE', (context) => beginGame(context, false)));
+    }
+    buttons.add(BaseButton.textOnly('LOAD', (context) => switchToScreen(LoadGame(), context)));
+    return buttons;
+  }
+
 }
+
+
 
 // -----------------------------------------------------------------------------
 // App bar for screen with title adapted to game state
@@ -98,12 +110,13 @@ Widget getTitleAppBarTitle(String title, bool centered) {
 // -----------------------------------------------------------------------------
 /// Begin / continue game
 // -----------------------------------------------------------------------------
-beginGame(BuildContext context) {
-
-  print ('*************** BEGIN GAME **********************');
-
-  // TEMPORARY
-  GameState().beginGame();
-
+beginGame(BuildContext context, bool startNewGame) {
+  if (startNewGame) {
+    print ('*************** START NEW GAME **********************');
+    GameState().beginGame();
+  } else {
+    print ('*************** CONTINUE GAME **********************');
+    GameSaveHandler.loadGameState(GameState().selectedGameSave!);
+  }
   switchToScreen(Game(), context);
 }

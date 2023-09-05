@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 import 'models/action.dart';
 import 'models/beings.dart';
 
-// ----------------------------------------------------
+// -----------------------------------------------------------------------------
 // Enemies display
-// ----------------------------------------------------
-
+// -----------------------------------------------------------------------------
 Widget enemyDisplay(BuildContext context) {
   List<Widget> enemies = [];
   for (Being enemy in CurrentFight().enemies()) {
@@ -55,9 +54,9 @@ String getHint(BuildContext context) {
   return '';
 }
 
-// -------------------------------------
+// -----------------------------------------------------------------------------
 // Widget for a single enemy
-// -------------------------------------
+// -----------------------------------------------------------------------------
 class EnemyWidget extends StatelessWidget {
   const EnemyWidget({super.key, required this.monsterStateNotifier});
 
@@ -84,10 +83,12 @@ class EnemyWidget extends StatelessWidget {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Creates a rounded, dotted border
+// -----------------------------------------------------------------------------
 DottedBorder getEnemyBorder(BeingState monsterStateNotifier) {
   Color borderColor = Colors.white;
   double borderWidth = 0;
-  BorderStyle borderStyle = BorderStyle.solid;
   if (monsterStateNotifier.being().state().selected) {
     borderColor = Colors.blueAccent;
     borderWidth = 5;
@@ -103,9 +104,11 @@ DottedBorder getEnemyBorder(BeingState monsterStateNotifier) {
     padding: EdgeInsets.all(4),
     child: getEnemyWidgetContent(monsterStateNotifier),
   );
-//  return Border.all(color: borderColor, width: borderWidth);
 }
 
+// -----------------------------------------------------------------------------
+// Gets the content of an enemy widget
+// -----------------------------------------------------------------------------
 Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
   return Padding(
     padding: const EdgeInsets.all(4.0),
@@ -125,6 +128,9 @@ Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
   );
 }
 
+// -----------------------------------------------------------------------------
+// The lifebar of an enemy
+// -----------------------------------------------------------------------------
 Widget getMonsterLifebarIcon(Being enemy) {
   if (enemy.isAlive()) {
     return Image(height: 12, image: AssetImage(GameIconAsset.heart.filename()));
@@ -132,10 +138,12 @@ Widget getMonsterLifebarIcon(Being enemy) {
   return Image(height: 12, image: AssetImage(GameIconAsset.death.filename()));
 }
 
+// -----------------------------------------------------------------------------
+// The image of an enemy
+// -----------------------------------------------------------------------------
 Widget getMonsterImage(Being enemy) {
   if (enemy.isAlive()) {
     return Image(
-//        height: 92, image: AssetImage('assets/monster/RPG_Monster_123-3.png'));
         height: 92, image: AssetImage('assets/monster/' + enemy.species.filename));
   }
   return SizedBox(

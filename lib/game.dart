@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/equip.dart';
+import 'package:e_ink_rpg/saves.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -83,13 +84,32 @@ class Game extends StatelessWidget {
         child: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BaseButton.withImageOnly('assets/button-back.png', (context) => switchToScreen(MonsterSlayerTitle(), context)),
-              //BaseButton.withImageOnly('assets/button-fight.png', (context) => startFight(context)),
-            ],
+            children: getButtons(),
           ),
         ),
       ),
     );
   }
+
+
+  List<Widget> getButtons() {
+    List<Widget> buttons = [];
+    buttons.add(BaseButton.textOnly('EXIT', (context) => abortGame(context)));
+    buttons.add(BaseButton.textOnly('SAVES', (context) => switchToScreen(GameSaves(), context)));
+    return buttons;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Shows dialog for saving a game
+  // ---------------------------------------------------------------------------
+  abortGame(BuildContext context) async {
+    bool? value = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => createAlertDialog(context, 'ABORT GAME', 'Really going back to title? Any unsaved progress may be lost.'),
+    );
+    if (value != null && value!) {
+      switchToScreen(MonsterSlayerTitle(), context);
+    }
+  }
+
 }
