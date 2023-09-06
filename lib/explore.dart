@@ -33,7 +33,7 @@ class Exploration extends StatelessWidget {
         child: Scaffold(
           appBar: getAppBar('EXPLORING...'),
           body: Center(
-            child: explorationPage(context),
+            child: explorationScreen(context),
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
@@ -57,11 +57,32 @@ class Exploration extends StatelessWidget {
   List<Widget> getButtons() {
     List<Widget> buttons = [];
     buttons.add(BaseButton.textOnly('ABORT', (context) => print('* abort ') ));
+    buttons.add(BaseButton.textOnly('EXPLORE', (context) => print('* abort ') ));
     return buttons;
   }
 
-  Widget explorationPage(BuildContext context) {
-    return Placeholder();
+  continueExploration() {
+    int percentageExplored = 7 + GameState().gameRandom.nextInt(10);
+    GameState().currentlyExploring!.exploredPercentage += percentageExplored;
+    if (GameState().gameRandom.nextInt(10) > 7) {
+      print ('>> FIGHT <<');
+    } else {
+      print ('>> more expored <<');
+    }
   }
 
+  // --------------------------------------------------------------------
+  // Fight screen parts (enemy display, action buttons etc.)
+  // --------------------------------------------------------------------
+  Column explorationScreen(BuildContext context) {
+    return Column(
+      children: [
+        // ------------- player status widget ----------
+        // PlayerWidget(),
+        getPartyStatusBar(),
+        // ------------- enemies display panel -------------
+        Placeholder()
+      ],
+    );
+  }
 }
