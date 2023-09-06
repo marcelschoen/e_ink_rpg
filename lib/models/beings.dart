@@ -133,12 +133,22 @@ class Being {
   }
 
   void setStatValue(StatType statType, int newValue) {
+    if (!_stats.containsKey(statType)) {
+      return;
+    }
     _stats[statType]!.setValueTo(newValue);
     _state!.update();
   }
 
   void setStatMaxValue(StatType statType, int newMaxValue) {
+    if (!_stats.containsKey(statType)) {
+      return;
+    }
     _stats[statType]!.setMaxValueTo(newMaxValue);
+  }
+
+  Map<StatType, Stat> getStats() {
+    return _stats;
   }
 
   bool isAlive() {

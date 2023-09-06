@@ -279,6 +279,12 @@ class GameState with ChangeNotifier {
 
     data['gameRandomSeed'] = gameRandomSeed;
 
+    for (Stat stat in GameState().player.getStats().values) {
+      String name = stat.statType.name;
+      data['player.stat.' + name + '.value'] = stat.value();
+      data['player.stat.' + name + '.maxValue'] = stat.maxValue();
+    }
+
     // TODO - GOLD PILES ARE NOT SAVED - WHY?
 
     for (InventoryGameItemStack stack in GameState().player.inventory.itemStacks) {
@@ -299,6 +305,14 @@ class GameState with ChangeNotifier {
     GameState().gameRandomSeed = data['gameRandomSeed'];
     GameState().reset();
 
+    GameState().player.setStatValue(StatType.health, data['player.hp']);
+    for (StatType statType in StatType.values) {
+      var statValue = data['player.stat.' + statType.name + '.value'];
+      GameState().player.setStatValue(statType, statValue);
+      var statMaxValue = data['player.stat.' + statType.name + '.maxValue'];
+      GameState().player.setStatValue(statType, statMaxValue);
+    }
+
     String itemPrefix = 'items.';
     for (int itemId in ItemRegistry.getRegisteredIds()) {
       String itemKey = itemPrefix + itemId.toString();
@@ -307,7 +321,16 @@ class GameState with ChangeNotifier {
         GameState().player.inventory.addItems(ItemRegistry.getItemById(itemId), itemStackSize);
       }
     }
-
+    /*
+    _updateStatIfExists(Being being, StatType statType, int value, int maxValue) {
+      if (being.getStats().containsKey(statType) && value != null) {
+        being.setStatValue(statType, value);
+      }
+      if (being.getStats().containsKey(statType) && value != null) {
+        being.setStatValue(statType, value);
+      }
+    }
+*/
   }
 
   @override

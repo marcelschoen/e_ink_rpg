@@ -52,7 +52,7 @@ Widget getJobsScreen(BuildContext context) {
           child: ListenableBuilder(
             listenable: GameState().jobSelectionState,
             builder: (BuildContext context, Widget? child) {
-              return getJobsList(context);
+              return getJobsList(context, scrollController);
             },
           ),
         ),
@@ -97,6 +97,33 @@ Widget getJobsScreen(BuildContext context) {
   );
 }
 
+Widget getJobsList(BuildContext context, ScrollController scrollController) {
+  List<Widget> jobEntries = [];
+
+  jobEntries.add(getListSectionTitle('Available jobs', 16));
+
+  for (Job job in GameState().availableJobs.availableJobs) {
+    if (!job.finished) {
+      jobEntries.add(getJobListEntry(context, job));
+    }
+  }
+
+  jobEntries.add(getListSectionTitle('Completed jobs', 40));
+
+  for (Job job in GameState().availableJobs.availableJobs) {
+    if (job.finished) {
+      jobEntries.add(getJobListEntry(context, job));
+    }
+  }
+
+  return ListView.builder(
+    controller: scrollController,
+      itemCount: GameState().availableJobs.availableJobs.length + 2,
+      itemBuilder: (BuildContext context, int index) {
+        return jobEntries[index];
+      });
+}
+
 Container getDetailsBar(String label) {
   return Container(
     color: Colors.black12,
@@ -118,32 +145,6 @@ Container getDetailsBar(String label) {
       ),
     ),
   );
-}
-
-Widget getJobsList(BuildContext context) {
-  List<Widget> jobEntries = [];
-
-  jobEntries.add(getListSectionTitle('Available jobs', 16));
-
-  for (Job job in GameState().availableJobs.availableJobs) {
-    if (!job.finished) {
-      jobEntries.add(getJobListEntry(context, job));
-    }
-  }
-
-  jobEntries.add(getListSectionTitle('Completed jobs', 40));
-
-  for (Job job in GameState().availableJobs.availableJobs) {
-    if (job.finished) {
-      jobEntries.add(getJobListEntry(context, job));
-    }
-  }
-
-  return ListView.builder(
-      itemCount: GameState().availableJobs.availableJobs.length + 2,
-      itemBuilder: (BuildContext context, int index) {
-        return jobEntries[index];
-      });
 }
 
 // -----------------------------------------------------------------------------
