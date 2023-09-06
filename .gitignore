@@ -32,6 +32,8 @@ migrate_working_dir/
 .pub/
 /build/
 
+/ext-resources/
+
 # Symbolication related
 app.*.symbols
 
