@@ -70,6 +70,7 @@ enum ScreenType {
   title,
   fight,
   flight,
+  exploration,
 }
 
 // --------------------------------------------------
@@ -89,6 +90,7 @@ class GameState with ChangeNotifier {
   AvailableJobs availableJobs = AvailableJobs();
   Difficulty difficulty = Difficulty.normal;
   String? selectedGameSave = null;
+  GameLocation? currentlyExploring = null;
 
   // *******************************************************
   // transient variables

@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/explore.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ Widget getMapScreen(BuildContext context) {
             children:[
               getDetailInfos(context),
               Column(
-                children: getMapButtons(),
+                children: getMapButtons(context),
               )
             ]
           );
@@ -155,13 +156,13 @@ Column getDetailText(String label, String title, String description) {
 // -----------------------------------------------------------------------------
 // List of map context buttons
 // -----------------------------------------------------------------------------
-List<Widget> getMapButtons() {
+List<Widget> getMapButtons(BuildContext context) {
   List<Widget> buttons = [];
   if (GameState().selectedLocationInMap != null) {
     print ('>>> selected location in map: ' + GameState().selectedLocationInMap!.name
         + ', unlocked: ' + GameState().selectedLocationInMap!.unlocked.toString());
     if (!GameState().selectedLocationInMap!.unlocked) {
-      buttons.add(getExploreButton());
+      buttons.add(getExploreButton(context));
     } else if (GameState().selectedLocationInMap != GameState().player.currentLocation()) {
       buttons.add(getVisitButton());
     }
@@ -184,9 +185,10 @@ Widget getVisitButton() {
 // -----------------------------------------------------------------------------
 // Button for exploring selected location
 // -----------------------------------------------------------------------------
-Widget getExploreButton() {
+Widget getExploreButton(BuildContext context) {
   return BaseButton.textOnlyWithSizes('Explore', (p0) {
       print('explore location ' + GameState().selectedLocationInMap!.name);
+      beginExploring(GameState().selectedLocationInMap!, context);
     }, 18, 140, 20);
 }
 

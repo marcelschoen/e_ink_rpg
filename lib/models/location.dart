@@ -80,6 +80,7 @@ enum GameLocationType {
 // -----------------------------------------------------------------------------
 class GameLocation {
   GameRegion? parentRegion;
+  int exploredPercentage = 0;
   int index;
   int mapColumn;
   int mapRow;

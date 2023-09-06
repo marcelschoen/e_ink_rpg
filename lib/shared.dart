@@ -334,8 +334,13 @@ getAppBar(String title) {
           return getAppBarTitle('Skills', false);
         } else if (GameState().screenType() == ScreenType.equipment) {
           return getAppBarTitle('Equipment', false);
+          /*
         } else if (GameState().screenType() == ScreenType.title) {
           return getAppBarTitle('Play4Ever Presents', true);
+
+           */
+        } else if (GameState().screenType() == ScreenType.exploration) {
+          return getAppBarTitle('Exploration', false);
         }
         return getAppBarTitle(title, false);
       },
