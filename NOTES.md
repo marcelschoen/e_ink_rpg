@@ -21,6 +21,7 @@
 * Knock-Down mechanic a la Persona: Knock down an enemy gives you an immediate additional turn;
   following that up with an AoE that knocks down all other enemies too gives yet another turn.
 * Equip screen provides list of loadouts
+* Some special items are unique - exist only once - can be sold by a trader only once (i.e. a magical sword)
 * Sniping mechanism with ranged weapons? When discovering enemies during exploration but still outside combat
 * Stealth minigame when raiding enemy camp?
 ** Enemies have line of sight with 2 levels (near and far) 
@@ -29,12 +30,28 @@
 * Dungeons with hidden entrance - requires puzzle solving to open door
 * Ability to buy into shops like in Sykrim (part owner), and be able to collect income later.
 
+## Combat
+
+* Add optional goals, listed visibly (i.e. "kill all enemies without magic attacks")
+  for optional loot
+* Counter-attacks / parry
+
 # Map / Regions, Locations
 
 * Multiple regions form one county, e.g. region "Telar" would be "Telar" (central region), "North Telar"
   1 up, "South Telar" 1 down etc.
 * 3 x 3 regions are one actual county
 * One county has a ruler (yarl, major, general...) in a town or city
+
+# Points of Interest (in location)
+
+* Tavern (hire NPC)
+* Job Board
+* Blacksmith (Armor improvements / sales)
+* Weaponsmith (Weapon improvements / sales)
+* General Goods (Fishing rods and baits, Gardening tools, Food, Clothes, Plants)
+*
+
 
 # Day / Night cycle
 
@@ -86,6 +103,9 @@ All of those might also give some XP
 * Endless hunting / collection quest
 ** Allows to continue job after every 5 waves or so
 ** Collects plants / attacked only by animals (usually)
+* Exploration - explore a certain percentage of the region and discover points of interes
+* Dungeon exploration
+* Enemy camp raiding (? sneaking minigame ?)
 
 # Surprise Ideas
 
@@ -99,6 +119,7 @@ can get aquainted with the "normal" gameplay routine.
 * Random Bandit attacks -> maybe also solvable with dialogue tree
 * Random attacks on unlocked location -> trigger defense quest
 * Hired NPC turns on player / is in bed with bandits from quest
+* Trophy Room break-in: When adding the final trophy, a popup appears: "Oh no, thieves have stolen many trophies" and a new job starts
 
 # Difficulty levels
 
