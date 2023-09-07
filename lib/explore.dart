@@ -2,6 +2,7 @@ import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
+import 'game.dart';
 import 'models/exploration.dart';
 import 'models/location.dart';
 
@@ -40,7 +41,7 @@ class ExplorationWidget extends StatelessWidget {
           bottomNavigationBar: BottomAppBar(
             child: Container(
               child: ListenableBuilder(
-                listenable: GameState().titleState,
+                listenable: GameState().explorationState,
                 builder: (BuildContext context, Widget? child) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -58,52 +59,62 @@ class ExplorationWidget extends StatelessWidget {
 
   List<Widget> getButtons() {
     List<Widget> buttons = [];
-    buttons.add(BaseButton.textOnly('ABORT', (context) => print('* abort ') ));
-    buttons.add(BaseButton.textOnly('CONTINUE', (context) => print('* abort ') ));
+    buttons.add(BaseButton.textOnly('ABORT', (context) => switchToScreen(Game(), context) ));
+    buttons.add(BaseButton.textOnly('CONTINUE', (context) => continueExploration() ));
     return buttons;
   }
 
+  continueExploration() {
+    print ('> continue exploration <');
+    GameState().currentlyExploring!.exploration!.nextStep();
+  }
 
 
 
   // --------------------------------------------------------------------
   // Fight screen parts (enemy display, action buttons etc.)
   // --------------------------------------------------------------------
-  Column explorationScreen(BuildContext context) {
-    Exploration exploration = GameState().currentlyExploring!.exploration!;
-    ExplorationStep currentStep = exploration.currentStep();
-    return Column(
-      children: [
-        // ------------- player status widget ----------
-        // PlayerWidget(),
-        getPartyStatusBar(),
-        // ------------- enemies display panel -------------
-        Expanded(
-          child: Column(
+  Widget explorationScreen(BuildContext context) {
 
-            children: [
-              // 1st line of images
-              FittedBox(
-                fit: BoxFit.fill,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                    Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                    Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                  ]),
-              ),
-              Expanded(child: Container()),
-              FittedBox(
-                fit: BoxFit.fill,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Image(image: AssetImage(currentStep.gameImageAssets[3].filename())),
-                      Image(image: AssetImage(currentStep.gameImageAssets[4].filename())),
-                    ]),
-              ),
-            ],),
-        )
-      ],
+    return ListenableBuilder(
+      listenable: GameState().explorationState,
+      builder: (BuildContext context, Widget? child) {
+        Exploration exploration = GameState().currentlyExploring!.exploration!;
+        ExplorationStep currentStep = exploration.currentStep();
+        return Column(
+          children: [
+            // ------------- player status widget ----------
+            // PlayerWidget(),
+            getPartyStatusBar(),
+            // ------------- enemies display panel -------------
+            Expanded(
+              child: Column(
+
+                children: [
+                  // 1st line of images
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
+                          Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
+                          Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
+                        ]),
+                  ),
+                  Expanded(child: Container()),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image(image: AssetImage(currentStep.gameImageAssets[3].filename())),
+                          Image(image: AssetImage(currentStep.gameImageAssets[4].filename())),
+                        ]),
+                  ),
+                ],),
+            )
+          ],
+        );
+      },
     );
   }
 }

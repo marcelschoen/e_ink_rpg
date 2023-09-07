@@ -4,6 +4,7 @@
 import 'dart:math';
 
 import '../assets.dart';
+import '../state.dart';
 
 class Exploration {
   List<ExplorationStep> steps;
@@ -16,6 +17,8 @@ class Exploration {
 
   nextStep() {
     _currentStep ++;
+    print('> current step: ' + _currentStep.toString());
+    GameState().explorationState.update();
   }
 
   bool isComplete() {
@@ -35,12 +38,12 @@ class ExplorationStep {
     GameImageAsset.map_loc_dead_tree_1,
     GameImageAsset.map_loc_dead_tree_2,
     GameImageAsset.map_loc_dunes,
-    GameImageAsset.map_loc_hill_1,
-    GameImageAsset.map_loc_hill_2,
-    GameImageAsset.map_loc_hill_3,
-    GameImageAsset.map_loc_hill_4,
-    GameImageAsset.map_loc_hill_5,
-    GameImageAsset.map_loc_hill_6,
+    GameImageAsset.map_loc_pine_tree_1,
+    GameImageAsset.map_loc_pine_tree_2,
+    GameImageAsset.map_loc_pine_tree_3,
+    GameImageAsset.map_loc_pine_tree_4,
+    GameImageAsset.map_loc_pine_tree_5,
+    GameImageAsset.map_loc_pine_tree_6,
   ];
 
   List<GameImageAsset> gameImageAssets;

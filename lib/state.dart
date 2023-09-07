@@ -109,6 +109,7 @@ class GameState with ChangeNotifier {
   final GeneralState equipState = GeneralState();
   final GeneralState mapState = GeneralState();
   final GeneralState saveState = GeneralState();
+  final GeneralState explorationState = GeneralState();
 
   final GameDaytime daytime = GameDaytime();
 
