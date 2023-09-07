@@ -12,10 +12,13 @@
 // -----------------------------------------------------------------------------
 // Points of interest in the current location (e.g. shops, taverns etc.)
 // -----------------------------------------------------------------------------
+import 'dart:math';
+
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/names.dart';
 
 import '../state.dart';
+import 'exploration.dart';
 
 final int MAX_LOCATIONS_PER_REGION = 25;
 final int COLUMNS_PER_REGION = 5;
@@ -80,7 +83,7 @@ enum GameLocationType {
 // -----------------------------------------------------------------------------
 class GameLocation {
   GameRegion? parentRegion;
-  int exploredPercentage = 0;
+  Random locationRandom;
   int index;
   int mapColumn;
   int mapRow;
@@ -89,9 +92,14 @@ class GameLocation {
   List<LocalPointOfInterest> localPointsOfInterest = [];
   String name;
   Map<ConnectionsDirection, GameLocation> connectedLocations = {};
+  Exploration? exploration;
 
   GameLocation(this.locationType, this.name, this.index)
-      : this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION), this.mapRow = index ~/ COLUMNS_PER_REGION {
+      : this.locationRandom = Random(GameState().gameRandomSeed), this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION), this.mapRow = index ~/ COLUMNS_PER_REGION {
+  }
+
+  startExploration() {
+    exploration = Exploration(locationRandom, locationRandom.nextInt(5) + 4);
   }
 
   bool isConnectedToUnlockedLocation() {
