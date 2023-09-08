@@ -86,24 +86,23 @@ class ExplorationWidget extends StatelessWidget {
             // ------------- player status widget ----------
             // PlayerWidget(),
             getPartyStatusBar(),
-            // ------------- enemies display panel -------------
+            // ------------- exploration view panel -------------
             Expanded(
               child: Column(
-
                 children: [
                   // 1st line of images
                   FittedBox(
-                    fit: BoxFit.scaleDown,
+                    fit: BoxFit.fitWidth,
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                          Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                          Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
+                          Image(image: AssetImage(currentStep.gameImageAssets[1].filename())),
+                          Image(image: AssetImage(currentStep.gameImageAssets[2].filename())),
                         ]),
                   ),
                   Expanded(child: Container()),
                   FittedBox(
-                    fit: BoxFit.scaleDown,
+                    fit: BoxFit.fitWidth,
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Image(image: AssetImage(currentStep.gameImageAssets[3].filename())),

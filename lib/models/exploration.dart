@@ -52,8 +52,11 @@ class ExplorationStep {
 
   static List<GameImageAsset> createListOfImages(Random random) {
     List<GameImageAsset> images = [];
+    print ("> -------------- create list of images ----------");
     for (int i = 0; i < 5; i++) {
-      images.add(ExplorationImages[random.nextInt(ExplorationImages.length)]);
+      int imageIndex = random.nextInt(ExplorationImages.length);
+      print("> image no.: " + imageIndex.toString());
+      images.add(ExplorationImages[imageIndex]);
     }
     return images;
   }
