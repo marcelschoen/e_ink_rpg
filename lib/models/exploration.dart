@@ -1,11 +1,11 @@
-
-
-
 import 'dart:math';
 
 import '../assets.dart';
 import '../state.dart';
 
+// -----------------------------------------------------------------------------
+// Holds information about the current exploration
+// -----------------------------------------------------------------------------
 class Exploration {
   List<ExplorationStep> steps;
   int _currentStep = 0;
@@ -26,6 +26,9 @@ class Exploration {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Holds information about one step of the exploration
+// -----------------------------------------------------------------------------
 class ExplorationStep {
 
   static List<GameImageAsset> ExplorationImages = [
@@ -52,16 +55,17 @@ class ExplorationStep {
 
   static List<GameImageAsset> createListOfImages(Random random) {
     List<GameImageAsset> images = [];
-    print ("> -------------- create list of images ----------");
     for (int i = 0; i < 5; i++) {
       int imageIndex = random.nextInt(ExplorationImages.length);
-      print("> image no.: " + imageIndex.toString());
       images.add(ExplorationImages[imageIndex]);
     }
     return images;
   }
 }
 
+// -----------------------------------------------------------------------------
+// Creates exploration steps
+// -----------------------------------------------------------------------------
 class ExplorationStepFactory {
   static List<ExplorationStep> createExplorationSteps(Random locationRandom, int number) {
     List<ExplorationStep> steps = [];
