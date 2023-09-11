@@ -128,3 +128,7 @@ Things to adjust according to difficulty level:
 * Saving after every attack wave / restart job from checkpoint
 * Hires get half of loot / half of money
 * Obviously combat aspects (damage, defense)
+
+# Resources
+
+* 2D path finding: https://github.com/ConnorGray/path_finding
