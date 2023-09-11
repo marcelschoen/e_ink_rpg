@@ -1,9 +1,12 @@
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
+import 'fight.dart';
 import 'game.dart';
+import 'models/beings.dart';
 import 'models/exploration.dart';
 import 'models/location.dart';
 
@@ -60,12 +63,25 @@ class ExplorationWidget extends StatelessWidget {
   List<Widget> getButtons(BuildContext context) {
     List<Widget> buttons = [];
     buttons.add(BaseButton.textOnly('ABORT', (context) => switchToScreen(Game(), context) ));
+    if (GameState().currentlyExploring!.exploration!.currentStep().hasEnemies) {
+      buttons.add(BaseButton.textOnly('ATTACK', (context) => attackEnemies(context) ));
+    }
     buttons.add(BaseButton.textOnly('CONTINUE', (context) => continueExploration(context) ));
     return buttons;
   }
 
+  attackEnemies(BuildContext context) {
+    List<Being> enemies = [];
+
+    // TODO - SET UP RANDOM ENEMIES AND COMBAT
+    enemies.add(AngryWasp());
+    enemies.add(AngryWasp());
+    enemies.add(AngryWasp());
+
+    startFightWithEnemies(context, enemies);
+  }
+
   continueExploration(BuildContext context) {
-    print ('> continue exploration <');
     GameState().currentlyExploring!.exploration!.nextStep();
     if (GameState().currentlyExploring!.exploration!.isComplete()) {
       unlockExploredLocation();
@@ -108,7 +124,9 @@ class ExplorationWidget extends StatelessWidget {
                           Image(image: AssetImage(currentStep.gameImageAssets[2].filename())),
                         ]),
                   ),
-                  Expanded(child: Center(child: getLocationInfo(GameState().currentlyExploring!))),
+                  Expanded(child: Center(
+                      child: getLocationInfo(GameState().currentlyExploring!, currentStep)
+                  )),
                   FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -134,13 +152,17 @@ class ExplorationWidget extends StatelessWidget {
     return Image(image: AssetImage(currentStep.gameImageAssets[1].filename()));
   }
 
-  Widget getLocationInfo(GameLocation location) {
+  Widget getLocationInfo(GameLocation location, ExplorationStep currentStep) {
     // TODO - VARIOUS DESCRIPTIONS
     // TODO - SHOW ENEMIES AND ATTACK OPTION
+    String notes = 'nothing special to be found here.';
+    if (currentStep.hasEnemies) {
+      notes = 'but there are enemies - beware!';
+    }
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Text('Location: ' + location.name
-          + ' A nice place, nothing special to be found here.', style: getTitleTextStyle(24)),
+          + ' A nice place, ' + notes, style: getTitleTextStyle(24)),
     );
   }
 

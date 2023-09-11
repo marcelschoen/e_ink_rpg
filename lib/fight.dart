@@ -68,7 +68,10 @@ void startFight(BuildContext context, Job job) {
   enemies.add(Being(SpeciesType.bloodbat));
 */
   // --------------------------------------------------------------------------
+  startFightWithEnemies(context, enemies);
+}
 
+void startFightWithEnemies(BuildContext context, List<Being> enemies) {
   CurrentFight().begin(enemies);
   switchToScreen(Fight(), context);
 }

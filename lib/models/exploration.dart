@@ -22,7 +22,6 @@ class Exploration {
   }
 
   nextStep() {
-    print('> current step: ' + _currentStep.toString());
     GameDaytime().advanceByMinutes(15);
     _currentStep ++;
     if (_currentStep < steps.length) {
