@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'models/location.dart';
 // -----------------------------------------------------------------------------
 beginExploring(GameLocation location, BuildContext context) {
   GameState().currentlyExploring = location;
-  GameState().currentlyExploring!.startExploration();
   GameState().setScreenType(ScreenType.exploration);
   switchToScreen(ExplorationWidget(), context);
 }
@@ -104,11 +104,11 @@ class ExplorationWidget extends StatelessWidget {
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Image(image: AssetImage(currentStep.gameImageAssets[0].filename())),
-                          Image(image: AssetImage(currentStep.gameImageAssets[1].filename())),
+                          getCenterImage(currentStep),
                           Image(image: AssetImage(currentStep.gameImageAssets[2].filename())),
                         ]),
                   ),
-                  Expanded(child: Center(child: getLocationInfo())),
+                  Expanded(child: Center(child: getLocationInfo(GameState().currentlyExploring!))),
                   FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -127,12 +127,20 @@ class ExplorationWidget extends StatelessWidget {
     );
   }
 
-  Widget getLocationInfo() {
+  Widget getCenterImage(ExplorationStep currentStep) {
+    if (currentStep.hasEnemies) {
+      return GameMonsterImageAsset.monster.getMonsterImage();
+    }
+    return Image(image: AssetImage(currentStep.gameImageAssets[1].filename()));
+  }
+
+  Widget getLocationInfo(GameLocation location) {
     // TODO - VARIOUS DESCRIPTIONS
     // TODO - SHOW ENEMIES AND ATTACK OPTION
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: Text('A nice place, nothing special to be found here.', style: getTitleTextStyle(24)),
+      child: Text('Location: ' + location.name
+          + ' A nice place, nothing special to be found here.', style: getTitleTextStyle(24)),
     );
   }
 

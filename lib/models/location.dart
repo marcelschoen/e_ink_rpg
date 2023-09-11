@@ -95,10 +95,9 @@ class GameLocation {
   Exploration? exploration;
 
   GameLocation(this.locationType, this.name, this.index)
-      : this.locationRandom = Random(GameState().gameRandomSeed), this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION), this.mapRow = index ~/ COLUMNS_PER_REGION {
-  }
-
-  startExploration() {
+      : this.locationRandom = Random(), this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION),
+        this.mapRow = index ~/ COLUMNS_PER_REGION
+  {
     exploration = Exploration(locationRandom, locationRandom.nextInt(5) + 4);
   }
 

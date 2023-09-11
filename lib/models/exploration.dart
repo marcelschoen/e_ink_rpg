@@ -58,9 +58,13 @@ class ExplorationStep {
     GameImageAsset.map_loc_pine_tree_6,
   ];
 
+  bool hasEnemies = false;
+
   List<GameImageAsset> gameImageAssets;
 
-  ExplorationStep(Random loctionRandom) : gameImageAssets = createListOfImages(loctionRandom) {}
+  ExplorationStep(Random loctionRandom)
+      : gameImageAssets = createListOfImages(loctionRandom),
+        hasEnemies = loctionRandom.nextInt(10) > 8 {}
 
   static List<GameImageAsset> createListOfImages(Random random) {
     List<GameImageAsset> images = [];
