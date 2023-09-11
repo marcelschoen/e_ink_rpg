@@ -45,7 +45,7 @@ class ExplorationWidget extends StatelessWidget {
                 builder: (BuildContext context, Widget? child) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: getButtons(),
+                    children: getButtons(context),
                   );
                 },
               ),
@@ -57,19 +57,27 @@ class ExplorationWidget extends StatelessWidget {
 
   }
 
-  List<Widget> getButtons() {
+  List<Widget> getButtons(BuildContext context) {
     List<Widget> buttons = [];
     buttons.add(BaseButton.textOnly('ABORT', (context) => switchToScreen(Game(), context) ));
-    buttons.add(BaseButton.textOnly('CONTINUE', (context) => continueExploration() ));
+    buttons.add(BaseButton.textOnly('CONTINUE', (context) => continueExploration(context) ));
     return buttons;
   }
 
-  continueExploration() {
+  continueExploration(BuildContext context) {
     print ('> continue exploration <');
     GameState().currentlyExploring!.exploration!.nextStep();
+    if (GameState().currentlyExploring!.exploration!.isComplete()) {
+      unlockExploredLocation();
+      switchToScreen(Game(), context);
+    }
   }
 
-
+  unlockExploredLocation() {
+    GameLocation location = GameState().currentlyExploring!;
+    location.unlocked = true;
+    location.exploration = null;
+  }
 
   // --------------------------------------------------------------------
   // Fight screen parts (enemy display, action buttons etc.)
@@ -100,7 +108,7 @@ class ExplorationWidget extends StatelessWidget {
                           Image(image: AssetImage(currentStep.gameImageAssets[2].filename())),
                         ]),
                   ),
-                  Expanded(child: Container()),
+                  Expanded(child: Center(child: getLocationInfo())),
                   FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -109,11 +117,43 @@ class ExplorationWidget extends StatelessWidget {
                           Image(image: AssetImage(currentStep.gameImageAssets[4].filename())),
                         ]),
                   ),
-                ],),
+                  getExplorationProgressBar(exploration.completionPercentage()),
+                ],
+              ),
             )
           ],
         );
       },
+    );
+  }
+
+  Widget getLocationInfo() {
+    // TODO - VARIOUS DESCRIPTIONS
+    // TODO - SHOW ENEMIES AND ATTACK OPTION
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Text('A nice place, nothing special to be found here.', style: getTitleTextStyle(24)),
+    );
+  }
+
+  Widget getExplorationProgressBar(double value) {
+    print(">> exploration %: " + value.toString());
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Text('Progress:', style: getTitleTextStyle(24)),
+          hGap(10),
+          Expanded(
+            child: LinearProgressIndicator(
+              value: value / 100,
+              minHeight: 20,
+              color: Colors.black45,
+              backgroundColor: Colors.black12,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

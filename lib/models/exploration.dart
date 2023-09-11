@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:e_ink_rpg/daytime.dart';
+
 import '../assets.dart';
 import '../state.dart';
 
@@ -15,10 +17,17 @@ class Exploration {
     return steps[_currentStep];
   }
 
+  double completionPercentage() {
+    return (_currentStep * 100) / steps.length;
+  }
+
   nextStep() {
-    _currentStep ++;
     print('> current step: ' + _currentStep.toString());
-    GameState().explorationState.update();
+    GameDaytime().advanceByMinutes(15);
+    _currentStep ++;
+    if (_currentStep < steps.length) {
+      GameState().explorationState.update();
+    }
   }
 
   bool isComplete() {

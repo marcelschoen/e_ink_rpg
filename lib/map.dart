@@ -197,6 +197,7 @@ Widget getExploreButton(BuildContext context) {
 // -----------------------------------------------------------------------------
 Widget getMapContents(BuildContext context) {
   return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Padding(
         padding: EdgeInsets.only(top: 20),
@@ -205,13 +206,17 @@ Widget getMapContents(BuildContext context) {
           children: [
             SizedBox(width: 20),
             getZoomButton(false),
-            getMapTitle(),
+            Center(child: getMapTitle()),
             getZoomButton(true),
             SizedBox(width: 20),
           ],
         ),
       ),
-      Expanded(child: getMapGridContents(context)),
+      Expanded(
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+            child: getMapGridContents(context)),
+      ),
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -229,11 +234,24 @@ Widget getMapContents(BuildContext context) {
 // -----------------------------------------------------------------------------
 Widget getMapTitle() {
   if (GameState().mapZoomLevel == MapZoomLevel.world) {
-    return getOutlinedText('World', 24, 1, Colors.black, Colors.white);
+    return Column(
+      children: [
+        getOutlinedText('World', 16, 1, Colors.black, Colors.white)
+      ],
+    );
   } else if (GameState().mapZoomLevel == MapZoomLevel.region) {
-    return getOutlinedText('Region: ' + GameState().player.currentRegion().name, 24, 1, Colors.black, Colors.white);
+    return Column(children: [
+      getOutlinedText('Region', 16, 1, Colors.black, Colors.white),
+      getOutlinedText(GameState().player.currentRegion().name, 20, 1, Colors.black, Colors.white)
+    ],
+    );
   }
-  return getOutlinedText('Location: ' + GameState().player.currentLocation().name, 24, 1, Colors.black, Colors.white);
+  return Column(
+    children: [
+      getOutlinedText('Location', 16, 1, Colors.black, Colors.white),
+      getOutlinedText(GameState().player.currentRegion().currentLocation().name, 20, 1, Colors.black, Colors.white)
+    ],
+  );
 }
 
 // -----------------------------------------------------------------------------
@@ -286,17 +304,31 @@ Widget getMapGridContents(BuildContext context) {
   if (GameState().mapZoomLevel == MapZoomLevel.region) {
     mapGridWidgets = getLocations(context);
   } else if (GameState().mapZoomLevel == MapZoomLevel.world) {
+
+    // TODO
+
   } else {
     mapGridWidgets = getPointsOfInterest(context);
   }
+
+  List<Widget> rows = [];
+  int index = 0;
+  for (int row = 0; row < 5; row ++) {
+    List<Widget> columns = [];
+    for (int column = 0; column < 5; column ++) {
+      columns.add( Expanded(child: mapGridWidgets[index++]));
+    }
+    rows.add(IntrinsicWidth(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: columns,),
+    ));
+  }
   return Padding(
-    padding: const EdgeInsets.only(left:80, top: 30, right: 50),
-    child: GridView.count(
-        crossAxisCount: 5,
-        crossAxisSpacing: 0,
-        mainAxisSpacing: 0,
-        // Generate 100 widgets that display their index in the List.
-        children:mapGridWidgets
+    padding: const EdgeInsets.only(left: 50, right: 20),
+    child: Column(
+      children: rows ,
     ),
   );
 }
@@ -363,9 +395,9 @@ List<Widget> getLocations(BuildContext context) {
       if (location == GameState().selectedLocationInMap) {
         if (location.unlocked) {
           // TODO - SHOW CORRECT LOCATION GRAPHICS
-          locationWidgets.add(getSelectedLocationBorder(SizedBox(width: 80, child: Image.asset(GameImageAsset.map_loc_hamlet.filename()))));
+          locationWidgets.add(getSelectedLocationBorder(Image.asset(GameImageAsset.map_loc_hamlet.filename())));
         } else {
-          locationWidgets.add(getSelectedLocationBorder(SizedBox(width: 80, child: Image.asset(GameImageAsset.map_icon_question_mark.filename()))));
+          locationWidgets.add(getSelectedLocationBorder(Image.asset(GameImageAsset.map_icon_question_mark.filename())));
         }
       } else {
         locationWidgets.add(getLocation(location));
@@ -401,9 +433,9 @@ Widget getLocation(GameLocation location) {
   }
 
   if (location == GameState().player.currentRegion().currentLocation()) {
-    return SizedBox(width: 25, child: getCardWithRoundedBorder(locationWidget));
+    return getCardWithRoundedBorder(locationWidget);
   }
-  return SizedBox(width: 25, child: locationWidget);
+  return locationWidget;
 }
 
 // -----------------------------------------------------------------------------
@@ -424,7 +456,7 @@ DottedBorder getSelectedLocationBorder(Widget content) {
   double borderWidth = 0;
   //BorderStyle borderStyle = BorderStyle.solid;
   borderColor = Colors.black45;
-  borderWidth = 3;
+  borderWidth = 5;
   return DottedBorder(
     borderType: BorderType.RRect,
     strokeWidth: borderWidth,

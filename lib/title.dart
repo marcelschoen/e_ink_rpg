@@ -55,9 +55,12 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
       home: WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
-          appBar: getTitleAppBar('Play4Ever Games Presents'),
+          appBar: getTitleAppBar('Play4Ever Games'),
           body: Center(
-            child: titleImage,
+            child: FittedBox(child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: titleImage,
+            )),
           ),
           bottomNavigationBar: BottomAppBar(
             child: Container(
@@ -84,7 +87,6 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
       buttons.add(BaseButton.textOnly('CONTINUE', (context) => beginGame(context, false)));
     }
 
-    print('>>>>>>>>> NUMBER OF SAVES: ' + GameSaveHandler.currentSaves.length.toString());
     if (!GameSaveHandler.currentSaves.isEmpty) {
       buttons.add(BaseButton.textOnly('LOAD', (context) => switchToScreen(LoadGame(), context)));
     }
@@ -115,7 +117,7 @@ Widget getTitleAppBarTitle(String title, bool centered) {
     alignment = Alignment.center;
   }
   return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-    getOutlinedText(title, 36, 3, Colors.black87, Colors.white),
+    getOutlinedText(title, 32, 2, Colors.black87, Colors.white),
   ]);
 }
 
