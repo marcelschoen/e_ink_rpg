@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'assets.dart';
 import 'enemydisplay.dart';
+import 'explore.dart';
 import 'game.dart';
 import 'models/action.dart';
 import 'models/attack.dart';
@@ -26,14 +27,24 @@ void backToTitle(BuildContext context) {
 
 void continueAfterFight(BuildContext context) {
   if (GameState().player.isAlive()) {
-    if (GameState().selectedInJobs!.finished) {
-      GameState().daytime.advanceByHours(1);
-      GameState().availableJobs.deselectAllJobs();
-      GameState().selectedInJobs = null;
-      switchToScreen(Game(), context);
-    } else {
-      GameState().daytime.advanceByMinutes(10);
-      startFight(context, GameState().selectedInJobs! );
+    if (GameState().selectedInJobs != null) {
+      if (GameState().selectedInJobs!.finished) {
+        GameState().daytime.advanceByHours(1);
+        GameState().availableJobs.deselectAllJobs();
+        GameState().selectedInJobs = null;
+        switchToScreen(Game(), context);
+      } else {
+        GameState().daytime.advanceByMinutes(10);
+        startFight(context, GameState().selectedInJobs! );
+      }
+      return;
+    } else if (GameState().currentlyExploring != null) {
+      // TODO - OTHER CONTINUATION CONDITIONS
+      GameState().currentlyExploring!.exploration!.nextStep();
+      ExplorationWidget explorationScreen = ExplorationWidget();
+      switchToScreen(explorationScreen, context);
+      explorationScreen.continueExploration(context);
+      return;
     }
   } else {
     switchToScreen(MonsterSlayerTitle(), context);
@@ -120,12 +131,15 @@ void flee(BuildContext context) {
 void jumpToNewScreenAfterFight(BuildContext context) {
   if (CurrentFight().finished()) {
     if (GameState().player.isAlive()) {
-      GameState().selectedInJobs!.nextStep();
-      if (GameState().selectedInJobs!.finished) {
-        switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
-      } else {
-        switchToScreen(FightOverScaffold('VICTORY!'), context);
+      print ('check');
+      if (GameState().selectedInJobs != null) {
+        GameState().selectedInJobs!.nextStep();
+        if (GameState().selectedInJobs!.finished) {
+          switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
+          return;
+        }
       }
+      switchToScreen(FightOverScaffold('VICTORY!'), context);
     } else {
       switchToScreen(FightOverScaffold('DEFEAT!'), context);
     }
