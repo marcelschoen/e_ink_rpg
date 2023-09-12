@@ -113,7 +113,7 @@ class PlayerWidget extends StatelessWidget {
                       quarterTurns: 3,
                       child: getProgressBar(
                           60,
-                          GameState().player.progressBarValue(StatType.xp),
+                          GameState().player.progressBarValue(StatType.focus),
                           8,
                           Colors.black45,
                           Colors.black12),
@@ -164,7 +164,7 @@ class PlayerWidget extends StatelessWidget {
                               50,
                               GameState()
                                   .player
-                                  .progressBarValue(StatType.skillpoints),
+                                  .progressBarValue(StatType.focus),
                               12,
                               Colors.black45,
                               Colors.black12),

@@ -1,10 +1,8 @@
 enum StatType {
   health,
-  strength,
-  defense,
   mana,
-  skillpoints,
-  xp
+  focus,
+  xp,  // fills up from 0 - n, and wenn full, the player gains a level
 }
 
 /**

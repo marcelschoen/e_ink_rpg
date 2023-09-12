@@ -1,11 +1,11 @@
-import 'dart:math';
-
+import 'package:e_ink_rpg/models/skill.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
 import '../equip.dart';
 import '../inventory.dart';
 import 'attack.dart';
+import 'attribute.dart';
 import 'location.dart';
 import 'magic.dart';
 
@@ -17,12 +17,14 @@ class Being {
   int killXp = 10;
   int level = 1;
   BeingState? _state;
+
+  Map<AttributeType, Attribute> _attrs = {};
   Map<StatType, Stat> _stats = {};
+  List<Skill> skills = [];
+
   SpeciesType species;
   bool selected = false;
   Inventory inventory = Inventory();
-
-  final _random = new Random();
 
   // speed and speed counter used for turn order
   double speedCounter = 0.0;
@@ -32,15 +34,14 @@ class Being {
 
   Being(SpeciesType monsterType) : species = monsterType {
     int maxHealth = monsterType.maxHealth();
+
+    // TODO - ADJUST STARTING VALUES
+
+    // Stats
     Stat statHealth = Stat(StatType.health, maxHealth);
     statHealth.setValueTo(maxHealth);
     setStat(statHealth);
-//    addStat(Stat.withValue(StatType.health, 5 + _random.nextInt(9) * 10, 100));
-    setStat(Stat.withValue(StatType.strength, 10, 10));
-    setStat(Stat.withValue(StatType.defense, 5, 5));
-    setStat(Stat.withValue(StatType.mana, 20, 20));
-    setStat(Stat.withValue(StatType.skillpoints, 0, 5));
-    setStat(Stat.withValue(StatType.xp, 0, 100));
+
     _state = BeingState(this);
 
     if (species == SpeciesType.player) {
@@ -69,12 +70,16 @@ class Being {
     return _stats[StatType.mana]!.value();
   }
 
-  int strength() {
-    return _stats[StatType.strength]!.value();
+  int money() {
+    return _attrs[AttributeType.money]!.value();
+  }
+
+  void addMoney(int value) {
+    _attrs[AttributeType.money]!.increaseValueBy(value);
   }
 
   int defense() {
-    return _stats[StatType.defense]!.value();
+    return _attrs[AttributeType.defense]!.value();
   }
 
   bool hasStat(StatType statType) {
@@ -120,6 +125,22 @@ class Being {
     return _stats.containsKey(statType) ? _stats[statType]!.progressBarValue() : 0;
   }
 
+  int attrValue(AttributeType type) {
+    return _attrs.containsKey(type) ? _attrs[type]!.value() : 0;
+  }
+
+  Attribute getAttribute(AttributeType type) {
+    return _attrs[type]!;
+  }
+
+  void setAttrValue(AttributeType type, int value) {
+    _attrs[type]!.setValueTo(value);
+  }
+
+  void setAttribute(Attribute attr) {
+    _attrs[attr.type] = attr;
+  }
+
   int statValue(StatType statType) {
     return _stats.containsKey(statType) ? _stats[statType]!.value() : 0;
   }
@@ -129,7 +150,7 @@ class Being {
   }
 
   void setStat(Stat stat) {
-    _stats.putIfAbsent(stat.statType, () => stat);
+    _stats[stat.statType] = stat;
   }
 
   void setStatValue(StatType statType, int newValue) {
@@ -211,26 +232,30 @@ enum SpeciesType {
  * being that they can equip armor, use weapons, have an
  * inventory etc.
  */
-mixin Humanoid {
-  var money = 0;
-  var name = '<UNKNOWN>';
+class Humanoid extends Being {
+
+  String name;
+  Set<Attack> availableAttacks = {};
+  Set<Spell> availableSpells = {};
+
+  Humanoid(this.name) : super(SpeciesType.npc) {
+  }
+
 }
 
 /**
  * Player subclass for humanoid, with all the attributes etc.
  * that are only relevant to the player character.
  */
-class Player extends Being with Humanoid {
+class Player extends Humanoid {
 
-  Set<Attack> availableAttacks = {};
-  Set<Spell> availableSpells = {};
   GameRegion? _currentRegion;
   final Equipment equipment = Equipment();
 
   // singleton instance
   static final Player _instance = Player._internal();
 
-  Player._internal() : super.player() {
+  Player._internal() : super('Player') {
     reset();
   }
 
@@ -261,12 +286,18 @@ class Player extends Being with Humanoid {
   reset() {
     print ("-------------------------- RESET --------------------------");
     inventory.reset();
-    level = 1;
-    setStatValue(StatType.strength, 10);
-    setStatValue(StatType.health, 100);
-    setStatValue(StatType.skillpoints, 0);
-    setStatValue(StatType.xp, 0);
-    money = 0;
+
+    setStat(Stat.withValue(StatType.health, 100, 100));
+    setStat(Stat.withValue(StatType.mana, 20, 20));
+    setStat(Stat.withValue(StatType.focus, 20, 20));
+    setStat(Stat.withValue(StatType.xp, 0, 100));
+
+    // Attributes
+    setAttribute(Attribute.withValue(AttributeType.level, 1));
+    setAttribute(Attribute.withValue(AttributeType.defense, 5));
+    // TODO - ADD ATTRIBUTE STRENGTH ?????
+    setAttribute(Attribute.withValue(AttributeType.money, 500));
+
     name = 'Harribo';
     availableAttacks = { Hit(), Swing() };
     availableSpells = { Fireball() };
@@ -275,7 +306,6 @@ class Player extends Being with Humanoid {
   increaseXp(int increase) {
     restoreStatBy(StatType.xp, increase);
     if (statIsFull(StatType.xp)) {
-      level ++;
       depleteStat(StatType.xp);
     }
   }

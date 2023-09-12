@@ -9,8 +9,8 @@ class AngryWasp extends Being {
   AngryWasp() : super(SpeciesType.angrywasp) ;
 }
 
-class Bandit extends Being with Humanoid {
-  Bandit() : super(SpeciesType.npc) ;
+class Bandit extends Humanoid {
+  Bandit() : super('Bandit') ;
 }
 
 class EliminateBandit extends Job {
