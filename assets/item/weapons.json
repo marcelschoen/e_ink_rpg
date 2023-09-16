@@ -5,7 +5,7 @@
       "asset": "blessedBlade",
       "name": "Blessed Blade",
       "description": "A holy blade.",
-      "price": 50,
+      "price": 50.0,
       "attackPower": 8.0
     },
     {
@@ -13,7 +13,7 @@
       "asset": "cutlass",
       "name": "Cutlass",
       "description": "A regular cutlass.",
-      "price": 20,
+      "price": 20.0,
       "attackPower": 15.0
     },
     {
@@ -21,7 +21,7 @@
       "asset": "cutlass3",
       "name": "Crystal Cutlass",
       "description": "A crystal cutlass.",
-      "price": 50,
+      "price": 50.0,
       "attackPower": 18.0
     },
     {
@@ -29,7 +29,7 @@
       "asset": "cutlass4",
       "name": "Steel Cutlass",
       "description": "A steel cutlass.",
-      "price": 25,
+      "price": 25.0,
       "attackPower": 20.0
     },
     {
@@ -37,7 +37,7 @@
       "asset": "cutlass5",
       "name": "Hardened Cutlass",
       "description": "A hardened cutlass.",
-      "price": 45,
+      "price": 45.0,
       "attackPower": 16.0
     },
     {
@@ -45,7 +45,7 @@
       "asset": "cutlass6",
       "name": "Iron Cutlass",
       "description": "An iron cutlass.",
-      "price": 45,
+      "price": 45.0,
       "attackPower": 16.0
     },
     {
@@ -53,7 +53,7 @@
       "asset": "cutlass7",
       "name": "Golden Cutlass",
       "description": "A golden cutlass.",
-      "price": 120,
+      "price": 120.0,
       "attackPower": 10.0
     },
     {
@@ -61,7 +61,7 @@
       "asset": "cutlass8",
       "name": "Ancient Cutlass",
       "description": "An ancient cutlass.",
-      "price": 32,
+      "price": 32.0,
       "attackPower": 25.0
     },
     {
@@ -69,7 +69,7 @@
       "asset": "cutlass9",
       "name": "Officers Cutlass",
       "description": "An officers cutlass.",
-      "price": 32,
+      "price": 32.0,
       "attackPower": 25.0
     },
     {
@@ -77,7 +77,7 @@
       "asset": "demonBlade",
       "name": "Demon Blade",
       "description": "A demonish blade. It radiates evil power!",
-      "price": 666,
+      "price": 666.0,
       "attackPower": 85.0
     },
     {
@@ -85,7 +85,7 @@
       "asset": "elvenShortsword",
       "name": "Elven Shortsword",
       "description": "An elven shortsword.",
-      "price": 34,
+      "price": 34.0,
       "attackPower": 18.0
     },
     {
@@ -93,7 +93,7 @@
       "asset": "falchion",
       "name": "Falchion",
       "description": "A new falchion.",
-      "price": 24,
+      "price": 24.0,
       "attackPower": 12.0
     },
     {
@@ -101,7 +101,7 @@
       "asset": "falchion2",
       "name": "Pirate Falchion",
       "description": "A pirate's falchion.",
-      "price": 19,
+      "price": 19.0,
       "attackPower": 13.0
     },
     {
@@ -109,7 +109,7 @@
       "asset": "falchion2Old",
       "name": "Golden Falchion",
       "description": "A golden falchion.",
-      "price": 112,
+      "price": 112.0,
       "attackPower": 9.0
     },
     {
@@ -117,7 +117,7 @@
       "asset": "falchion3",
       "name": "Orcish Falchion",
       "description": "An orcish falchion.",
-      "price": 33,
+      "price": 33.0,
       "attackPower": 17.0
     },
     {
@@ -125,7 +125,7 @@
       "asset": "falchion4",
       "name": "Heavy Falchion",
       "description": "A heavy falchion.",
-      "price": 30,
+      "price": 30.0,
       "attackPower": 16.0
     },
     {
@@ -133,7 +133,7 @@
       "asset": "falchion5",
       "name": "Cleaving Falchion",
       "description": "A cleaving falchion.",
-      "price": 42,
+      "price": 42.0,
       "attackPower": 19.0
     },
     {
@@ -141,7 +141,7 @@
       "asset": "falchion6",
       "name": "Steel Falchion",
       "description": "A steel falchion.",
-      "price": 18,
+      "price": 18.0,
       "attackPower": 15.0
     },
     {
@@ -149,7 +149,7 @@
       "asset": "falchion7",
       "name": "Noble Falchion",
       "description": "A noble falchion.",
-      "price": 54,
+      "price": 54.0,
       "attackPower": 15.0
     },
     {
@@ -157,7 +157,7 @@
       "asset": "orcishShortSword",
       "name": "Orcish Shortsword",
       "description": "An orcish shortsword.",
-      "price": 26,
+      "price": 26.0,
       "attackPower": 24.0
     },
     {
@@ -165,7 +165,7 @@
       "asset": "quickblade",
       "name": "Quickblade",
       "description": "A superfast blade.",
-      "price": 126,
+      "price": 126.0,
       "attackPower": 40.0
     },
     {
@@ -173,7 +173,7 @@
       "asset": "rapier",
       "name": "Rapier",
       "description": "A shiny rapier!",
-      "price": 26,
+      "price": 26.0,
       "attackPower": 28.0
     },
     {
@@ -181,7 +181,7 @@
       "asset": "rapier2",
       "name": "Magic Rapier",
       "description": "A magic rapier!",
-      "price": 86,
+      "price": 86.0,
       "attackPower": 18.0
     },
     {
@@ -189,7 +189,7 @@
       "asset": "rapier3",
       "name": "Noble Rapier",
       "description": "A magic rapier!",
-      "price": 46,
+      "price": 46.0,
       "attackPower": 38.0
     },
     {
@@ -197,7 +197,7 @@
       "asset": "sabreSilver",
       "name": "Silver Sabre",
       "description": "A silver sabre useful against the undead!",
-      "price": 60,
+      "price": 60.0,
       "attackPower": 35.0
     },
     {
@@ -205,7 +205,7 @@
       "asset": "sabre2",
       "name": "Blood Sabre",
       "description": "A blood-thirsty sabre!",
-      "price": 44,
+      "price": 44.0,
       "attackPower": 46.0
     },
     {
@@ -213,7 +213,7 @@
       "asset": "scimitar",
       "name": "Scimitar",
       "description": "A shiny scimitar!",
-      "price": 27,
+      "price": 27.0,
       "attackPower": 20.0
     },
     {
@@ -221,7 +221,7 @@
       "asset": "scimitarOld",
       "name": "Old Scimitar",
       "description": "An old scimitar",
-      "price": 17,
+      "price": 17.0,
       "attackPower": 14.0
     },
     {
@@ -229,7 +229,7 @@
       "asset": "scimitar2",
       "name": "Golden Scimitar",
       "description": "A golden scimitar",
-      "price": 76,
+      "price": 76.0,
       "attackPower": 44.0
     },
     {
@@ -237,7 +237,7 @@
       "asset": "shortSword",
       "name": "Rusty Shortsword",
       "description": "A bit rusty and pretty weak, but it can still do some damage.",
-      "price": 14,
+      "price": 14.0,
       "attackPower": 5.0
     },
     {
@@ -245,7 +245,7 @@
       "asset": "shortSwordOld",
       "name": "Old Shortsword",
       "description": "An old, worn short sword.",
-      "price": 20,
+      "price": 20.0,
       "attackPower": 6.0
     },
     {
@@ -253,7 +253,7 @@
       "asset": "shortSword2",
       "name": "Magic Shortsword",
       "description": "A magic shortsword!",
-      "price": 90,
+      "price": 90.0,
       "attackPower": 55.0
     },
     {
@@ -261,7 +261,7 @@
       "asset": "shortSword2Old",
       "name": "Sturdy Shortsword",
       "description": "A sturdy shortsword!",
-      "price": 28,
+      "price": 28.0,
       "attackPower": 26.0
     },
     {
@@ -269,7 +269,7 @@
       "asset": "shortSword3",
       "name": "Noble Shortsword",
       "description": "A nobleman's shortsword!",
-      "price": 78,
+      "price": 78.0,
       "attackPower": 30.0
     },
     {
@@ -277,7 +277,7 @@
       "asset": "shortSword5",
       "name": "Golden Shortsword",
       "description": "A golden shortsword!",
-      "price": 78,
+      "price": 78.0,
       "attackPower": 30.0
     },
     {
@@ -285,7 +285,7 @@
       "asset": "shortSword6",
       "name": "Steel Shortsword",
       "description": "A steel shortsword!",
-      "price": 45,
+      "price": 45.0,
       "attackPower": 30.0
     },
     {
@@ -293,7 +293,7 @@
       "asset": "shortSword7",
       "name": "Dark Shortsword",
       "description": "A short sword that exhumes dark power!",
-      "price": 200,
+      "price": 200.0,
       "attackPower": 60.0
     },
     {
@@ -301,7 +301,7 @@
       "asset": "tsurugi",
       "name": "Tsurugi",
       "description": "An elegant, fast weapon!",
-      "price": 140,
+      "price": 140.0,
       "attackPower": 70.0
     }
   ],
@@ -311,7 +311,7 @@
       "asset": "orcishDagger",
       "name": "Orcish Dagger",
       "description": "An orcish, dirty dagger!",
-      "price": 17,
+      "price": 17.0,
       "attackPower": 15.0
     },
     {
@@ -319,7 +319,7 @@
       "asset": "elvenDagger",
       "name": "Elven Dagger",
       "description": "An elven dagger!",
-      "price": 18,
+      "price": 18.0,
       "attackPower": 12.0
     },
     {
@@ -327,7 +327,7 @@
       "asset": "knife",
       "name": "Knife",
       "description": "A small knife!",
-      "price": 13,
+      "price": 13.0,
       "attackPower": 5.0
     },
     {
@@ -335,7 +335,7 @@
       "asset": "dagger3",
       "name": "Valuable Dagger",
       "description": "A valuable dagger!",
-      "price": 68,
+      "price": 68.0,
       "attackPower": 8.0
     },
     {
@@ -343,7 +343,7 @@
       "asset": "dagger6",
       "name": "Iron Dagger",
       "description": "An iron dagger!",
-      "price": 14,
+      "price": 14.0,
       "attackPower": 10.0
     },
     {
@@ -351,7 +351,7 @@
       "asset": "dagger7",
       "name": "Rusty Dagger",
       "description": "A rusty old dagger!",
-      "price": 8,
+      "price": 8.0,
       "attackPower": 6.0
     },
     {
@@ -359,7 +359,7 @@
       "asset": "dagger",
       "name": "New Dagger",
       "description": "A shiny new dagger!",
-      "price": 15,
+      "price": 15.0,
       "attackPower": 8.0
     },
     {
@@ -367,7 +367,7 @@
       "asset": "daggerOld",
       "name": "Old Dagger",
       "description": "An old dagger!",
-      "price": 7,
+      "price": 7.0,
       "attackPower": 8.0
     }
   ],
@@ -377,7 +377,7 @@
       "asset": "twoHandedSword",
       "name": "Two-Handed Sword",
       "description": "A heavy two-handed sword!",
-      "price": 58,
+      "price": 58.0,
       "attackPower": 60.0
     },
     {
@@ -385,7 +385,7 @@
       "asset": "claymore",
       "name": "Claymore",
       "description": "A two-handed sword.",
-      "price": 58,
+      "price": 58.0,
       "attackPower": 60.0
     },
     {
@@ -393,7 +393,7 @@
       "asset": "claymore2",
       "name": "Noble Claymore",
       "description": "A noble two-handed sword.",
-      "price": 75,
+      "price": 75.0,
       "attackPower": 12.0
     },
     {
@@ -401,7 +401,7 @@
       "asset": "claymore3",
       "name": "Magic Claymore",
       "description": "A magic two-handed sword.",
-      "price": 180,
+      "price": 180.0,
       "attackPower": 8.0
     },
     {
@@ -409,7 +409,7 @@
       "asset": "claymoreBlessed",
       "name": "Blessed Claymore",
       "description": "A holy two-handed sword.",
-      "price": 100,
+      "price": 100.0,
       "attackPower": 15.0
     },
     {
@@ -417,7 +417,7 @@
       "asset": "tripleSword",
       "name": "Triple Sword",
       "description": "A massive triple sword.",
-      "price": 90,
+      "price": 90.0,
       "attackPower": 50.0
     },
     {
@@ -425,7 +425,7 @@
       "asset": "tripleSwordOld",
       "name": "Old Triple Sword",
       "description": "A big old triple sword.",
-      "price": 70,
+      "price": 70.0,
       "attackPower": 40.0
     },
     {
@@ -433,7 +433,7 @@
       "asset": "tripleSword2",
       "name": "Noble Triple Sword",
       "description": "A nobleman triple sword.",
-      "price": 140,
+      "price": 140.0,
       "attackPower": 56.0
     },
     {
@@ -441,7 +441,7 @@
       "asset": "tripleSword3",
       "name": "Dragon Triple Sword",
       "description": "A dragon-scale adorned triple sword!",
-      "price": 180,
+      "price": 180.0,
       "attackPower": 76.0
     },
     {
@@ -449,7 +449,7 @@
       "asset": "orcishGreatSword",
       "name": "Orcish Greatsword",
       "description": "An orcish Greatsword",
-      "price": 29,
+      "price": 29.0,
       "attackPower": 35.0
     },
     {
@@ -457,7 +457,7 @@
       "asset": "orcishLongSword",
       "name": "Orcish Longsword",
       "description": "An orcish Longsword",
-      "price": 36,
+      "price": 36.0,
       "attackPower": 38.0
     },
     {
@@ -465,7 +465,7 @@
       "asset": "doubleSword",
       "name": "Doublesword",
       "description": "A double sword",
-      "price": 24,
+      "price": 24.0,
       "attackPower": 14.0
     },
     {
@@ -473,7 +473,7 @@
       "asset": "doubleSwordOld",
       "name": "Old Doublesword",
       "description": "An old double sword",
-      "price": 13,
+      "price": 13.0,
       "attackPower": 12.0
     },
     {
@@ -481,7 +481,7 @@
       "asset": "doubleSword2",
       "name": "Noble Doublesword",
       "description": "A noble double sword",
-      "price": 57,
+      "price": 57.0,
       "attackPower": 22.0
     },
     {
@@ -489,7 +489,7 @@
       "asset": "doubleSword3",
       "name": "Holy Doublesword",
       "description": "A holy double sword",
-      "price": 190,
+      "price": 190.0,
       "attackPower": 34.0
     },
     {
@@ -497,7 +497,7 @@
       "asset": "elvenBroadsword",
       "name": "Elven Broadsword",
       "description": "An elven broadsword",
-      "price": 28,
+      "price": 28.0,
       "attackPower": 22.0
     },
     {
@@ -505,7 +505,7 @@
       "asset": "goldenSword",
       "name": "Golden Broadsword",
       "description": "A golden broadsword",
-      "price": 140,
+      "price": 140.0,
       "attackPower": 17.0
     },
     {
@@ -513,7 +513,7 @@
       "asset": "greatSword",
       "name": "Greatsword",
       "description": "A greatsword",
-      "price": 37,
+      "price": 37.0,
       "attackPower": 24.0
     },
     {
@@ -521,7 +521,7 @@
       "asset": "greatSwordOld",
       "name": "Old Greatsword",
       "description": "An old greatsword",
-      "price": 27,
+      "price": 27.0,
       "attackPower": 20.0
     },
     {
@@ -529,7 +529,7 @@
       "asset": "greatSword2",
       "name": "Runic Greatsword",
       "description": "A greatsword with mysterious runes.",
-      "price": 177,
+      "price": 177.0,
       "attackPower": 28.0
     },
     {
@@ -537,7 +537,7 @@
       "asset": "greatSword3",
       "name": "Noble Greatsword",
       "description": "A noble greatsword.",
-      "price": 126,
+      "price": 126.0,
       "attackPower": 25.0
     },
     {
@@ -545,7 +545,7 @@
       "asset": "greatSword3Old",
       "name": "Steel Greatsword",
       "description": "A steel greatsword.",
-      "price": 56,
+      "price": 56.0,
       "attackPower": 23.0
     },
     {
@@ -553,7 +553,7 @@
       "asset": "greatSword4",
       "name": "Magic Greatsword",
       "description": "A magic greatsword.",
-      "price": 192,
+      "price": 192.0,
       "attackPower": 28.0
     },
     {
@@ -561,7 +561,7 @@
       "asset": "katana",
       "name": "Steel Katana",
       "description": "A steel katana.",
-      "price": 53,
+      "price": 53.0,
       "attackPower": 29.0
     },
     {
@@ -569,7 +569,7 @@
       "asset": "katana",
       "name": "Katana",
       "description": "An elegant katana.",
-      "price": 48,
+      "price": 48.0,
       "attackPower": 25.0
     },
     {
@@ -577,7 +577,7 @@
       "asset": "katana2",
       "name": "Master Katana",
       "description": "A master katana.",
-      "price": 82,
+      "price": 82.0,
       "attackPower": 30.0
     },
     {
@@ -585,7 +585,7 @@
       "asset": "longSword",
       "name": "Old Longsword",
       "description": "An old longsword.",
-      "price": 22,
+      "price": 22.0,
       "attackPower": 26.0
     },
     {
@@ -593,7 +593,7 @@
       "asset": "longSwordOld",
       "name": "Longsword",
       "description": "A longsword.",
-      "price": 26,
+      "price": 26.0,
       "attackPower": 29.0
     },
     {
@@ -601,7 +601,7 @@
       "asset": "longSword2",
       "name": "Noble Longsword",
       "description": "A noble longsword.",
-      "price": 50,
+      "price": 50.0,
       "attackPower": 31.0
     },
     {
@@ -609,7 +609,7 @@
       "asset": "longSword3",
       "name": "Weird Longsword",
       "description": "A mysterious, weird longsword.",
-      "price": 0,
+      "price": 0.0,
       "attackPower": 25.0
     },
     {
@@ -617,7 +617,7 @@
       "asset": "longSword5",
       "name": "Magic Longsword",
       "description": "A magic longsword.",
-      "price": 110,
+      "price": 110.0,
       "attackPower": 27.0
     },
     {
@@ -625,7 +625,7 @@
       "asset": "longSword6",
       "name": "Sturdy Longsword",
       "description": "A sturdy longsword.",
-      "price": 40,
+      "price": 40.0,
       "attackPower": 29.0
     },
     {
@@ -633,7 +633,7 @@
       "asset": "longSword7",
       "name": "Enchanted Longsword",
       "description": "An enchanted longsword.",
-      "price": 190,
+      "price": 190.0,
       "attackPower": 40.0
     }
   ]

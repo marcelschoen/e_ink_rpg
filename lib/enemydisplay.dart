@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/combat.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
@@ -13,7 +14,7 @@ import 'models/beings.dart';
 // -----------------------------------------------------------------------------
 Widget enemyDisplay(BuildContext context) {
   List<Widget> enemies = [];
-  for (Being enemy in CurrentFight().enemies()) {
+  for (Being enemy in CurrentCombat().enemies()) {
     enemies.add(EnemyWidget(monsterStateNotifier: enemy.state()));
   }
 
@@ -46,9 +47,9 @@ Widget enemyDisplay(BuildContext context) {
 // Create text hint shown under enemies, such as "select target"
 // --------------------------------------------------------------
 String getHint(BuildContext context) {
-  if (CurrentFight().selectedTarget == null &&
-      (CurrentFight().selectedAttack != null ||
-      CurrentFight().selectedAction.runtimeType == Spy)) {
+  if (CurrentCombat().selectedTarget == null &&
+      (CurrentCombat().selectedAttack != null ||
+      CurrentCombat().selectedAction.runtimeType == Spy)) {
     return 'TAP ENEMY TO SELECT TARGET';
   }
   return '';
@@ -71,7 +72,7 @@ class EnemyWidget extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: InkWell(
               onTap: () {
-                CurrentFight().selectAttackTarget(monsterStateNotifier.being());
+                CurrentCombat().selectAttackTarget(monsterStateNotifier.being());
 
                 // UPDATE LOWER BUTTONS
                 GameState().lowerButtonsState.update();

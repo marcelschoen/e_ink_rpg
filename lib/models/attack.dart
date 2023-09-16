@@ -1,4 +1,7 @@
 // Abstract base class for physical attacks
+import 'package:e_ink_rpg/combat.dart';
+import 'package:e_ink_rpg/models/attribute.dart';
+import 'package:e_ink_rpg/models/skill.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 
@@ -15,6 +18,10 @@ abstract class Attack {
 
   String name() {
     return runtimeType.toString();
+  }
+
+  static double getMeleeDamage(double attackPower, double skillLevel, double attackerLevel, double targetDefense, double targetLevel) {
+    return ( (((attackPower * (skillLevel / 2)) * (attackerLevel / 4)) * 1.5) - ((targetDefense / 1.5) * (targetLevel / 4)) ) * 1.6;
   }
 }
 
@@ -41,42 +48,36 @@ class Swing extends Attack {
 void attackTarget(Being attacker, Being target, Attack attack) {
   print("****> attacker " + attacker.getSpecies() + " attacks target: " + target.species.name() + " / attack: " + attack.name());
 
+  double attackPower = attacker.getAttackPower();
+  double skillLevel = attacker.getSkill(SkillType.Combat).getLevel();
+  double attackerLevel = attacker.attrValue(AttributeType.level);
+  double targetDefense = target.attrValue(AttributeType.defense);
+  double targetLevel = target.attrValue(AttributeType.level);
 
-  //////////////double attackPower = attacker.strength().toDouble();
-  double attackPower = 1.5;  // TODO - USE STRENGTH ????
+  double damage = Attack.getMeleeDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
 
-
-  print("> attack power: " + attackPower.toString());
-  print("> attack damage per target factor: " + attack.damagePerTargetFactor.toString());
-  double damage = attack.damagePerTargetFactor * attackPower;
-  double affectedDamage = damage;
-  print("> damage: " + damage.toString());
-  if (damage > 0) {
-    damage -= target.defense();
-    affectedDamage = damage * 3 / 5; // 60% damage for affected targets
-  }
   print("> target health: " + target.health().toString());
   print("> final damage: " + damage.round().toString());
-  target.damageBy(damage.round());
-  for (Being enemy in CurrentFight().enemies()) {
+  target.damageBy(damage);
+  for (Being enemy in CurrentCombat().enemies()) {
     if (enemy != target && enemy.state().affected) {
+      double affectedDamage = damage * 0.7;
       print(">> damage affected enemy: " + enemy.getSpecies());
-      enemy.damageBy(affectedDamage.round());
+      enemy.damageBy(affectedDamage);
     }
   }
 
   if (attack is Spell && attacker == Player()) {
-    int manaUsage = (attack as Spell).manaUsage.toInt();
-    GameState().player.decreaseStatBy(StatType.mana, manaUsage);
+    GameState().player.decreaseStatBy(StatType.mana, (attack as Spell).manaUsage);
     GameState().playerState.update();
   }
 
   if (!target.isAlive()) {
-    GameState().player.increaseXp(target.killXp);
-    CurrentFight().selectedTarget = null;
-    CurrentFight().deselectTargets();
-    CurrentFight().deaffectTargets();
-    CurrentFight().updateTargets();
+    GameState().player.increaseXp(target.attrValue(AttributeType.killXp));
+    CurrentCombat().selectedTarget = null;
+    CurrentCombat().deselectTargets();
+    CurrentCombat().deaffectTargets();
+    CurrentCombat().updateTargets();
     GameState().update();
   }
 }

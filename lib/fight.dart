@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/combat.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:e_ink_rpg/title.dart';
@@ -83,7 +84,7 @@ void startFight(BuildContext context, Job job) {
 }
 
 void startFightWithEnemies(BuildContext context, List<Being> enemies) {
-  CurrentFight().begin(enemies);
+  CurrentCombat().begin(enemies);
   switchToScreen(Fight(), context);
 }
 
@@ -94,26 +95,26 @@ executeCombatTurn(BuildContext context) {
 
   GameState().daytime.advanceByMinutes(5); // each attack uses up 5 minutes
 
-  if (CurrentFight().selectedAttack == null ||
-      CurrentFight().selectedTarget == null) {
+  if (CurrentCombat().selectedAttack == null ||
+      CurrentCombat().selectedTarget == null) {
     return;
   }
-  if (CurrentFight().selectedTarget != null) {
-    attackTarget(GameState().player, CurrentFight().selectedTarget!,
-        CurrentFight().selectedAttack!);
+  if (CurrentCombat().selectedTarget != null) {
+    attackTarget(GameState().player, CurrentCombat().selectedTarget!,
+        CurrentCombat().selectedAttack!);
   }
 
   jumpToNewScreenAfterFight(context);
 
-  if (CurrentFight().selectedTarget != null) {
-    if (CurrentFight().selectedTarget!.isAlive()) {
+  if (CurrentCombat().selectedTarget != null) {
+    if (CurrentCombat().selectedTarget!.isAlive()) {
       // Re-select target to enforce update of affected targets
-      CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+      CurrentCombat().selectAttackTarget(CurrentCombat().selectedTarget!);
     }
   }
 
   if (!GameState().player.isAlive()) {
-    CurrentFight().aborted;
+    CurrentCombat().aborted;
   }
 }
 
@@ -121,7 +122,7 @@ executeCombatTurn(BuildContext context) {
 // Stop fighting and run...
 // -------------------------------------------
 void flee(BuildContext context) {
-  CurrentFight().aborted = true;
+  CurrentCombat().aborted = true;
   jumpToNewScreenAfterFight(context);
 }
 
@@ -129,7 +130,7 @@ void flee(BuildContext context) {
 // Continue to another screen once fight is over
 // -----------------------------------------------
 void jumpToNewScreenAfterFight(BuildContext context) {
-  if (CurrentFight().finished()) {
+  if (CurrentCombat().finished()) {
     if (GameState().player.isAlive()) {
       print ('check');
       if (GameState().selectedInJobs != null) {
@@ -150,13 +151,13 @@ void jumpToNewScreenAfterFight(BuildContext context) {
 // Selects the group of attacks to be used
 // -------------------------------------------
 selectOptionGroup(SelectedOptionGroup optionGroup) {
-  CurrentFight().selectedOptionGroup = optionGroup;
-  CurrentFight().selectedAttack = null;
-  CurrentFight().selectedAction = null;
-  CurrentFight().selectedTarget = null;
-  CurrentFight().deselectTargets();
-  CurrentFight().deaffectTargets();
-  CurrentFight().updateTargets();
+  CurrentCombat().selectedOptionGroup = optionGroup;
+  CurrentCombat().selectedAttack = null;
+  CurrentCombat().selectedAction = null;
+  CurrentCombat().selectedTarget = null;
+  CurrentCombat().deselectTargets();
+  CurrentCombat().deaffectTargets();
+  CurrentCombat().updateTargets();
   GameState().optionButtonState.update();
   GameState().hintState.update();
   GameState().lowerButtonsState.update();
@@ -166,8 +167,8 @@ selectOptionGroup(SelectedOptionGroup optionGroup) {
 // Select the special action (Spy etc.)
 // ---------------------------------------------------
 void selectAction(GameAction action) {
-  CurrentFight().selectedAction = action;
-  CurrentFight().selectedAttack = null;
+  CurrentCombat().selectedAction = action;
+  CurrentCombat().selectedAttack = null;
   GameState().lowerButtonsState.update();
   GameState().hintState.update();
 }
@@ -176,14 +177,14 @@ void selectAction(GameAction action) {
 // Select the actual attack (Hit, Swing, Fireball...)
 // ---------------------------------------------------
 void selectAttack(Attack attack) {
-  CurrentFight().selectedAction = null;
-  CurrentFight().selectedAttack = attack;
-  CurrentFight().deaffectTargets();
-  if (CurrentFight().selectedTarget != null) {
+  CurrentCombat().selectedAction = null;
+  CurrentCombat().selectedAttack = attack;
+  CurrentCombat().deaffectTargets();
+  if (CurrentCombat().selectedTarget != null) {
     // Re-select target to enforce update of affected targets
-    CurrentFight().selectAttackTarget(CurrentFight().selectedTarget!);
+    CurrentCombat().selectAttackTarget(CurrentCombat().selectedTarget!);
   }
-  CurrentFight().updateTargets();
+  CurrentCombat().updateTargets();
   GameState().hintState.update();
 }
 
@@ -258,7 +259,7 @@ class FightScaffold extends StatelessWidget {
 // -------------------------------------------------------------------------------------
 List<Widget> getButtonsOrInfoLabel(BuildContext context) {
   List<Widget> widgets = [];
-  if (CurrentFight().enemyTurn) {
+  if (CurrentCombat().enemyTurn) {
     widgets.add(wrapButtonsOrInfoLabel(Center(
         child: Text('ENEMY TURN',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))));
@@ -321,7 +322,7 @@ Widget getTurnOrderList() {
       width: 3,
     ),
   );
-  for (Being entry in CurrentFight().turnOrder) {
+  for (Being entry in CurrentCombat().turnOrder) {
     entries.add(getTurnEntry(entry, border));
     border = null;
   }
@@ -389,13 +390,13 @@ Widget getActionButtonsOrEnemyActions(BuildContext context) {
 // ---------------------------------------------------
 Widget getExecutionButton(BuildContext context) {
 
-  if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.skill) {
+  if (CurrentCombat().selectedOptionGroup == SelectedOptionGroup.skill) {
 
-  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
-      if (CurrentFight().selectedAction != null && CurrentFight().selectedAction!.runtimeType == Spy ) {
+  } else if (CurrentCombat().selectedOptionGroup == SelectedOptionGroup.special) {
+      if (CurrentCombat().selectedAction != null && CurrentCombat().selectedAction!.runtimeType == Spy ) {
         BaseButton button = BaseButton.withImageAndText('LOOK', GameIconAsset.spy.filename(),
-                (context) => CurrentFight().selectedAction!.perform() );
-        if (CurrentFight().selectedTarget == null) {
+                (context) => CurrentCombat().selectedAction!.perform() );
+        if (CurrentCombat().selectedTarget == null) {
           button.enabled = false;
         }
         return button;
@@ -405,8 +406,8 @@ Widget getExecutionButton(BuildContext context) {
   // attack and magic
   BaseButton button = BaseButton.withImageAndText('FIGHT',
       GameIconAsset.fight.filename(), (context) => executeCombatTurn(context));
-  if (CurrentFight().selectedTarget == null ||
-      CurrentFight().selectedAttack == null) {
+  if (CurrentCombat().selectedTarget == null ||
+      CurrentCombat().selectedAttack == null) {
     button.enabled = false;
   }
   return button;
@@ -417,15 +418,15 @@ Widget getExecutionButton(BuildContext context) {
 // ---------------------------------------------------
 List<Widget> getActionOptions() {
   List<Widget> options = [];
-  if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.magic) {
+  if (CurrentCombat().selectedOptionGroup == SelectedOptionGroup.magic) {
     for (Spell spell in GameState().player.availableSpells) {
       options.add(BaseButton.textOnly(spell.name(), (p0) { selectAttack(spell); }));
     }
-  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.attack) {
+  } else if (CurrentCombat().selectedOptionGroup == SelectedOptionGroup.attack) {
     for (Attack attack in GameState().player.availableAttacks) {
       options.add(BaseButton.textOnly(attack.name(), (p0) { selectAttack(attack); }));
     }
-  } else if (CurrentFight().selectedOptionGroup == SelectedOptionGroup.special) {
+  } else if (CurrentCombat().selectedOptionGroup == SelectedOptionGroup.special) {
     options.add(BaseButton.textOnly('Spy', (p0) { selectAction(Spy()); }));
     options.add(BaseButton.textOnly('Steal', (p0) { print('> steal <'); }));
   }

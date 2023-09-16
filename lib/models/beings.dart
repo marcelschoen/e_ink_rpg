@@ -1,3 +1,4 @@
+import 'package:e_ink_rpg/models/item.dart';
 import 'package:e_ink_rpg/models/skill.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
@@ -14,71 +15,64 @@ import 'magic.dart';
  */
 class Being {
 
-  int killXp = 10;
-  int level = 1;
+//  int killXp = 10;
+//  int level = 1;
   BeingState? _state;
 
   Map<AttributeType, Attribute> _attrs = {};
   Map<StatType, Stat> _stats = {};
-  List<Skill> skills = [];
+  Map<SkillType, SkillTree> skillTrees = {};
 
   SpeciesType species;
   bool selected = false;
   Inventory inventory = Inventory();
 
   // speed and speed counter used for turn order
-  double speedCounter = 0.0;
-  double speed = 1.0;
+  //double speedCounter = 0.0;
+  //double speed = 1.0;
 
   Being.player() : this(SpeciesType.player);
 
   Being(SpeciesType monsterType) : species = monsterType {
-    int maxHealth = monsterType.maxHealth();
-
-    // TODO - ADJUST STARTING VALUES
-
     // Stats
-    Stat statHealth = Stat(StatType.health, maxHealth);
-    statHealth.setValueTo(maxHealth);
-    setStat(statHealth);
-
+    setStat(Stat.withValue(StatType.health, monsterType.maxHealth(), monsterType.maxHealth()));
+    setAttrValue(AttributeType.attackPower, 0);
     _state = BeingState(this);
-
-    if (species == SpeciesType.player) {
-      speed = 2;
-      print("************* SET PLAYER SPEED TO 2");
-    }
   }
 
   BeingState state() {
     return this._state!;
   }
 
-  int maxHealth() {
+  Skill getSkill(SkillType type) {
+    return skillTrees[type]!.getCoreSkill();
+  }
+
+  double maxHealth() {
     return _stats[StatType.health]!.maxValue();
   }
 
-  int health() {
+  double health() {
     return _stats[StatType.health]!.value();
   }
 
-  int maxMana() {
+  double maxMana() {
     return _stats[StatType.mana]!.maxValue();
   }
 
-  int mana() {
+  double mana() {
     return _stats[StatType.mana]!.value();
   }
 
-  int money() {
+  double money() {
     return _attrs[AttributeType.money]!.value();
   }
 
-  void addMoney(int value) {
+  void addMoney(double value) {
     _attrs[AttributeType.money]!.increaseValueBy(value);
   }
 
-  int defense() {
+  double defense() {
     return _attrs[AttributeType.defense]!.value();
   }
 
@@ -103,13 +97,13 @@ class Being {
     return false;
   }
 
-  void restoreStatBy(StatType statType, int restoreValue) {
+  void restoreStatBy(StatType statType, double restoreValue) {
     if (_stats.containsKey(statType)) {
       _stats[statType]!.restoreBy(restoreValue);
     }
   }
 
-  void decreaseStatBy(StatType statType, int decreaseValue) {
+  void decreaseStatBy(StatType statType, double decreaseValue) {
     if (_stats.containsKey(statType)) {
       _stats[statType]!.decreaseBy(decreaseValue);
     }
@@ -125,7 +119,11 @@ class Being {
     return _stats.containsKey(statType) ? _stats[statType]!.progressBarValue() : 0;
   }
 
-  int attrValue(AttributeType type) {
+  increaseAttrValueBy(AttributeType type, double value) {
+    _attrs[type]!.increaseValueBy(value);
+  }
+
+  double attrValue(AttributeType type) {
     return _attrs.containsKey(type) ? _attrs[type]!.value() : 0;
   }
 
@@ -133,19 +131,23 @@ class Being {
     return _attrs[type]!;
   }
 
-  void setAttrValue(AttributeType type, int value) {
-    _attrs[type]!.setValueTo(value);
+  void setAttrValue(AttributeType type, double value) {
+    if (!_attrs.containsKey(type)) {
+      setAttribute(Attribute.withValue(type, value));
+    } else {
+      _attrs[type]!.setValueTo(value);
+    }
   }
 
   void setAttribute(Attribute attr) {
     _attrs[attr.type] = attr;
   }
 
-  int statValue(StatType statType) {
+  double statValue(StatType statType) {
     return _stats.containsKey(statType) ? _stats[statType]!.value() : 0;
   }
 
-  int statMaxValue(StatType statType) {
+  double statMaxValue(StatType statType) {
     return _stats.containsKey(statType) ? _stats[statType]!.maxValue() : 0;
   }
 
@@ -153,7 +155,7 @@ class Being {
     _stats[stat.statType] = stat;
   }
 
-  void setStatValue(StatType statType, int newValue) {
+  void setStatValue(StatType statType, double newValue) {
     if (!_stats.containsKey(statType)) {
       return;
     }
@@ -161,7 +163,7 @@ class Being {
     _state!.update();
   }
 
-  void setStatMaxValue(StatType statType, int newMaxValue) {
+  void setStatMaxValue(StatType statType, double newMaxValue) {
     if (!_stats.containsKey(statType)) {
       return;
     }
@@ -181,12 +183,12 @@ class Being {
     _state!.update();
   }
 
-  healBy(int value) {
+  healBy(double value) {
     _stats[StatType.health]!.restoreBy(value);
     _state!.update();
   }
 
-  damageBy(int value) {
+  damageBy(double value) {
     _stats[StatType.health]!.decreaseBy(value);
     _state!.update();
   }
@@ -198,6 +200,10 @@ class Being {
 
   String getSpecies() {
     return species.name();
+  }
+
+  double getAttackPower() {
+    return attrValue(AttributeType.attackPower);
   }
 }
 
@@ -215,14 +221,14 @@ enum SpeciesType {
   const SpeciesType(this._name, this._maxHealth, this.filename);
 
   final String _name;
-  final int _maxHealth;
+  final double _maxHealth;
   final String filename;
 
   String name() {
     return _name;
   }
 
-  int maxHealth() {
+  double maxHealth() {
     return this._maxHealth;
   }
 }
@@ -237,10 +243,18 @@ class Humanoid extends Being {
   String name;
   Set<Attack> availableAttacks = {};
   Set<Spell> availableSpells = {};
+  final Equipment equipment = Equipment();
 
   Humanoid(this.name) : super(SpeciesType.npc) {
+    setAttrValue(AttributeType.speed, 1);
+    setAttrValue(AttributeType.attackPower, 5);
   }
 
+  @override
+  double getAttackPower() {
+    Weapon? weapon = equipment.getWeapon();
+    return weapon == null ? attrValue(AttributeType.attackPower) : weapon.getAttribute(AttributeType.attackPower).value();
+  }
 }
 
 /**
@@ -250,13 +264,14 @@ class Humanoid extends Being {
 class Player extends Humanoid {
 
   GameRegion? _currentRegion;
-  final Equipment equipment = Equipment();
 
   // singleton instance
   static final Player _instance = Player._internal();
 
   Player._internal() : super('Player') {
     reset();
+    setAttrValue(AttributeType.speed, 2);
+    setAttrValue(AttributeType.attackPower, 5);
   }
 
   factory Player() {
@@ -303,7 +318,7 @@ class Player extends Humanoid {
     availableSpells = { Fireball() };
   }
 
-  increaseXp(int increase) {
+  increaseXp(double increase) {
     restoreStatBy(StatType.xp, increase);
     if (statIsFull(StatType.xp)) {
       depleteStat(StatType.xp);
@@ -315,7 +330,7 @@ class Player extends Humanoid {
   }
 
   @override
-  damageBy(int value) {
+  damageBy(double value) {
     super.damageBy(value);
   }
 }

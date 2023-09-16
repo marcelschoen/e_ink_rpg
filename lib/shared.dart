@@ -1,4 +1,5 @@
 import 'package:e_ink_rpg/assets.dart';
+import 'package:e_ink_rpg/models/attribute.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,7 @@ class PlayerWidget extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(GameState().player.level.toString(),
+                        Text(GameState().player.attrValue(AttributeType.level).toString(),
                             style: getTitleTextStyle(24)),
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
                       ],

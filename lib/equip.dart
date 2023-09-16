@@ -35,6 +35,13 @@ class Equipment {
     GameState().equipState.update();
   }
 
+  Weapon? getWeapon() {
+    if (wearables.containsKey(WearableType.hands)) {
+      return wearables[WearableType.hands] as Weapon;
+    }
+    return null;
+  }
+
   bool hasEquipped(GameItem item) {
     for (Wearable wearable in wearables.values) {
       GameItem equippedItem = wearable as GameItem;

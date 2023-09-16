@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import '../assets.dart';
 import '../state.dart';
 import 'attack.dart';
+import 'attribute.dart';
 import 'effects.dart';
 
 
@@ -101,8 +102,8 @@ class ItemRegistry {
       armor.id = id + indexOffset;
       armor.name = name;
       armor.description = description;
-      armor.defense = defense;
-      armor.price = price;
+      armor.setDefense(defense);
+      armor.setPrice(price);
       if (node == 'head') {
         armor.wearableType = WearableType.head;
       } else if (node == 'torso') {
@@ -134,24 +135,24 @@ class ItemRegistry {
         sword.id = id + indexOffset;
         sword.name = name;
         sword.description = description;
-        sword.attackPower = attackPower;
-        sword.price = price;
+        sword.setAttackPower(attackPower);
+        sword.setPrice(price);
         ItemRegistry.registerItem(sword);
       } else if (node == 'dagger') {
         Dagger dagger = Dagger(GameItemAsset.values.byName(asset));
         dagger.id = id + indexOffset;
         dagger.name = name;
         dagger.description = description;
-        dagger.attackPower = attackPower;
-        dagger.price = price;
+        dagger.setAttackPower(attackPower);
+        dagger.setPrice(price);
         ItemRegistry.registerItem(dagger);
       } else if (node == 'largeSword') {
         LargeSword largeSword = LargeSword(GameItemAsset.values.byName(asset));
         largeSword.id = id + indexOffset;
         largeSword.name = name;
         largeSword.description = description;
-        largeSword.attackPower = attackPower;
-        largeSword.price = price;
+        largeSword.setAttackPower(attackPower);
+        largeSword.setPrice(price);
         ItemRegistry.registerItem(largeSword);
       }
     }
@@ -177,7 +178,7 @@ class ItemRegistry {
       consumable.name = name;
       consumable.description = description;
       if (restoreHealth == -1) {
-        consumable.statRestoreOnConsume.add(Stat.withValue(StatType.health, 1, 1));
+        consumable.statRestoreOnConsume.add(StatType.health);
       } else {
         consumable.statValueBoostsOnConsume.add(Stat.withValue(StatType.health, restoreHealth, restoreHealth));
       }
@@ -203,13 +204,42 @@ abstract class GameItem {
   String description = '';
   ItemCategory itemCategory = ItemCategory.item;
   GameItemAsset itemAsset = GameItemAsset.apple;
+  Map<AttributeType, Attribute> _attrs = {};
 
-  int price = -1;
+  GameItem() {
+    setAttrValue(AttributeType.price, -1);
+  }
 
-  GameItem() {}
+  setPrice(double value) {
+    setAttrValue(AttributeType.price, value);
+  }
 
   GameItem.fromAsset(this.itemAsset) {
     itemCollection.add(this);
+  }
+
+  increaseAttrValueBy(AttributeType type, double value) {
+    _attrs[type]!.increaseValueBy(value);
+  }
+
+  double attrValue(AttributeType type) {
+    return _attrs.containsKey(type) ? _attrs[type]!.value() : 0;
+  }
+
+  Attribute getAttribute(AttributeType type) {
+    return _attrs[type]!;
+  }
+
+  void setAttrValue(AttributeType type, double value) {
+    if (!_attrs.containsKey(type)) {
+      setAttribute(Attribute.withValue(type, value));
+    } else {
+      _attrs[type]!.setValueTo(value);
+    }
+  }
+
+  void setAttribute(Attribute attr) {
+    _attrs[attr.type] = attr;
   }
 
   static List<GameItem> itemCollection = [];
@@ -242,7 +272,7 @@ class Consumable extends GameItem {
   List<Stat> statMaxValueBoostsOnConsume = [];
 
   // List of stats that will be restored completely when the item is consumed.
-  List<Stat> statRestoreOnConsume = [];
+  List<StatType> statRestoreOnConsume = [];
 
   Consumable(GameItemAsset itemAsset) : super.fromAsset(itemAsset);
 
@@ -265,14 +295,14 @@ class Consumable extends GameItem {
     // simpler items just refill one of the stats (e.g. health)
     for (Stat boosted in statValueBoostsOnConsume) {
       if (GameState().player.hasStat(boosted.statType)) {
-        int boostValue = boosted.value();
+        double boostValue = boosted.value();
         GameState().player.restoreStatBy(boosted.statType, boostValue);
       }
     }
     // more valuable items increase the max value of the stat
     for (Stat boosted in statMaxValueBoostsOnConsume) {
       if (GameState().player.hasStat(boosted.statType)) {
-        int boostValue = boosted.maxValue();
+        double boostValue = boosted.maxValue();
         GameState().player.setStatMaxValue(boosted.statType, boostValue);
         GameState().player.restoreStat(boosted.statType);
       }
@@ -314,11 +344,16 @@ enum WearableType {
 // Armor items
 // -----------------------------------------------------------------------------
 class Armor extends GameItem with Wearable {
-  double defense = 2;
   Map<StatType, double> statBoosts = {};
   List<Effect> effects = [];
 
-  Armor(GameItemAsset itemAsset) : super.fromAsset(itemAsset);
+  Armor(GameItemAsset itemAsset) : super.fromAsset(itemAsset) {
+    setAttrValue(AttributeType.defense, 2);
+  }
+
+  setDefense(double value) {
+    setAttrValue(AttributeType.defense, value);
+  }
 
   addStatBoost(StatType type, double boostValue) {
     statBoosts.putIfAbsent(type, () => boostValue);
@@ -335,14 +370,18 @@ class Armor extends GameItem with Wearable {
 class Weapon extends GameItem with Wearable {
   List<Attack> availableAttacks = [];
   ItemCategory itemCategory = ItemCategory.weapon;
-  double attackPower = 1.0;
   bool twoHanded = false;
 
   Weapon(GameItemAsset itemAsset) : super.fromAsset(itemAsset) {
     this.wearableType = WearableType.hands;
+    setAttrValue(AttributeType.attackPower, 1.0);
     for (Attack attack in getAvailableAttacks()) {
       availableAttacks.add(attack);
     }
+  }
+
+  setAttackPower(double value) {
+    setAttrValue(AttributeType.attackPower, value);
   }
 
   List<Attack> getAvailableAttacks() {

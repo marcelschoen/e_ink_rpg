@@ -5,7 +5,7 @@
       "asset": "cap",
       "name": "Leather Cap",
       "description": "Provides some basic protection.",
-      "price": 15,
+      "price": 15.0,
       "defense": 9.0
     },
     {
@@ -13,7 +13,7 @@
       "asset": "cap2",
       "name": "Old Leather Cap",
       "description": "Provides some basic protection.",
-      "price": 10,
+      "price": 10.0,
       "defense": 6.0
     },
     {
@@ -21,7 +21,7 @@
       "asset": "wizardCap",
       "name": "Fancy Wizard Hat",
       "description": "Magical hat.",
-      "price": 65,
+      "price": 65.0,
       "defense": 12.0
     },
     {
@@ -29,7 +29,7 @@
       "asset": "wizardHat",
       "name": "Plain Wizard Hat",
       "description": "Magical hat.",
-      "price": 50,
+      "price": 50.0,
       "defense": 10.0
     },
     {
@@ -37,7 +37,7 @@
       "asset": "wizardHat2",
       "name": "Ancient Wizard Hat",
       "description": "Ancient wizard hat.",
-      "price": 55,
+      "price": 55.0,
       "defense": 11.0
     },
     {
@@ -45,7 +45,7 @@
       "asset": "hat",
       "name": "Icy Wizard Hat",
       "description": "A cold, icy magical hat.",
-      "price": 155,
+      "price": 155.0,
       "defense": 16.0
     },
     {
@@ -53,7 +53,7 @@
       "asset": "hat2",
       "name": "Wizard Hat",
       "description": "A magical hat.",
-      "price": 65,
+      "price": 65.0,
       "defense": 15.0
     },
     {
@@ -61,7 +61,7 @@
       "asset": "hat3",
       "name": "Sparkly Wizard Hat",
       "description": "My god, it is full of stars!",
-      "price": 265,
+      "price": 265.0,
       "defense": 40.0
     },
     {
@@ -69,7 +69,7 @@
       "asset": "crestedHelmet",
       "name": "Crested Helmet",
       "description": "A crested Helmet",
-      "price": 85,
+      "price": 85.0,
       "defense": 18.0
     },
     {
@@ -77,7 +77,7 @@
       "asset": "elvenLeatherHat",
       "name": "Elvent Leather Hat",
       "description": "Looking good...",
-      "price": 35,
+      "price": 35.0,
       "defense": 14.0
     },
     {
@@ -85,7 +85,7 @@
       "asset": "greenMask",
       "name": "Mysterious Mask",
       "description": "A powerful relic.",
-      "price": 135,
+      "price": 135.0,
       "defense": 25.0
     },
     {
@@ -93,7 +93,7 @@
       "asset": "cap",
       "name": "Leather Helmet",
       "description": "Provides a little protection.",
-      "price": 30,
+      "price": 30.0,
       "defense": 5.0
     },
     {
@@ -101,7 +101,7 @@
       "asset": "helmet",
       "name": "Iron Helmet",
       "description": "Provides some basic protection.",
-      "price": 30,
+      "price": 30.0,
       "defense": 5.0
     },
     {
@@ -109,7 +109,7 @@
       "asset": "helmetVisored",
       "name": "Visored Helmet",
       "description": "Provides solid protection.",
-      "price": 50,
+      "price": 50.0,
       "defense": 35.0
     },
     {
@@ -117,7 +117,7 @@
       "asset": "helmet2",
       "name": "Winged Helmet",
       "description": "Provides solid protection.",
-      "price": 55,
+      "price": 55.0,
       "defense": 38.0
     },
     {
@@ -125,7 +125,7 @@
       "asset": "helmetEtched",
       "name": "Etched Helmet",
       "description": "Provides solid protection.",
-      "price": 65,
+      "price": 65.0,
       "defense": 44.0
     },
     {
@@ -133,7 +133,7 @@
       "asset": "helmet3",
       "name": "Spiky Helmet",
       "description": "Provides solid protection.",
-      "price": 65,
+      "price": 65.0,
       "defense": 44.0
     },
     {
@@ -141,7 +141,7 @@
       "asset": "helmet3old",
       "name": "Noble Helmet",
       "description": "Provides solid protection.",
-      "price": 85,
+      "price": 85.0,
       "defense": 50.0
     },
     {
@@ -149,7 +149,7 @@
       "asset": "helmet4",
       "name": "Horned Helmet",
       "description": "Provides solid protection.",
-      "price": 45,
+      "price": 45.0,
       "defense": 55.0
     },
     {
@@ -157,7 +157,7 @@
       "asset": "helmet4visor",
       "name": "Old Visored Helmet",
       "description": "Provides solid protection.",
-      "price": 35,
+      "price": 35.0,
       "defense": 25.0
     },
     {
@@ -165,7 +165,7 @@
       "asset": "helmet5",
       "name": "Steel Visored Helmet",
       "description": "Provides solid protection.",
-      "price": 68,
+      "price": 68.0,
       "defense": 60.0
     },
     {
@@ -173,7 +173,7 @@
       "asset": "helmetArt",
       "name": "Art Helmet",
       "description": "A special helmet, provides meagre protection.",
-      "price": 150,
+      "price": 150.0,
       "defense": 20.0
     },
     {
@@ -181,7 +181,7 @@
       "asset": "helmetArt2",
       "name": "Silver Art Helmet",
       "description": "A special helmet, provides meagre protection.",
-      "price": 170,
+      "price": 170.0,
       "defense": 18.0
     },
     {
@@ -189,7 +189,7 @@
       "asset": "helmetArt3",
       "name": "Centurion Helmet",
       "description": "A special helmet, provides good protection.",
-      "price": 120,
+      "price": 120.0,
       "defense": 30.0
     },
     {
@@ -197,7 +197,7 @@
       "asset": "helmetEgo",
       "name": "Goldwing Helmet",
       "description": "A golden winged helmet.",
-      "price": 180,
+      "price": 180.0,
       "defense": 40.0
     },
     {
@@ -205,7 +205,7 @@
       "asset": "helmetEgo2",
       "name": "Golden Visored Helmet",
       "description": "A golden visored helmet.",
-      "price": 160,
+      "price": 160.0,
       "defense": 35.0
     },
     {
@@ -213,7 +213,7 @@
       "asset": "helmetEgo3",
       "name": "Ceremonial Helmet",
       "description": "A ceremonial helmet.",
-      "price": 250,
+      "price": 250.0,
       "defense": 15.0
     },
     {
@@ -221,7 +221,7 @@
       "asset": "helmetEgo4",
       "name": "Southern Helmet",
       "description": "Provides basic protection.",
-      "price": 40,
+      "price": 40.0,
       "defense": 35.0
     },
     {
@@ -229,7 +229,7 @@
       "asset": "plumedHelmet",
       "name": "Plumed Helmet",
       "description": "Provides basic protection.",
-      "price": 80,
+      "price": 80.0,
       "defense": 55.0
     }
   ],
@@ -239,7 +239,7 @@
       "asset": "bandedMailBreastPlate",
       "name": "Old Banded Mail",
       "description": "Provides mediocre protection.",
-      "price": 12,
+      "price": 12.0,
       "defense": 20.0
     },
     {
@@ -247,7 +247,7 @@
       "asset": "bandedMail2BreastPlate",
       "name": "Banded Mail",
       "description": "Provides a little protection.",
-      "price": 18,
+      "price": 18.0,
       "defense": 28.0
     },
     {
@@ -255,7 +255,7 @@
       "asset": "chainMailBreastPlate",
       "name": "Old Chain Mail",
       "description": "Provides mediocre protection.",
-      "price": 35,
+      "price": 35.0,
       "defense": 22.0
     },
     {
@@ -263,7 +263,7 @@
       "asset": "chainMail2BreastPlate",
       "name": "Noble Chain Mail",
       "description": "Provides solid protection.",
-      "price": 85,
+      "price": 85.0,
       "defense": 38.0
     },
     {
@@ -271,7 +271,7 @@
       "asset": "chainMail3BreastPlate",
       "name": "Chain Mail",
       "description": "Provides solid protection.",
-      "price": 45,
+      "price": 45.0,
       "defense": 28.0
     },
     {
@@ -279,7 +279,7 @@
       "asset": "chainMailBreastPlate",
       "name": "Iron Chain Mail",
       "description": "Provides good protection.",
-      "price": 80,
+      "price": 80.0,
       "defense": 25.0
     },
     {
@@ -287,7 +287,7 @@
       "asset": "leather2ArmorBreastPlate",
       "name": "Leather Breastplate",
       "description": "Provides a little protection.",
-      "price": 20,
+      "price": 20.0,
       "defense": 10.0
     },
     {
@@ -295,7 +295,7 @@
       "asset": "crystalBreastPlate",
       "name": "Crystal Breastplate",
       "description": "Provides special protection.",
-      "price": 120,
+      "price": 120.0,
       "defense": 46.0
     },
     {
@@ -303,7 +303,7 @@
       "asset": "elvenLeatherBreastPlate",
       "name": "Elven Leather Breastplate",
       "description": "Provides solid protection.",
-      "price": 50,
+      "price": 50.0,
       "defense": 28.0
     },
     {
@@ -311,7 +311,7 @@
       "asset": "elvenRingmailBreastPlate",
       "name": "Elven Ring Mail",
       "description": "Provides strong protection.",
-      "price": 90,
+      "price": 90.0,
       "defense": 62.0
     },
     {
@@ -319,7 +319,7 @@
       "asset": "elvenScalemailBreastPlate",
       "name": "Elven Scale Mail",
       "description": "Provides strong protection.",
-      "price": 80,
+      "price": 80.0,
       "defense": 60.0
     },
     {
@@ -327,7 +327,7 @@
       "asset": "iceDragonNewBreastPlate",
       "name": "Ice Dragon Breastplate",
       "description": "Provides strong protection.",
-      "price": 350,
+      "price": 350.0,
       "defense": 90.0
     },
     {
@@ -335,7 +335,7 @@
       "asset": "iceDragonOldBreastPlate",
       "name": "Old Ice Dragon Breastplate",
       "description": "Provides strong protection.",
-      "price": 300,
+      "price": 300.0,
       "defense": 80.0
     },
     {
@@ -343,7 +343,7 @@
       "asset": "leatherArmorBreastPlate",
       "name": "Leather Armor",
       "description": "Provides mediocre protection.",
-      "price": 30,
+      "price": 30.0,
       "defense": 18.0
     },
     {
@@ -351,7 +351,7 @@
       "asset": "leather2ArmorBreastPlate",
       "name": "Sturdy Leather Armor",
       "description": "Provides mediocre protection.",
-      "price": 40,
+      "price": 40.0,
       "defense": 24.0
     },
     {
@@ -359,7 +359,7 @@
       "asset": "leather3ArmorBreastPlate",
       "name": "Noble Leather Armor",
       "description": "Provides mediocre protection.",
-      "price": 130,
+      "price": 130.0,
       "defense": 28.0
     },
     {
@@ -367,7 +367,7 @@
       "asset": "orcishLeatherBreastPlate",
       "name": "Orcish Leather Armor",
       "description": "Provides mediocre protection.",
-      "price": 20,
+      "price": 20.0,
       "defense": 18.0
     },
     {
@@ -375,7 +375,7 @@
       "asset": "orcishPlate2BreastPlate",
       "name": "Orcish Spiky Armor",
       "description": "Provides good protection.",
-      "price": 65,
+      "price": 65.0,
       "defense": 58.0
     },
     {
@@ -383,7 +383,7 @@
       "asset": "orcishPlateMailBreastPlate",
       "name": "Orcish Plate Armor",
       "description": "Provides strong protection.",
-      "price": 70,
+      "price": 70.0,
       "defense": 68.0
     },
     {
@@ -391,7 +391,7 @@
       "asset": "orcishRingmailBreastPlate",
       "name": "Orcish Ring Mail",
       "description": "Provides good protection.",
-      "price": 50,
+      "price": 50.0,
       "defense": 38.0
     },
     {
@@ -399,7 +399,7 @@
       "asset": "pearlDragonBreastPlate",
       "name": "Pearl Dragon Breastplate",
       "description": "Provides strong protection.",
-      "price": 230,
+      "price": 230.0,
       "defense": 80.0
     },
     {
@@ -407,7 +407,7 @@
       "asset": "pearlDragonHide",
       "name": "Pearl Dragon Hide",
       "description": "Provides strong protection.",
-      "price": 160,
+      "price": 160.0,
       "defense": 60.0
     },
     {
@@ -415,7 +415,7 @@
       "asset": "plateBreastPlate",
       "name": "Iron Armor",
       "description": "Provides strong protection.",
-      "price": 80,
+      "price": 80.0,
       "defense": 40.0
     },
     {
@@ -423,7 +423,7 @@
       "asset": "plateMailBreastPlate",
       "name": "Steel Armor",
       "description": "Provides strong protection.",
-      "price": 90,
+      "price": 90.0,
       "defense": 50.0
     },
     {
@@ -431,7 +431,7 @@
       "asset": "plateMailBreastPlate",
       "name": "Noble Armor",
       "description": "Provides strong protection.",
-      "price": 110,
+      "price": 110.0,
       "defense": 50.0
     },
     {
@@ -439,7 +439,7 @@
       "asset": "quicksilverDragonScaleMailBreastPlate",
       "name": "Quicksilver Dragon Mail",
       "description": "Provides superior protection.",
-      "price": 350,
+      "price": 350.0,
       "defense": 180.0
     },
     {
@@ -447,7 +447,7 @@
       "asset": "quicksilverDragonScalesBreastPlate",
       "name": "Quicksilver Dragon Armor",
       "description": "Provides superior protection.",
-      "price": 320,
+      "price": 320.0,
       "defense": 160.0
     },
     {
@@ -455,7 +455,7 @@
       "asset": "ringMailBreastPlate",
       "name": "Ring Mail",
       "description": "Provides solid protection.",
-      "price": 44,
+      "price": 44.0,
       "defense": 34.0
     },
     {
@@ -463,7 +463,7 @@
       "asset": "ringMailOldBreastPlate",
       "name": "Old Ring Mail",
       "description": "Provides good protection.",
-      "price": 34,
+      "price": 34.0,
       "defense": 28.0
     },
     {
@@ -471,7 +471,7 @@
       "asset": "ringMail2BreastPlate",
       "name": "Noble Ring Mail",
       "description": "Provides solid protection.",
-      "price": 74,
+      "price": 74.0,
       "defense": 38.0
     },
     {
@@ -479,7 +479,7 @@
       "asset": "ringMailOld2BreastPlate",
       "name": "Old Noble Ring Mail",
       "description": "Provides solid protection.",
-      "price": 55,
+      "price": 55.0,
       "defense": 30.0
     },
     {
@@ -487,7 +487,7 @@
       "asset": "ringMail3BreastPlate",
       "name": "Magic Ring Mail",
       "description": "Protection for wizards.",
-      "price": 355,
+      "price": 355.0,
       "defense": 80.0
     },
     {
@@ -495,7 +495,7 @@
       "asset": "robe2BreastPlate",
       "name": "Old Robe",
       "description": "Ugly and worn.",
-      "price": 15,
+      "price": 15.0,
       "defense": 4.0
     },
     {
@@ -503,7 +503,7 @@
       "asset": "robeBreastPlate",
       "name": "Simple Robe",
       "description": "Comfy but weak.",
-      "price": 20,
+      "price": 20.0,
       "defense": 10.0
     },
     {
@@ -511,7 +511,7 @@
       "asset": "robeOldBreastPlate",
       "name": "Satin Robe",
       "description": "Comfy but weak.",
-      "price": 25,
+      "price": 25.0,
       "defense": 8.0
     },
     {
@@ -519,7 +519,7 @@
       "asset": "robe2OldBreastPlate",
       "name": "Magic Robe",
       "description": "A magical robe.",
-      "price": 95,
+      "price": 95.0,
       "defense": 60.0
     },
     {
@@ -527,7 +527,7 @@
       "asset": "robe3BreastPlate",
       "name": "Wizard Robe",
       "description": "A wizards robe.",
-      "price": 195,
+      "price": 195.0,
       "defense": 90.0
     },
     {
@@ -535,7 +535,7 @@
       "asset": "robeArtBreastPlate",
       "name": "Fancy Magic Robe",
       "description": "A fancy magical robe.",
-      "price": 110,
+      "price": 110.0,
       "defense": 60.0
     },
     {
@@ -543,7 +543,7 @@
       "asset": "robeArt2BreastPlate",
       "name": "Strong Magic Robe",
       "description": "A strong magical robe.",
-      "price": 190,
+      "price": 190.0,
       "defense": 90.0
     },
     {
@@ -551,7 +551,7 @@
       "asset": "robeEgoBreastPlate",
       "name": "Cleric Robe",
       "description": "A clerics robe.",
-      "price": 140,
+      "price": 140.0,
       "defense": 70.0
     },
     {
@@ -559,7 +559,7 @@
       "asset": "robeEgo2BreastPlate",
       "name": "Priest Robe",
       "description": "A priests robe.",
-      "price": 180,
+      "price": 180.0,
       "defense": 86.0
     },
     {
@@ -567,7 +567,7 @@
       "asset": "scaleMailBreastPlate",
       "name": "Scale Mail",
       "description": "A solid armor.",
-      "price": 70,
+      "price": 70.0,
       "defense": 46.0
     },
     {
@@ -575,7 +575,7 @@
       "asset": "scaleMailOldBreastPlate",
       "name": "Old Scale Mail",
       "description": "A solid armor.",
-      "price": 50,
+      "price": 50.0,
       "defense": 30.0
     },
     {
@@ -583,7 +583,7 @@
       "asset": "scaleMail2BreastPlate",
       "name": "Noble Scale Mail",
       "description": "A solid armor.",
-      "price": 110,
+      "price": 110.0,
       "defense": 68.0
     },
     {
@@ -591,7 +591,7 @@
       "asset": "scaleMail2OldBreastPlate",
       "name": "Worn Scale Mail",
       "description": "An old, but still valid armor.",
-      "price": 35,
+      "price": 35.0,
       "defense": 30.0
     },
     {
@@ -599,7 +599,7 @@
       "asset": "scaleMail3BreastPlate",
       "name": "Magic Scale Mail",
       "description": "A magical armor.",
-      "price": 190,
+      "price": 190.0,
       "defense": 90.0
     },
     {
@@ -607,7 +607,7 @@
       "asset": "silverDragonScaleBreastPlate",
       "name": "Silver Dragon Scale Armor",
       "description": "A powerful dragon armor.",
-      "price": 250,
+      "price": 250.0,
       "defense": 110.0
     },
     {
@@ -615,7 +615,7 @@
       "asset": "splintMailBreastPlate",
       "name": "Splint Mail",
       "description": "An old armor.",
-      "price": 50,
+      "price": 50.0,
       "defense": 30.0
     },
     {
@@ -623,7 +623,7 @@
       "asset": "splintMail2BreastPlate",
       "name": "Noble Splint Mail",
       "description": "A solid armor for nobles.",
-      "price": 70,
+      "price": 70.0,
       "defense": 40.0
     },
     {
@@ -631,7 +631,7 @@
       "asset": "swampDragonBreastPlate",
       "name": "Swamp Dragon Armor",
       "description": "A powerful dragon armor.",
-      "price": 300,
+      "price": 300.0,
       "defense": 140.0
     },
     {
@@ -639,7 +639,7 @@
       "asset": "swampDragonOldBreastPlate",
       "name": "Old Swamp Dragon Armor",
       "description": "A powerful dragon armor.",
-      "price": 200,
+      "price": 200.0,
       "defense": 90.0
     },
     {
@@ -647,7 +647,7 @@
       "asset": "trollLeatherBreastPlate",
       "name": "Troll Leather Armor",
       "description": "A solid armor.",
-      "price": 38,
+      "price": 38.0,
       "defense": 52.0
     }
   ],
@@ -657,7 +657,7 @@
       "asset": "gauntlet",
       "name": "Iron Gloves",
       "description": "Provides some basic protection.",
-      "price": 20,
+      "price": 20.0,
       "defense": 6.0
     },
     {
@@ -665,7 +665,7 @@
       "asset": "glove",
       "name": "Sturdy Leather Gloves",
       "description": "Provide good protection.",
-      "price": 28,
+      "price": 28.0,
       "defense": 9.0
     },
     {
@@ -673,7 +673,7 @@
       "asset": "gloveOld",
       "name": "Old Leather Gloves",
       "description": "Provides a little protection.",
-      "price": 16,
+      "price": 16.0,
       "defense": 4.0
     },
     {
@@ -681,7 +681,7 @@
       "asset": "glove2",
       "name": "Noble Gloves",
       "description": "Provides medium protection.",
-      "price": 55,
+      "price": 55.0,
       "defense": 10.0
     },
     {
@@ -689,7 +689,7 @@
       "asset": "glove2",
       "name": "Noble Gloves",
       "description": "Provides medium protection.",
-      "price": 55,
+      "price": 55.0,
       "defense": 10.0
     },
     {
@@ -697,7 +697,7 @@
       "asset": "glove2old",
       "name": "Cleric Gloves",
       "description": "Special gloves, provide medium protection.",
-      "price": 125,
+      "price": 125.0,
       "defense": 18.0
     },
     {
@@ -705,7 +705,7 @@
       "asset": "glove3",
       "name": "Knights Gloves",
       "description": "Provide strong protection.",
-      "price": 100,
+      "price": 100.0,
       "defense": 28.0
     },
     {
@@ -713,7 +713,7 @@
       "asset": "glove3old",
       "name": "Fighting Gloves",
       "description": "Provide mediocre protection.",
-      "price": 18,
+      "price": 18.0,
       "defense": 8.0
     },
     {
@@ -721,7 +721,7 @@
       "asset": "glove4Gauntlets",
       "name": "Noble Gauntlets",
       "description": "Provide superior protection.",
-      "price": 220,
+      "price": 220.0,
       "defense": 48.0
     },
     {
@@ -729,7 +729,7 @@
       "asset": "glove4",
       "name": "Silver Gloves",
       "description": "Provide medium protection.",
-      "price": 110,
+      "price": 110.0,
       "defense": 12.0
     },
     {
@@ -737,7 +737,7 @@
       "asset": "glove4old",
       "name": "Worn Gloves",
       "description": "Provide weak protection.",
-      "price": 8,
+      "price": 8.0,
       "defense": 5.0
     },
     {
@@ -745,7 +745,7 @@
       "asset": "glove5",
       "name": "Dragon Scale Gloves",
       "description": "Provide maximum protection.",
-      "price": 450,
+      "price": 450.0,
       "defense": 80.0
     }
   ],
@@ -755,7 +755,7 @@
       "asset": "bootsStripe",
       "name": "Stripe Boots",
       "description": "Provides some basic protection.",
-      "price": 45,
+      "price": 45.0,
       "defense": 18.0
     },
     {
@@ -763,7 +763,7 @@
       "asset": "bootsStripeOld",
       "name": "Old Stripe Boots",
       "description": "Provides some basic protection.",
-      "price": 30,
+      "price": 30.0,
       "defense": 10.0
     },
     {
@@ -771,7 +771,7 @@
       "asset": "bootsLow",
       "name": "Low Boots",
       "description": "Provides some basic protection.",
-      "price": 6,
+      "price": 6.0,
       "defense": 4.0
     },
     {
@@ -779,7 +779,7 @@
       "asset": "bootsJackboots",
       "name": "Jackboots",
       "description": "Provides some basic protection.",
-      "price": 12,
+      "price": 12.0,
       "defense": 7.0
     },
     {
@@ -787,7 +787,7 @@
       "asset": "bootsGreen",
       "name": "Green Boots",
       "description": "Provides some basic protection.",
-      "price": 15,
+      "price": 15.0,
       "defense": 5.0
     },
     {
@@ -795,7 +795,7 @@
       "asset": "bootsIron",
       "name": "Iron Boots",
       "description": "Provides some basic protection.",
-      "price": 15,
+      "price": 15.0,
       "defense": 6.0
     },
     {
@@ -803,7 +803,7 @@
       "asset": "bootsBrownOld",
       "name": "Old Leather Boots",
       "description": "Provides a little protection.",
-      "price": 5,
+      "price": 5.0,
       "defense": 4.0
     },
     {
@@ -811,7 +811,7 @@
       "asset": "bootsBrown",
       "name": "Leather Boots",
       "description": "Provides a little protection.",
-      "price": 15,
+      "price": 15.0,
       "defense": 6.0
     }
   ]

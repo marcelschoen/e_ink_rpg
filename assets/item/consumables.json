@@ -3,129 +3,129 @@
     {
       "id": 0,
       "asset": "apple",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 1,
       "asset": "apricot",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 2,
       "asset": "banana",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 3,
       "asset": "beef_jerky",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 4,
       "asset": "bone",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 5,
       "asset": "bread_ration",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 6,
       "asset": "cheese",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 7,
       "asset": "choko",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 8,
       "asset": "fruit",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 9,
       "asset": "grape",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 10,
       "asset": "honeycomb",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 11,
       "asset": "lemon",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 12,
       "asset": "orange",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 13,
       "asset": "pear",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 14,
       "asset": "sausage",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 15,
       "asset": "snozzcumber",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 16,
       "asset": "strawberry",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 17,
       "asset": "sultana",
-      "restoreHealth": 1
+      "restoreHealth": 1.0
     },
     {
       "id": 18,
       "name": "Tiny Health Potion",
       "asset": "potion",
-      "restoreHealth": 5
+      "restoreHealth": 5.0
     },
     {
       "id": 19,
       "name": "(S) Health Potion",
       "asset": "potion",
-      "restoreHealth": 10
+      "restoreHealth": 1.00
     },
     {
       "id": 20,
       "name": "Health Potion",
       "asset": "potion",
-      "restoreHealth": 20
+      "restoreHealth": 20.0
     },
     {
       "id": 21,
       "name": "(L) Health Potion",
       "asset": "potion",
-      "restoreHealth": 35
+      "restoreHealth": 35.0
     },
     {
       "id": 22,
       "name": "XL Health Potion",
       "asset": "potion",
-      "restoreHealth": 55
+      "restoreHealth": 50.0
     },
     {
       "id": 23,
       "name": "Restore Potion",
       "asset": "potion",
       "description": "Restores all HP",
-      "restoreHealth": -1
+      "restoreHealth": -1.0
     }
   ]
 }
