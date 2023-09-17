@@ -40,7 +40,6 @@ class CurrentCombat {
     List<Being> beingsInTurn = [];
     beingsInTurn.add(Player());
     beingsInTurn.addAll(_enemies);
-    print("> beings in turn order: " + beingsInTurn.length.toString());
     turnOrder = [];
 
     const turnEntries = 7;
@@ -48,14 +47,11 @@ class CurrentCombat {
 
     // Always calculate 7 turns
     while (turnOrder.length < turnEntries) {
-      print ("-------------> turn order result length: " + turnOrder.length.toString());
       for (Being being in beingsInTurn) {
-        print ("> process being: " + being.getSpecies());
         bool found = false;
         while (!found && turnOrder.length < turnEntries) {
           being.increaseAttrValueBy(AttributeType.speedCounter, being.attrValue(AttributeType.speed));
           if (being.attrValue(AttributeType.speedCounter) > speedLimit) {
-            print("========> Adding entry to turn order...");
             found = true;
             being.increaseAttrValueBy(AttributeType.speedCounter, speedLimit * -1);
             turnOrder.add(being);
@@ -64,8 +60,14 @@ class CurrentCombat {
       }
     }
 
-    GameState().turnOrderState.update();
     print(">>>> TURN ORDER LENGTH: " + turnOrder.length.toString());
+    int i = 0;
+    for (Being being in turnOrder) {
+      print ('>> Being turn' + i.toString() + ': ' + being.species.name());
+      i ++;
+    }
+
+    GameState().turnOrderState.update();
   }
 
   // ---------------------------------------------------------

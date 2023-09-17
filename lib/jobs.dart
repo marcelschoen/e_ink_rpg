@@ -214,6 +214,7 @@ Widget getJobBorder(Job job, Widget content) {
 // ---------------------------------------------------------------------
 startSelectedJob(BuildContext context) {
   if (GameState().selectedInJobs != null) {
+    print('---> start job <---');
     startFight(context, GameState().selectedInJobs!);
   }
 }

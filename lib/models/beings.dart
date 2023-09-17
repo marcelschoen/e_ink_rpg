@@ -36,12 +36,18 @@ class Being {
   Being(SpeciesType monsterType) : species = monsterType {
     // Stats
     setStat(Stat.withValue(StatType.health, monsterType.maxHealth(), monsterType.maxHealth()));
+    setAttrValue(AttributeType.speed, 1);
     setAttrValue(AttributeType.attackPower, 0);
+    addSKill(SkillType.Combat);
     _state = BeingState(this);
   }
 
   BeingState state() {
     return this._state!;
+  }
+
+  addSKill(SkillType type) {
+    skillTrees.putIfAbsent(type, () => SkillTreeFactory.createSkillTree(type));
   }
 
   Skill getSkill(SkillType type) {
@@ -120,7 +126,11 @@ class Being {
   }
 
   increaseAttrValueBy(AttributeType type, double value) {
-    _attrs[type]!.increaseValueBy(value);
+    if (!_attrs.containsKey(type)) {
+      setAttribute(Attribute.withValue(type, value));
+    } else {
+      _attrs[type]!.increaseValueBy(value);
+    }
   }
 
   double attrValue(AttributeType type) {
@@ -208,7 +218,7 @@ class Being {
 }
 
 enum SpeciesType {
-  angrywasp('Angry Wasp', 80, 'angrywasp.png'),
+  angrywasp('Angry Wasp', 20, 'angrywasp.png'),
   darkwizard('Dark Wizard', 180, 'darkwizard.png'),
   tentacleeye('Evil Eye', 130, 'tentacleeye.png'),
   bloodbat('Blood Bat', 50, 'bloodbat.png'),
@@ -246,7 +256,6 @@ class Humanoid extends Being {
   final Equipment equipment = Equipment();
 
   Humanoid(this.name) : super(SpeciesType.npc) {
-    setAttrValue(AttributeType.speed, 1);
     setAttrValue(AttributeType.attackPower, 5);
   }
 
@@ -270,6 +279,7 @@ class Player extends Humanoid {
 
   Player._internal() : super('Player') {
     reset();
+    species = SpeciesType.player;
     setAttrValue(AttributeType.speed, 2);
     setAttrValue(AttributeType.attackPower, 5);
   }

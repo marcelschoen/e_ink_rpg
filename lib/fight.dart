@@ -85,6 +85,7 @@ void startFight(BuildContext context, Job job) {
 
 void startFightWithEnemies(BuildContext context, List<Being> enemies) {
   CurrentCombat().begin(enemies);
+  print('>>> switch to fight screen <<<');
   switchToScreen(Fight(), context);
 }
 
@@ -132,7 +133,6 @@ void flee(BuildContext context) {
 void jumpToNewScreenAfterFight(BuildContext context) {
   if (CurrentCombat().finished()) {
     if (GameState().player.isAlive()) {
-      print ('check');
       if (GameState().selectedInJobs != null) {
         GameState().selectedInJobs!.nextStep();
         if (GameState().selectedInJobs!.finished) {
