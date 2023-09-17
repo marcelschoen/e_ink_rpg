@@ -137,6 +137,10 @@ class Being {
     return _attrs.containsKey(type) ? _attrs[type]!.value() : 0;
   }
 
+  int attrValueInt(AttributeType type) {
+    return _attrs.containsKey(type) ? _attrs[type]!.value().toInt() : 0;
+  }
+
   Attribute getAttribute(AttributeType type) {
     return _attrs[type]!;
   }

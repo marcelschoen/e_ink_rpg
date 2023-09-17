@@ -23,6 +23,22 @@ Widget getPartyStatusBar() {
   );
 }
 
+Widget _getProgressBarWithLetter(String letter, StatType statType) {
+  return Column(
+    children: [
+      RotatedBox(
+          quarterTurns: 3,
+          child: getProgressBar(
+              50,
+              GameState().player.progressBarValue(statType),
+              12,
+              Colors.black45,
+              Colors.black12)),
+      Text(letter, style: getTitleTextStyle(12))
+    ],
+  );
+}
+
 class NpcWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,40 +59,11 @@ class NpcWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
-                  children: [
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          getProgressBar(
-                              50,
-                              GameState()
-                                  .player
-                                  .progressBarValue(StatType.health),
-                              12,
-                              Colors.black45,
-                              Colors.black12),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                      child: Row(
-                        children: [
-                          GameIconAsset.heart.getIconImage(),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                _getProgressBarWithLetter('H', StatType.health),
               ],
             );
           }),
-        )
-    );
+    ));
   }
 }
 
@@ -102,7 +89,11 @@ class PlayerWidget extends StatelessWidget {
                         SizedBox(
                           height: 2,
                         ),
-                        Text(GameState().player.attrValue(AttributeType.level).toString(),
+                        Text(
+                            GameState()
+                                .player
+                                .attrValueInt(AttributeType.level)
+                                .toString(),
                             style: getTitleTextStyle(24)),
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
                       ],
@@ -114,7 +105,7 @@ class PlayerWidget extends StatelessWidget {
                       quarterTurns: 3,
                       child: getProgressBar(
                           60,
-                          GameState().player.progressBarValue(StatType.focus),
+                          GameState().player.progressBarValue(StatType.xp),
                           8,
                           Colors.black45,
                           Colors.black12),
@@ -129,67 +120,21 @@ class PlayerWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Column(
+                // ------------------ progress bars ------------------
+                Row(
                   children: [
-                    RotatedBox(
-                      quarterTurns: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          getProgressBar(
-                              50,
-                              GameState()
-                                  .player
-                                  .progressBarValue(StatType.health),
-                              12,
-                              Colors.black45,
-                              Colors.black12),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          // TODO - MANA
-                          getProgressBar(
-                              50,
-                              GameState()
-                                  .player
-                                  .progressBarValue(StatType.mana),
-                              12,
-                              Colors.black45,
-                              Colors.black12),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          // TODO - SKILL
-                          getProgressBar(
-                              50,
-                              GameState()
-                                  .player
-                                  .progressBarValue(StatType.focus),
-                              12,
-                              Colors.black45,
-                              Colors.black12),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 12,
-                      child: Row(
-                        children: [
-                          GameIconAsset.heart.getIconImage(),
-                          hGap(2),
-                          GameIconAsset.magic.getIconImage(),
-                          hGap(2),
-                          GameIconAsset.skill.getIconImage(),
-                        ],
-                      ),
-                    )
+                    _getProgressBarWithLetter('H', StatType.health),
+                    hGap(2),
+                    _getProgressBarWithLetter('S', StatType.stamina),
+                    hGap(2),
+                    _getProgressBarWithLetter('F', StatType.focus),
+                    hGap(2),
+                    _getProgressBarWithLetter('M', StatType.mana),
                   ],
-                ),
+                )
               ],
             );
-          }
-        ),
+          }),
     ));
   }
 }
@@ -205,7 +150,6 @@ class BaseButton extends StatelessWidget {
   double _fontSize = 24;
   double _buttonWidth = 160;
   double _paddingSize = 6;
-
 
   BaseButton.textOnlyWithSizes(
       String label,
@@ -458,7 +402,8 @@ Card getCardWithRoundedBorder(Widget child) {
 // -----------------------------------------------------------------------------
 // Creates a card with a rounded dark grey border
 // -----------------------------------------------------------------------------
-Card getCustomCardWithRoundedBorder(Widget child, double borderWidth, Color borderColor) {
+Card getCustomCardWithRoundedBorder(
+    Widget child, double borderWidth, Color borderColor) {
   return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5),
@@ -473,18 +418,20 @@ Card getCustomCardWithRoundedBorder(Widget child, double borderWidth, Color bord
 // -----------------------------------------------------------------------------
 // Creates an alert dialog that asks for a string value
 // -----------------------------------------------------------------------------
-AlertDialog createNameInputDialog(BuildContext context, String title, String text, String inputFieldName, String inputFieldValue) {
+AlertDialog createNameInputDialog(BuildContext context, String title,
+    String text, String inputFieldName, String inputFieldValue) {
   final myController = TextEditingController();
   myController.text = inputFieldValue;
   return AlertDialog(
     title: Text(title),
-    content: SizedBox(height: 100,  // TODO: AVOID FIXED VALUE
+    content: SizedBox(
+      height: 100, // TODO: AVOID FIXED VALUE
       child: Column(
         children: [
           Text(text),
           TextFormField(
             controller: myController,
-            validator:  (value) {
+            validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a name';
               }
@@ -512,19 +459,19 @@ AlertDialog createNameInputDialog(BuildContext context, String title, String tex
 // -----------------------------------------------------------------------------
 AlertDialog createAlertDialog(BuildContext context, String title, String text) {
   return AlertDialog(
-      title: Text(title),
-      content: Text(text),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text('OK'),
-        ),
-      ],
-    );
+    title: Text(title),
+    content: Text(text),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () => Navigator.pop(context, false),
+        child: const Text('Cancel'),
+      ),
+      TextButton(
+        onPressed: () => Navigator.pop(context, true),
+        child: const Text('OK'),
+      ),
+    ],
+  );
 }
 
 getScreenWidth(BuildContext context) {

@@ -6,10 +6,11 @@
 // -----------------------------------------------------------------------------
 
 enum StatType {
-  health, // health points
-  mana,   // needed to perform magic
-  focus,  // needed to perform special melee attacks / recharges automatically
-  xp,     // fills up from 0 - n, and wenn full, the player gains a level
+  health,   // health points
+  mana,     // needed to perform magic
+  stamina,  // needed to perform melee attacks / recharges automatically
+  focus,    // needed to perform special melee attacks / recharges automatically
+  xp,       // fills up from 0 - n, and wenn full, the player gains a level
 }
 
 /**

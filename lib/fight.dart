@@ -364,7 +364,7 @@ Widget getActionButtonsOrEnemyActions(BuildContext context) {
                 (context) => selectOptionGroup(SelectedOptionGroup.attack)),
             BaseButton.withImageAndText('Magic', GameIconAsset.magic.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.magic)),
-            BaseButton.withImageAndText('Skill', GameIconAsset.skill.filename(),
+            BaseButton.withImageAndText('Skill', GameIconAsset.focus.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.skill)),
             BaseButton.withImageAndText('Special', GameIconAsset.special.filename(),
                 (context) => selectOptionGroup(SelectedOptionGroup.special)),

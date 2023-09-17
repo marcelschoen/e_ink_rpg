@@ -385,7 +385,7 @@ enum GameIconAsset {
   heart('icon23.png'),
   death('icon11.png'),
   magic('icon37.png'),
-  skill('icon9.png'),
+  focus('icon9.png'),
   spy('icon35.png'),
   special('icon19.png'),
 
