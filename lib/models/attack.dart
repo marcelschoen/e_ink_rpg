@@ -20,8 +20,13 @@ abstract class Attack {
     return runtimeType.toString();
   }
 
-  static double getMeleeDamage(double attackPower, double skillLevel, double attackerLevel, double targetDefense, double targetLevel) {
-    return ( (((attackPower * (skillLevel / 2)) * (attackerLevel / 4)) * 1.5) - ((targetDefense / 1.5) * (targetLevel / 4)) ) * 1.6;
+  static double getMeleeDamage(bool attackerIsPlayer, double attackPower, double skillLevel, double attackerLevel, double targetDefense, double targetLevel) {
+    double damage = ( (((attackPower * (skillLevel / 2)) * (attackerLevel / 4)) * 1.5) - ((targetDefense / 1.5) * (targetLevel / 4)) ) * 1.6;
+    if (attackerIsPlayer) {
+      // TODO - ADJUST BASED ON DIFFICULTY SETTING (EASY, NORMAL, HARD)
+      damage = damage * 1.8;
+    }
+    return damage;
   }
 }
 
@@ -54,7 +59,7 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   double targetDefense = target.attrValue(AttributeType.defense);
   double targetLevel = target.attrValue(AttributeType.level);
 
-  double damage = Attack.getMeleeDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
+  double damage = Attack.getMeleeDamage(attacker.species == SpeciesType.player, attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
 
   print("> target health: " + target.health().toString());
   print("> final damage: " + damage.round().toString());
@@ -62,7 +67,6 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   for (Being enemy in CurrentCombat().enemies()) {
     if (enemy != target && enemy.state().affected) {
       double affectedDamage = damage * 0.7;
-      print(">> damage affected enemy: " + enemy.getSpecies());
       enemy.damageBy(affectedDamage);
     }
   }

@@ -15,8 +15,6 @@ import 'magic.dart';
  */
 class Being {
 
-//  int killXp = 10;
-//  int level = 1;
   BeingState? _state;
 
   Map<AttributeType, Attribute> _attrs = {};

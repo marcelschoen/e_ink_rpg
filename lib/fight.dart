@@ -326,13 +326,17 @@ Widget getTurnOrderList() {
     entries.add(getTurnEntry(entry, border));
     border = null;
   }
-  return ListenableBuilder(
-    listenable: GameState().turnOrderState,
-    builder: (BuildContext context, Widget? child) {
-      return Row(
-        children: entries,
-      );
-    },
+  return getCustomCardWithRoundedBorder(
+    ListenableBuilder(
+      listenable: GameState().turnOrderState,
+      builder: (BuildContext context, Widget? child) {
+        return Row(
+          children: entries,
+        );
+      },
+    ),
+    2.0,
+    Colors.black45
   );
 }
 
