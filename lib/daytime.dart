@@ -44,7 +44,7 @@ enum DetailTime {
         return detailTime;
       }
     }
-    print('****************************** FAILED TO DETERMINE TIME. HOUR: ' + hour.toString());
+    print('****************************** FAILED TO DETERMINE TIME. HOUR: $hour');
     return DetailTime.afternoon;
   }
 }
@@ -58,23 +58,17 @@ class GameDaytime {
 
   int _internalMinute = 0;
 
-  /**
-   * Start the game at 09:00 in the morning.
-   */
+  /// Start the game at 09:00 in the morning.
   reset() {
     _internalMinute = 17 * 60;
   }
 
-  /**
-   * Call this from any long-duration game action to advance the time by n hours.
-   */
+  /// Call this from any long-duration game action to advance the time by n hours.
   advanceByHours(int hours) {
     advanceByMinutes(hours * 60);
   }
 
-  /**
-   * Call this from any quick game action to advance the time by n minutes.
-   */
+  /// Call this from any quick game action to advance the time by n minutes.
   advanceByMinutes(int minutes) {
     DetailTime oldTime = getDetail();
     _internalMinute += minutes;
@@ -86,9 +80,7 @@ class GameDaytime {
     }
   }
 
-  /**
-   * Gets the descriptive daytime label.
-   */
+  /// Gets the descriptive daytime label.
   String getLabel() {
     return getDetail().label;
   }

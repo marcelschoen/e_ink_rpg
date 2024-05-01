@@ -13,21 +13,17 @@ enum StatType {
   xp,       // fills up from 0 - n, and wenn full, the player gains a level
 }
 
-/**
- * Implements handling of character stats (attributes) used
- * for things like combat / damage calculations etc.
- */
+/// Implements handling of character stats (attributes) used
+/// for things like combat / damage calculations etc.
 class Stat {
 
   StatType statType;
   double _value = 0;
   double _maxValue;
 
-  Stat(StatType statType, double maxValue) : statType = statType, _maxValue = maxValue {
-  }
+  Stat(StatType statType, double maxValue) : statType = statType, _maxValue = maxValue;
 
-  Stat.withValue(StatType statType, double value, double maxValue) : statType = statType, _value = value, _maxValue = maxValue {
-  }
+  Stat.withValue(StatType statType, double value, double maxValue) : statType = statType, _value = value, _maxValue = maxValue;
 
   double maxValue() {
     return _maxValue;

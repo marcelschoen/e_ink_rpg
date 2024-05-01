@@ -54,11 +54,11 @@ enum SkillType {
 // -----------------------------------------------------------------------------
 class Skill {
 
-  List<Stat> _requiredStats = [];
-  String _name;
-  String _details;
-  SkillLevel _level;
-  SkillType _type;
+  final List<Stat> _requiredStats = [];
+  final String _name;
+  final String _details;
+  final SkillLevel _level;
+  final SkillType _type;
   List<Skill> extraSkillsLeft = [];
   List<Skill> extraSkillsRight = [];
 

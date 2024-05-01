@@ -16,8 +16,8 @@ import 'effects.dart';
 // -----------------------------------------------------------------------------
 class ItemRegistry {
 
-  static Map<String, GameItem> _itemMap = {};
-  static Map<int, GameItem> _itemIndex = {};
+  static final Map<String, GameItem> _itemMap = {};
+  static final Map<int, GameItem> _itemIndex = {};
 
   static GameItem getItem(String itemName) {
     return _itemMap[itemName]!;
@@ -66,7 +66,7 @@ class ItemRegistry {
   }
 
   static Future<String> loadAsset(String filename) async {
-    return await rootBundle.loadString('assets/item/' + filename);
+    return await rootBundle.loadString('assets/item/$filename');
   }
 
   // Processes JSON data containing game items, validates the "id" field and returns a map
@@ -78,11 +78,11 @@ class ItemRegistry {
       var id = entries[index]['id'];
       var name = entries[index]['name'];
       if (id == null) {
-        throw 'Invalid JSON data in: ' + filename + ' / entry ' + (name == null ? '?' : name) + ' has no "id" field.';
+        throw '${'Invalid JSON data in: $filename / entry ' + (name ?? '?')} has no "id" field.';
       }
       int number = id;
       if (usedIds.contains(number)) {
-        throw 'Invalid JSON data in: ' + filename + ' / id ' + id.toString() + ' used more than once.';
+        throw 'Invalid JSON data in: $filename / id $id used more than once.';
       }
       usedIds.add(number);
     }
@@ -167,12 +167,8 @@ class ItemRegistry {
       var name = food[index]['name'];
       var description = food[index]['description'];
       var restoreHealth = food[index]['restoreHealth'];
-      if (name == null) {
-        name = _camelCasedAssetName(asset);
-      }
-      if (description == null) {
-        description = 'Restores ' + restoreHealth.toString() + ' HP';
-      }
+      name ??= _camelCasedAssetName(asset);
+      description ??= 'Restores $restoreHealth HP';
       Consumable consumable = Consumable(GameItemAsset.values.byName(asset));
       consumable.id = id + indexOffset;
       consumable.name = name;
@@ -204,7 +200,7 @@ abstract class GameItem {
   String description = '';
   ItemCategory itemCategory = ItemCategory.item;
   GameItemAsset itemAsset = GameItemAsset.apple;
-  Map<AttributeType, Attribute> _attrs = {};
+  final Map<AttributeType, Attribute> _attrs = {};
 
   GameItem() {
     setAttrValue(AttributeType.price, -1);
@@ -261,6 +257,7 @@ enum ItemCategory {
 // -----------------------------------------------------------------------------
 class Consumable extends GameItem {
 
+  @override
   ItemCategory itemCategory = ItemCategory.consumable;
 
   // List of stats; the stat of corresponding type of the player
@@ -369,11 +366,12 @@ class Armor extends GameItem with Wearable {
 // -----------------------------------------------------------------------------
 class Weapon extends GameItem with Wearable {
   List<Attack> availableAttacks = [];
+  @override
   ItemCategory itemCategory = ItemCategory.weapon;
   bool twoHanded = false;
 
   Weapon(GameItemAsset itemAsset) : super.fromAsset(itemAsset) {
-    this.wearableType = WearableType.hands;
+    wearableType = WearableType.hands;
     setAttrValue(AttributeType.attackPower, 1.0);
     for (Attack attack in getAvailableAttacks()) {
       availableAttacks.add(attack);
@@ -396,6 +394,7 @@ class Sword extends Weapon {
 
   Sword(GameItemAsset itemAsset) : super(itemAsset);
 
+  @override
   List<Attack> getAvailableAttacks() {
     return [Hit(), Swing()];
   }
@@ -417,6 +416,7 @@ class Dagger extends Weapon {
 
   Dagger(GameItemAsset itemAsset) : super(itemAsset);
 
+  @override
   List<Attack> getAvailableAttacks() {
     return [Hit()];
   }

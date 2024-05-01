@@ -15,7 +15,7 @@ import 'map.dart';
 void backToTitle(BuildContext context) {
   Navigator.pushReplacement(
     context,
-    MaterialPageRoute(builder: (context) => MonsterSlayerTitle()),
+    MaterialPageRoute(builder: (context) => const MonsterSlayerTitle()),
   );
   GameState().setScreenType(ScreenType.title);
 }
@@ -24,7 +24,7 @@ void backToTitle(BuildContext context) {
 // Main game screen
 // -----------------------------------------------
 class Game extends StatelessWidget {
-  Game({super.key});
+  const Game({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class Game extends StatelessWidget {
               length: 5,
               child: Builder(
                 builder: (context) {
-                  final tabController = DefaultTabController.of(context)!;
+                  final tabController = DefaultTabController.of(context);
                   tabController.addListener(() {
                     GameState().setScreenTypeByNumber(tabController.index);
                   });
@@ -54,7 +54,7 @@ class Game extends StatelessWidget {
                             getJobsScreen(context),
                             getInventoryScreen(context),
                             getEquipScreen(context),
-                            Text('*** SKILLS ***'),
+                            const Text('*** SKILLS ***'),
                           ],
                         ),
                       ),
@@ -62,7 +62,7 @@ class Game extends StatelessWidget {
                         color: Colors.black54,
                         height: 8,
                       ),
-                      TabBar(
+                      const TabBar(
                         dividerColor: Colors.black54,
                         tabs: [
                           Tab(child: Image(image: AssetImage('assets/button-map.png'))),
@@ -107,8 +107,8 @@ class Game extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => createAlertDialog(context, 'ABORT GAME', 'Really going back to title? Any unsaved progress may be lost.'),
     );
-    if (value != null && value!) {
-      switchToScreen(MonsterSlayerTitle(), context);
+    if (value != null && value) {
+      switchToScreen(const MonsterSlayerTitle(), context);
     }
   }
 

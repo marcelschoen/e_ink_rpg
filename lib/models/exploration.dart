@@ -63,7 +63,7 @@ class ExplorationStep {
 
   ExplorationStep(Random loctionRandom)
       : gameImageAssets = createListOfImages(loctionRandom),
-        hasEnemies = loctionRandom.nextInt(10) > 8 {}
+        hasEnemies = loctionRandom.nextInt(10) > 8;
 
   static List<GameImageAsset> createListOfImages(Random random) {
     List<GameImageAsset> images = [];

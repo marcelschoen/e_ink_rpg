@@ -48,7 +48,7 @@ Widget getJobsScreen(BuildContext context) {
         child: Scrollbar(
           controller: scrollController,
           thickness: 20,
-          isAlwaysShown: true, // TODO - FIND BETTER SOLUTION
+          thumbVisibility: true, // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
             listenable: GameState().jobSelectionState,
             builder: (BuildContext context, Widget? child) {
@@ -64,7 +64,7 @@ Widget getJobsScreen(BuildContext context) {
               shape: RoundedRectangleBorder(
                 //<-- SEE HERE
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                     color: Colors.black54, style: BorderStyle.solid, width: 4),
               ),
               child: SizedBox(
@@ -88,7 +88,7 @@ Widget getJobsScreen(BuildContext context) {
                 label = '...';
               }
               return BaseButton.textOnlyWithSizes(
-                  label, (p0) => {startSelectedJob(context)}, 40, 160, 2);
+                  label, (p0) => startSelectedJob(context), 40, 160, 2);
             },
           ),
         ],
@@ -128,8 +128,8 @@ Container getDetailsBar(String label) {
   return Container(
     color: Colors.black12,
     child: Container(
-      margin: EdgeInsets.only(top: 4, bottom: 0),
-      decoration: BoxDecoration(
+      margin: const EdgeInsets.only(top: 4, bottom: 0),
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(
             color: Colors.black,
@@ -177,7 +177,7 @@ Widget getJobListEntry(BuildContext context, Job job) {
                 job.iconAsset.getIconImage(),
                 Expanded(
                   child: Text(job.label,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center),
@@ -198,8 +198,8 @@ Widget getJobBorder(Job job, Widget content) {
       borderType: BorderType.RRect,
       strokeWidth: 4,
       color: Colors.blueGrey,
-      radius: Radius.circular(8),
-      padding: EdgeInsets.all(4),
+      radius: const Radius.circular(8),
+      padding: const EdgeInsets.all(4),
       child: content,
     );
   }
@@ -224,7 +224,7 @@ startSelectedJob(BuildContext context) {
 Widget jobDetails() {
   return Container(
     alignment: Alignment.topLeft,
-    margin: EdgeInsets.all(5),
+    margin: const EdgeInsets.all(5),
     child: ListenableBuilder(
       listenable: GameState().jobSelectionState,
       builder: (BuildContext context, Widget? child) {
@@ -242,11 +242,11 @@ Widget getSelectedJobDetails() {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+            padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
             child: Column(
               children: [
                 getTextLine(GameState().selectedInJobs!.description, 20),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 getTextLine('Rewards:', 16),
                 getTextLine(getRewardsInfo(GameState().selectedInJobs!), 16),
               ],
@@ -261,10 +261,10 @@ Widget getSelectedJobDetails() {
 String getRewardsInfo(Job job) {
   List<String> rewards = [];
   if (job.xp > 0 && !job.finished) {
-    rewards.add(GameState().selectedInJobs!.xp.toString() + ' XP');
+    rewards.add('${GameState().selectedInJobs!.xp} XP');
   }
   if (job.payment > 0) {
-    rewards.add(GameState().selectedInJobs!.payment.toString() + ' Gold');
+    rewards.add('${GameState().selectedInJobs!.payment} Gold');
   }
   return rewards.join(', ');
 }

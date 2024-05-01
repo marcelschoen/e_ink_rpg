@@ -18,6 +18,8 @@ class GameSaves extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();
 
+  GameSaves({super.key});
+
   Future<bool> _onWillPop() async {
     // disable back button
     return false;
@@ -70,16 +72,16 @@ class GameSaves extends StatelessWidget {
 
   List<Widget> getButtons() {
     List<Widget> buttons = [];
-    if (!GameSaveHandler.currentSaves.isEmpty) {
+    if (GameSaveHandler.currentSaves.isNotEmpty) {
       buttons.add(BaseButton.textOnlyWithSizes('LOAD', (context) => loadGame(GameState().selectedGameSave, context), 32, 130, 4 ));
     }
     if (!onlyLoading()) {
       // Opened from within game
       buttons.add(BaseButton.textOnlyWithSizes('SAVE', (context) => saveGame(context), 32, 130, 4 ));
-      if (!GameSaveHandler.currentSaves.isEmpty) {
+      if (GameSaveHandler.currentSaves.isNotEmpty) {
         buttons.add(BaseButton.textOnlyWithSizes('DELETE', (context) => deleteGame(GameState().selectedGameSave, context), 32, 130, 4 ));
       }
-      buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => switchToScreen(Game(), context), 32, 130, 4 ));
+      buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => switchToScreen(const Game(), context), 32, 130, 4 ));
     } else {
       // Opened from title screen
       buttons.add(BaseButton.textOnlyWithSizes('BACK', (context) => backToTitle(context), 32, 130, 4 ));
@@ -134,22 +136,22 @@ class GameSaves extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => createNameInputDialog(context, 'SAVE GAME', 'Enter name of save game', 'Name', initialName),
     );
-    if (!value!.isEmpty) {
+    if (value!.isNotEmpty) {
       value = value.toLowerCase();
       bool createSave = true;
       for (File entry in GameSaveHandler.currentSaves) {
-        if (entry.path.endsWith(value + '.save')) {
+        if (entry.path.endsWith('$value.save')) {
           bool? value = await showDialog<bool>(
             context: context,
             builder: (BuildContext context) => createAlertDialog(context, 'OVERWRITE', 'A save with that name already exists. Do you want to overwrite it?'),
           );
-          createSave = value == null ? false : value;
+          createSave = value ?? false;
         }
       }
       if (createSave) {
-        GameSaveHandler.saveGameState(value!);
+        GameSaveHandler.saveGameState(value);
         GameState().selectedGameSave = null;
-        switchToScreen(Game(), context);
+        switchToScreen(const Game(), context);
       }
     }
   }
@@ -163,12 +165,12 @@ class GameSaves extends StatelessWidget {
     }
     bool? value = await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) => createAlertDialog(context, 'LOAD SAVE', 'Really load \'' + saveName! + '\'? You may lose current unsaved changes.'),
+      builder: (BuildContext context) => createAlertDialog(context, 'LOAD SAVE', 'Really load \'$saveName\'? You may lose current unsaved changes.'),
     );
-    if (value != null && value!) {
+    if (value != null && value) {
       GameState().selectedGameSave = saveName;
       await GameSaveHandler.loadGameState(saveName);
-      switchToScreen(Game(), context);
+      switchToScreen(const Game(), context);
     }
   }
 
@@ -180,7 +182,7 @@ class GameSaves extends StatelessWidget {
     if (saveName == null) {
       return;
     }
-    GameSaveHandler.saveGameState(saveName!);
+    GameSaveHandler.saveGameState(saveName);
     GameSaveHandler.updateListOfSaves();
   }
 
@@ -193,9 +195,9 @@ class GameSaves extends StatelessWidget {
     }
     bool? value = await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete \'' + saveName! + '\'?'),
+      builder: (BuildContext context) => createAlertDialog(context, 'DELETE SAVE', 'Really delete \'$saveName\'?'),
     );
-    if (value != null && value!) {
+    if (value != null && value) {
       // TODO - DELETE SAVE
       GameSaveHandler.deleteGameState(saveName);
       GameSaveHandler.updateListOfSaves();
@@ -208,7 +210,10 @@ class GameSaves extends StatelessWidget {
 // Allows to select a save and load it.
 // -----------------------------------------------------------------------------
 class LoadGame extends GameSaves {
+  LoadGame({super.key});
 
+
+  @override
   Future<bool> _onWillPop() async {
     // disable back button
     return false;
@@ -251,7 +256,7 @@ class GameSaveHandler {
   static deleteGameState(String saveName) async {
     final file = await _localFile(saveName);
     // Delete the file
-    print('> delete file ' + file.path);
+    print('> delete file ${file.path}');
     file.delete(recursive: false);
     updateListOfSaves();
   }
@@ -288,7 +293,7 @@ class GameSaveHandler {
       final file = await _localLastSaveFile();
       final contents = await file.readAsString();
       GameState().selectedGameSave = contents;
-      print('> last used save: ' + GameState().selectedGameSave!);
+      print('> last used save: ${GameState().selectedGameSave!}');
       await loadGameState(GameState().selectedGameSave!);
       print('> last used save loaded.');
       GameState().titleState.update();
@@ -309,7 +314,7 @@ class GameSaveHandler {
       }
     }
 
-    print('> number of saves: ' + currentSaves.length.toString());
+    print('> number of saves: ${currentSaves.length}');
     GameState().saveState.update();
   }
 
@@ -325,7 +330,7 @@ class GameSaveHandler {
 
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
-    var subDirectory = await Directory(directory.path + "/saves").create(recursive: true);
+    var subDirectory = await Directory("${directory.path}/saves").create(recursive: true);
     return subDirectory.path;
   }
 }
@@ -334,5 +339,5 @@ class GameSaveHandler {
 // Switches back to title screen
 // -----------------------------------------------
 void backToTitle(BuildContext context) {
-  switchToScreen(MonsterSlayerTitle(), context);
+  switchToScreen(const MonsterSlayerTitle(), context);
 }

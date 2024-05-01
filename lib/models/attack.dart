@@ -13,8 +13,7 @@ abstract class Attack {
   double damagePerTargetFactor;
   final int affectedTargets;
 
-  Attack(this.damagePerTargetFactor, this.affectedTargets) {
-  }
+  Attack(this.damagePerTargetFactor, this.affectedTargets);
 
   String name() {
     return runtimeType.toString();
@@ -47,11 +46,9 @@ class Swing extends Attack {
 
 
 
-/**
- * Performs a physical attack from one attacker on one target being.
- */
+/// Performs a physical attack from one attacker on one target being.
 void attackTarget(Being attacker, Being target, Attack attack) {
-  print("****> attacker " + attacker.getSpecies() + " attacks target: " + target.species.name() + " / attack: " + attack.name());
+  print("****> attacker ${attacker.getSpecies()} attacks target: ${target.species.name()} / attack: ${attack.name()}");
 
   double attackPower = attacker.getAttackPower();
   double skillLevel = attacker.getSkill(SkillType.Combat).getLevel();
@@ -61,8 +58,8 @@ void attackTarget(Being attacker, Being target, Attack attack) {
 
   double damage = Attack.getMeleeDamage(attacker.species == SpeciesType.player, attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
 
-  print("> target health: " + target.health().toString());
-  print("> final damage: " + damage.round().toString());
+  print("> target health: ${target.health()}");
+  print("> final damage: ${damage.round()}");
   target.damageBy(damage);
   for (Being enemy in CurrentCombat().enemies()) {
     if (enemy != target && enemy.state().affected) {
@@ -72,7 +69,7 @@ void attackTarget(Being attacker, Being target, Attack attack) {
   }
 
   if (attack is Spell && attacker == Player()) {
-    GameState().player.decreaseStatBy(StatType.mana, (attack as Spell).manaUsage);
+    GameState().player.decreaseStatBy(StatType.mana, (attack).manaUsage);
     GameState().playerState.update();
   }
 

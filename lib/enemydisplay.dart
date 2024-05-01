@@ -27,7 +27,7 @@ Widget enemyDisplay(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: enemies,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         ListenableBuilder(
@@ -101,8 +101,8 @@ DottedBorder getEnemyBorder(BeingState monsterStateNotifier) {
     borderType: BorderType.RRect,
     strokeWidth: borderWidth,
     color: borderColor,
-    radius: Radius.circular(8),
-    padding: EdgeInsets.all(4),
+    radius: const Radius.circular(8),
+    padding: const EdgeInsets.all(4),
     child: getEnemyWidgetContent(monsterStateNotifier),
   );
 }
@@ -119,7 +119,7 @@ Padding getEnemyWidgetContent(BeingState monsterStateNotifier) {
       Row(
         children: [
           Padding(
-              padding: EdgeInsets.only(right: 4),
+              padding: const EdgeInsets.only(right: 4),
               child: getMonsterLifebarIcon(monsterStateNotifier.being())),
           getProgressBar(60, monsterStateNotifier.being().progressBarValue(StatType.health), 10,
               Colors.black45, Colors.black12),
@@ -145,9 +145,9 @@ Widget getMonsterLifebarIcon(Being enemy) {
 Widget getMonsterImage(Being enemy) {
   if (enemy.isAlive()) {
     return Image(
-        height: 92, image: AssetImage('assets/monster/' + enemy.species.filename));
+        height: 92, image: AssetImage('assets/monster/${enemy.species.filename}'));
   }
-  return SizedBox(
+  return const SizedBox(
     width: 90,
     height: 100,
   );

@@ -29,8 +29,8 @@ class SpecialSpellEnabling {
 // ------------------------------------------
 class RuneRagnor extends Rune {
   RuneRagnor() {
-    this.name = 'Rune of Ragnor';
-    this.description = 'Old rune with a simple fireball spell.';
-    this.spells.add(Fireball());
+    name = 'Rune of Ragnor';
+    description = 'Old rune with a simple fireball spell.';
+    spells.add(Fireball());
   }
 }

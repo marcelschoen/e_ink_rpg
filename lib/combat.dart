@@ -13,9 +13,9 @@ class CurrentCombat {
   // instance variables
   List<Being> _enemies = [];
   SelectedOptionGroup selectedOptionGroup = SelectedOptionGroup.attack;
-  GameAction? selectedAction = null;
-  Attack? selectedAttack = null;
-  Being? selectedTarget = null;
+  GameAction? selectedAction;
+  Attack? selectedAttack;
+  Being? selectedTarget;
   bool aborted = false;
 
   List<Being> turnOrder = [];
@@ -26,7 +26,7 @@ class CurrentCombat {
   // singleton instance
   static final CurrentCombat _instance = CurrentCombat._internal();
 
-  CurrentCombat._internal() {}
+  CurrentCombat._internal();
 
   factory CurrentCombat() {
     return _instance;
@@ -60,10 +60,10 @@ class CurrentCombat {
       }
     }
 
-    print(">>>> TURN ORDER LENGTH: " + turnOrder.length.toString());
+    print(">>>> TURN ORDER LENGTH: ${turnOrder.length}");
     int i = 0;
     for (Being being in turnOrder) {
-      print ('>> Being turn' + i.toString() + ': ' + being.species.name());
+      print ('>> Being turn$i: ${being.species.name()}');
       i ++;
     }
 
@@ -152,13 +152,13 @@ class CurrentCombat {
         endPosition = enemies().length - 1;
       }
 
-      print("> affected targets: " + selectedAttack!.affectedTargets.toString());
-      print("> startPosition: " + startPosition.toString());
-      print("> endPosition: " + endPosition.toString());
+      print("> affected targets: ${selectedAttack!.affectedTargets}");
+      print("> startPosition: $startPosition");
+      print("> endPosition: $endPosition");
 
       for (int pos = startPosition; pos < endPosition + 1; pos ++) {
         Being enemy = enemies().elementAt(pos);
-        print ("> enemy at pos " + pos.toString() + ": " + enemy.getSpecies());
+        print ("> enemy at pos $pos: ${enemy.getSpecies()}");
         if (enemy.isAlive() && enemy != selectedTarget) {
           enemy.state().affected = true;
         }
@@ -174,16 +174,16 @@ class CurrentCombat {
   }
 
   void setEnemies(List<Being> enemies) {
-    this._enemies = enemies;
+    _enemies = enemies;
     // assign position to each enemy; this is necessary to be able
     // to determine who's affected by AoE attacks.
-    for (int i = 0; i < this._enemies.length; i++) {
-      this._enemies[i].state().position = i;
+    for (int i = 0; i < _enemies.length; i++) {
+      _enemies[i].state().position = i;
     }
   }
 
   List<Being> enemies() {
-    return this._enemies;
+    return _enemies;
   }
 
   bool finished() {
@@ -191,7 +191,7 @@ class CurrentCombat {
       return true;
     }
 
-    for(Being enemy in this._enemies) {
+    for(Being enemy in _enemies) {
       if(enemy.isAlive()) {
         return false;
       }
@@ -199,9 +199,7 @@ class CurrentCombat {
     return true;
   }
 
-  /**
-   * Implements an actual physical attack on enemies
-   */
+  /// Implements an actual physical attack on enemies
   void attackEnemyPhysical(Being enemy, Attack attack) {
     attackTarget(GameState().player, enemy, attack);
   }
@@ -210,11 +208,9 @@ class CurrentCombat {
     // TBD
   }
 
-  /**
-   * Enemies turn / they attack the player.
-   */
+  /// Enemies turn / they attack the player.
   void enemiesAttackPlayer() {
-    for (Being enemy in this._enemies) {
+    for (Being enemy in _enemies) {
       attackTarget(enemy, GameState().player, Hit());
     }
     GameState().update();

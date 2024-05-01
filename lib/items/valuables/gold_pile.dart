@@ -5,7 +5,7 @@ import '../../assets.dart';
 
 class GoldPile extends GameItem {
   GoldPile() : super.fromAsset(GameItemAsset.gold_pile) {
-    this.name = 'Gold pile';
-    this.description = 'Restores 0 HP';
+    name = 'Gold pile';
+    description = 'Restores 0 HP';
   }
 }

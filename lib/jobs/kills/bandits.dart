@@ -20,6 +20,7 @@ class EliminateBandit extends Job {
   EliminateBandit(String label, String description, this.numberOfBandits)
       : super(label, description, JobType.hunterguild, 30);
 
+  @override
   List<JobStep> getJobSteps() {
     List<JobStep> steps = [];
 

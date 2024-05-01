@@ -20,7 +20,7 @@ abstract class Job {
   String label = '';
   String description = '';
   List<JobStep> jobSteps = [];
-  JobStep? currentStep = null;
+  JobStep? currentStep;
   List<GameItem> receiveUponCompletion = [];
   List<Stat> requiredStats = [];
   JobType jobType = JobType.hunterguild;
@@ -39,14 +39,14 @@ abstract class Job {
   }
 
   reset() {
-    JobStep? lastStep = null;
+    JobStep? lastStep;
     for (JobStep step in getJobSteps()) {
       jobSteps.add(step);
       if (lastStep != null) {
         lastStep.nextStep = step;
       }
     }
-    if (!jobSteps.isEmpty) {
+    if (jobSteps.isNotEmpty) {
       currentStep = jobSteps.first;
     }
   }
@@ -68,13 +68,11 @@ abstract class Job {
   }
 
   addStep(JobStep step) {
-    if (!jobSteps.isEmpty) {
+    if (jobSteps.isNotEmpty) {
       jobSteps.last.nextStep = step;
     }
     jobSteps.add(step);
-    if (currentStep == null) {
-      currentStep = step;
-    }
+    currentStep ??= step;
   }
 
   List<JobStep> getJobSteps();
@@ -87,5 +85,5 @@ class JobStep {
   List<GameItem> receiveUponCompletion = [];
   List<Being> attackers = [];
   int level = 0;
-  JobStep? nextStep = null;
+  JobStep? nextStep;
 }

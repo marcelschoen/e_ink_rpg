@@ -13,7 +13,7 @@ void main() {
   double damage = getDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
 
 
-  print('>> DAMAGE 1: ' + damage.toString());
+  print('>> DAMAGE 1: $damage');
 
   // Attacker slightly higher level
   attackPower = 32;
@@ -22,7 +22,7 @@ void main() {
   targetDefense = 42;
   targetLevel = 3;
   damage = damage = getDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
-  print('>> DAMAGE 2: ' + damage.toString());
+  print('>> DAMAGE 2: $damage');
 
 
   // Attacker much higher level
@@ -33,7 +33,7 @@ void main() {
   targetLevel = 3;
 
   damage = damage = getDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
-  print('>> DAMAGE 3: ' + damage.toString());
+  print('>> DAMAGE 3: $damage');
 
 
   // Attacker much lower level
@@ -44,7 +44,7 @@ void main() {
   targetLevel = 8;
 
   damage = damage = getDamage(attackPower, skillLevel, attackerLevel, targetDefense, targetLevel);
-  print('>> DAMAGE 4: ' + damage.toString());
+  print('>> DAMAGE 4: $damage');
 
   /*
   * weapon.attackPower: 16

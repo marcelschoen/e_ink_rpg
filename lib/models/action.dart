@@ -21,6 +21,7 @@ class Spy extends GameAction {
 
   Spy() : super(GameIconAsset.spy.filename()) ;
 
+  @override
   perform() {
     print(">>> SPY <<<");
   }

@@ -125,10 +125,10 @@ class InventoryGameItemStack {
 
   int stackSize = 0;
   bool selected = false;
-  GameItem? item = null;
+  GameItem? item;
 
   InventoryGameItemStack(this.item) {
-    this.stackSize = 1;
+    stackSize = 1;
   }
 
   InventoryGameItemStack.multiple(this.item, this.stackSize);
@@ -158,7 +158,7 @@ Widget getInventoryScreen(BuildContext context) {
         child: Scrollbar(
           controller: scrollController,
           thickness: 20,
-          isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
+          thumbVisibility: true,  // TODO - FIND BETTER SOLUTION
           child: ListenableBuilder(
             listenable: GameState().inventorySelectionState,
             builder: (BuildContext context, Widget? child) {
@@ -182,7 +182,7 @@ Widget getInventoryScreen(BuildContext context) {
             child: Card(
               shape: RoundedRectangleBorder( //<-- SEE HERE
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                     color: Colors.black54,
                     style: BorderStyle.solid,
                     width: 4
@@ -196,8 +196,8 @@ Widget getInventoryScreen(BuildContext context) {
                       Container(
                         color: Colors.black12,
                         child: Container(
-                          margin: EdgeInsets.only(top: 4, bottom: 0),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.only(top: 4, bottom: 0),
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.black,
@@ -221,10 +221,10 @@ Widget getInventoryScreen(BuildContext context) {
             ),
           ),
           Column(children: [
-            BaseButton.textOnlyWithSizes("Use", (p0) => { useItem() }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Combine", (p0) => { print('>> NAME: ' + NameHandler.elvenNames.compose(3)) }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Discard", (p0) => { discardItem(false) }, 26, 160, 2 ),
-            BaseButton.textOnlyWithSizes("Discard all", (p0) => { discardItem(true) }, 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Use", (p0) => useItem(), 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Combine", (p0) => print('>> NAME: ${NameHandler.elvenNames.compose(3)}'), 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Discard", (p0) => discardItem(false), 26, 160, 2 ),
+            BaseButton.textOnlyWithSizes("Discard all", (p0) => discardItem(true), 26, 160, 2 ),
           ],)
         ],
       )
@@ -239,7 +239,7 @@ Widget inventoryItemDetails() {
   return Expanded(
     child: Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       child: ListenableBuilder(
         listenable: GameState().inventorySelectionState,
         builder: (BuildContext context, Widget? child) {
@@ -262,7 +262,7 @@ List<Widget> getSelectedInventoryItemDetails() {
         child: getItemStackWidget(GameState().selectedInInventory!, 96, null, false )));
     detailContents.add(Expanded(
       child: Container(
-        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+        padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
         child: Text(GameState().selectedInInventory!.item!.description, style: getTitleTextStyle(20)))
       )
     );
@@ -304,7 +304,7 @@ void discardItem(bool discardAll) {
 // Function for selecting an equipable item
 // --------------------------------------------------------------------
 getSelectEquippableItemFunction(InventoryGameItemStack itemStack) {
-  GameState().selectedInEquipment = itemStack!.item;
+  GameState().selectedInEquipment = itemStack.item;
   GameState().equipState.update();
 
 }
@@ -325,7 +325,7 @@ Widget getItemStackWidget(InventoryGameItemStack itemStack, double length, Funct
 
   return InkWell(
     onTap: () {
-      doStuff!(itemStack);
+      doStuff(itemStack);
     },
     child: _getDetailIconWidget(itemStack, length, selectionBorder),
   );
@@ -351,12 +351,12 @@ Widget _getDetailIconWidget(InventoryGameItemStack itemStack, double length, boo
               height: 36,
               alignment: Alignment.center,
               child: Text(itemStack.stackSize.toString(),
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, ),
                   textAlign: TextAlign.center)
           ),
           Expanded(
             child: Text(itemStack.item!.name,
-                style: TextStyle(fontWeight: FontWeight.bold, ),
+                style: const TextStyle(fontWeight: FontWeight.bold, ),
                 textAlign: TextAlign.center),
           ),
         ],
@@ -375,8 +375,8 @@ Widget getItemBorder(bool selected, Widget content) {
       borderType: BorderType.RRect,
       strokeWidth: 4,
       color: Colors.blueGrey,
-      radius: Radius.circular(8),
-      padding: EdgeInsets.all(4),
+      radius: const Radius.circular(8),
+      padding: const EdgeInsets.all(4),
       child: content,
     );
   }

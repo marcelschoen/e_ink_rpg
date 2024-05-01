@@ -118,7 +118,7 @@ enum GameImageAsset {
   final String _filename;
 
   String filename() {
-    return 'assets/' + this._filename;
+    return 'assets/$_filename';
   }
 
   Widget getGameImage() {
@@ -362,7 +362,7 @@ enum GameItemAsset {
   final String _filename;
 
   String filename() {
-    return 'assets/item/' + this._filename;
+    return 'assets/item/$_filename';
   }
 
   Widget getItemImage() {
@@ -397,7 +397,7 @@ enum GameIconAsset {
   final String _filename;
 
   String filename() {
-    return 'assets/icons/' + this._filename;
+    return 'assets/icons/$_filename';
   }
 
   Widget getIconImage() {
@@ -419,7 +419,7 @@ enum GameMonsterImageAsset {
   final String _filename;
 
   Widget getMonsterImage() {
-    return getImage('assets/monster/' + this._filename);
+    return getImage('assets/monster/$_filename');
   }
 
 }
@@ -481,7 +481,7 @@ enum GameNpcImageAsset {
   final String _filename;
 
   String filename() {
-    return 'assets/humanoid/' + this._filename;
+    return 'assets/humanoid/$_filename';
   }
 }
 

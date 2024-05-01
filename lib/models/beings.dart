@@ -10,15 +10,13 @@ import 'attribute.dart';
 import 'location.dart';
 import 'magic.dart';
 
-/**
- * Base class for any living being.
- */
+/// Base class for any living being.
 class Being {
 
   BeingState? _state;
 
-  Map<AttributeType, Attribute> _attrs = {};
-  Map<StatType, Stat> _stats = {};
+  final Map<AttributeType, Attribute> _attrs = {};
+  final Map<StatType, Stat> _stats = {};
   Map<SkillType, SkillTree> skillTrees = {};
 
   SpeciesType species;
@@ -41,7 +39,7 @@ class Being {
   }
 
   BeingState state() {
-    return this._state!;
+    return _state!;
   }
 
   addSKill(SkillType type) {
@@ -241,15 +239,13 @@ enum SpeciesType {
   }
 
   double maxHealth() {
-    return this._maxHealth;
+    return _maxHealth;
   }
 }
 
-/**
- * Base class for humanoid characters, the main difference
- * being that they can equip armor, use weapons, have an
- * inventory etc.
- */
+/// Base class for humanoid characters, the main difference
+/// being that they can equip armor, use weapons, have an
+/// inventory etc.
 class Humanoid extends Being {
 
   String name;
@@ -268,10 +264,8 @@ class Humanoid extends Being {
   }
 }
 
-/**
- * Player subclass for humanoid, with all the attributes etc.
- * that are only relevant to the player character.
- */
+/// Player subclass for humanoid, with all the attributes etc.
+/// that are only relevant to the player character.
 class Player extends Humanoid {
 
   GameRegion? _currentRegion;
@@ -341,8 +335,4 @@ class Player extends Humanoid {
     availableAttacks.add(attack);
   }
 
-  @override
-  damageBy(double value) {
-    super.damageBy(value);
-  }
 }

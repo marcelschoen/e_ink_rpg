@@ -5,7 +5,7 @@ import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
 
 Widget getPartyStatusBar() {
-  return Row(
+  return const Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Row(
@@ -40,6 +40,8 @@ Widget _getProgressBarWithLetter(String letter, StatType statType) {
 }
 
 class NpcWidget extends StatelessWidget {
+  const NpcWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return getCardWithRoundedBorder(Padding(
@@ -71,6 +73,8 @@ class NpcWidget extends StatelessWidget {
 // Widget containing the players level, status info, picture etc.
 // -----------------------------------------------------------------------------
 class PlayerWidget extends StatelessWidget {
+  const PlayerWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return getCardWithRoundedBorder(Padding(
@@ -86,7 +90,7 @@ class PlayerWidget extends StatelessWidget {
                     Column(
                       children: [
                         Text('Lvl', style: getTitleTextStyle(14)),
-                        SizedBox(
+                        const SizedBox(
                           height: 2,
                         ),
                         Text(
@@ -98,7 +102,7 @@ class PlayerWidget extends StatelessWidget {
 //                    Text(GameState().player.level.toString(), style: getTitleTextStyle(24)),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     RotatedBox(
@@ -156,7 +160,7 @@ class BaseButton extends StatelessWidget {
       void Function(BuildContext) function,
       double fontSize,
       double buttonWidth,
-      double paddingSize)
+      double paddingSize, {super.key})
       : _label = label,
         _image = null,
         _function = function,
@@ -164,19 +168,19 @@ class BaseButton extends StatelessWidget {
         _buttonWidth = buttonWidth,
         _paddingSize = paddingSize;
 
-  BaseButton.textOnly(String label, void Function(BuildContext) function)
+  BaseButton.textOnly(String label, void Function(BuildContext) function, {super.key})
       : _label = label,
         _image = null,
         _function = function;
 
   BaseButton.withImageAndText(
-      String label, String imageFilename, void Function(BuildContext) function)
+      String label, String imageFilename, void Function(BuildContext) function, {super.key})
       : _label = label,
         _image = imageFilename,
         _function = function;
 
   BaseButton.withImageOnly(
-      String imageFilename, void Function(BuildContext) function)
+      String imageFilename, void Function(BuildContext) function, {super.key})
       : _label = null,
         _image = imageFilename,
         _function = function;
@@ -185,7 +189,7 @@ class BaseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: TextButton.styleFrom(
-            padding: EdgeInsets.all(2),
+            padding: const EdgeInsets.all(2),
             minimumSize: Size(_buttonWidth, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             alignment: Alignment.centerLeft),
@@ -193,7 +197,7 @@ class BaseButton extends StatelessWidget {
           print("*** PRESSED: $_label ***");
           _function(context);
         },
-        child: getButtonContent(this.enabled, _buttonWidth, _paddingSize));
+        child: getButtonContent(enabled, _buttonWidth, _paddingSize));
   }
 
   // ---------------------------------------------

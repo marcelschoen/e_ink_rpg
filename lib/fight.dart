@@ -23,7 +23,7 @@ import 'models/magic.dart';
 // Switches back to title screen
 // -----------------------------------------------
 void backToTitle(BuildContext context) {
-  switchToScreen(MonsterSlayerTitle(), context);
+  switchToScreen(const MonsterSlayerTitle(), context);
 }
 
 void continueAfterFight(BuildContext context) {
@@ -33,7 +33,7 @@ void continueAfterFight(BuildContext context) {
         GameState().daytime.advanceByHours(1);
         GameState().availableJobs.deselectAllJobs();
         GameState().selectedInJobs = null;
-        switchToScreen(Game(), context);
+        switchToScreen(const Game(), context);
       } else {
         GameState().daytime.advanceByMinutes(10);
         startFight(context, GameState().selectedInJobs! );
@@ -42,13 +42,13 @@ void continueAfterFight(BuildContext context) {
     } else if (GameState().currentlyExploring != null) {
       // TODO - OTHER CONTINUATION CONDITIONS
       GameState().currentlyExploring!.exploration!.nextStep();
-      ExplorationWidget explorationScreen = ExplorationWidget();
+      ExplorationWidget explorationScreen = const ExplorationWidget();
       switchToScreen(explorationScreen, context);
       explorationScreen.continueExploration(context);
       return;
     }
   } else {
-    switchToScreen(MonsterSlayerTitle(), context);
+    switchToScreen(const MonsterSlayerTitle(), context);
   }
 }
 
@@ -86,7 +86,7 @@ void startFight(BuildContext context, Job job) {
 void startFightWithEnemies(BuildContext context, List<Being> enemies) {
   CurrentCombat().begin(enemies);
   print('>>> switch to fight screen <<<');
-  switchToScreen(Fight(), context);
+  switchToScreen(const Fight(), context);
 }
 
 // -------------------------------------------
@@ -136,13 +136,13 @@ void jumpToNewScreenAfterFight(BuildContext context) {
       if (GameState().selectedInJobs != null) {
         GameState().selectedInJobs!.nextStep();
         if (GameState().selectedInJobs!.finished) {
-          switchToScreen(FightOverScaffold('JOB COMPLETED!!'), context);
+          switchToScreen(const FightOverScaffold('JOB COMPLETED!!'), context);
           return;
         }
       }
-      switchToScreen(FightOverScaffold('VICTORY!'), context);
+      switchToScreen(const FightOverScaffold('VICTORY!'), context);
     } else {
-      switchToScreen(FightOverScaffold('DEFEAT!'), context);
+      switchToScreen(const FightOverScaffold('DEFEAT!'), context);
     }
   }
 }
@@ -260,7 +260,7 @@ class FightScaffold extends StatelessWidget {
 List<Widget> getButtonsOrInfoLabel(BuildContext context) {
   List<Widget> widgets = [];
   if (CurrentCombat().enemyTurn) {
-    widgets.add(wrapButtonsOrInfoLabel(Center(
+    widgets.add(wrapButtonsOrInfoLabel(const Center(
         child: Text('ENEMY TURN',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))));
   } else {
@@ -312,7 +312,7 @@ Widget getTurnOrderList() {
 
   entries.add(Container(
       margin: const EdgeInsets.all(8.0),
-      child: Column(
+      child: const Column(
         children: [Text('TURN'), Text('ORDER')],
       )));
 
@@ -446,7 +446,7 @@ class FightOverScaffold extends StatelessWidget {
 
   final String appBarTitle;
 
-  const FightOverScaffold(this.appBarTitle);
+  const FightOverScaffold(this.appBarTitle, {super.key});
 
   Future<bool> _onWillPop() async {
     // disable "back" button
@@ -461,7 +461,7 @@ class FightOverScaffold extends StatelessWidget {
         appBar: getAppBar(appBarTitle),
 
         // ********** Actual combat screen part **********
-        body: Center(
+        body: const Center(
           child: Placeholder(),
         ),
 

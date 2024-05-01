@@ -77,12 +77,12 @@ Widget getMapScreen(BuildContext context) {
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                alignment: Alignment(-.2, 0),
+                alignment: const Alignment(-.2, 0),
                 image: AssetImage(GameImageAsset.map_paper_background_bw_transparent.filename()),
                 fit: BoxFit.fill),
           ),
           alignment: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 40),
+          padding: const EdgeInsets.only(top: 40),
           child: ListenableBuilder(
               listenable: GameState().mapState,
               builder: (BuildContext context, Widget? child) {
@@ -159,8 +159,7 @@ Column getDetailText(String label, String title, String description) {
 List<Widget> getMapButtons(BuildContext context) {
   List<Widget> buttons = [];
   if (GameState().selectedLocationInMap != null) {
-    print ('>>> selected location in map: ' + GameState().selectedLocationInMap!.name
-        + ', unlocked: ' + GameState().selectedLocationInMap!.unlocked.toString());
+    print ('>>> selected location in map: ${GameState().selectedLocationInMap!.name}, unlocked: ${GameState().selectedLocationInMap!.unlocked}');
     if (!GameState().selectedLocationInMap!.unlocked) {
       buttons.add(getExploreButton(context));
     } else if (GameState().selectedLocationInMap != GameState().player.currentLocation()) {
@@ -175,7 +174,7 @@ List<Widget> getMapButtons(BuildContext context) {
 // -----------------------------------------------------------------------------
 Widget getVisitButton() {
   return BaseButton.textOnlyWithSizes('Visit', (p0) {
-    print('go to location ' + GameState().selectedLocationInMap!.name);
+    print('go to location ${GameState().selectedLocationInMap!.name}');
     GameState().player.setCurrentLocationTo(GameState().selectedLocationInMap!);
     GameState().selectedLocationInMap = null;
     GameState().mapState.update();
@@ -187,7 +186,7 @@ Widget getVisitButton() {
 // -----------------------------------------------------------------------------
 Widget getExploreButton(BuildContext context) {
   return BaseButton.textOnlyWithSizes('Explore', (p0) {
-      print('explore location ' + GameState().selectedLocationInMap!.name);
+      print('explore location ${GameState().selectedLocationInMap!.name}');
       beginExploring(GameState().selectedLocationInMap!, context);
     }, 18, 140, 20);
 }
@@ -200,15 +199,15 @@ Widget getMapContents(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Padding(
-        padding: EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             getZoomButton(false),
             Center(child: getMapTitle()),
             getZoomButton(true),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
           ],
         ),
       ),
@@ -220,11 +219,11 @@ Widget getMapContents(BuildContext context) {
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(width: 60),
+          const SizedBox(width: 60),
           getHomeButton()
         ],
       ),
-      SizedBox(height: 50,)
+      const SizedBox(height: 50,)
     ],
   );
 }
@@ -367,7 +366,7 @@ Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
   Widget poiWidget = Image.asset(poi.pointOfInterestType.imageAsset.filename());  // TODO
   poiWidget = SizedBox(width: 25, child: InkWell(
         onTap: () {
-          print('> tapped: ' + poi.name);
+          print('> tapped: ${poi.name}');
           GameState().selectedPoiInMap = poi;
           GameState().mapState.update();
         },
@@ -422,7 +421,7 @@ Widget getLocation(GameLocation location) {
   if (location.unlocked || location.isConnectedToUnlockedLocation()) {
     locationWidget = InkWell(
         onTap: () {
-          print('> tapped: ' + location.name + ', unlocked: ' + location.unlocked.toString());
+          print('> tapped: ${location.name}, unlocked: ${location.unlocked}');
           if (location != GameState().player.currentLocation()) {
             GameState().selectedLocationInMap = location;
             GameState().mapState.update();
@@ -461,7 +460,7 @@ DottedBorder getSelectedLocationBorder(Widget content) {
     borderType: BorderType.RRect,
     strokeWidth: borderWidth,
     color: borderColor,
-    radius: Radius.circular(8),
+    radius: const Radius.circular(8),
 //    padding: EdgeInsets.all(12),
     child: content,
   );

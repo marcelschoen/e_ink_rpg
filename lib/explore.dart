@@ -17,13 +17,15 @@ import 'models/location.dart';
 beginExploring(GameLocation location, BuildContext context) {
   GameState().currentlyExploring = location;
   GameState().setScreenType(ScreenType.exploration);
-  switchToScreen(ExplorationWidget(), context);
+  switchToScreen(const ExplorationWidget(), context);
 }
 
 // -----------------------------------------------------------------------------
 // Shows the exploration screen(s)
 // -----------------------------------------------------------------------------
 class ExplorationWidget extends StatelessWidget {
+  const ExplorationWidget({super.key});
+
 
   Future<bool> _onWillPop() async {
     // disable back button
@@ -62,7 +64,7 @@ class ExplorationWidget extends StatelessWidget {
 
   List<Widget> getButtons(BuildContext context) {
     List<Widget> buttons = [];
-    buttons.add(BaseButton.textOnly('ABORT', (context) => switchToScreen(Game(), context) ));
+    buttons.add(BaseButton.textOnly('ABORT', (context) => switchToScreen(const Game(), context) ));
     if (GameState().currentlyExploring!.exploration!.currentStep().hasEnemies) {
       buttons.add(BaseButton.textOnly('ATTACK', (context) => attackEnemies(context) ));
     }
@@ -85,7 +87,7 @@ class ExplorationWidget extends StatelessWidget {
     GameState().currentlyExploring!.exploration!.nextStep();
     if (GameState().currentlyExploring!.exploration!.isComplete()) {
       unlockExploredLocation();
-      switchToScreen(Game(), context);
+      switchToScreen(const Game(), context);
     }
   }
 
@@ -161,13 +163,12 @@ class ExplorationWidget extends StatelessWidget {
     }
     return Padding(
       padding: const EdgeInsets.all(30.0),
-      child: Text('Location: ' + location.name
-          + ' A nice place, ' + notes, style: getTitleTextStyle(24)),
+      child: Text('Location: ${location.name} A nice place, $notes', style: getTitleTextStyle(24)),
     );
   }
 
   Widget getExplorationProgressBar(double value) {
-    print(">> exploration %: " + value.toString());
+    print(">> exploration %: $value");
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(

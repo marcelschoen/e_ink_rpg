@@ -41,7 +41,7 @@ class AppBarState with ChangeNotifier {
   AppBarSections sections = AppBarSections.jobs;
 
   void section(AppBarSections section) {
-    this.sections = section;
+    sections = section;
     update();
   }
 
@@ -87,8 +87,8 @@ class GameState with ChangeNotifier {
 
   AvailableJobs availableJobs = AvailableJobs();
   Difficulty difficulty = Difficulty.normal;
-  String? selectedGameSave = null;
-  GameLocation? currentlyExploring = null;
+  String? selectedGameSave;
+  GameLocation? currentlyExploring;
 
   // *******************************************************
   // transient variables
@@ -114,17 +114,16 @@ class GameState with ChangeNotifier {
   ScreenType _screenType = ScreenType.title;
 
   MapZoomLevel mapZoomLevel = MapZoomLevel.location;
-  GameLocation? selectedLocationInMap = null;
-  LocalPointOfInterest? selectedPoiInMap = null;
-  GameItem? selectedInEquipment = null;
-  InventoryGameItemStack? selectedInInventory = null;
-  Job? selectedInJobs = null;
+  GameLocation? selectedLocationInMap;
+  LocalPointOfInterest? selectedPoiInMap;
+  GameItem? selectedInEquipment;
+  InventoryGameItemStack? selectedInInventory;
+  Job? selectedInJobs;
 
   // singleton instance
   static final GameState _instance = GameState._internal();
 
-  GameState._internal() : playerState = BeingState(Player()) {
-  }
+  GameState._internal() : playerState = BeingState(Player());
 
   factory GameState() {
     return _instance;
@@ -150,7 +149,7 @@ class GameState with ChangeNotifier {
     selectedInInventory = null;
     selectedInEquipment = null;
 
-    EliminateBandit job = new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
+    EliminateBandit job = EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 0);
 
     JobStep waveOne = JobStep();
     waveOne.attackers.add(AngryWasp());
@@ -164,12 +163,12 @@ class GameState with ChangeNotifier {
     availableJobs.add(job);
 
 //    availableJobs.add(new EliminateBandit('Lone Thief', 'A thief is harassing the locals. Eliminate him!', 1));
-    availableJobs.add(new EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
-    availableJobs.add(new EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
+    availableJobs.add(EliminateBandit('Bandit Duo', 'Deal with the bandit duo breaking in houses everywhere.', 2));
+    availableJobs.add(EliminateBandit('The Rats', 'The bandit group called "The Rats" has murdered several traders; get rid of them!', 4));
   }
 
   ScreenType screenType() {
-    return this._screenType;
+    return _screenType;
   }
 
   void setScreenByWidget(Widget widget) {
@@ -219,7 +218,7 @@ class GameState with ChangeNotifier {
   }
 
   void setScreenType(ScreenType type) {
-    this._screenType = type;
+    _screenType = type;
     appBarTitleState.update();
   }
 
@@ -282,15 +281,15 @@ class GameState with ChangeNotifier {
 
     for (Stat stat in GameState().player.getStats().values) {
       String name = stat.statType.name;
-      data['player.stat.' + name + '.value'] = stat.value();
-      data['player.stat.' + name + '.maxValue'] = stat.maxValue();
+      data['player.stat.$name.value'] = stat.value();
+      data['player.stat.$name.maxValue'] = stat.maxValue();
     }
 
     // TODO - GOLD PILES ARE NOT SAVED - WHY?
 
     for (InventoryGameItemStack stack in GameState().player.inventory.itemStacks) {
       if (stack.item != null) {
-        data['items.' + stack.item!.id.toString()] = stack.stackSize;
+        data['items.${stack.item!.id}'] = stack.stackSize;
       }
     }
 
@@ -308,9 +307,9 @@ class GameState with ChangeNotifier {
 
     GameState().player.setStatValue(StatType.health, data['player.hp']);
     for (StatType statType in StatType.values) {
-      var statValue = data['player.stat.' + statType.name + '.value'];
+      var statValue = data['player.stat.${statType.name}.value'];
       GameState().player.setStatValue(statType, statValue);
-      var statMaxValue = data['player.stat.' + statType.name + '.maxValue'];
+      var statMaxValue = data['player.stat.${statType.name}.maxValue'];
       GameState().player.setStatValue(statType, statMaxValue);
     }
 
@@ -352,7 +351,7 @@ class BeingState with ChangeNotifier {
   bool selected = false;
   bool affected = false;
 
-  BeingState(Being being) : _being = being {}
+  BeingState(Being being) : _being = being;
 
   Being being() {
     return _being;

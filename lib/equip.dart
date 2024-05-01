@@ -17,8 +17,7 @@ class Equipment {
 
   Map<WearableType, Wearable> wearables = {};
 
-  Equipment() {
-  }
+  Equipment();
 
   GameItem? getWearable(WearableType wearableType) {
     Wearable? wearable = wearables[wearableType];
@@ -57,7 +56,7 @@ class Equipment {
 // Stores a number of loadouts that the player can easily switch between
 // -----------------------------------------------------------------------------
 class Loadouts {
-  static final int NUMBER_OF_LOADOUTS = 8;
+  static const int NUMBER_OF_LOADOUTS = 8;
   List<Equipment> loadouts = [];
 
   Loadouts() {
@@ -86,7 +85,7 @@ Widget getEquipScreen(BuildContext context) {
               child: Scrollbar(
                 controller: scrollController,
                 thickness: 20,
-                isAlwaysShown: true,  // TODO - FIND BETTER SOLUTION
+                thumbVisibility: true,  // TODO - FIND BETTER SOLUTION
                 child: ListenableBuilder(
                   listenable: GameState().equipState,
                   builder: (BuildContext context, Widget? child) {
@@ -118,7 +117,7 @@ Widget getEquipScreen(BuildContext context) {
             child: Card(
               shape: RoundedRectangleBorder( //<-- SEE HERE
                 borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
+                side: const BorderSide(
                     color: Colors.black54,
                     style: BorderStyle.solid,
                     width: 4
@@ -132,8 +131,8 @@ Widget getEquipScreen(BuildContext context) {
                       Container(
                         color: Colors.black12,
                         child: Container(
-                          margin: EdgeInsets.only(top: 4, bottom: 0),
-                          decoration: BoxDecoration(
+                          margin: const EdgeInsets.only(top: 4, bottom: 0),
+                          decoration: const BoxDecoration(
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.black,
@@ -174,13 +173,9 @@ Widget getEquipScreen(BuildContext context) {
 Widget getEquipOrUnequipButton() {
   if (GameState().selectedInEquipment != null) {
     if (GameState().player.equipment.hasEquipped(GameState().selectedInEquipment!)) {
-      return BaseButton.textOnlyWithSizes("Unequip", (p0) => {
-        unequipSelectedItem(GameState().selectedInEquipment!)
-      }, 26, 160, 2 );
+      return BaseButton.textOnlyWithSizes("Unequip", (p0) => unequipSelectedItem(GameState().selectedInEquipment!), 26, 160, 2 );
     } else {
-      return BaseButton.textOnlyWithSizes("Equip", (p0) => {
-        equipSelectedItem(GameState().selectedInEquipment!)
-      }, 26, 160, 2 );
+      return BaseButton.textOnlyWithSizes("Equip", (p0) => equipSelectedItem(GameState().selectedInEquipment!), 26, 160, 2 );
     }
   }
   return BaseButton.textOnlyWithSizes("...", (p0) => {  }, 26, 160, 2 );
@@ -205,7 +200,7 @@ Widget equipmentItemDetails() {
   return Expanded(
     child: Container(
       alignment: Alignment.topLeft,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       child: ListenableBuilder(
         listenable: GameState().equipState,
         builder: (BuildContext context, Widget? child) {
@@ -228,7 +223,7 @@ List<Widget> getSelectedEquipmentItemDetails() {
         child: getEquipmentItemWidget(GameState().selectedInEquipment!, 96)));
     detailContents.add(Expanded(
         child: Container(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+            padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
             child: Text(GameState().selectedInEquipment!.description, style: getTitleTextStyle(20)))
     )
     );
@@ -288,13 +283,13 @@ Widget getEquipmentFieldWithLabel(String label, WearableType type) {
   if (item != null) {
     imageWidget = InkWell(
         onTap: () {
-          GameState().selectedInEquipment = item!;
+          GameState().selectedInEquipment = item;
           GameState().equipState.update();
         },
-        child: FittedBox(child: item!.itemAsset.getItemImage())
+        child: FittedBox(child: item.itemAsset.getItemImage())
     );
   } else {
-    imageWidget = FittedBox(child: SizedBox(width: 64, height: 64, child: SizedBox(width: 10, height: 10,)));
+    imageWidget = const FittedBox(child: SizedBox(width: 64, height: 64, child: SizedBox(width: 10, height: 10,)));
   }
 
   return Row(
@@ -332,7 +327,7 @@ Widget getEquipmentItemWidget(GameItem gameItem, double length) {
         children: [
           Expanded(
             child: Text(gameItem.name,
-                style: TextStyle(fontWeight: FontWeight.bold, ),
+                style: const TextStyle(fontWeight: FontWeight.bold, ),
                 textAlign: TextAlign.center),
           ),
         ],
@@ -368,7 +363,7 @@ Widget getLoadoutButtonsBar() {
 
 Widget getLoadoutButton(String label) {
   return InkWell(
-    onTap: () { print('select loadout ' + label); } ,
+    onTap: () { print('select loadout $label'); } ,
     child: Container(
       color: Colors.black12,
       child: Text(label, style: getTitleTextStyle(30)),

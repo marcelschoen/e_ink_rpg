@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'game.dart';
 
 void main() {
-  runApp(MonsterSlayerTitle());
+  runApp(const MonsterSlayerTitle());
 }
 
 class MonsterSlayerTitle extends StatefulWidget {
 
-  MonsterSlayerTitle({super.key});
+  const MonsterSlayerTitle({super.key});
 
   static bool initialized = false;
 
@@ -50,7 +50,7 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
 
   @override
   Widget build(BuildContext context) {
-    Image titleImage = Image(image: AssetImage('assets/monster-slayer-logo.png'));
+    Image titleImage = const Image(image: AssetImage('assets/monster-slayer-logo.png'));
     return MaterialApp(
       home: WillPopScope(
         onWillPop: _onWillPop,
@@ -87,7 +87,7 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
       buttons.add(BaseButton.textOnly('CONTINUE', (context) => beginGame(context, false)));
     }
 
-    if (!GameSaveHandler.currentSaves.isEmpty) {
+    if (GameSaveHandler.currentSaves.isNotEmpty) {
       buttons.add(BaseButton.textOnly('LOAD', (context) => switchToScreen(LoadGame(), context)));
     }
 
@@ -132,5 +132,5 @@ beginGame(BuildContext context, bool startNewGame) {
     print ('*************** CONTINUE GAME **********************');
     GameSaveHandler.loadGameState(GameState().selectedGameSave!);
   }
-  switchToScreen(Game(), context);
+  switchToScreen(const Game(), context);
 }

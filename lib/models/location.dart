@@ -20,9 +20,9 @@ import 'package:e_ink_rpg/names.dart';
 import '../state.dart';
 import 'exploration.dart';
 
-final int MAX_LOCATIONS_PER_REGION = 25;
-final int COLUMNS_PER_REGION = 5;
-final int ROWS_PER_REGION = 5;
+const int MAX_LOCATIONS_PER_REGION = 25;
+const int COLUMNS_PER_REGION = 5;
+const int ROWS_PER_REGION = 5;
 
 enum ConnectionsDirection {
   north,
@@ -95,8 +95,8 @@ class GameLocation {
   Exploration? exploration;
 
   GameLocation(this.locationType, this.name, this.index)
-      : this.locationRandom = Random(), this.mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION),
-        this.mapRow = index ~/ COLUMNS_PER_REGION
+      : locationRandom = Random(), mapColumn = index - ((index ~/ COLUMNS_PER_REGION) * COLUMNS_PER_REGION),
+        mapRow = index ~/ COLUMNS_PER_REGION
   {
     exploration = Exploration(locationRandom, locationRandom.nextInt(5) + 4);
   }
@@ -122,31 +122,31 @@ class GameLocation {
   GameLocation? getLocationInDirection(ConnectionsDirection direction) {
     int offset = 0;
     if (direction == ConnectionsDirection.north) {
-      if (this.mapRow == 0) {
+      if (mapRow == 0) {
         // this location is at the upper border of the region
         return null;
       }
       offset = -COLUMNS_PER_REGION;
     } else if (direction == ConnectionsDirection.south) {
-      if (this.mapRow == ROWS_PER_REGION - 1) {
+      if (mapRow == ROWS_PER_REGION - 1) {
         // this location is at the lower border of the region
         return null;
       }
       offset = COLUMNS_PER_REGION;
     } else if (direction == ConnectionsDirection.east) {
-      if (this.mapColumn == 0) {
+      if (mapColumn == 0) {
         // this location is at the left border of the region
         return null;
       }
       offset = 1;
     } else if (direction == ConnectionsDirection.west) {
-      if (this.mapColumn == COLUMNS_PER_REGION - 1) {
+      if (mapColumn == COLUMNS_PER_REGION - 1) {
         // this location is at the right border of the region
         return null;
       }
       offset = -1;
     }
-    int targetIndex = this.index + offset;
+    int targetIndex = index + offset;
     if (targetIndex > -1 && targetIndex < MAX_LOCATIONS_PER_REGION) {
       return parentRegion!.locations[targetIndex];
     }
@@ -165,7 +165,7 @@ class GameRegion {
   Map<ConnectionsDirection, GameRegion> adjoiningRegions = {};
 
   GameRegion(this.name, this.locations, this._currentLocation) {
-    for (GameLocation loc in this.locations) {
+    for (GameLocation loc in locations) {
       loc.parentRegion = this;
     }
   }
