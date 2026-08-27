@@ -36,8 +36,11 @@ enum GameImageAsset {
   map_paper_background_bw('map/paper-background-bw.png'),
   map_paper_background_bw_transparent('map/paper-background-bw-transparent.png'),
 
-  map_icon_question_mark('map/question-mark.png'),
+  map_icon_question_mark('map/loc/question-mark.png'),
   map_icon_lock('map/locked.png'),
+
+  map_loc_hamlet('map/loc/Narrasil Hamlet.png'),
+
 
   map_poi_dungeon_entrance('map/poi/DungeonEntrance1.png'),
   map_poi_dungeon_entrance2('map/poi/DungeonEntrance2.png'),
@@ -55,7 +58,6 @@ enum GameImageAsset {
   map_loc_dead_tree_2('map/locations/Narrasil Dead Tree 2.png'),
   map_loc_dunes('map/locations/Narrasil Dunes.png'),
   map_loc_fortress('map/locations/Narrasil Fortress.png'),
-  map_loc_hamlet('map/locations/Narrasil Hamlet.png'),
   map_loc_hill_1('map/locations/Narrasil Hill 1.png'),
   map_loc_hill_2('map/locations/Narrasil Hill 2.png'),
   map_loc_hill_3('map/locations/Narrasil Hill 3.png'),

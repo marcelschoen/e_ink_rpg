@@ -387,9 +387,11 @@ List<Widget> getLocations(BuildContext context) {
   List<GameLocation> locations = GameState().player.currentRegion().locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
+    /*
     if (!location.unlocked && !location.isConnectedToUnlockedLocation() ) {
       locationWidgets.add(getEmptyField());
     } else {
+      */
       // TODO
       if (location == GameState().selectedLocationInMap) {
         if (location.unlocked) {
@@ -401,7 +403,8 @@ List<Widget> getLocations(BuildContext context) {
       } else {
         locationWidgets.add(getLocation(location));
       }
-    }
+
+    //}
   }
   return locationWidgets;
 }

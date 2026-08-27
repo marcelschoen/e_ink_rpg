@@ -140,7 +140,7 @@ class GameState with ChangeNotifier {
 
     GameState().player.createNewRegion();  // TEMPORARY
 
-    GameState().debugUnlockAllLocations();
+//    GameState().debugUnlockAllLocations();
 
     selectedInInventory = null;
     selectedInJobs = null;
@@ -305,12 +305,15 @@ class GameState with ChangeNotifier {
     GameState().gameRandomSeed = data['gameRandomSeed'];
     GameState().reset();
 
-    GameState().player.setStatValue(StatType.health, data['player.hp']);
     for (StatType statType in StatType.values) {
       var statValue = data['player.stat.${statType.name}.value'];
-      GameState().player.setStatValue(statType, statValue);
+      if (statValue != null) {
+        GameState().player.setStatValue(statType, statValue);
+      }
       var statMaxValue = data['player.stat.${statType.name}.maxValue'];
-      GameState().player.setStatValue(statType, statMaxValue);
+      if (statMaxValue != null) {
+        GameState().player.setStatMaxValue(statType, statMaxValue);
+      }
     }
 
     String itemPrefix = 'items.';

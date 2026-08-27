@@ -22,6 +22,8 @@ class MonsterSlayerTitle extends StatefulWidget {
 }
 
 class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
+  bool _assetsReady = false;
+
   Future<bool> _onWillPop() async {
     // disable back button
     return false;
@@ -32,20 +34,38 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
     super.initState();
 
     if (!MonsterSlayerTitle.initialized) {
-      NameHandler.allNames.loadAssets();
-      NameHandler.fantasyNames.loadAssets();
-      NameHandler.elvenNames.loadAssets();
-      NameHandler.romanNames.loadAssets();
-      NameHandler.goblinNames.loadAssets();
-
-      ItemRegistry.loadJson();
-
-      GameSaveHandler.updateListOfSaves();
-
-      GameSaveHandler.loadLastUsedSave();
+      MonsterSlayerTitle.initialized = true;
+      _loadInitialData();
+    } else {
+      // Assets were already loaded on a previous visit to this screen.
+      _assetsReady = true;
     }
+  }
 
-    MonsterSlayerTitle.initialized = true;
+  // ---------------------------------------------------------------------------
+  // Loads all data needed before the player can start/continue a game.
+  // Must complete before NEW GAME / CONTINUE / LOAD can be used, since
+  // starting or loading a game depends on names and items being registered.
+  // ---------------------------------------------------------------------------
+  Future<void> _loadInitialData() async {
+    await NameHandler.allNames.loadAssets();
+    await NameHandler.fantasyNames.loadAssets();
+    await NameHandler.elvenNames.loadAssets();
+    await NameHandler.romanNames.loadAssets();
+    await NameHandler.goblinNames.loadAssets();
+
+    await ItemRegistry.loadJson();
+
+    try {
+      // Save data is optional (e.g. first launch) - don't let a missing or
+      // unreadable save block the player from starting a new game.
+      await GameSaveHandler.updateListOfSaves();
+      await GameSaveHandler.loadLastUsedSave();
+    } catch (_) {}
+
+    setState(() {
+      _assetsReady = true;
+    });
   }
 
   @override
@@ -81,6 +101,10 @@ class _MonsterSlayerTitleState extends State<MonsterSlayerTitle> {
   }
 
   List<Widget> getButtons() {
+    if (!_assetsReady) {
+      return [getTitleAppBarTitle('Loading...', true)];
+    }
+
     List<Widget> buttons = [];
     buttons.add(BaseButton.textOnly('NEW GAME', (context) => beginGame(context, true)));
     if (GameState().selectedGameSave != null) {

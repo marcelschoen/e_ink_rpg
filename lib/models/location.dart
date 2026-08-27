@@ -21,6 +21,7 @@ import '../state.dart';
 import 'exploration.dart';
 
 const int MAX_LOCATIONS_PER_REGION = 25;
+const int START_LOCATION = 12;
 const int COLUMNS_PER_REGION = 5;
 const int ROWS_PER_REGION = 5;
 
@@ -248,6 +249,7 @@ class RegionFactory {
       GameLocation location = LocationFactory.create(index);
       locations.add(location);
     }
+    print("Created " + locations.length.toString() + " locations.");
     int currentLocationIndex = MAX_LOCATIONS_PER_REGION ~/ 2;
     GameRegion region = GameRegion(name, locations, locations[currentLocationIndex]);
 
@@ -256,6 +258,10 @@ class RegionFactory {
     for (GameLocation location in region.locations) {
       location.connectToAdjoiningLocations();
     }
+
+    locations[START_LOCATION].unlocked = true;
+    region.setCurrentLocationTo(locations[START_LOCATION]);
+
     return region;
   }
 }

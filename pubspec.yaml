@@ -101,6 +101,7 @@ flutter:
     - assets/names/
     - assets/mounts/
     - assets/map/
+    - assets/map/loc/
     - assets/map/locations/
     - assets/map/poi/
   # To add assets to your application, add an assets section, like this:
