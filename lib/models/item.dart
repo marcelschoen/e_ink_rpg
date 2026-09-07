@@ -5,6 +5,7 @@ import 'package:e_ink_rpg/models/stat.dart';
 import 'package:flutter/services.dart';
 
 import '../assets.dart';
+import '../items/valuables/gold_pile.dart';
 import '../state.dart';
 import 'attack.dart';
 import 'attribute.dart';
@@ -42,6 +43,8 @@ class ItemRegistry {
     debugPrint(content, wrapWidth: 1024);
     print('------------> ENDx <------------');
      */
+    ItemRegistry.registerItem(GoldPile());
+
     String jsonConsumables = await loadAsset('consumables.json');
     Map<String, dynamic> consumables = _processJsonData(jsonConsumables, 'food', 'consumables.json');
     _processConsumables(consumables, 1000);

@@ -4,7 +4,9 @@
       "Bash(xargs -I{} sh -c 'grep -l \"void main\\(\" {}')",
       "Bash(flutter analyze *)",
       "Bash(flutter test *)",
-      "Bash(dart analyze *)"
+      "Bash(dart analyze *)",
+      "Bash(flutter --version)",
+      "Bash(xargs -I{} echo {})"
     ]
   }
 }

@@ -198,6 +198,7 @@ Widget getMapContents(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
+      // Title and zoom-in and zoom-out buttons
       Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Row(
@@ -212,11 +213,13 @@ Widget getMapContents(BuildContext context) {
         ),
       ),
       Expanded(
+        // Actual map with locations
         child: FittedBox(
           fit: BoxFit.fitWidth,
             child: getMapGridContents(context)),
       ),
       Row(
+        // The home / back button
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(width: 60),

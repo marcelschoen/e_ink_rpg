@@ -138,6 +138,8 @@ class GameState with ChangeNotifier {
     daytime.reset();
     gameRandom = Random(gameRandomSeed);
 
+    GameState().mapZoomLevel = MapZoomLevel.region;
+
     GameState().player.createNewRegion();  // TEMPORARY
 
 //    GameState().debugUnlockAllLocations();
@@ -278,14 +280,13 @@ class GameState with ChangeNotifier {
     Map<String, dynamic> data = {};
 
     data['gameRandomSeed'] = gameRandomSeed;
+    data['region'] = GameState().regionToJson(GameState().player.currentRegion());
 
     for (Stat stat in GameState().player.getStats().values) {
       String name = stat.statType.name;
       data['player.stat.$name.value'] = stat.value();
       data['player.stat.$name.maxValue'] = stat.maxValue();
     }
-
-    // TODO - GOLD PILES ARE NOT SAVED - WHY?
 
     for (InventoryGameItemStack stack in GameState().player.inventory.itemStacks) {
       if (stack.item != null) {
@@ -306,6 +307,11 @@ class GameState with ChangeNotifier {
     GameState().gameRandomSeed = data['gameRandomSeed'];
     GameState().reset();
 
+    String? regionJson = data['region'];
+    if (regionJson != null) {
+      GameState().player.setCurrentRegionTo(GameState().regionFromJson(regionJson));
+    }
+
     for (StatType statType in StatType.values) {
       var statValue = data['player.stat.${statType.name}.value'];
       if (statValue != null) {
@@ -325,6 +331,8 @@ class GameState with ChangeNotifier {
         GameState().player.inventory.addItems(ItemRegistry.getItemById(itemId), itemStackSize);
       }
     }
+
+
     /*
     _updateStatIfExists(Being being, StatType statType, int value, int maxValue) {
       if (being.getStats().containsKey(statType) && value != null) {
