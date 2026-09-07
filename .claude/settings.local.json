@@ -3,7 +3,8 @@
     "allow": [
       "Bash(xargs -I{} sh -c 'grep -l \"void main\\(\" {}')",
       "Bash(flutter analyze *)",
-      "Bash(flutter test *)"
+      "Bash(flutter test *)",
+      "Bash(dart analyze *)"
     ]
   }
 }

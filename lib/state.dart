@@ -293,6 +293,7 @@ class GameState with ChangeNotifier {
       }
     }
 
+
     return jsonEncode(data);
   }
 
@@ -334,6 +335,57 @@ class GameState with ChangeNotifier {
       }
     }
 */
+  }
+
+  String regionToJson(GameRegion region) {
+    Map<String, dynamic> data = {};
+
+    data['name'] = region.name;
+    data['currentLocationIndex'] = region.currentLocation().index;
+    data['locations'] = region.locations.map((location) => {
+      'index': location.index,
+      'name': location.name,
+      'locationType': location.locationType.name,
+      'unlocked': location.unlocked,
+      'localPointsOfInterest': location.localPointsOfInterest.map((poi) => {
+        'index': poi.index,
+        'pointOfInterestType': poi.pointOfInterestType.name,
+        'name': poi.name,
+      }).toList(),
+    }).toList();
+
+    return jsonEncode(data);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Reconstructs a region (and its locations) from a JSON string previously
+  // produced by "regionToJson". Adjoining locations are re-linked afterwards,
+  // since they aren't part of the serialized data.
+  // ---------------------------------------------------------------------------
+  GameRegion regionFromJson(String json) {
+    var data = jsonDecode(json);
+
+    List<GameLocation> locations = [];
+    for (var locationData in data['locations']) {
+      GameLocationType locationType = GameLocationType.values.byName(locationData['locationType']);
+      GameLocation location = GameLocation(locationType, locationData['name'], locationData['index']);
+      location.unlocked = locationData['unlocked'];
+
+      for (var poiData in locationData['localPointsOfInterest']) {
+        LocalPointOfInterestType poiType = LocalPointOfInterestType.values.byName(poiData['pointOfInterestType']);
+        location.localPointsOfInterest.add(LocalPointOfInterest(poiType, poiData['name'], poiData['index']));
+      }
+
+      locations.add(location);
+    }
+
+    GameRegion region = GameRegion(data['name'], locations, locations[data['currentLocationIndex']]);
+
+    for (GameLocation location in region.locations) {
+      location.connectToAdjoiningLocations();
+    }
+
+    return region;
   }
 
   @override
