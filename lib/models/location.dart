@@ -20,10 +20,10 @@ import 'package:e_ink_rpg/names.dart';
 import '../state.dart';
 import 'exploration.dart';
 
-const int MAX_LOCATIONS_PER_REGION = 25;
-const int START_LOCATION = 12;
-const int COLUMNS_PER_REGION = 5;
-const int ROWS_PER_REGION = 5;
+const int MAX_LOCATIONS_PER_REGION = 81;
+const int START_LOCATION = 40;
+const int COLUMNS_PER_REGION = 9;
+const int ROWS_PER_REGION = 9;
 
 enum ConnectionsDirection {
   north,

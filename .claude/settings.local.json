@@ -6,7 +6,11 @@
       "Bash(flutter test *)",
       "Bash(dart analyze *)",
       "Bash(flutter --version)",
-      "Bash(xargs -I{} echo {})"
+      "Bash(xargs -I{} echo {})",
+      "Bash(xargs -I{} file {})",
+      "Bash(xargs -I{} identify {})",
+      "Bash(python3 *)",
+      "Bash(file /workspace/assets/button-attack.png /workspace/assets/warlord-helmet.png /workspace/assets/item/weapon/*.png)"
     ]
   }
 }

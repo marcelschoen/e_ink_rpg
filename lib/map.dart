@@ -213,10 +213,13 @@ Widget getMapContents(BuildContext context) {
         ),
       ),
       Expanded(
-        // Actual map with locations
-        child: FittedBox(
-          fit: BoxFit.fitWidth,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          // Actual map with locations
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
             child: getMapGridContents(context)),
+        ),
       ),
       Row(
         // The home / back button
@@ -315,9 +318,9 @@ Widget getMapGridContents(BuildContext context) {
 
   List<Widget> rows = [];
   int index = 0;
-  for (int row = 0; row < 5; row ++) {
+  for (int row = 0; row < ROWS_PER_REGION; row ++) {
     List<Widget> columns = [];
-    for (int column = 0; column < 5; column ++) {
+    for (int column = 0; column < COLUMNS_PER_REGION; column ++) {
       columns.add( Expanded(child: mapGridWidgets[index++]));
     }
     rows.add(IntrinsicWidth(
