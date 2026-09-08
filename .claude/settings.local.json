@@ -10,7 +10,22 @@
       "Bash(xargs -I{} file {})",
       "Bash(xargs -I{} identify {})",
       "Bash(python3 *)",
-      "Bash(file /workspace/assets/button-attack.png /workspace/assets/warlord-helmet.png /workspace/assets/item/weapon/*.png)"
+      "Bash(file /workspace/assets/button-attack.png /workspace/assets/warlord-helmet.png /workspace/assets/item/weapon/*.png)",
+      "Bash(pip3 list *)",
+      "Bash(pip3 install *)",
+      "Bash(npm install *)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const j = require\\('jimp'\\); console.log\\(Object.keys\\(j\\)\\);\")",
+      "Bash(node compare-tiles.mjs)",
+      "Bash(echo \"EXIT: $?\")",
+      "Skill(run)",
+      "Bash(flutter devices *)",
+      "Bash(flutter config *)",
+      "Bash(apt list *)",
+      "Bash(dpkg -l)",
+      "Bash(sudo -n true)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(timeout 100 flutter build linux --debug)"
     ]
   }
 }

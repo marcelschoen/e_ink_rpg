@@ -104,6 +104,7 @@ flutter:
     - assets/map/loc/
     - assets/map/locations/
     - assets/map/poi/
+    - assets/map/tiles/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

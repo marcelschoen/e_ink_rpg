@@ -89,6 +89,11 @@ class GameLocation {
   int mapColumn;
   int mapRow;
   bool unlocked = false;
+  bool path = false;
+  // Directions in which "path" actually carves an edge to a neighbor, as
+  // opposed to merely being grid-adjacent to another path location. This is
+  // what the map renders segments for.
+  Set<ConnectionsDirection> pathConnections = {};
   GameLocationType locationType;
   List<LocalPointOfInterest> localPointsOfInterest = [];
   String name;
@@ -135,14 +140,14 @@ class GameLocation {
       }
       offset = COLUMNS_PER_REGION;
     } else if (direction == ConnectionsDirection.east) {
-      if (mapColumn == 0) {
-        // this location is at the left border of the region
+      if (mapColumn == COLUMNS_PER_REGION - 1) {
+        // this location is at the right border of the region
         return null;
       }
       offset = 1;
     } else if (direction == ConnectionsDirection.west) {
-      if (mapColumn == COLUMNS_PER_REGION - 1) {
-        // this location is at the right border of the region
+      if (mapColumn == 0) {
+        // this location is at the left border of the region
         return null;
       }
       offset = -1;
@@ -209,15 +214,22 @@ class LocalPointOfInterestFactory {
 class LocationFactory {
 
   static GameLocation create(int index) {
+    String name = NameHandler.fantasyNames.compose(3);
+    return GameLocation(GameLocationType.cottage, name, index);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Generates the local points of interest (shop, tavern etc.) for a
+  // location. Only called for path locations - non-path locations are
+  // decoration only and are never entered, so they don't need any.
+  // ---------------------------------------------------------------------------
+  static void populatePointsOfInterest(GameLocation location) {
     int numberOfPoIs = GameState().gameRandom.nextInt(3) + 1;
     if (numberOfPoIs < 0) {
       numberOfPoIs = 0;
     }
 
     numberOfPoIs += 2;  // TEMPORARY
-
-    String name = NameHandler.fantasyNames.compose(3);
-    GameLocation location = GameLocation(GameLocationType.cottage, name, index);
 
     List<int> usedIndexes = [];
     for (int i = 0; i < numberOfPoIs; i++) {
@@ -229,11 +241,9 @@ class LocationFactory {
       }
       usedIndexes.add(fieldNumber);
 
-      name = NameHandler.fantasyNames.compose(3);
       LocalPointOfInterest localPointOfInterest = LocalPointOfInterestFactory.create(fieldNumber);
       location.localPointsOfInterest.add(localPointOfInterest);
     }
-    return location;
   }
 }
 
@@ -259,9 +269,71 @@ class RegionFactory {
       location.connectToAdjoiningLocations();
     }
 
+    _carvePaths(locations[START_LOCATION]);
+
+    for (GameLocation location in locations) {
+      if (location.path) {
+        LocationFactory.populatePointsOfInterest(location);
+      }
+    }
+
     locations[START_LOCATION].unlocked = true;
     region.setCurrentLocationTo(locations[START_LOCATION]);
 
     return region;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Carves a single connected, branching path network through the region's
+  // grid via randomized Prim's-style frontier growth, starting at "start".
+  // Locations the growth never reaches stay "path == false" (available for
+  // decoration such as trees, rather than being walkable/explorable).
+  // ---------------------------------------------------------------------------
+  static void _carvePaths(GameLocation start) {
+    int minPathLocations = (MAX_LOCATIONS_PER_REGION * 0.4).round();
+    int maxPathLocations = (MAX_LOCATIONS_PER_REGION * 0.6).round();
+    int targetPathCount = minPathLocations + GameState().gameRandom.nextInt(maxPathLocations - minPathLocations + 1);
+
+    start.path = true;
+    int pathCount = 1;
+
+    List<MapEntry<GameLocation, GameLocation>> frontier = start.connectedLocations.values
+        .map((neighbor) => MapEntry(start, neighbor))
+        .toList();
+
+    while (frontier.isNotEmpty && pathCount < targetPathCount) {
+      MapEntry<GameLocation, GameLocation> edge = frontier.removeAt(GameState().gameRandom.nextInt(frontier.length));
+      GameLocation from = edge.key;
+      GameLocation to = edge.value;
+      if (to.path) {
+        continue;
+      }
+      to.path = true;
+      pathCount++;
+      _connectPath(from, to);
+
+      for (GameLocation neighbor in to.connectedLocations.values) {
+        if (!neighbor.path) {
+          frontier.add(MapEntry(to, neighbor));
+        }
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Marks the edge between two adjoining locations as an actual carved path
+  // (on both sides), rather than mere grid adjacency.
+  // ---------------------------------------------------------------------------
+  static void _connectPath(GameLocation from, GameLocation to) {
+    from.connectedLocations.forEach((direction, location) {
+      if (location == to) {
+        from.pathConnections.add(direction);
+      }
+    });
+    to.connectedLocations.forEach((direction, location) {
+      if (location == from) {
+        to.pathConnections.add(direction);
+      }
+    });
   }
 }

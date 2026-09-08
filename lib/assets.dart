@@ -41,6 +41,13 @@ enum GameImageAsset {
 
   map_loc_hamlet('map/loc/Narrasil Hamlet small.png'),
 
+  map_tile_center_up('map/tiles/center-up.png'),
+  map_tile_center_down('map/tiles/center-down.png'),
+  map_tile_center_left('map/tiles/center-left.png'),
+  map_tile_center_right('map/tiles/center-right.png'),
+  map_tile_center_location('map/tiles/center-location.png'),
+  map_tile_center_question_mark('map/tiles/center-question-mark.png'),
+
 
   map_poi_dungeon_entrance('map/poi/DungeonEntrance1.png'),
   map_poi_dungeon_entrance2('map/poi/DungeonEntrance2.png'),

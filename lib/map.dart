@@ -5,6 +5,7 @@ import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/explore.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -396,24 +397,11 @@ List<Widget> getLocations(BuildContext context) {
   List<GameLocation> locations = GameState().player.currentRegion().locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
-    /*
-    if (!location.unlocked && !location.isConnectedToUnlockedLocation() ) {
-      locationWidgets.add(getEmptyField());
+    if (location == GameState().selectedLocationInMap) {
+      locationWidgets.add(getSelectedLocationBorder(getLocationTile(location)));
     } else {
-      */
-      // TODO
-      if (location == GameState().selectedLocationInMap) {
-        if (location.unlocked) {
-          // TODO - SHOW CORRECT LOCATION GRAPHICS
-          locationWidgets.add(getSelectedLocationBorder(Image.asset(GameImageAsset.map_loc_hamlet.filename())));
-        } else {
-          locationWidgets.add(getSelectedLocationBorder(getMapTile(Image.asset(GameImageAsset.map_icon_question_mark.filename()))));
-        }
-      } else {
-        locationWidgets.add(getLocation(location));
-      }
-
-    //}
+      locationWidgets.add(getLocation(location));
+    }
   }
   return locationWidgets;
 }
@@ -422,15 +410,9 @@ List<Widget> getLocations(BuildContext context) {
 // Gets a single location as a widget
 // -----------------------------------------------------------------------------
 Widget getLocation(GameLocation location) {
-  Widget locationWidget = location.unlocked ?
-    Image.asset(GameImageAsset.map_loc_hamlet.filename()) :
-    getMapTile(Image.asset(GameImageAsset.map_icon_question_mark.filename()));
+  Widget locationWidget = getLocationTile(location);
 
-  if (GameState().player.currentRegion().currentLocation() == location) {
-    locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
-  }
-
-  if (location.unlocked || location.isConnectedToUnlockedLocation()) {
+  if (location.path && (location.unlocked || location.isConnectedToUnlockedLocation())) {
     locationWidget = InkWell(
         onTap: () {
 //          print('> tapped: ${location.name}, unlocked: ${location.unlocked}');
@@ -450,46 +432,86 @@ Widget getLocation(GameLocation location) {
 }
 
 // -----------------------------------------------------------------------------
-// Draws the hamlet tile image as a CustomPaint background behind "content".
+// Builds a single map tile: layered path segment images toward path-connected
+// neighbors, with the discovered/undiscovered icon on top. Locations without
+// a path render as an empty field (reserved for future decoration art).
 // -----------------------------------------------------------------------------
-Widget getMapTile(Widget content) {
-  return _MapTile(content: content);
+Widget getLocationTile(GameLocation location) {
+  if (!location.path) {
+    return getEmptyField();
+  }
+  GameImageAsset centerIcon = location.unlocked
+      ? GameImageAsset.map_tile_center_location
+      : GameImageAsset.map_tile_center_question_mark;
+  return getMapPathTile(getPathSegmentImages(location), Image.asset(centerIcon.filename()));
 }
 
-// Decoding a PNG asset into a ui.Image is asynchronous, so it's cached here
-// once decoded rather than re-decoded for every tile that uses it.
-ui.Image? _hamletTileImage;
-
-Future<ui.Image> _loadHamletTileImage() async {
-  if (_hamletTileImage != null) {
-    return _hamletTileImage!;
+// -----------------------------------------------------------------------------
+// The "center-*" path segment images to layer for a location, one per
+// direction the generator actually carved an edge through (location.
+// pathConnections) - not just any grid-adjacent path-flagged neighbor.
+// -----------------------------------------------------------------------------
+List<GameImageAsset> getPathSegmentImages(GameLocation location) {
+  List<GameImageAsset> segments = [];
+  if (location.pathConnections.contains(ConnectionsDirection.north)) {
+    segments.add(GameImageAsset.map_tile_center_up);
   }
-  ByteData data = await rootBundle.load(GameImageAsset.map_loc_hamlet.filename());
+  if (location.pathConnections.contains(ConnectionsDirection.south)) {
+    segments.add(GameImageAsset.map_tile_center_down);
+  }
+  if (location.pathConnections.contains(ConnectionsDirection.west)) {
+    segments.add(GameImageAsset.map_tile_center_left);
+  }
+  if (location.pathConnections.contains(ConnectionsDirection.east)) {
+    segments.add(GameImageAsset.map_tile_center_right);
+  }
+  return segments;
+}
+
+// -----------------------------------------------------------------------------
+// Draws the given path segment images stacked as a CustomPaint background
+// behind "content" (e.g. the discovered/undiscovered center icon).
+// -----------------------------------------------------------------------------
+Widget getMapPathTile(List<GameImageAsset> segments, Widget content) {
+  return _MapTile(segments: segments, content: content);
+}
+
+// Decoding a PNG asset into a ui.Image is asynchronous, so decoded tile
+// images are cached here rather than re-decoded for every tile that uses them.
+final Map<GameImageAsset, ui.Image> _tileImageCache = {};
+
+Future<ui.Image> _loadTileImage(GameImageAsset asset) async {
+  ui.Image? cached = _tileImageCache[asset];
+  if (cached != null) {
+    return cached;
+  }
+  ByteData data = await rootBundle.load(asset.filename());
   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
   ui.FrameInfo frame = await codec.getNextFrame();
-  _hamletTileImage = frame.image;
+  _tileImageCache[asset] = frame.image;
   return frame.image;
 }
 
 class _MapTile extends StatefulWidget {
+  final List<GameImageAsset> segments;
   final Widget content;
 
-  const _MapTile({required this.content});
+  const _MapTile({required this.segments, required this.content});
 
   @override
   State<_MapTile> createState() => _MapTileState();
 }
 
 class _MapTileState extends State<_MapTile> {
-  ui.Image? _image;
+  List<ui.Image>? _images;
 
   @override
   void initState() {
     super.initState();
-    _loadHamletTileImage().then((image) {
+    Future.wait(widget.segments.map(_loadTileImage)).then((images) {
       if (mounted) {
         setState(() {
-          _image = image;
+          _images = images;
         });
       }
     });
@@ -498,25 +520,28 @@ class _MapTileState extends State<_MapTile> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _image == null ? null : _MapTilePainter(_image!),
+      painter: _images == null ? null : _MapTilePainter(_images!),
       child: widget.content,
     );
   }
 }
 
 class _MapTilePainter extends CustomPainter {
-  final ui.Image image;
+  final List<ui.Image> images;
 
-  _MapTilePainter(this.image);
+  _MapTilePainter(this.images);
 
   @override
   void paint(Canvas canvas, Size size) {
-    paintImage(canvas: canvas, rect: Offset.zero & size, image: image, fit: BoxFit.cover);
+    Rect rect = Offset.zero & size;
+    for (ui.Image image in images) {
+      paintImage(canvas: canvas, rect: rect, image: image, fit: BoxFit.cover);
+    }
   }
 
   @override
   bool shouldRepaint(covariant _MapTilePainter oldDelegate) {
-    return oldDelegate.image != image;
+    return !listEquals(oldDelegate.images, images);
   }
 }
 
