@@ -470,7 +470,6 @@ DottedBorder getSelectedLocationBorder(Widget content) {
     strokeWidth: borderWidth,
     color: borderColor,
     radius: const Radius.circular(8),
-//    padding: EdgeInsets.all(12),
     child: content,
   );
 //  return Border.all(color: borderColor, width: borderWidth);

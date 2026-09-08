@@ -39,7 +39,7 @@ enum GameImageAsset {
   map_icon_question_mark('map/loc/question-mark.png'),
   map_icon_lock('map/locked.png'),
 
-  map_loc_hamlet('map/loc/Narrasil Hamlet.png'),
+  map_loc_hamlet('map/loc/Narrasil Hamlet small.png'),
 
 
   map_poi_dungeon_entrance('map/poi/DungeonEntrance1.png'),
