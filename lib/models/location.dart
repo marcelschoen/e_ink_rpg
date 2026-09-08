@@ -290,8 +290,8 @@ class RegionFactory {
   // decoration such as trees, rather than being walkable/explorable).
   // ---------------------------------------------------------------------------
   static void _carvePaths(GameLocation start) {
-    int minPathLocations = (MAX_LOCATIONS_PER_REGION * 0.4).round();
-    int maxPathLocations = (MAX_LOCATIONS_PER_REGION * 0.6).round();
+    int minPathLocations = (MAX_LOCATIONS_PER_REGION * 0.2).round();
+    int maxPathLocations = (MAX_LOCATIONS_PER_REGION * 0.4).round();
     int targetPathCount = minPathLocations + GameState().gameRandom.nextInt(maxPathLocations - minPathLocations + 1);
 
     start.path = true;
