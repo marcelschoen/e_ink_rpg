@@ -1,9 +1,12 @@
+import 'dart:ui' as ui;
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:e_ink_rpg/assets.dart';
 import 'package:e_ink_rpg/explore.dart';
 import 'package:e_ink_rpg/shared.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'models/location.dart';
 
@@ -404,7 +407,7 @@ List<Widget> getLocations(BuildContext context) {
           // TODO - SHOW CORRECT LOCATION GRAPHICS
           locationWidgets.add(getSelectedLocationBorder(Image.asset(GameImageAsset.map_loc_hamlet.filename())));
         } else {
-          locationWidgets.add(getSelectedLocationBorder(Image.asset(GameImageAsset.map_icon_question_mark.filename())));
+          locationWidgets.add(getSelectedLocationBorder(getMapTile(Image.asset(GameImageAsset.map_icon_question_mark.filename()))));
         }
       } else {
         locationWidgets.add(getLocation(location));
@@ -421,7 +424,7 @@ List<Widget> getLocations(BuildContext context) {
 Widget getLocation(GameLocation location) {
   Widget locationWidget = location.unlocked ?
     Image.asset(GameImageAsset.map_loc_hamlet.filename()) :
-    Image.asset(GameImageAsset.map_icon_question_mark.filename());
+    getMapTile(Image.asset(GameImageAsset.map_icon_question_mark.filename()));
 
   if (GameState().player.currentRegion().currentLocation() == location) {
     locationWidget = Image.asset(GameImageAsset.map_loc_hamlet.filename());
@@ -430,7 +433,7 @@ Widget getLocation(GameLocation location) {
   if (location.unlocked || location.isConnectedToUnlockedLocation()) {
     locationWidget = InkWell(
         onTap: () {
-          print('> tapped: ${location.name}, unlocked: ${location.unlocked}');
+//          print('> tapped: ${location.name}, unlocked: ${location.unlocked}');
           if (location != GameState().player.currentLocation()) {
             GameState().selectedLocationInMap = location;
             GameState().mapState.update();
@@ -444,6 +447,77 @@ Widget getLocation(GameLocation location) {
     return getCardWithRoundedBorder(locationWidget);
   }
   return locationWidget;
+}
+
+// -----------------------------------------------------------------------------
+// Draws the hamlet tile image as a CustomPaint background behind "content".
+// -----------------------------------------------------------------------------
+Widget getMapTile(Widget content) {
+  return _MapTile(content: content);
+}
+
+// Decoding a PNG asset into a ui.Image is asynchronous, so it's cached here
+// once decoded rather than re-decoded for every tile that uses it.
+ui.Image? _hamletTileImage;
+
+Future<ui.Image> _loadHamletTileImage() async {
+  if (_hamletTileImage != null) {
+    return _hamletTileImage!;
+  }
+  ByteData data = await rootBundle.load(GameImageAsset.map_loc_hamlet.filename());
+  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+  ui.FrameInfo frame = await codec.getNextFrame();
+  _hamletTileImage = frame.image;
+  return frame.image;
+}
+
+class _MapTile extends StatefulWidget {
+  final Widget content;
+
+  const _MapTile({required this.content});
+
+  @override
+  State<_MapTile> createState() => _MapTileState();
+}
+
+class _MapTileState extends State<_MapTile> {
+  ui.Image? _image;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHamletTileImage().then((image) {
+      if (mounted) {
+        setState(() {
+          _image = image;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _image == null ? null : _MapTilePainter(_image!),
+      child: widget.content,
+    );
+  }
+}
+
+class _MapTilePainter extends CustomPainter {
+  final ui.Image image;
+
+  _MapTilePainter(this.image);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    paintImage(canvas: canvas, rect: Offset.zero & size, image: image, fit: BoxFit.cover);
+  }
+
+  @override
+  bool shouldRepaint(covariant _MapTilePainter oldDelegate) {
+    return oldDelegate.image != image;
+  }
 }
 
 // -----------------------------------------------------------------------------
