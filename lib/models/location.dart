@@ -31,6 +31,15 @@ enum ConnectionsDirection {
   west,
   east
   ;
+
+  ConnectionsDirection get opposite {
+    switch (this) {
+      case ConnectionsDirection.north: return ConnectionsDirection.south;
+      case ConnectionsDirection.south: return ConnectionsDirection.north;
+      case ConnectionsDirection.west: return ConnectionsDirection.east;
+      case ConnectionsDirection.east: return ConnectionsDirection.west;
+    }
+  }
 }
 
 enum LocalPointOfInterestType {
@@ -94,6 +103,9 @@ class GameLocation {
   // opposed to merely being grid-adjacent to another path location. This is
   // what the map renders segments for.
   Set<ConnectionsDirection> pathConnections = {};
+  // At most one direction: set when this location is where the region's path
+  // network reaches the border and continues into an adjoining region.
+  Set<ConnectionsDirection> regionExits = {};
   GameLocationType locationType;
   List<LocalPointOfInterest> localPointsOfInterest = [];
   String name;
@@ -252,6 +264,40 @@ class LocationFactory {
 // -----------------------------------------------------------------------------
 class RegionFactory {
   static GameRegion create() {
+    return _generate(START_LOCATION, null);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Returns the region reachable from "exitLocation" (a location with a
+  // region exit set by _pickRegionExits). The first crossing lazily generates
+  // the adjoining region, entering at the point mirroring "exitLocation" on
+  // the opposite border, and caches the link both ways so re-crossing (in
+  // either direction) always returns to the same region.
+  // ---------------------------------------------------------------------------
+  static GameRegion crossInto(GameRegion fromRegion, GameLocation exitLocation) {
+    ConnectionsDirection direction = exitLocation.regionExits.first;
+    GameRegion? existing = fromRegion.adjoiningRegions[direction];
+    if (existing != null) {
+      return existing;
+    }
+
+    ConnectionsDirection backDirection = direction.opposite;
+    GameRegion newRegion = _generate(_mirroredEntryIndex(exitLocation, direction), backDirection);
+
+    fromRegion.adjoiningRegions[direction] = newRegion;
+    newRegion.adjoiningRegions[backDirection] = fromRegion;
+    return newRegion;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Generates a region. "startIndex" is where the path network is carved
+  // from and where the player starts out (region-center for a brand new
+  // region, or the mirrored entry point when crossing from an adjoining
+  // region). "exitBackDirection", if given, is pre-marked as a region exit
+  // pointing back the way the player came, guaranteeing the crossing is
+  // reversible.
+  // ---------------------------------------------------------------------------
+  static GameRegion _generate(int startIndex, ConnectionsDirection? exitBackDirection) {
     String name = NameHandler.fantasyNames.compose(3);
     // Generate all locations in the region
     List<GameLocation> locations = [];
@@ -260,16 +306,21 @@ class RegionFactory {
       locations.add(location);
     }
     print("Created " + locations.length.toString() + " locations.");
-    int currentLocationIndex = MAX_LOCATIONS_PER_REGION ~/ 2;
-    GameRegion region = GameRegion(name, locations, locations[currentLocationIndex]);
-
+    GameRegion region = GameRegion(name, locations, locations[startIndex]);
 
     // Then connect them with each other
     for (GameLocation location in region.locations) {
       location.connectToAdjoiningLocations();
     }
 
-    _carvePaths(locations[START_LOCATION]);
+    GameLocation start = locations[startIndex];
+    if (exitBackDirection != null) {
+      start.regionExits.add(exitBackDirection);
+      start.pathConnections.add(exitBackDirection);
+    }
+
+    _carvePaths(start);
+    _pickRegionExits(locations, excludeDirection: exitBackDirection);
 
     for (GameLocation location in locations) {
       if (location.path) {
@@ -277,8 +328,8 @@ class RegionFactory {
       }
     }
 
-    locations[START_LOCATION].unlocked = true;
-    region.setCurrentLocationTo(locations[START_LOCATION]);
+    start.unlocked = true;
+    region.setCurrentLocationTo(start);
 
     return region;
   }
@@ -335,5 +386,56 @@ class RegionFactory {
         to.pathConnections.add(direction);
       }
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  // Picks, for each border direction not already spoken for, one path
+  // location touching that border to be the region's exit in that direction
+  // (marking it with a region exit and an outward path segment). A region
+  // ends up with anywhere from 0 to 4 exits, entirely depending on whether
+  // its path network happened to reach that border.
+  // ---------------------------------------------------------------------------
+  static void _pickRegionExits(List<GameLocation> locations, {ConnectionsDirection? excludeDirection}) {
+    for (ConnectionsDirection direction in ConnectionsDirection.values) {
+      if (direction == excludeDirection) {
+        continue;
+      }
+      List<GameLocation> candidates = locations
+          .where((location) => location.path && location.regionExits.isEmpty && _isOnBorder(location, direction))
+          .toList();
+      if (candidates.isEmpty) {
+        continue;
+      }
+      GameLocation exit = candidates[GameState().gameRandom.nextInt(candidates.length)];
+      exit.regionExits.add(direction);
+      exit.pathConnections.add(direction);
+    }
+  }
+
+  static bool _isOnBorder(GameLocation location, ConnectionsDirection direction) {
+    switch (direction) {
+      case ConnectionsDirection.north: return location.mapRow == 0;
+      case ConnectionsDirection.south: return location.mapRow == ROWS_PER_REGION - 1;
+      case ConnectionsDirection.west: return location.mapColumn == 0;
+      case ConnectionsDirection.east: return location.mapColumn == COLUMNS_PER_REGION - 1;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // The grid index, in the adjoining region, that mirrors "exitLocation" on
+  // the opposite border - e.g. crossing north lands at the same column on
+  // the new region's south edge.
+  // ---------------------------------------------------------------------------
+  static int _mirroredEntryIndex(GameLocation exitLocation, ConnectionsDirection direction) {
+    switch (direction) {
+      case ConnectionsDirection.north:
+        return (ROWS_PER_REGION - 1) * COLUMNS_PER_REGION + exitLocation.mapColumn;
+      case ConnectionsDirection.south:
+        return exitLocation.mapColumn;
+      case ConnectionsDirection.east:
+        return exitLocation.mapRow * COLUMNS_PER_REGION;
+      case ConnectionsDirection.west:
+        return exitLocation.mapRow * COLUMNS_PER_REGION + (COLUMNS_PER_REGION - 1);
+    }
   }
 }

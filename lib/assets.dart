@@ -47,6 +47,7 @@ enum GameImageAsset {
   map_tile_center_right('map/tiles/center-right.png'),
   map_tile_center_location('map/tiles/center-location.png'),
   map_tile_center_question_mark('map/tiles/center-question-mark.png'),
+  map_tile_region('map/tiles/region.png'),
 
 
   map_poi_dungeon_entrance('map/poi/DungeonEntrance1.png'),

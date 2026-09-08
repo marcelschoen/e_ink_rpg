@@ -357,6 +357,7 @@ class GameState with ChangeNotifier {
       'unlocked': location.unlocked,
       'path': location.path,
       'pathConnections': location.pathConnections.map((direction) => direction.name).toList(),
+      'regionExits': location.regionExits.map((direction) => direction.name).toList(),
       'localPointsOfInterest': location.localPointsOfInterest.map((poi) => {
         'index': poi.index,
         'pointOfInterestType': poi.pointOfInterestType.name,
@@ -382,6 +383,9 @@ class GameState with ChangeNotifier {
       location.unlocked = locationData['unlocked'];
       location.path = locationData['path'];
       location.pathConnections = (locationData['pathConnections'] as List)
+          .map((name) => ConnectionsDirection.values.byName(name))
+          .toSet();
+      location.regionExits = (locationData['regionExits'] as List)
           .map((name) => ConnectionsDirection.values.byName(name))
           .toSet();
 

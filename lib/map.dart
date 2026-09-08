@@ -178,8 +178,16 @@ List<Widget> getMapButtons(BuildContext context) {
 // -----------------------------------------------------------------------------
 Widget getVisitButton() {
   return BaseButton.textOnlyWithSizes('Visit', (p0) {
-    print('go to location ${GameState().selectedLocationInMap!.name}');
-    GameState().player.setCurrentLocationTo(GameState().selectedLocationInMap!);
+    GameLocation location = GameState().selectedLocationInMap!;
+    if (location.regionExits.isNotEmpty) {
+      print('cross into adjoining region from ${location.name}');
+      GameRegion newRegion = RegionFactory.crossInto(GameState().player.currentRegion(), location);
+      GameState().player.setCurrentRegionTo(newRegion);
+      GameState().player.setCurrentLocationTo(newRegion.currentLocation());
+    } else {
+      print('go to location ${location.name}');
+      GameState().player.setCurrentLocationTo(location);
+    }
     GameState().selectedLocationInMap = null;
     GameState().mapState.update();
   }, 18, 140, 20);
@@ -433,16 +441,22 @@ Widget getLocation(GameLocation location) {
 
 // -----------------------------------------------------------------------------
 // Builds a single map tile: layered path segment images toward path-connected
-// neighbors, with the discovered/undiscovered icon on top. Locations without
-// a path render as an empty field (reserved for future decoration art).
+// neighbors, with the discovered/undiscovered/region-exit icon on top.
+// Locations without a path render as an empty field (reserved for future
+// decoration art).
 // -----------------------------------------------------------------------------
 Widget getLocationTile(GameLocation location) {
   if (!location.path) {
     return getEmptyField();
   }
-  GameImageAsset centerIcon = location.unlocked
-      ? GameImageAsset.map_tile_center_location
-      : GameImageAsset.map_tile_center_question_mark;
+  GameImageAsset centerIcon;
+  if (location.regionExits.isNotEmpty) {
+    centerIcon = GameImageAsset.map_tile_region;
+  } else if (location.unlocked) {
+    centerIcon = GameImageAsset.map_tile_center_location;
+  } else {
+    centerIcon = GameImageAsset.map_tile_center_question_mark;
+  }
   return getMapPathTile(getPathSegmentImages(location), Image.asset(centerIcon.filename()));
 }
 
@@ -508,6 +522,24 @@ class _MapTileState extends State<_MapTile> {
   @override
   void initState() {
     super.initState();
+    _loadImages();
+  }
+
+  // Without a Key distinguishing tiles, Flutter reuses this State across
+  // rebuilds for whatever widget lands in the same grid slot - including
+  // after switching regions, where a completely different location (with
+  // different segments) can occupy the same slot. Reload whenever the
+  // segments actually change instead of only once in initState.
+  @override
+  void didUpdateWidget(covariant _MapTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!listEquals(oldWidget.segments, widget.segments)) {
+      _images = null;
+      _loadImages();
+    }
+  }
+
+  void _loadImages() {
     Future.wait(widget.segments.map(_loadTileImage)).then((images) {
       if (mounted) {
         setState(() {
