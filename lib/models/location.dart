@@ -119,9 +119,16 @@ class GameLocation {
     exploration = Exploration(locationRandom, locationRandom.nextInt(5) + 4);
   }
 
+  // ---------------------------------------------------------------------------
+  // Whether this location is reachable from an unlocked one via an actual
+  // carved path edge - grid adjacency alone ("connectedLocations") isn't
+  // enough, since two path locations can sit next to each other without a
+  // path ever having been carved between them.
+  // ---------------------------------------------------------------------------
   bool isConnectedToUnlockedLocation() {
-    for (GameLocation location in connectedLocations.values) {
-      if (location.unlocked) {
+    for (ConnectionsDirection direction in pathConnections) {
+      GameLocation? neighbor = connectedLocations[direction];
+      if (neighbor != null && neighbor.unlocked) {
         return true;
       }
     }
