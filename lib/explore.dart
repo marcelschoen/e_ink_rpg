@@ -95,6 +95,9 @@ class ExplorationWidget extends StatelessWidget {
     GameLocation location = GameState().currentlyExploring!;
     location.unlocked = true;
     location.exploration = null;
+    GameState().player.setCurrentLocationTo(location);
+    GameState().selectedLocationInMap = null;
+    GameState().mapState.update();
   }
 
   // --------------------------------------------------------------------
