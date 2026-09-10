@@ -179,19 +179,25 @@ List<Widget> getMapButtons(BuildContext context) {
 Widget getVisitButton() {
   return BaseButton.textOnlyWithSizes('Visit', (p0) {
     GameLocation location = GameState().selectedLocationInMap!;
-    if (location.regionExits.isNotEmpty) {
-      print('cross into adjoining region from ${location.name}');
-      GameRegion newRegion = RegionFactory.crossInto(GameState().player.currentRegion(), location);
-      GameState().player.setCurrentRegionTo(newRegion);
-      GameState().player.setCurrentLocationTo(newRegion.currentLocation());
-    } else {
-      print('go to location ${location.name}');
-      GameState().player.setCurrentLocationTo(location);
-    }
-    GameState().selectedLocationInMap = null;
-    GameState().mapState.update();
+    visitPlace(location);
   }, 18, 140, 20);
 }
+
+void visitPlace(GameLocation location) {
+  if (location.regionExits.isNotEmpty) {
+    print('cross into adjoining region from ${location.name}');
+    GameRegion newRegion = RegionFactory.crossInto(GameState().player.currentRegion(), location);
+    GameState().player.setCurrentRegionTo(newRegion);
+    GameState().player.setCurrentLocationTo(newRegion.currentLocation());
+  } else {
+    print('go to location ${location.name}');
+    GameState().player.setCurrentLocationTo(location);
+  }
+  GameState().selectedLocationInMap = null;
+  GameState().mapState.update();
+}
+
+
 
 // -----------------------------------------------------------------------------
 // Button for exploring selected location
@@ -425,8 +431,12 @@ Widget getLocation(GameLocation location) {
         onTap: () {
 //          print('> tapped: ${location.name}, unlocked: ${location.unlocked}');
           if (location != GameState().player.currentLocation()) {
-            GameState().selectedLocationInMap = location;
-            GameState().mapState.update();
+            if (location.unlocked) {
+              visitPlace(location);
+            } else {
+              GameState().selectedLocationInMap = location;
+              GameState().mapState.update();
+            }
           }
         },
         child: locationWidget
