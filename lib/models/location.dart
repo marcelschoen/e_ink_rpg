@@ -204,6 +204,19 @@ class GameRegion {
   }
 }
 
+enum GameRegionBiome {
+  plain,
+  desert,
+  rocky,
+  mountains,
+  snowy,
+  icy,
+  jungle,
+  forest
+}
+
+
+
 // *****************************************************************************
 //
 // FACTORIES

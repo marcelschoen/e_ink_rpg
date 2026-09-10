@@ -49,7 +49,10 @@
       "Bash(JAVA_HOME=/opt/java17 flutter build apk --debug -t lib/title.dart)",
       "Bash(flutter build *)",
       "Bash(curl -s https://pub.dev/api/packages/path_provider_foundation)",
-      "Bash(grep -iv \"^$\")"
+      "Bash(grep -iv \"^$\")",
+      "Bash(xxd /workspace/android/key.properties)",
+      "Bash(/opt/android-sdk-linux/build-tools/36.1.0/apksigner verify *)",
+      "Bash(git -C /workspace status --porcelain)"
     ]
   }
 }
