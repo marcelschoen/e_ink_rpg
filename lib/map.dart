@@ -166,9 +166,11 @@ List<Widget> getMapButtons(BuildContext context) {
     print ('>>> selected location in map: ${GameState().selectedLocationInMap!.name}, unlocked: ${GameState().selectedLocationInMap!.unlocked}');
     if (!GameState().selectedLocationInMap!.unlocked) {
       buttons.add(getExploreButton(context));
-    } else if (GameState().selectedLocationInMap != GameState().player.currentLocation()) {
-      buttons.add(getVisitButton());
+//    } else if (GameState().selectedLocationInMap == GameState().player.currentLocation()) {
     }
+  } else {
+    // Add "Visit" button for currently occupied location
+    buttons.add(getVisitButton());
   }
   return buttons;
 }
