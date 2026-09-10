@@ -25,7 +25,31 @@
       "Bash(dpkg -l)",
       "Bash(sudo -n true)",
       "Bash(echo \"exit:$?\")",
-      "Bash(timeout 100 flutter build linux --debug)"
+      "Bash(timeout 100 flutter build linux --debug)",
+      "Bash(dart --version)",
+      "Read(//opt/android-sdk-linux/platforms/**)",
+      "Read(//opt/android-sdk-linux/build-tools/**)",
+      "Read(//opt/android-sdk-linux/**)",
+      "Read(//opt/android-sdk-linux/cmdline-tools/**)",
+      "Bash(flutter doctor *)",
+      "Bash(gradle --version)",
+      "Bash(find / -maxdepth 4 -iname \"*gradle*\" -type d)",
+      "Bash(curl -sI --max-time 8 https://dl.google.com/android/repository/repository2-3.xml)",
+      "Bash(curl -sI --max-time 8 https://services.gradle.org/distributions/gradle-9.1.0-all.zip)",
+      "Bash(JAVA_HOME=/opt/java17 ./gradlew --version)",
+      "Bash(JAVA_HOME=/opt/java17 ./gradlew assembleDebug --console=plain)",
+      "Bash(rm settings.gradle build.gradle app/build.gradle)",
+      "Bash(JAVA_HOME=/opt/java17 ./android/gradlew -p android assembleDebug --console=plain)",
+      "Bash(flutter pub *)",
+      "Bash(JAVA_HOME=/opt/java17 ./android/gradlew -p android assembleDebug --console=plain --stacktrace)",
+      "Bash(git status *)",
+      "Bash(git check-ignore *)",
+      "Bash(flutter clean *)",
+      "Bash(git ls-files *)",
+      "Bash(JAVA_HOME=/opt/java17 flutter build apk --debug -t lib/title.dart)",
+      "Bash(flutter build *)",
+      "Bash(curl -s https://pub.dev/api/packages/path_provider_foundation)",
+      "Bash(grep -iv \"^$\")"
     ]
   }
 }
