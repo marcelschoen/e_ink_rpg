@@ -291,10 +291,6 @@ class NameHandler {
   NameHandler._internal();
 
   factory NameHandler() {
-    Future<String> getFileData(String path) async {
-      return await rootBundle.loadString(path);
-    }
-
     return _instance;
   }
 

@@ -14,16 +14,6 @@ abstract class Rune {
   List<Spell> spells = [];
 }
 
-// ----------------------------------------------
-// Optional additional spell(s) can be enabled
-// when certain runes are used in combination
-// ----------------------------------------------
-class SpecialSpellEnabling {
-  List<Rune> requiredRunes = [];
-  List<Spell> spells = [];
-}
-
-
 // ------------------------------------------
 // Simple fireball rune
 // ------------------------------------------
