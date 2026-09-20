@@ -120,10 +120,10 @@ class RegionFactory {
     print("Created " + locations.length.toString() + " locations.");
 
     // Clear the corners to make the map look a bit more "rounded"
-    locations[0].locationType = GameLocationType.empty;
-    locations[COLUMNS_PER_REGION - 1].locationType = GameLocationType.empty;
-    locations[(locations.length - 1) - (COLUMNS_PER_REGION - 1)].locationType = GameLocationType.empty;
-    locations[locations.length - 1].locationType = GameLocationType.empty;
+    locations[0].locationType = GameLocationType.corner;
+    locations[COLUMNS_PER_REGION - 1].locationType = GameLocationType.corner;
+    locations[(locations.length - 1) - (COLUMNS_PER_REGION - 1)].locationType = GameLocationType.corner;
+    locations[locations.length - 1].locationType = GameLocationType.corner;
 
     // Now fill convert some of those location to non-empty ones
     // - preferrably those at the end of a path

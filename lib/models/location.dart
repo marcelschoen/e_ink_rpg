@@ -35,6 +35,7 @@ enum ConnectionsDirection {
 // Points of interest per region (e.g. villages, dungeons, castles etc.)
 // -----------------------------------------------------------------------------
 enum GameLocationType {
+  corner(GameImageAsset.map_tile_empty),
   empty(GameImageAsset.map_tile_empty),
   village(GameImageAsset.map_loc_hamlet),
   dungeon(GameImageAsset.map_loc_custom_dungeon_entrance),

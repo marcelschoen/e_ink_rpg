@@ -176,10 +176,13 @@ const List<GameImageAsset> leafTreeBackgroundTiles = [
 // -----------------------------------------------------------------------------
 Widget getLocationTile(GameLocation location) {
   if (!location.path) {
-    // TODO: pick pine vs. leaf (or other biome-specific set) based on the
-    // region's biome type once that exists. Hardcoded to leaf trees for now.
-    GameImageAsset bg = leafTreeBackgroundTiles[location.index % leafTreeBackgroundTiles.length];
-    return getMapPathTile([bg]);
+    if (location.locationType == GameLocationType.empty) {
+      // TODO: pick pine vs. leaf (or other biome-specific set) based on the
+      // region's biome type once that exists. Hardcoded to leaf trees for now.
+      GameImageAsset bg = leafTreeBackgroundTiles[location.index % leafTreeBackgroundTiles.length];
+      return getMapPathTile([bg]);
+    }
+    return getMapPathTile([GameImageAsset.map_tile_empty]);
   }
   List<GameImageAsset> pathImages = getPathSegmentImages(location);
   return getMapPathTile(pathImages);
