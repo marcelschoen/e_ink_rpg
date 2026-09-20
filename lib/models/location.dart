@@ -263,13 +263,17 @@ class LocationFactory {
 
   static GameLocation create(int index) {
     String name = NameHandler.fantasyNames.compose(3);
-
+/*
     final weights = <GameLocationType, num>{
       GameLocationType.empty: 5,
       GameLocationType.village: 2
     };
     GameLocationType type = weightedRandom(weights, GameState().gameRandom);
-    return GameLocation(type, name, index);
+*/
+    // 1st generate map without actual POIs so we can put things
+    // like villages, castles etc. at the end of paths to avoid having
+    // many paths ending in an empty location
+    return GameLocation(GameLocationType.empty, name, index);
   }
 
   // ---------------------------------------------------------------------------
@@ -348,6 +352,17 @@ class RegionFactory {
       locations.add(location);
     }
     print("Created " + locations.length.toString() + " locations.");
+
+    // Now fill convert some of those location to non-empty ones
+    // - preferrably those at the end of a path
+    // - but also a few in between
+    // - the ones in between are either small hamlets, rarely villages,
+    //   ponds or dungeons
+    // - larger villages, castles, cities etc. should usually be at the end of a path
+
+    
+
+
     GameRegion region = GameRegion(name, locations, locations[startIndex]);
 
     // Then connect them with each other

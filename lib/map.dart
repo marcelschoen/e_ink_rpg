@@ -449,12 +449,13 @@ Widget getLocation(GameLocation location) {
 // -----------------------------------------------------------------------------
 // Builds a single map tile: layered path segment images toward path-connected
 // neighbors, with the discovered/undiscovered/region-exit icon on top.
-// Locations without a path render as an empty field (reserved for future
-// decoration art).
+// Locations without a path render a plain background decoration instead.
 // -----------------------------------------------------------------------------
 Widget getLocationTile(GameLocation location) {
   if (!location.path) {
-    return getEmptyField();
+//    return getEmptyField();
+
+    return getMapPathTile([GameImageAsset.map_tile_bg_trees]);
   }
   List<GameImageAsset> pathImages = getPathSegmentImages(location);
   return getMapPathTile(pathImages);
@@ -570,10 +571,18 @@ class _MapTileState extends State<_MapTile> {
     });
   }
 
+  // Reference size matching the tile art's native pixel dimensions. This
+  // grid sits inside a FittedBox that measures it at these unconstrained,
+  // intrinsic dimensions and then scales the whole thing to fit - so this
+  // needs a definite size rather than AspectRatio, which reports an
+  // intrinsic width of 0 under the unbounded height a FittedBox provides.
+  static const double _tileNativeSize = 300;
+
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
+    return SizedBox(
+      width: _tileNativeSize,
+      height: _tileNativeSize,
       child: CustomPaint(
         painter: _images == null ? null : _MapTilePainter(_images!),
       ),

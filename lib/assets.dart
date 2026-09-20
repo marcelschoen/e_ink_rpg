@@ -55,7 +55,13 @@ enum GameImageAsset {
 
   map_tile_region('map/tiles/region.png'),
 
+  // POI tiles
+
   map_tile_poi_village('map/tiles/poi_village.png'),
+  map_tile_poi_dungeon('map/tiles/poi_dungeon.png'),
+
+  // Background tiles (map background between path)
+  map_tile_bg_trees('map/tiles/bg_trees.png'),
 
   map_player_position('map/tiles/player_position.png'),
 
