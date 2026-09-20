@@ -64,7 +64,8 @@
       "Bash(identify -verbose \"/workspace/assets/map/locations/Narrasil Pine Tree 1.png\")",
       "Bash(identify -verbose \"/workspace/assets/map/tiles/bg_pinetrees.png\")",
       "Bash(echo \"exit: $?\")",
-      "Bash(grep -v \"^/workspace/lib/map.dart$\")"
+      "Bash(grep -v \"^/workspace/lib/map.dart$\")",
+      "Bash(grep -v \"^/workspace/lib/assets.dart$\")"
     ]
   }
 }
