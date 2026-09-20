@@ -125,6 +125,15 @@ class RegionFactory {
     locations[(locations.length - 1) - (COLUMNS_PER_REGION - 1)].locationType = GameLocationType.corner;
     locations[locations.length - 1].locationType = GameLocationType.corner;
 
+    // Also clear some of the "empty" fields so not everything is full of
+    // trees, hills etc.
+    for (int index = 0; index < MAX_LOCATIONS_PER_REGION; index ++) {
+      if (locations[index].locationRandom.nextInt(3) < 1) {
+        locations[index].locationType = GameLocationType.corner;
+      }
+    }
+
+
     // Now fill convert some of those location to non-empty ones
     // - preferrably those at the end of a path
     // - but also a few in between
