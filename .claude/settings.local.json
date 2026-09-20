@@ -63,7 +63,8 @@
       "Bash(identify -verbose /tmp/claude-1000/-workspace/7cd90e7d-a00c-4227-bb50-6f00eb99b294/scratchpad/test_transparent.png)",
       "Bash(identify -verbose \"/workspace/assets/map/locations/Narrasil Pine Tree 1.png\")",
       "Bash(identify -verbose \"/workspace/assets/map/tiles/bg_pinetrees.png\")",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(grep -v \"^/workspace/lib/map.dart$\")"
     ]
   }
 }
