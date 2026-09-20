@@ -5,10 +5,12 @@ import 'package:e_ink_rpg/state.dart';
 
 import '../equip.dart';
 import '../inventory.dart';
+import '../generators/region_generator.dart';
 import 'attack.dart';
 import 'attribute.dart';
 import 'location.dart';
 import 'magic.dart';
+import 'region.dart';
 
 /// Base class for any living being.
 class Being {

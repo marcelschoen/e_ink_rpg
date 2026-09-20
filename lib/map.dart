@@ -9,7 +9,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'generators/region_generator.dart';
 import 'models/location.dart';
+import 'models/point_of_interest.dart';
+import 'models/region.dart';
 
 enum MapZoomLevel {
   world,

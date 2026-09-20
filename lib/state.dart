@@ -6,6 +6,8 @@ import 'package:e_ink_rpg/items/valuables/gold_pile.dart';
 import 'package:e_ink_rpg/jobs/kills/bandits.dart';
 import 'package:e_ink_rpg/map.dart';
 import 'package:e_ink_rpg/models/location.dart';
+import 'package:e_ink_rpg/models/point_of_interest.dart';
+import 'package:e_ink_rpg/models/region.dart';
 import 'package:e_ink_rpg/models/stat.dart';
 import 'package:e_ink_rpg/title.dart';
 import 'package:flutter/material.dart';

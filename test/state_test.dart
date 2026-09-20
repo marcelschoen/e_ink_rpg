@@ -1,4 +1,7 @@
+import 'package:e_ink_rpg/generators/region_generator.dart';
 import 'package:e_ink_rpg/models/location.dart';
+import 'package:e_ink_rpg/models/point_of_interest.dart';
+import 'package:e_ink_rpg/models/region.dart';
 import 'package:e_ink_rpg/state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
