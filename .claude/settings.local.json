@@ -52,7 +52,9 @@
       "Bash(grep -iv \"^$\")",
       "Bash(xxd /workspace/android/key.properties)",
       "Bash(/opt/android-sdk-linux/build-tools/36.1.0/apksigner verify *)",
-      "Bash(git -C /workspace status --porcelain)"
+      "Bash(git -C /workspace status --porcelain)",
+      "Bash(sed -n '/Widget getEmptyField/,/^}/p' /workspace/lib/map.dart)",
+      "Bash(sed -n '/getSelectedLocationBorder/,/^}/p' /workspace/lib/map.dart)"
     ]
   }
 }

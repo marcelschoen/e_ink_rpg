@@ -409,7 +409,6 @@ Widget getLocalPointOfInterest(LocalPointOfInterest poi) {
 // Returns grid widget with all the locations of the current region
 // -----------------------------------------------------------------------------
 List<Widget> getLocations(BuildContext context) {
-  print ('get locations in map...');
   List<GameLocation> locations = GameState().player.currentRegion().locations;
   List<Widget> locationWidgets = [];
   for (GameLocation location in locations) {
@@ -444,10 +443,6 @@ Widget getLocation(GameLocation location) {
         child: locationWidget
     );
   }
-
-  if (location == GameState().player.currentRegion().currentLocation()) {
-    return getCardWithRoundedBorder(locationWidget);
-  }
   return locationWidget;
 }
 
@@ -461,15 +456,8 @@ Widget getLocationTile(GameLocation location) {
   if (!location.path) {
     return getEmptyField();
   }
-  GameImageAsset centerIcon;
-  if (location.regionExits.isNotEmpty) {
-    centerIcon = GameImageAsset.map_tile_region;
-  } else if (location.unlocked) {
-    centerIcon = GameImageAsset.map_tile_center_location;
-  } else {
-    centerIcon = GameImageAsset.map_tile_center_question_mark;
-  }
-  return getMapPathTile(getPathSegmentImages(location), Image.asset(centerIcon.filename()));
+  List<GameImageAsset> pathImages = getPathSegmentImages(location);
+  return getMapPathTile(pathImages);
 }
 
 // -----------------------------------------------------------------------------
@@ -479,6 +467,7 @@ Widget getLocationTile(GameLocation location) {
 // -----------------------------------------------------------------------------
 List<GameImageAsset> getPathSegmentImages(GameLocation location) {
   List<GameImageAsset> segments = [];
+
   if (location.pathConnections.contains(ConnectionsDirection.north)) {
     segments.add(GameImageAsset.map_tile_center_up);
   }
@@ -491,6 +480,27 @@ List<GameImageAsset> getPathSegmentImages(GameLocation location) {
   if (location.pathConnections.contains(ConnectionsDirection.east)) {
     segments.add(GameImageAsset.map_tile_center_right);
   }
+
+  if (location.regionExits.isNotEmpty) {
+    segments.add(GameImageAsset.map_tile_region);
+  } else if (location.unlocked) {
+
+    // TODO - draw different image based on type of location
+    if (location.locationType == GameLocationType.village) {
+      segments.add(GameImageAsset.map_tile_poi_village);
+    } else {
+      segments.add(GameImageAsset.map_tile_center_location);
+    }
+
+
+  } else {
+    segments.add(GameImageAsset.map_tile_center_question_mark);
+  }
+
+  if (location == GameState().player.currentRegion().currentLocation()) {
+    segments.add(GameImageAsset.map_player_position);
+  }
+
   return segments;
 }
 
@@ -498,8 +508,8 @@ List<GameImageAsset> getPathSegmentImages(GameLocation location) {
 // Draws the given path segment images stacked as a CustomPaint background
 // behind "content" (e.g. the discovered/undiscovered center icon).
 // -----------------------------------------------------------------------------
-Widget getMapPathTile(List<GameImageAsset> segments, Widget content) {
-  return _MapTile(segments: segments, content: content);
+Widget getMapPathTile(List<GameImageAsset> segments) {
+  return _MapTile(segments: segments);
 }
 
 // Decoding a PNG asset into a ui.Image is asynchronous, so decoded tile
@@ -520,9 +530,8 @@ Future<ui.Image> _loadTileImage(GameImageAsset asset) async {
 
 class _MapTile extends StatefulWidget {
   final List<GameImageAsset> segments;
-  final Widget content;
 
-  const _MapTile({required this.segments, required this.content});
+  const _MapTile({required this.segments});
 
   @override
   State<_MapTile> createState() => _MapTileState();
@@ -563,9 +572,11 @@ class _MapTileState extends State<_MapTile> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _images == null ? null : _MapTilePainter(_images!),
-      child: widget.content,
+    return AspectRatio(
+      aspectRatio: 1,
+      child: CustomPaint(
+        painter: _images == null ? null : _MapTilePainter(_images!),
+      ),
     );
   }
 }

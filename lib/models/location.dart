@@ -25,6 +25,22 @@ const int START_LOCATION = 40;
 const int COLUMNS_PER_REGION = 9;
 const int ROWS_PER_REGION = 9;
 
+// -----------------------------------------------------------------------------
+// Picks a random key from a map of relative weights (weights don't need to
+// sum to any particular total, they're just proportions relative to each other).
+// -----------------------------------------------------------------------------
+T weightedRandom<T>(Map<T, num> weights, Random random) {
+  final total = weights.values.fold<num>(0, (sum, w) => sum + w);
+  num roll = random.nextDouble() * total;
+  for (final entry in weights.entries) {
+    if (roll < entry.value) {
+      return entry.key;
+    }
+    roll -= entry.value;
+  }
+  return weights.keys.last; // floating-point fallback, should rarely trigger
+}
+
 enum ConnectionsDirection {
   north,
   south,
@@ -73,6 +89,7 @@ class LocalPointOfInterest {
 // Points of interest per region (e.g. villages, dungeons, castles etc.)
 // -----------------------------------------------------------------------------
 enum GameLocationType {
+  empty(GameImageAsset.map_tile_empty),
   village(GameImageAsset.map_loc_hamlet),
   dungeon(GameImageAsset.map_loc_custom_dungeon_entrance),
   cottage(GameImageAsset.map_loc_hamlet),
@@ -232,7 +249,6 @@ class LocalPointOfInterestFactory {
 
     // TODO - CREATE ACTUAL POIs
     int poiType = GameState().gameRandom.nextInt(LocalPointOfInterestType.values.length);
-//    print ("> generate random POI of type: " + LocalPointOfInterestType.values[poiType].name);
 
     LocalPointOfInterestType type = LocalPointOfInterestType.values[poiType];
     String name = NameHandler.fantasyNames.compose(3);
@@ -247,7 +263,13 @@ class LocationFactory {
 
   static GameLocation create(int index) {
     String name = NameHandler.fantasyNames.compose(3);
-    return GameLocation(GameLocationType.cottage, name, index);
+
+    final weights = <GameLocationType, num>{
+      GameLocationType.empty: 5,
+      GameLocationType.village: 2
+    };
+    GameLocationType type = weightedRandom(weights, GameState().gameRandom);
+    return GameLocation(type, name, index);
   }
 
   // ---------------------------------------------------------------------------
