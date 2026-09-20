@@ -446,6 +446,25 @@ Widget getLocation(GameLocation location) {
   return locationWidget;
 }
 
+// Background decoration variants for non-path tiles. Picked deterministically
+// per location (by index) rather than randomly on each build, so a tile's
+// background doesn't change across rebuilds.
+const List<GameImageAsset> pineTreeBackgroundTiles = [
+  GameImageAsset.map_tile_bg_pinetrees_1,
+  GameImageAsset.map_tile_bg_pinetrees_2,
+  GameImageAsset.map_tile_bg_pinetrees_3,
+  GameImageAsset.map_tile_bg_pinetrees_4,
+  GameImageAsset.map_tile_bg_pinetrees_5,
+];
+
+const List<GameImageAsset> leafTreeBackgroundTiles = [
+  GameImageAsset.map_tile_bg_leaftrees_1,
+  GameImageAsset.map_tile_bg_leaftrees_2,
+  GameImageAsset.map_tile_bg_leaftrees_3,
+  GameImageAsset.map_tile_bg_leaftrees_4,
+  GameImageAsset.map_tile_bg_leaftrees_5,
+];
+
 // -----------------------------------------------------------------------------
 // Builds a single map tile: layered path segment images toward path-connected
 // neighbors, with the discovered/undiscovered/region-exit icon on top.
@@ -453,9 +472,10 @@ Widget getLocation(GameLocation location) {
 // -----------------------------------------------------------------------------
 Widget getLocationTile(GameLocation location) {
   if (!location.path) {
-//    return getEmptyField();
-
-    return getMapPathTile([GameImageAsset.map_tile_bg_trees]);
+    // TODO: pick pine vs. leaf (or other biome-specific set) based on the
+    // region's biome type once that exists. Hardcoded to leaf trees for now.
+    GameImageAsset bg = leafTreeBackgroundTiles[location.index % leafTreeBackgroundTiles.length];
+    return getMapPathTile([bg]);
   }
   List<GameImageAsset> pathImages = getPathSegmentImages(location);
   return getMapPathTile(pathImages);

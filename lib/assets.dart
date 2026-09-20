@@ -61,7 +61,17 @@ enum GameImageAsset {
   map_tile_poi_dungeon('map/tiles/poi_dungeon.png'),
 
   // Background tiles (map background between path)
-  map_tile_bg_trees('map/tiles/bg_trees.png'),
+  map_tile_bg_pinetrees_1('map/tiles/bg_pinetrees.png'),
+  map_tile_bg_pinetrees_2('map/tiles/bg_pinetrees_2.png'),
+  map_tile_bg_pinetrees_3('map/tiles/bg_pinetrees_3.png'),
+  map_tile_bg_pinetrees_4('map/tiles/bg_pinetrees_4.png'),
+  map_tile_bg_pinetrees_5('map/tiles/bg_pinetrees_5.png'),
+
+  map_tile_bg_leaftrees_1('map/tiles/bg_leaftrees_1.png'),
+  map_tile_bg_leaftrees_2('map/tiles/bg_leaftrees_2.png'),
+  map_tile_bg_leaftrees_3('map/tiles/bg_leaftrees_3.png'),
+  map_tile_bg_leaftrees_4('map/tiles/bg_leaftrees_4.png'),
+  map_tile_bg_leaftrees_5('map/tiles/bg_leaftrees_5.png'),
 
   map_player_position('map/tiles/player_position.png'),
 
